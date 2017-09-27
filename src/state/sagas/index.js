@@ -21,6 +21,8 @@ const TEST_DATA = {
 	caller: "single_cell_qc"
 }
 
+
+// Saga on page load; triggered with "LOAD_PAGE" action
 export function* pageLoadSaga() {
 	yield take("LOAD_PAGE")
 	yield call(loadConfigSaga, TEST_DATA.caller)

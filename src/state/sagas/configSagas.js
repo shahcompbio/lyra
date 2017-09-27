@@ -7,7 +7,7 @@ import { receiveConfig } from '../actions/config.js'
 */
 
 
-// Load config
+// Load config - includes fetching and receiving
 // TODO: Will want to change so it'll trigger when dashboard has been selected
 export function* loadConfigSaga(caller) {
 

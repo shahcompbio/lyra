@@ -11,6 +11,10 @@ export const types = {
 }
 
 
+
+// Action Creators
+
+// Load cells (part of saga) - involves fetching and receiving
 export const loadCells = (libraryID, fields) => ({
 	type: types.loadCells,
 	libraryID,
@@ -18,10 +22,9 @@ export const loadCells = (libraryID, fields) => ({
 })
 
 
-
+// Received cells from Elasticsearch (already preprocessed)
 export const receiveCells = (cells, fields) => ({
 	type: types.receiveCells,
 	cells,
 	fields
 })
-

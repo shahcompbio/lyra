@@ -8,7 +8,7 @@ import { filterCategoricalFields, filterNumericalFields } from '../reducers/conf
 */
 
 
-// Load cells 
+// Load cells - involves fetching and receiving
 // TODO: Will want to change so it will trigger on libraryID selection
 export function* loadCellsSaga(libraryID, allFields, caller) {
 

@@ -10,6 +10,9 @@ export const types = {
 
 
 
+
+// Add scatterplot
+// TODO: should be able to specify x and y axes
 let viewID = 1;
 
 export const addScatterplot = () => ({
