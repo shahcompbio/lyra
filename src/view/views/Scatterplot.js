@@ -23,9 +23,11 @@ class Scatterplot extends Component {
 
   render() {
   	const { x, y, cells } = this.props
-
 	let xScale = getScale(x.min, x.max, 0, 400)
 	let yScale = getScale(y.min, y.max, 400, 0)
+
+	let xAxis = x.id;
+	let yAxis = y.id;
 
 	return (
 		<svg className="scatterplot" width="400" height="400">
@@ -34,10 +36,10 @@ class Scatterplot extends Component {
 			{cells.map(cell => 
 				<ScatterplotDot
 					key={cell.id}
-					x={xScale(cell.x)}
-					y={yScale(cell.y)}
+					x={xScale(cell[xAxis])}
+					y={yScale(cell[yAxis])}
 					color="#0C7CA6"
-					highlighted={isHighlighted(xScale(cell.x), yScale(cell.y), this.state.extent)}
+					highlighted={isHighlighted(xScale(cell[xAxis]), yScale(cell[yAxis]), this.state.extent)}
 				/>
 			)}
 		</svg>

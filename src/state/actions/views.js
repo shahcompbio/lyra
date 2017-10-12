@@ -4,7 +4,9 @@
 */
 
 export const types = {
-	addScatterplot: "ADD_SCATTERPLOT"
+	addScatterplot: "ADD_SCATTERPLOT",
+	addCellscape: "ADD_CELLSCAPE",
+	receiveChromRanges: "RECEIVE_CHROM_RANGES"
 }
 
 
@@ -23,4 +25,20 @@ export const addScatterplot = () => ({
 		x: "mad_neutral_state",
 		y: "MSRSI_non_integerness"
 	}
+})
+
+
+export const addCellscape = () => ({
+	type: types.addCellscape,
+	view: {
+		id: viewID++,
+		plot: "cellscape"
+	}
+})
+
+
+export const receiveChromRanges = (chromRanges, viewID) =>({
+	type: types.receiveChromRanges,
+	viewID,
+	chromRanges
 })

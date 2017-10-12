@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addScatterplot } from '../../state/actions/views.js'
+import { addScatterplot, addCellscape } from '../../state/actions/views.js'
 
 
 
@@ -22,7 +22,8 @@ class Sidebar extends Component {
 	render() {
 		return (
 			<div className="sidebar">
-			    <button onClick={() => this.props.dispatch(addScatterplot())}>Draw</button>
+			    <button onClick={() => this.props.dispatch(addScatterplot())}>Draw Scatterplot</button>
+			    <button onClick={() => this.props.dispatch(addCellscape())}>Draw CellScape</button>
 			</div>
 		)
 	}

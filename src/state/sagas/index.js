@@ -1,6 +1,6 @@
 import { fork, take, call } from 'redux-saga/effects'
 import { loadConfigSaga } from './configSagas'
-import { loadCellsSaga } from './cellSagas'
+import { loadCellsSaga, loadInitCellscape } from './cellSagas'
 
 /*
 
@@ -10,14 +10,15 @@ Main sagas
 
 export function* rootSaga() {
 	yield [
-		fork(pageLoadSaga)
+		fork(pageLoadSaga),
+		fork(loadInitCellscape)
 	]
 }
 
 
 const TEST_DATA = {
 	libraryID: "a90648a",
-	fields: ["mad_neutral_state","MSRSI_non_integerness","cell_call"],
+	fields: ["mad_neutral_state","MSRSI_non_integerness","cell_call", "all_heatmap_order"],
 	caller: "single_cell_qc"
 }
 

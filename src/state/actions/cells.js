@@ -1,4 +1,3 @@
-import { fetchCells } from '../elasticsearch/cells.js'
 /*
 	Actions for Cells
 	TODO: When QC dashboard is abstracted, this may need to be moved, or generalized to 'data'
@@ -7,7 +6,8 @@ import { fetchCells } from '../elasticsearch/cells.js'
 
 export const types = {
 	loadCells: "LOAD_CELLS", 
-	receiveCells: "RECEIVE_CELLS"
+	receiveCells: "RECEIVE_CELLS",
+	receiveCellSegments: "RECEIVE_CELL_SEGMENTS"
 }
 
 
@@ -27,4 +27,12 @@ export const receiveCells = (cells, fields) => ({
 	type: types.receiveCells,
 	cells,
 	fields
+})
+
+
+
+// Received cell segments from Elasticsearch (already preprocessed)
+export const receiveCellSegments = (segs) => ({
+	type: types.receiveCellSegments,
+	segs
 })
