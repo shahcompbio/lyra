@@ -1,6 +1,6 @@
 import { fork, take, call } from 'redux-saga/effects'
 import { loadConfigSaga } from './configSagas'
-import { loadCellsSaga, loadInitCellscape } from './cellSagas'
+import { loadCellsSaga, loadInitCellscape, watchLoadCellSegments } from './cellSagas'
 
 /*
 
@@ -11,7 +11,8 @@ Main sagas
 export function* rootSaga() {
 	yield [
 		fork(pageLoadSaga),
-		fork(loadInitCellscape)
+		fork(loadInitCellscape),
+		fork(watchLoadCellSegments)
 	]
 }
 

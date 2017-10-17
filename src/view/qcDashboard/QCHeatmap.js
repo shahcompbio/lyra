@@ -2,33 +2,30 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getCellSegments } from '../../state/reducers/cells.js'
 import Heatmap from '../views/Heatmap.js'
-import MinimapBrush from './MinimapBrush.js'
 
 
-class Minimap extends Component {
+class QCHeatmap extends Component {
 	componentDidMount() {
-		this.fetchSegsIfNeeded()
+		this.fetchSegsIfNeeded(this.props)
 	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		const currMissingCells = getMissingSegCells(this.props.cells)
-		const nextMissingCells = getMissingSegCells(nextProps.cells)
-
-		return currMissingCells.length !== nextMissingCells.length
-	}
-
 
 	componentWillReceiveProps(nextProps) {
-		this.fetchSegsIfNeeded()
+		this.fetchSegsIfNeeded(nextProps)
 	}
 
 
-	fetchSegsIfNeeded() {
-		const { dispatch, cells } = this.props
+	shouldComponentUpdate(nextProps, nextState) {
+		const nextMissingCells = getMissingSegCells(nextProps.cells)
+
+		return nextMissingCells.length === 0
+	}
+
+	fetchSegsIfNeeded(props) {
+		const { dispatch, cells } = props
 		const missingCells = getMissingSegCells(cells)
 
 		if (missingCells.length > 0){
-			console.log("fetching minimap cells:", missingCells.length)
+			console.log("fetching heatmap cells:", missingCells.length)
 			dispatch({
 				type: "LOAD_MISSING_CELLS",
 				cells: missingCells
@@ -38,12 +35,12 @@ class Minimap extends Component {
 
 
 	render() {
+		console.log("rendering heatmap")
 		const { cells } = this.props
 		const missingCells = getMissingSegCells(cells)
-		console.log("render minimap")
 
 		if (missingCells.length > 0) {
-			return ('Fetching Cells...')
+			return (<svg></svg>)
 		}
 
 		const { chromRanges, maxWidth, rowHeight, colorScale, onBrush, windowHeight } = this.props
@@ -63,7 +60,6 @@ class Minimap extends Component {
 						rowHeight={rowHeight}
 						colorScale={colorScale}
 					/>
-				<MinimapBrush onBrush={onBrush} height={height} windowHeight={windowHeight}/>
 			</svg>)
 	}
 }
@@ -111,5 +107,4 @@ const mapState = (state, ownProps) => ({
 })
 
 
-
-export default connect(mapState)(Minimap)
+export default connect(mapState)(QCHeatmap)
