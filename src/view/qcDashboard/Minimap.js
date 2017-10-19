@@ -7,7 +7,7 @@ import MinimapBrush from './MinimapBrush.js'
 
 class Minimap extends Component {
 	componentDidMount() {
-		this.fetchSegsIfNeeded()
+		this.fetchSegsIfNeeded(this.props)
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -18,17 +18,16 @@ class Minimap extends Component {
 	}
 
 
-	componentWillReceiveProps(nextProps) {
-		this.fetchSegsIfNeeded()
+	componentWillUpdate(nextProps, nextState) {
+		this.fetchSegsIfNeeded(nextProps)
 	}
 
 
-	fetchSegsIfNeeded() {
-		const { dispatch, cells } = this.props
+	fetchSegsIfNeeded(props) {
+		const { dispatch, cells } = props
 		const missingCells = getMissingSegCells(cells)
 
 		if (missingCells.length > 0){
-			console.log("fetching minimap cells:", missingCells.length)
 			dispatch({
 				type: "LOAD_MISSING_CELLS",
 				cells: missingCells
@@ -40,7 +39,6 @@ class Minimap extends Component {
 	render() {
 		const { cells } = this.props
 		const missingCells = getMissingSegCells(cells)
-		console.log("render minimap")
 
 		if (missingCells.length > 0) {
 			return ('Fetching Cells...')

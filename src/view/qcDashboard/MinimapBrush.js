@@ -19,7 +19,7 @@ class MinimapBrush extends Component {
 		const { onBrush, height, windowHeight } = this.props
 		const node = this.node
 		const plotBrush = brushY().extent([[0, 0], [100, height - 1]])
-								.on("end", () => { if (event.sourceEvent && event.sourceEvent.type === "mouseup") {
+								.on("end", () => { if (!event.sourceEvent || event.sourceEvent.type === "mouseup") {
 									onBrush(event.selection)
 								}
 								  })
@@ -28,7 +28,7 @@ class MinimapBrush extends Component {
 		const selection = select(node).append("g").attr("class", "brush")
 
 		selection.call(plotBrush)
-				 .call(plotBrush.move, [0, windowHeight])
+				.call(plotBrush.move, [0, windowHeight])
 				 .selectAll(".overlay")
     			.each(function(d) { d.type = "selection" })
     			.on("mousedown touchstart", () => { centerBrush(height - 1) })
@@ -39,7 +39,6 @@ class MinimapBrush extends Component {
 
 		// Upon mouse click on minimap, recenter brush
 		function centerBrush(maxY) {
-			console.log("centerBrush")
 			const mouseY = mouse(event.target)[1]
 
 			const dy = windowHeight / 2

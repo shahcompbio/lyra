@@ -27,7 +27,7 @@ class QCCellscape extends Component {
 	//state = this.getState(this.props.cells)
 	constructor(props) {
 		super(props);
-		this.state = { heatmapStartIndex: 0 }
+		this.state = { heatmapStartIndex: null }
 		// NOTE: Since constructor/mounting only occurs once, this will probably be a problem if you update props 
 			// (i.e. once you add facades / resizing)
 	}
@@ -54,7 +54,6 @@ class QCCellscape extends Component {
 
 		const i0 = Math.floor(minimapPixelToCellIndexScale(extent[0]))
 		const setIndex = i0 > maxIndex - heatmapNumRows + 1 ? maxIndex - heatmapNumRows + 1 : i0
-		console.log("state:", setIndex)
 		this.setState({ heatmapStartIndex:  setIndex })
 	}
 
@@ -65,14 +64,15 @@ class QCCellscape extends Component {
 		if (!chromRanges) {
 			return (<p>Loading</p>)
 		}
-		console.log("rendering cellscape with chrom ranges")
 		const minimapMaxRows = getNumRows(maxHeight, minimapRowHeight)
 		const minimapCells = getMinimapCells(cells, minimapMaxRows)
 		const minimapHeight = getHeight(minimapCells, minimapRowHeight)
 
 		const heatmapNumRows = getNumRows(maxHeight, heatmapRowHeight)
-		const heatmapCells = getHeatmapCells(cells, this.state.heatmapStartIndex, heatmapNumRows)
-		const heatmapHeight = getHeight(heatmapCells, heatmapRowHeight)
+		const heatmapCells = this.state.heatmapStartIndex === null ? 
+								null : 
+								getHeatmapCells(cells, this.state.heatmapStartIndex, heatmapNumRows)
+		//const heatmapHeight = getHeight(heatmapCells, heatmapRowHeight)
 
 		const minimapPixelToCellIndexScale = getMinimapToCellScale(cells, minimapHeight - minimapRowHeight)
 

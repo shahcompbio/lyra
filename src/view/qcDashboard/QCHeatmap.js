@@ -22,21 +22,27 @@ class QCHeatmap extends Component {
 
 	fetchSegsIfNeeded(props) {
 		const { dispatch, cells } = props
-		const missingCells = getMissingSegCells(cells)
-
-		if (missingCells.length > 0){
-			console.log("fetching heatmap cells:", missingCells.length)
-			dispatch({
-				type: "LOAD_MISSING_CELLS",
-				cells: missingCells
-			})
+		if (cells !== null) {
+		
+			const missingCells = getMissingSegCells(cells)
+	
+			if (missingCells.length > 0){
+				dispatch({
+					type: "LOAD_MISSING_CELLS",
+					cells: missingCells
+				})
+			}
 		}
 	}
 
 
 	render() {
-		console.log("rendering heatmap")
-		const { cells } = this.props
+		const { cells } = this.props		
+
+		if (cells === null) {
+			return (<svg></svg>)
+		}
+
 		const missingCells = getMissingSegCells(cells)
 
 		if (missingCells.length > 0) {
@@ -103,7 +109,7 @@ const getChromWidth = (start, end, bpRatio) => (
 )
 
 const mapState = (state, ownProps) => ({
-	cells: getCellSegments(state, ownProps.cells)
+	cells: ownProps.cells === null ? ownProps.cells : getCellSegments(state, ownProps.cells)
 })
 
 

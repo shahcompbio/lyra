@@ -32,6 +32,12 @@ const cells = createReducer(initialState)({
 	[actions.receiveCellSegments]: (state, action) => (
 		Object.assign({}, mergeSegs(state, action.segs))
 	)
+
+	/*,
+
+	["LOAD_MISSING_CELLS"]: (state, action) => (
+		{ ... state, loadingSegs: true}
+	)*/
 })
 
 
