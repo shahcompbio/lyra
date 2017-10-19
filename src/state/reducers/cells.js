@@ -1,5 +1,6 @@
 import { types as actions } from '../actions/cells.js'
 import createReducer from './createReducer.js'
+import { combineReducers } from 'redux'
 
 
 /*
@@ -21,53 +22,46 @@ Cells: Object {
 */
 
 
-
-const initialState = {}
-
-const cells = createReducer(initialState)({
+const allIDs = createReducer([])({
 	[actions.receiveCells]: (state, action) => (
-		Object.assign({}, action.cells)
-	),
-
-	[actions.receiveCellSegments]: (state, action) => (
-		Object.assign({}, mergeSegs(state, action.segs))
+		Object.entries(action.cells).map((cell, index) => (cell[0]))
 	)
+})
 
-	/*,
+const qc = createReducer({})({
+	[actions.receiveCells]: (state, action) => (
+		{ ... action.cells }
+	)
+})
 
-	["LOAD_MISSING_CELLS"]: (state, action) => (
-		{ ... state, loadingSegs: true}
-	)*/
+
+const segs = createReducer({})({
+	[actions.receiveCellSegments]: (state, action) => (
+		{ ...state,
+		  ...action.segs
+		}
+	)
+})
+
+
+const cells = combineReducers({
+	allIDs: allIDs,
+	qc: qc,
+	segs
 })
 
 
 
 
 
-// Returns map of cells with given segments
-const mergeSegs = (state, segments) => {
-	let newData = Object.assign({}, state.data)
-	for (let [key, value] of Object.entries(segments)) { // cell_id and segs
-		let cellData = Object.assign({}, newData[key], { segs: value })
-		newData = Object.assign({}, 
-							newData,
-							{ [key]: cellData }
-		)
-	}
-	return Object.assign({}, state, {data: newData})
-}
-
-
-
-
 
 // General getters
-export const getAllCellData = (state) => (state.cells.data)
+export const getAllCellQC = (state) => (state.cells.qc)
 export const getAllCellList = (state) => (state.cells.allIDs)
 
 
-const hasSegData = (state, cellID) => (state.cells.data[cellID].hasOwnProperty("segs"))
-const getSegData = (state, cellID) => (state.cells.data[cellID].segs)
+const hasSegData = (state, cellID) => (state.cells.segs.hasOwnProperty(cellID))
+const getSegData = (state, cellID) => (state.cells.segs[cellID])
 
 
 
@@ -83,8 +77,8 @@ export const filterCellsNoSegments = (state, cells) => {
 export const getCellSegments = (state, cells) => {
 	return cells.map(cell => {
 		return hasSegData(state, cell.id) ? 
-						Object.assign({}, cell, {segs: getSegData(state, cell.id)}) :
-						cell
+				Object.assign({}, cell, {segs: getSegData(state, cell.id)}) :
+				cell
 	})
 }
 
@@ -97,7 +91,7 @@ export const getCellSegments = (state, cells) => {
 // !!! probably a better way of writing that freaking sort function
 export const getViewCells = (state, view, sortBy) => {
 	let cells = getAllCellList(state)
-	let data = getAllCellData(state)
+	let data = getAllCellQC(state)
 
 	let fields = getViewFields(view)
 

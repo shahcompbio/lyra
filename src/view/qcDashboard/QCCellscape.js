@@ -37,18 +37,6 @@ class QCCellscape extends Component {
 		dispatch({ type: "LOAD_INIT_CELLSCAPE", viewID: cellscape.id })
 	}
 
-/*
-	// Apparently setState will (may?) have some lag time, so may need to reconsider
-	componentWillReceiveProps(nextProps) {
-		this.setState(this.getState(nextProps.cells))
-	}
-
-	getState(cells) {
-		const minimapCells = getMinimapCells(cells, settings.height)
-		const minimapToHeatmap = getMinimapToHeatmapScale(cells, minimapCells)
-		return { minimapCells, minimapToHeatmap }
-	}
-*/
 	getOnBrush = (cells) => (minimapPixelToCellIndexScale) => (heatmapNumRows) => (extent) => {
 		const maxIndex = cells.length - 1
 

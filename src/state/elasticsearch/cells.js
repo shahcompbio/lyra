@@ -216,21 +216,16 @@ const parseCellsData = (json) => ({
 
 
 // Parsing Data Records into cell (as per redux state)
-// TODO: Process just data records? Reducer can extract any needed metadata
 const parseDataRecords = (records) => {
 	const cells = records.reduce((object, record) => {
 		const processedRecord = processDataRecord(record.fields)
-		const newCell = { [processedRecord["cell_id"]]: processedRecord }
 
 		return {	...object,
-					...newCell
+					[processedRecord["cell_id"]]: processedRecord
 		}	
 	}, {})
 
-	const cellIDs = Object.entries(cells).map(
-		(cell, index) => (cell[0])
-	)
-	return { data: cells, allIDs: cellIDs }
+	return cells
 }
 
 // Process one data record
