@@ -4,7 +4,7 @@
 
 const config = {
 	HOST: "http://localhost:9200/",
-	INDEX: "a73056a_sc-577_denormalized", // For testing
+	INDEX: "tree_test", // For testing
 	SEARCH: "/_search"
 }
 

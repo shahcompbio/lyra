@@ -1,65 +1,16 @@
-import { types as actions } from '../actions/cells.js'
-import createReducer from './createReducer.js'
-import { combineReducers } from 'redux'
-import tree from './tree.js'
-
-
-/*
-
-Cells: Object {
-	
-	allIDs: Array[<String>]
-	data: Object<Cell>
-
-	where Cell is:
-
-	Object {
-		id: <String>
-		... all dimensions (to be determined by dashboard configuration file)
-	}
-
-}
-
-*/
-
-
-const allIDs = createReducer([])({
-	[actions.receiveCells]: (state, action) => (
-		Object.entries(action.cells).map((cell, index) => (cell[0]))
-	)
-})
-
-const qc = createReducer({})({
-	[actions.receiveCells]: (state, action) => (
-		{ ... action.cells }
-	)
-})
-
-
-const segs = createReducer({})({
-	[actions.receiveCellSegments]: (state, action) => (
-		{ ...state,
-		  ...action.segs
-		}
-	)
-})
-
-
-const cells = combineReducers({
-	allIDs: allIDs,
-	qc: qc,
-	segs,
-	tree
-})
+import { createSelector } from 'reselect'
 
 
 
 
 
+const getAllCellQC = (state) => (state.cells.qc)
+const getAllCellList = (state) => (state.cells.allIDs)
 
-// General getters
-export const getAllCellQC = (state) => (state.cells.qc)
-export const getAllCellList = (state) => (state.cells.allIDs)
+
+
+
+
 
 
 const hasSegData = (state, cellID) => (state.cells.segs.hasOwnProperty(cellID))
@@ -154,6 +105,3 @@ const createViewCell = (cell, fields, data) => {
 	})
 }
 
-
-
-export default cells

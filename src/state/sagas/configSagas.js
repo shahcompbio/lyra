@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects'
-import { fetchConfig } from '../elasticsearch/config.js'
+import { fetchConfig } from '../../elasticsearch/config.js'
 import { receiveConfig } from '../actions/config.js'
 
 /*

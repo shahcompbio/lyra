@@ -1,5 +1,5 @@
 import { call, select, put, take, takeEvery } from 'redux-saga/effects'
-import { fetchCells, fetchCellSegs, fetchChromRanges } from '../elasticsearch/cells.js'
+import { fetchCells, fetchCellSegs, fetchChromRanges } from '../../elasticsearch/cells.js'
 import { receiveCells, receiveCellSegments } from '../actions/cells.js'
 import { receiveChromRanges } from '../actions/views.js'
 import { filterCategoricalFields, filterNumericalFields } from '../reducers/config.js'
