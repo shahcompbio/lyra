@@ -13,7 +13,8 @@ const CONFIG_CONSTANTS = {
 	width: 400,
 	height: 1000,
 
-	heatmapRowHeight: 2,
+	heatmapRowHeight: 5,
+
 
 	treeNodeColor: "#A3A3A3",
 	treeBranchColor: "#CECECE",
@@ -28,7 +29,7 @@ const CONFIG_CONSTANTS = {
 export const config = {
 	...CONFIG_CONSTANTS,
 	treeNodeRadius: 3,
-	treeCladeWidth:  CONFIG_CONSTANTS.treeDepthSpacing
+	treeCladeWidth:  CONFIG_CONSTANTS.treeDepthSpacing - 10
 
 }
 

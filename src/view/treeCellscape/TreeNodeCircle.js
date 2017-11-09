@@ -5,7 +5,7 @@ const { treeNodeRadius, treeNodeColor } = config
 
 const TreeNodeCircle = ({ heatmapIndex, yScale, depth }) => 
 	(<circle cx={getXPosition(depth)} 
-			 cy={treeNodeRadius + yScale(heatmapIndex)} 
+			 cy={yScale(heatmapIndex)} 
 			 r={treeNodeRadius} 
 			 fill={treeNodeColor}
 	/>)

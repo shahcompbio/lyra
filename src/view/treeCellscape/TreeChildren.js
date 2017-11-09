@@ -39,24 +39,14 @@ const processChildrenToJSX = (children, depth, yScale, numNodes) => {
 	let i = 0
 	while (i < children.length) {
 		const currNode = children[i]
-		if (isLastNode(i, children)) {
-			if (isBoxDrawingNow(boxDimensions)) {
-				boxDimensions = mergeNodeToBox(boxDimensions, currNode)
-				resultJSX = [...resultJSX, drawTreeClade(boxDimensions, depth, yScale)]
-			}
-			else {
-				resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale)]
-			}
-		}
 
-
-		else if (isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
+		if (isLastNode(i, children) || isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
 			
 			if (isBoxDrawingNow(boxDimensions)) {
-				//boxDimensions = mergeNodeToBox(boxDimensions, currNode)
+				boxDimensions = mergeNodeToBox(boxDimensions, currNode)
 				console.log(boxDimensions)
 				resultJSX = [...resultJSX, drawTreeClade(boxDimensions, depth, yScale)]
-				resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale)]
+				//resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale)]
 				boxDimensions = initializeBox()
 			}
 
