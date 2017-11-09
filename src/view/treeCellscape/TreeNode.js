@@ -67,10 +67,11 @@ TreeNodeFetcher = connect(mapState)(TreeNodeFetcher)
 const TreeNode = ({nodeID, yScale, depth}) => {
 	const render = (nodeData) => {
 		const { heatmapIndex, children } = nodeData
-		const maxChildIndex = Math.max(getMaxChildIndex(children), heatmapIndex)
+		const minChildIndex = getMinChildIndex(children, heatmapIndex)
+		const maxChildIndex = getMaxChildIndex(children, heatmapIndex)
 
 		return (<g>
-					<TreeNodeVerticalBranch minIndex={heatmapIndex} maxIndex={maxChildIndex} depth={depth} yScale={yScale}/>
+					<TreeNodeVerticalBranch minIndex={minChildIndex} maxIndex={maxChildIndex} depth={depth} yScale={yScale}/>
 					<TreeNodeCircle heatmapIndex={nodeData['heatmapIndex']} yScale={yScale} depth={depth}/>
 					<TreeChildren children={children} depth={depth+1} yScale={yScale}/>
 				</g>)
@@ -79,8 +80,12 @@ const TreeNode = ({nodeID, yScale, depth}) => {
 }
 
 
-const getMaxChildIndex = (children) => (
-	children.reduce((curMax, child) => (Math.max(child['heatmapIndex'], curMax)), 0)
+const getMaxChildIndex = (children, heatmapIndex) => (
+	children.reduce((curMax, child) => (Math.max(child['heatmapIndex'], curMax)), heatmapIndex)
+)
+
+const getMinChildIndex = (children, heatmapIndex) => (
+	children.reduce((curMax, child) => (Math.min(child['heatmapIndex'], curMax)), heatmapIndex)
 )
 
 

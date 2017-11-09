@@ -10,7 +10,6 @@ import { getThresholdIndex } from './utils.js'
 
 
 const TreeChildren = ({ children, depth, yScale, numNodes }) => {
-	console.log(numNodes)
 	if (children.length === 0) {
 		return null
 	}
@@ -32,7 +31,6 @@ const TreeChildren = ({ children, depth, yScale, numNodes }) => {
 
 const processChildrenToJSX = (children, depth, yScale, numNodes) => {
 	const thresholdIndex = getThresholdIndex(numNodes)
-	console.log(thresholdIndex)
 	let boxDimensions = initializeBox()
 
 	let resultJSX = []

@@ -4,7 +4,7 @@ import { scaleLinear } from 'd3'
 
 const MAPPINGS = {
 	cell_id: 'cellID',
-	num_successors: 'numSuccessors',
+	num_nodes: 'numSuccessors',
 	heatmap_order: 'heatmapIndex',
 	children: 'children'
 }

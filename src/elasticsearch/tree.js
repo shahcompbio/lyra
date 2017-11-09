@@ -2,7 +2,7 @@ import { fetchQuery } from '../elasticsearch/index.js'
 
 const MAPPINGS = {
 	cell_id: 'cellID',
-	num_successors: 'numSuccessors',
+	num_nodes: 'numSuccessors',
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
 	parent: 'parent'
