@@ -71,9 +71,9 @@ const TreeNode = ({nodeID, yScale, depth}) => {
 		const maxChildIndex = getMaxChildIndex(children, heatmapIndex)
 
 		return (<g>
-					<TreeNodeVerticalBranch minIndex={minChildIndex} maxIndex={maxChildIndex} depth={depth} yScale={yScale}/>
-					<TreeNodeCircle heatmapIndex={nodeData['heatmapIndex']} yScale={yScale} depth={depth}/>
-					<TreeChildren children={children} depth={depth+1} yScale={yScale}/>
+					
+					<TreeNodeCircle heatmapIndex={heatmapIndex} yScale={yScale} depth={depth}/>
+					<TreeChildren children={children} depth={depth+1} yScale={yScale} parentIndex={heatmapIndex}/>
 				</g>)
 	} 
 	return (<TreeNodeFetcher render={render} nodeID={nodeID}/>)
