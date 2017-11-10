@@ -10,7 +10,7 @@ import { getThresholdIndex } from './utils.js'
 
 
 
-const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex }) => {
+const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex, cladeColorScale }) => {
 
 	const thresholdIndex = getThresholdIndex(numNodes)
 	let boxDimensions = initializeBox()
@@ -29,11 +29,11 @@ const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex }) => {
 				boxDimensions = mergeNodeToBox(boxDimensions, currNode)
 				console.log(boxDimensions)
 
-				const cladeIndex = getCladeIndex(boxDimensions)
+				const cladeIndex = getCladeIndex(boxDimensions, parentIndex)
 
 				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, cladeIndex)
 
-				resultJSX = [...resultJSX, drawTreeClade(boxDimensions, depth, yScale, cladeIndex)]
+				resultJSX = [...resultJSX, drawTreeClade(boxDimensions, depth, yScale, cladeIndex, cladeColorScale)]
 				//resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale)]
 				boxDimensions = initializeBox()
 			}
@@ -42,7 +42,7 @@ const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex }) => {
 			else {
 				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, currNode['heatmapIndex'])
 
-				resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale)]
+				resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale, cladeColorScale)]
 			}
 
 		}
@@ -59,7 +59,6 @@ const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex }) => {
 	}
 
 	const { minIndex, maxIndex } = minAndMaxIndex
-	console.log(minIndex, maxIndex)
 	return [...resultJSX, drawTreeVerticalBranch(minIndex, maxIndex, depth, yScale)]
 
 }
@@ -76,8 +75,10 @@ const isNodeDistanceExceedThreshold = (i, children, threshold) => (
 
 
 
-const getCladeIndex = (boxDimensions) => (
-	(boxDimensions.startIndex + boxDimensions.endIndex) / 2
+const getCladeIndex = (boxDimensions, parentIndex) => (
+	/*boxDimensions.startIndex > parentIndex ? boxDimensions.startIndex : 
+	boxDimensions.endIndex < parentIndex ? boxDimensions.endIndex :*/
+											((boxDimensions.startIndex + boxDimensions.endIndex) / 2)
 )
 
 
@@ -89,15 +90,15 @@ const updateMinAndMaxIndex = (minAndMax, i) => ({
 
 
 
-const drawTreeClade = (boxDimensions, depth, yScale, cladeIndex) => (
-	<TreeClade key={boxDimensions.startIndex} minIndex={boxDimensions.startIndex} midIndex={cladeIndex} maxIndex={boxDimensions.endIndex} depth={depth} yScale={yScale}/>
+const drawTreeClade = (boxDimensions, depth, yScale, cladeIndex, cladeColorScale) => (
+	<TreeClade key={boxDimensions.startIndex} minIndex={boxDimensions.startIndex} midIndex={cladeIndex} maxIndex={boxDimensions.endIndex} depth={depth} yScale={yScale} maxDepth={boxDimensions.maxDepth} cladeColorScale={cladeColorScale}/>
 )
 
 
-const drawTreeNode = (currNode, depth, yScale) => (
+const drawTreeNode = (currNode, depth, yScale, cladeColorScale) => (
 	<g key={currNode['heatmapIndex']}>
 		<TreeNodeHorizontalBranch heatmapIndex={currNode['heatmapIndex']} depth={depth} yScale={yScale}/>
-		<TreeNode nodeID={currNode['cellID']} yScale={yScale} depth={depth}/>
+		<TreeNode nodeID={currNode['cellID']} yScale={yScale} depth={depth} cladeColorScale={cladeColorScale}/>
 	</g>
 )
 
@@ -120,12 +121,14 @@ const isBoxDrawingNow = (boxDimensions) => (
 const startBoxDrawing = (currNode) => ({
 	isDrawing: true,
 	startIndex: currNode['heatmapIndex'],
-	endIndex: currNode['heatmapIndex']
+	endIndex: currNode['heatmapIndex'],
+	maxDepth: currNode['maxDepth']
 })
 
 const mergeNodeToBox = (boxDimensions, currNode) => ({
 	...boxDimensions,
-	endIndex: currNode['heatmapIndex']
+	endIndex: currNode['heatmapIndex'],
+	maxDepth: Math.max(boxDimensions['maxDepth'], currNode['maxDepth'])
 })
 
 

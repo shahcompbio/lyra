@@ -20,6 +20,8 @@ const CONFIG_CONSTANTS = {
 	treeBranchColor: "#CECECE",
 	treeCladeColor: "#A3A3A3",
 
+	treeCladeColorGradient: ["#CECECE", "#000000"],
+
 	treeBranchWidth: 2,
 
 	treeDepthSpacing: 50
@@ -60,4 +62,11 @@ export const getIndexToYConverter = (numNodes, rootIndex) => {
 
 export const getXPosition = (depth) => (
 	(depth * config.treeDepthSpacing) + config.treeNodeRadius
+)
+
+
+
+export const getCladeColorScale = (maxDepth) => (
+	scaleLinear().domain([0, maxDepth])
+				 .range(config.treeCladeColorGradient)
 )

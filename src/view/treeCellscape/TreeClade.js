@@ -3,7 +3,7 @@ import { config, getXPosition } from './utils.js'
 
 const { treeCladeWidth, treeCladeColor } = config
 
-const TreeClade = ({ minIndex, midIndex, maxIndex, depth, yScale }) => {
+const TreeClade = ({ minIndex, midIndex, maxIndex, depth, yScale, maxDepth, cladeColorScale }) => {
 	/*const x = getXPosition(depth - 1)
 	const y1 = yScale(startIndex)
 	const y2 = yScale(endIndex)
@@ -25,7 +25,7 @@ const TreeClade = ({ minIndex, midIndex, maxIndex, depth, yScale }) => {
 
 	const points = point1 + " " + point2 + " " + point3
 	return (
-		<polygon points={points} fill={treeCladeColor}/>
+		<polygon points={points} fill={cladeColorScale(maxDepth)}/>
 	)
 
 

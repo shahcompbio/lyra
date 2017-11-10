@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { treeRootDataSelector } from '../../state/reducers/tree.js'
 import { fetchRoot } from '../../state/actions/tree.js'
 import TreeNode from './TreeNode' 
-import { config, getIndexToYConverter } from './utils.js'
+import { config, getIndexToYConverter, getCladeColorScale } from './utils.js'
 
 
 const { width, height } = config
@@ -20,13 +20,13 @@ class TreeCellscape extends Component {
 	}
 
 	render() {
-		console.log(this.props)
-		const { treeRoot, numSuccessors, heatmapIndex } = this.props
+		const { treeRoot, numSuccessors, heatmapIndex, maxDepth } = this.props
 		const yScale = getIndexToYConverter(numSuccessors, heatmapIndex)
+		const cladeColorScale = getCladeColorScale(maxDepth)
 		return treeRoot === '' 
 			? ('') 
 			: (<svg width={width} height={height}>
-					<TreeNode nodeID={treeRoot} yScale={yScale} depth={0}/>
+					<TreeNode nodeID={treeRoot} yScale={yScale} cladeColorScale={cladeColorScale} depth={0}/>
 				</svg>)
 	}
 

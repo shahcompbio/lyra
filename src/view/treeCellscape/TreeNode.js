@@ -64,7 +64,7 @@ TreeNodeFetcher = connect(mapState)(TreeNodeFetcher)
 
 
 
-const TreeNode = ({nodeID, yScale, depth}) => {
+const TreeNode = ({nodeID, yScale, depth, cladeColorScale}) => {
 	const render = (nodeData) => {
 		const { heatmapIndex, children } = nodeData
 		const minChildIndex = getMinChildIndex(children, heatmapIndex)
@@ -73,7 +73,7 @@ const TreeNode = ({nodeID, yScale, depth}) => {
 		return (<g>
 					
 					<TreeNodeCircle heatmapIndex={heatmapIndex} yScale={yScale} depth={depth}/>
-					<TreeChildren children={children} depth={depth+1} yScale={yScale} parentIndex={heatmapIndex}/>
+					<TreeChildren children={children} depth={depth+1} yScale={yScale} parentIndex={heatmapIndex} cladeColorScale={cladeColorScale}/>
 				</g>)
 	} 
 	return (<TreeNodeFetcher render={render} nodeID={nodeID}/>)

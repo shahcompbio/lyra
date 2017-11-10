@@ -5,7 +5,8 @@ const MAPPINGS = {
 	num_nodes: 'numSuccessors',
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
-	parent: 'parent'
+	parent: 'parent',
+	max_depth: 'maxDepth'
 }
 
 
@@ -81,7 +82,13 @@ const addChildrenIndexAggToQuery = (query, parentTerm) => ({
 								"field": "heatmap_order",
 								"size": 50000
 							}
-						}
+						},
+			            "children_depth": {
+			              "terms": {
+			                "field": "max_depth",
+			                "size": 10
+			              }
+			            }
 					}
 				}
 			}
@@ -107,13 +114,14 @@ const parseTreeNode = (json) => {
 const parseNodeChildren = (childAggs) => (
 	childAggs.map((child) => ({
 			[MAPPINGS['cell_id']]: child.key,
-			[MAPPINGS['heatmap_order']]: getHeatmapOrderForChild(child["children_index"])
+			[MAPPINGS['heatmap_order']]: getBucketValueForChild(child["children_index"]),
+			[MAPPINGS['max_depth']]: getBucketValueForChild(child["children_depth"])
 		})
 	)
 )
 
 
-const getHeatmapOrderForChild = (indexBucket) => (
+const getBucketValueForChild = (indexBucket) => (
 	indexBucket.buckets[0].key
 )
 
