@@ -8,7 +8,6 @@ import { makeGetTreeNodeRecords, getYScale, getThresholdIndex, getCladeColorScal
 
 
 const TreeChildren = ({ children, depth, parentIndex, yScale, thresholdIndex, cladeColorScale }) => {
-	//console.log(children)
 	let boxDimensions = initializeBox()
 
 	let resultJSX = []

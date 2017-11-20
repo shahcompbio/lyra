@@ -19,7 +19,7 @@ class TreeNodeFetcher extends Component {
 		this.fetchIfMissing(this.props)
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillUpdate(nextProps) {
 		this.fetchIfMissing(nextProps)
 	}
 
@@ -27,8 +27,8 @@ class TreeNodeFetcher extends Component {
 		const currNode = this.props.treeNode
 		const nextNode = nextProps.treeNode
 
-		return nextNode === null ? false
-		: currNode === null ? true
+		return nextNode === null && currNode === null ? false
+		: currNode === null || nextNode === null ? true
 		: currNode.cellID !== nextNode.cellID
 	}
 
@@ -36,7 +36,6 @@ class TreeNodeFetcher extends Component {
 	fetchIfMissing(props) {
 		const { dispatch, treeNode, nodeID } = props
 		if (this.isDataMissing(treeNode)) {
-			console.log('fetching ', nodeID)
 			dispatch(fetchTreeNode(nodeID))
 		}
 	}
@@ -85,7 +84,6 @@ TreeNodeFetcher = connect(makeMapStateForTreeNode())(TreeNodeFetcher)
 const TreeNode = ({nodeID, depth}) => {
 	const render = (nodeData, yScale) => {
 		const { heatmapIndex, children } = nodeData
-		console.log('render time')
 		return (<g>
 					
 					<TreeNodeCircle heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
