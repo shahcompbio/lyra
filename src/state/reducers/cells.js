@@ -1,28 +1,23 @@
+/**
+* Reducer for cells
+*/
+
 import { types as actions } from '../actions/cells.js'
 import createReducer from './createReducer.js'
 import { combineReducers } from 'redux'
-import tree from './tree.js'
+import tree from './cells/tree.js'
 
+
+
+/**
+* Cell reducer
+* - tree
+*/
+const cells = combineReducers({
+	tree
+})
 
 /*
-
-Cells: Object {
-	
-	allIDs: Array[<String>]
-	data: Object<Cell>
-
-	where Cell is:
-
-	Object {
-		id: <String>
-		... all dimensions (to be determined by dashboard configuration file)
-	}
-
-}
-
-*/
-
-
 const allIDs = createReducer([])({
 	[actions.receiveCells]: (state, action) => (
 		Object.entries(action.cells).map((cell, index) => (cell[0]))
@@ -153,7 +148,7 @@ const createViewCell = (cell, fields, data) => {
 		id: cell
 	})
 }
-
+*/
 
 
 export default cells

@@ -4,15 +4,11 @@ import TreeNode from './TreeNode'
 import TreeClade from './TreeClade'
 import TreeNodeHorizontalBranch from './TreeNodeHorizontalBranch'
 import TreeNodeVerticalBranch from './TreeNodeVerticalBranch'
-import { numNodesSelector } from '../../state/reducers/tree.js'
-import { getThresholdIndex } from './utils.js'
+import { makeGetTreeNodeRecords, getYScale, getThresholdIndex, getCladeColorScale } from 'state/selectors/treeCellscape.js'
 
 
-
-
-const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex, cladeColorScale }) => {
-
-	const thresholdIndex = getThresholdIndex(numNodes)
+const TreeChildren = ({ children, depth, parentIndex, yScale, thresholdIndex, cladeColorScale }) => {
+	//console.log(children)
 	let boxDimensions = initializeBox()
 
 	let resultJSX = []
@@ -27,7 +23,6 @@ const TreeChildren = ({ children, depth, yScale, numNodes, parentIndex, cladeCol
 			
 			if (isBoxDrawingNow(boxDimensions)) {
 				boxDimensions = mergeNodeToBox(boxDimensions, currNode)
-				console.log(boxDimensions)
 
 				const cladeIndex = getCladeIndex(boxDimensions, parentIndex)
 
@@ -133,9 +128,23 @@ const mergeNodeToBox = (boxDimensions, currNode) => ({
 
 
 
+const makeMapState = () => {
+	const getTreeNodeRecords = makeGetTreeNodeRecords()
+	const mapState = (state, ownProps) => ({
+		children: getTreeNodeRecords(state, ownProps.children),
+		yScale: getYScale(state),
+		thresholdIndex: getThresholdIndex(state),
+		cladeColorScale: getCladeColorScale(state)
+	})
+	return mapState
+}
 
-const mapState = (state) => ({
-	numNodes: numNodesSelector(state)
-})
+/*
+const mapState = (state, ownProps) => ({
+	children: getTreeNodeRecords(state, ownProps.children),
+	yScale: getYScale(state),
+	thresholdIndex: getThresholdIndex(state),
+	cladeColorScale: getCladeColorScale(state)
+})*/
 
-export default connect(mapState)(TreeChildren)
+export default connect(makeMapState)(TreeChildren)

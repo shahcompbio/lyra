@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { treeNodeSelector } from '../../state/reducers/tree.js'
-import { fetchTreeNode } from '../../state/actions/tree.js'
+
+import { makeGetTreeNodeRecord, getYScale } from 'state/selectors/treeCellscape.js'
+import { fetchTreeNode } from 'state/actions/tree.js'
 import TreeNodeCircle from './TreeNodeCircle'
 import TreeNodeVerticalBranch from './TreeNodeVerticalBranch'
 import TreeChildren from './TreeChildren'
@@ -9,7 +10,9 @@ import TreeChildren from './TreeChildren'
 
 
 
-
+// Later, abstract this so you can input:
+// 	Data missing boolean
+//  mapstate??
 class TreeNodeFetcher extends Component {
 
 	componentDidMount() {
@@ -21,13 +24,19 @@ class TreeNodeFetcher extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.props.treeNode !== nextProps.treeNode
+		const currNode = this.props.treeNode
+		const nextNode = nextProps.treeNode
+
+		return nextNode === null ? false
+		: currNode === null ? true
+		: currNode.cellID !== nextNode.cellID
 	}
 
 
 	fetchIfMissing(props) {
 		const { dispatch, treeNode, nodeID } = props
 		if (this.isDataMissing(treeNode)) {
+			console.log('fetching ', nodeID)
 			dispatch(fetchTreeNode(nodeID))
 		}
 	}
@@ -37,56 +46,54 @@ class TreeNodeFetcher extends Component {
 	}
 
 	render() {
-		const { render, treeNode } = this.props
-		console.log(treeNode)
-		return this.isDataMissing(treeNode) ? ('Loading') : render(treeNode)
+		const { render, treeNode, yScale } = this.props
+		return this.isDataMissing(treeNode) ? ('Loading') : render(treeNode, yScale)
 	}
 }
-
+/*
 const mapState = (state, ownProps) => ({
-	treeNode: treeNodeSelector(state, ownProps.nodeID)
+	treeNode: getTreeNodeRecord(state, ownProps.nodeID),
+	yScale: getYScale(state)
 })
+*/
 
-TreeNodeFetcher = connect(mapState)(TreeNodeFetcher)
+const makeMapStateForTreeNode = () => {
+	const getTreeNodeRecord = makeGetTreeNodeRecord()
+	const mapState = (state, ownProps) => ({
+		treeNode: getTreeNodeRecord(state, ownProps.nodeID),
+		yScale: getYScale(state)
+	})
+	return mapState
+}
 
-
-
-
-
-
-
-
-
-
-
-
+TreeNodeFetcher = connect(makeMapStateForTreeNode())(TreeNodeFetcher)
 
 
 
 
-const TreeNode = ({nodeID, yScale, depth, cladeColorScale}) => {
-	const render = (nodeData) => {
+
+
+
+
+
+
+
+
+
+
+
+const TreeNode = ({nodeID, depth}) => {
+	const render = (nodeData, yScale) => {
 		const { heatmapIndex, children } = nodeData
-		const minChildIndex = getMinChildIndex(children, heatmapIndex)
-		const maxChildIndex = getMaxChildIndex(children, heatmapIndex)
-
+		console.log('render time')
 		return (<g>
 					
-					<TreeNodeCircle heatmapIndex={heatmapIndex} yScale={yScale} depth={depth}/>
-					<TreeChildren children={children} depth={depth+1} yScale={yScale} parentIndex={heatmapIndex} cladeColorScale={cladeColorScale}/>
+					<TreeNodeCircle heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
 				</g>)
 	} 
 	return (<TreeNodeFetcher render={render} nodeID={nodeID}/>)
 }
-
-
-const getMaxChildIndex = (children, heatmapIndex) => (
-	children.reduce((curMax, child) => (Math.max(child['heatmapIndex'], curMax)), heatmapIndex)
-)
-
-const getMinChildIndex = (children, heatmapIndex) => (
-	children.reduce((curMax, child) => (Math.min(child['heatmapIndex'], curMax)), heatmapIndex)
-)
 
 
 export default TreeNode

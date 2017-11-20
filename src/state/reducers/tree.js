@@ -3,14 +3,14 @@ import createReducer from './createReducer.js'
 import { types as actions } from '../actions/tree.js'
 
 const treeRoot = createReducer('')({
-	[actions.fetchRootSuccess]: (state, action) => (
+	[actions.fetchTreeRootSuccess]: (state, action) => (
 		action.root['cellID']
 	)
 })
 
 const nodes = createReducer({})({
 
-	[actions.fetchRootSuccess]: (state, action) => {
+	[actions.fetchTreeRootSuccess]: (state, action) => {
 		const { children, ...otherRootProps } = action.root
 		
 		return {

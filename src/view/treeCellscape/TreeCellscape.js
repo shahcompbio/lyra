@@ -1,18 +1,32 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import { connect } from 'react-redux'
-import { treeRootDataSelector } from '../../state/reducers/tree.js'
-import { fetchRoot } from '../../state/actions/tree.js'
+
+import { getTreeRootID } from 'state/selectors/treeCellscape.js'
+import { fetchTreeRoot } from 'state/actions/tree.js'
+
 import TreeNode from './TreeNode' 
 import { config, getIndexToYConverter, getCladeColorScale } from './utils.js'
 
 
+
+
 const { width, height } = config
 
+
+/**
+* Tree Cellscape Dashboard - React Component
+*/
 class TreeCellscape extends Component {
+	static propTypes = {
+		/** ID of tree root - "" if not fetched yet  */
+		treeNode: PropTypes.string
+	}
 
 	componentDidMount() {
 		const { dispatch } = this.props
-		dispatch(fetchRoot())
+		dispatch(fetchTreeRoot())
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -20,13 +34,12 @@ class TreeCellscape extends Component {
 	}
 
 	render() {
-		const { treeRoot, numSuccessors, heatmapIndex, maxDepth } = this.props
-		const yScale = getIndexToYConverter(numSuccessors, heatmapIndex)
-		const cladeColorScale = getCladeColorScale(maxDepth)
+		const { treeRoot } = this.props
+		console.log(treeRoot)
 		return treeRoot === '' 
 			? ('') 
 			: (<svg width={width} height={height}>
-					<TreeNode nodeID={treeRoot} yScale={yScale} cladeColorScale={cladeColorScale} depth={0}/>
+					<TreeNode nodeID={treeRoot} depth={0}/>
 				</svg>)
 	}
 
@@ -34,7 +47,7 @@ class TreeCellscape extends Component {
 
 
 const mapState = (state) => (
-	{ ...treeRootDataSelector(state) }
+	{ treeRoot: getTreeRootID(state) }
 )
 
 
