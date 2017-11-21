@@ -13,7 +13,7 @@ const TREE_MAPPINGS = {
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
 	parent: 'parent',
-	max_depth: 'maxDepth'
+	max_height: 'maxHeight'
 }
 
 
@@ -52,3 +52,8 @@ export const config = {
 	treeCladeWidth:  CONFIG_CONSTANTS.treeDepthSpacing - 10
 
 }
+
+
+export const getXPosition = (depth) => (
+	(depth * config.treeDepthSpacing) + config.treeNodeRadius
+)

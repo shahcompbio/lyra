@@ -4,7 +4,7 @@
 
 
 import { createSelector } from 'reselect'
-import { treeRootSelector, treeNodesSelector } from 'state/reducers/cells/tree.js'
+import { treeRootIDSelector, treeNodesSelector } from 'state/reducers/cells/tree.js'
 import { config } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
@@ -13,46 +13,17 @@ import { scaleLinear } from 'd3'
 /**
 * Simple getters for state tree
 */
-export const getTreeRootID = treeRootSelector
+export const getTreeRootID = treeRootIDSelector
 export const getTreeNodes = treeNodesSelector
 
 
-/**
-* Get entire tree node record
-* @param {object} state
-* @param {string} nodeID
-* @return {object || null} record of nodeID, null if not full record
-*/
-export const getTreeNodeRecord = createSelector(
-	[ getTreeNodes, (state, id) => id ],
-	(nodes, id) => {
-		const node = nodes[id]
-		return isFullRecord(node) ? node : null
-	}
-)
 
 
 /**
-* Determines whether record is full (has child attributes)
-* @param {object} node - record
-* @return {bool}
-*/
-const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('children'))
-
-/**
-* Get all tree node records
-* @param {object} state
-* @param {array} nodeIDs
-* @return {array} list of records with nodeID
-*/
-export const getTreeNodeRecords = createSelector(
-	[ getTreeNodes, (state, ids) => (ids) ],
-	(nodes, ids) => (ids.map(nodeID => (nodes[nodeID])))
-)
-
-
-/**
-* 
+* Gets tree root record
+* @param {object} nodes - all node data
+* @param {string} rootID
+* @return {object} root record
 */
 const getTreeRootRecord = createSelector(
 	[ getTreeNodes, getTreeRootID ],
@@ -61,7 +32,9 @@ const getTreeRootRecord = createSelector(
 
 
 /**
-*
+* Gets number of nodes contained in tree from root
+* @param {object} treeRoot - root record
+* @return {int} number of tree nodes
 */
 const getTotalIndexNum = createSelector(
 	[ getTreeRootRecord ],
@@ -69,6 +42,11 @@ const getTotalIndexNum = createSelector(
 )
 
 
+/**
+* Gets ratio of heatmap indices per pixel
+* @param {int} numNodes
+* @return {int}
+*/
 const getIndicesPerPixel = createSelector(
 	[ getTotalIndexNum ],
 	(numNodes) => (Math.max(1, Math.ceil(numNodes / config['height'])))
@@ -76,7 +54,9 @@ const getIndicesPerPixel = createSelector(
 
 
 /**
-*
+* Gets threshold index distance - the number of indices apart children have to be in order to be visible
+* @param {int} indPerPx
+* @return {int}
 */
 export const getThresholdIndex = createSelector(
 	[ getIndicesPerPixel ],
@@ -86,7 +66,9 @@ export const getThresholdIndex = createSelector(
 
 
 /**
-* Get yScale
+* Get yScale (index to pixel)
+* @param {int} numNodes
+* @return {scale} d3 scale
 */
 export const getYScale = createSelector(
 	[ getTotalIndexNum ],
@@ -97,12 +79,21 @@ export const getYScale = createSelector(
 )
 
 
-
+/**
+* Get max height of tree
+* @param {object} treeRoot - root record
+* @return {int} max height
+*/
 const getMaxHeight = createSelector(
 	[ getTreeRootRecord ],
-	(treeRoot) => (treeRoot['maxDepth'])
+	(treeRoot) => (treeRoot['maxHeight'])
 )
 
+/**
+* Get color scale for clade height
+* @param {int} maxHeight
+* @return {scale} d3 scale
+*/ 
 export const getCladeColorScale = createSelector(
 	[ getMaxHeight ],
 	(maxHeight) => scaleLinear().domain([0, maxHeight])
@@ -110,9 +101,17 @@ export const getCladeColorScale = createSelector(
 )
 
 
+/**
+* Selectors for specific React components
+*/
+
 
 /**
-*
+* Factory function for TreeNode React component, to get an entire tree node record given ID
+* @return {func} selector
+*	@param {object} state
+* 	@param {string} id
+*	@return {object || null} record of nodeID, null if not full record
 */
 export const makeGetTreeNodeRecord = () => (createSelector(
 	[ getTreeNodes, (state, id) => id ],
@@ -122,22 +121,26 @@ export const makeGetTreeNodeRecord = () => (createSelector(
 	}
 ))
 
+/**
+* Determines whether record is full (has child attributes)
+* @param {object} node - record
+* @return {bool}
+*/
+const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('children'))
 
 
+/**
+* Factory function for TreeChildren React component, to get all tree node record given list of IDs
+* @return {func} selector
+*	@param {object} state
+* 	@param {array} ids
+*	@return {array} 
+*/
 export const makeGetTreeNodeRecords = () => (createSelector(
 	[ getTreeNodes, (state, ids) => (ids) ],
 	(nodes, ids) => (ids.map(nodeID => {
-		const { heatmapIndex, maxDepth, cellID } = nodes[nodeID]
-		return { heatmapIndex, maxDepth, cellID }
+		const { heatmapIndex, maxHeight, cellID } = nodes[nodeID]
+		return { heatmapIndex, maxHeight, cellID }
 	}))
 ))
 
-/*
-const makeMapStateForTreeNode = () => {
-	const getTreeNode = makeGetTreeNode()
-	const mapState = (state, ownProps) => ({
-		treeNode: getTreeNodeRecord(state, ownProps.nodeID),
-		yScale: getYScale(state)
-	})
-	return mapState
-}*/

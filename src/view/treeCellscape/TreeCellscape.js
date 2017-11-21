@@ -4,14 +4,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { getTreeRootID } from 'state/selectors/treeCellscape.js'
-import { fetchTreeRoot } from 'state/actions/tree.js'
+import { fetchTreeRoot } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode' 
-import { config, getIndexToYConverter, getCladeColorScale } from './utils.js'
 
 
-
-
+import { config } from 'config/treeCellscape.js'
 const { width, height } = config
 
 
@@ -21,7 +19,7 @@ const { width, height } = config
 class TreeCellscape extends Component {
 	static propTypes = {
 		/** ID of tree root - "" if not fetched yet  */
-		treeNode: PropTypes.string
+		rootID: PropTypes.string
 	}
 
 	componentDidMount() {
@@ -30,16 +28,15 @@ class TreeCellscape extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return nextProps.treeRoot !== this.props.treeRoot
+		return nextProps.rootID !== this.props.rootID
 	}
 
 	render() {
-		const { treeRoot } = this.props
-		console.log(treeRoot)
-		return treeRoot === '' 
+		const { rootID } = this.props
+		return rootID === '' 
 			? ('') 
 			: (<svg width={width} height={height}>
-					<TreeNode nodeID={treeRoot} depth={0}/>
+					<TreeNode nodeID={rootID} depth={0}/>
 				</svg>)
 	}
 
@@ -47,7 +44,7 @@ class TreeCellscape extends Component {
 
 
 const mapState = (state) => (
-	{ treeRoot: getTreeRootID(state) }
+	{ rootID: getTreeRootID(state) }
 )
 
 

@@ -4,19 +4,19 @@
 
 import { combineReducers } from 'redux'
 import createReducer from '../createReducer.js'
-import { types as actions } from 'state/actions/tree.js'
+import { types as actions } from 'state/actions/treeCellscape.js'
 
 
 
 /**
-* treeRoot {string}
+* rootID {string}
 * 	cell ID of the root node
 */
 
 
-const initialTreeRoot = ''
+const initialTreeRootID = ''
 
-const treeRoot = createReducer(initialTreeRoot)({
+const rootID = createReducer(initialTreeRootID)({
 	[actions.fetchTreeRootSuccess]: (state, action) => (
 		action.root['cellID']
 	)
@@ -78,7 +78,7 @@ const nodes = createReducer(initialNodes)({
 * - nodes {object}
 */
 const tree = combineReducers({
-	root: treeRoot,
+	rootID,
 	nodes
 })
 
@@ -90,7 +90,7 @@ const tree = combineReducers({
 * State Selectors
 */
 
-export const treeRootSelector = (state) => state.cells.tree.root
+export const treeRootIDSelector = (state) => state.cells.tree.rootID
 export const treeNodesSelector = (state) => state.cells.tree.nodes
 
 

@@ -90,9 +90,9 @@ const addChildrenIndexAggToQuery = (query, parentTerm) => ({
 								"size": 50000
 							}
 						},
-			            "children_depth": {
+			            "children_height": {
 			              "terms": {
-			                "field": "max_depth",
+			                "field": "max_height",
 			                "size": 10
 			              }
 			            }
@@ -142,7 +142,7 @@ const parseNodeChildren = (childAggs) => (
 	childAggs.map((child) => ({
 			[MAPPINGS['cell_id']]: child.key,
 			[MAPPINGS['heatmap_order']]: getBucketValueForChild(child["children_index"]),
-			[MAPPINGS['max_depth']]: getBucketValueForChild(child["children_depth"])
+			[MAPPINGS['max_height']]: getBucketValueForChild(child["children_height"])
 		})
 	)
 )
