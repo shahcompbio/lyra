@@ -5,7 +5,7 @@
 
 import { createSelector } from 'reselect'
 import { treeRootIDSelector, treeNodesSelector } from 'state/reducers/cells/tree.js'
-import { config } from 'config/treeCellscape.js'
+import { treeConfig as config } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
 

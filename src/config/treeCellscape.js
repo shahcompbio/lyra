@@ -27,9 +27,27 @@ export const MAPPINGS = {
 * Configuration defaults for views
 */
 
-const CONFIG_CONSTANTS = {
+	/**
+	* Overall config
+	*/
+
+const CONSTANTS = {
+	width: 1200,
+	height: 1000
+}
+
+export const config = {
+	...CONSTANTS
+}
+
+
+	/**
+	* Tree-related config
+	*/
+
+const TREE_CONSTANTS = {
 	width: 400,
-	height: 1000,
+	height: CONSTANTS.height,
 
 	heatmapRowHeight: 5,
 
@@ -46,14 +64,16 @@ const CONFIG_CONSTANTS = {
 
 }
 
-export const config = {
-	...CONFIG_CONSTANTS,
+export const treeConfig = {
+	...TREE_CONSTANTS,
 	treeNodeRadius: 3,
-	treeCladeWidth:  CONFIG_CONSTANTS.treeDepthSpacing - 10
+	treeCladeWidth:  TREE_CONSTANTS.treeDepthSpacing - 10
 
 }
 
 
 export const getXPosition = (depth) => (
-	(depth * config.treeDepthSpacing) + config.treeNodeRadius
+	(depth * treeConfig.treeDepthSpacing) + treeConfig.treeNodeRadius
 )
+
+
