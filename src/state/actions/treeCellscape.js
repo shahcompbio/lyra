@@ -13,11 +13,17 @@
 * @public
 */
 export const types = {
+	/** Fetch tree root ID from database*/
 	fetchTreeRoot: "TREECELLSCAPE_FETCH_TREE_ROOT",
 	fetchTreeRootSuccess: "TREECELLSCAPE_FETCH_TREE_ROOT_SUCCESS",
 
+	/** Fetch tree root node from database*/
 	fetchTreeNode: "TREECELLSCAPE_FETCH_TREE_NODE",
-	fetchTreeNodeSuccess: "TREECELLSCAPE_FETCH_TREE_NODE_SUCCESS" 
+	fetchTreeNodeSuccess: "TREECELLSCAPE_FETCH_TREE_NODE_SUCCESS",
+
+	/** After aggregation of children, add that to list*/
+	addChildrenAggregations: "TREECELLSCAPE_ADD_CHILDREN_AGGREGATION"
+
 }
 
 
@@ -68,4 +74,16 @@ export const fetchTreeNode = (nodeID) => ({
 export const fetchTreeNodeSuccess = (treeNode) => ({
 	type: types.fetchTreeNodeSuccess,
 	treeNode
+})
+
+
+/**
+* Add list of aggregations of tree's children to list
+* @param {array} aggs - list of children aggregations
+* @return {object}
+* @public
+*/
+export const addChildrenAggregations = (aggs) => ({
+	type: types.addChildrenAggregations,
+	aggs
 })

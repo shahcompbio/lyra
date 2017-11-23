@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeNodeRecords, getYScale, getThresholdIndex, getCladeColorScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeChildrenAggregations, getYScale, getThresholdIndex, getCladeColorScale } from 'state/selectors/treeCellscape.js'
 
 import TreeNode from './TreeNode'
 import TreeClade from './TreeClade'
@@ -18,54 +18,29 @@ import TreeVerticalBranch from './TreeVerticalBranch'
 /**
 * TreeChildren
 */
-const TreeChildren = ({ children, depth, parentIndex, thresholdIndex, yScale, cladeColorScale }) => {
+const TreeChildren = ({ childrenAggs, depth, parentIndex, yScale, cladeColorScale }) => {
 
-	let cladeDimensions = initializeClade()
-	let resultJSX = []
 	let minAndMaxIndex = { minIndex: parentIndex, maxIndex: parentIndex }
-
-	let i = 0
-	while (i < children.length) {
-
-		const currNode = children[i]
-
-		if (isLastNode(i, children) || isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
-			// Already drawing a clade - merge current node to clade
-			if (isCladeDrawingNow(cladeDimensions)) {
-				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
-				const cladeIndex = getCladeIndex(cladeDimensions, parentIndex)
-
-				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, cladeIndex)
-				resultJSX = [...resultJSX, drawTreeClade(cladeDimensions, depth, yScale, cladeIndex, cladeColorScale)]
-
-				cladeDimensions = initializeClade()
-			}
-
-			// Else draw as normal node
-			else {
-				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, currNode['heatmapIndex'])
-				resultJSX = [...resultJSX, drawTreeNode(currNode, depth, yScale, cladeColorScale)]
-			}
-
+	const childrenJSX = childrenAggs.map((childAgg) => {
+		if (childAgg.hasOwnProperty('cellID')) {
+			minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, childAgg['heatmapIndex'])
+			return drawTreeNode(childAgg, depth)
 		}
-		else { // nodes are too close
-			if (isCladeDrawingNow(cladeDimensions)) {
-				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
-			}
-			else {
-				cladeDimensions = startCladeDrawing(currNode)
-			}
+		else {
+			const cladeIndex = getCladeIndex(childAgg, parentIndex)
+			minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, cladeIndex)
+			return drawTreeClade(childAgg, depth, yScale, cladeIndex, cladeColorScale)
 		}
 
-		i++
-	}
+	})
+
 
 	const { minIndex, maxIndex } = minAndMaxIndex
 	const verticalBranch = drawTreeVerticalBranch(minIndex, maxIndex, depth, yScale)
 
 	return (<g>
 				{verticalBranch}
-				{resultJSX}
+				{childrenJSX}
 			</g>)
 
 }
@@ -74,17 +49,14 @@ const TreeChildren = ({ children, depth, parentIndex, thresholdIndex, yScale, cl
 	* TreeChildren PropTypes
 	*/
 	TreeChildren.propTypes = {
-		/** children - list of children and their heatmapIndex and maxHeight*/
-		children: PropTypes.arrayOf(PropTypes.object).isRequired,
+		/** children - list of aggregation children (combination of clades and nodes)*/
+		childrenAggs: PropTypes.arrayOf(PropTypes.object).isRequired,
 
 		/** depth - current depth of children*/
 		depth: PropTypes.number.isRequired,
 
 		/** parentIndex - heatmap index of parent of children*/
 		parentIndex: PropTypes.number.isRequired,
-
-		/** thresholdIndex - minimum index distance between two adjacent siblings*/
-		thresholdIndex: PropTypes.number.isRequired,
 
 	  	/** yScale*/
 		yScale: PropTypes.func.isRequired,
@@ -96,33 +68,6 @@ const TreeChildren = ({ children, depth, parentIndex, thresholdIndex, yScale, cl
 
 
 
-
-
-
-
-
-
-
-/**
-* Determines whether current index is at last node
-* @param {int} i - current index
-* @param {array} children
-* @return {bool}
-*/
-const isLastNode = (i, children) => (
-	i + 1 >= children.length
-)
-
-/**
-* Determines whether index distance between i and i+1 child is above threshold
-* @param {int} i - current i
-* @param {array} children
-* @param {int} threshold
-* @return {bool}
-*/
-const isNodeDistanceExceedThreshold = (i, children, threshold) => (
-	children[i+1]['heatmapIndex'] - children[i]['heatmapIndex'] > threshold
-)
 
 
 /**
@@ -145,16 +90,6 @@ const updateMinAndMaxIndex = (minAndMax, i) => ({
 	minIndex: Math.min(minAndMax.minIndex, i),
 	maxIndex: Math.max(minAndMax.maxIndex, i)
 })
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,7 +121,7 @@ const drawTreeClade = (cladeDimensions, depth, yScale, cladeIndex, cladeColorSca
 * @param {int} depth
 * @return {JSX}
 */
-const drawTreeNode = (currNode, depth, yScale) => (
+const drawTreeNode = (currNode, depth) => (
 	<TreeNode key={currNode['heatmapIndex']} nodeID={currNode['cellID']} depth={depth}/>
 )
 
@@ -209,62 +144,15 @@ const drawTreeVerticalBranch = (minIndex, maxIndex, depth, yScale) => (
 
 
 
-
-
-
-
-
-/**
-* cladeDimesions {object}
-* 	cladeDimensions.isDrawing {bool} - whether clade is current aggregating
-* 	cladeDimensions.startIndex {int}
-*	cladeDimensions.endIndex {int}
-* 	cladeDimensions.maxHeight {int} - tallest branch so far
-*/
-const initializeClade = () => ({
-	isDrawing: false
-})
-
-const isCladeDrawingNow = (cladeDimensions) => (
-	cladeDimensions.isDrawing
-)
-
-const startCladeDrawing = (currNode) => ({
-	isDrawing: true,
-	startIndex: currNode['heatmapIndex'],
-	endIndex: currNode['heatmapIndex'],
-	maxHeight: currNode['maxHeight']
-})
-
-const mergeNodeToClade = (cladeDimensions, currNode) => ({
-	...cladeDimensions,
-	endIndex: currNode['heatmapIndex'],
-	maxHeight: Math.max(cladeDimensions['maxHeight'], currNode['maxHeight'])
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
 * MapState Factory function for Tree Children (use of Reselect)
 * @return {func} mapState
 */
 const makeMapState = () => {
-	const getTreeNodeRecords = makeGetTreeNodeRecords()
+	const getTreeChildrenAggregations = makeGetTreeChildrenAggregations()
 	const mapState = (state, ownProps) => ({
-		children: getTreeNodeRecords(state, ownProps.children),
+		childrenAggs: getTreeChildrenAggregations(state, ownProps.children),
 		yScale: getYScale(state),
-		thresholdIndex: getThresholdIndex(state),
 		cladeColorScale: getCladeColorScale(state)
 	})
 	return mapState

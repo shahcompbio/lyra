@@ -101,6 +101,20 @@ export const getCladeColorScale = createSelector(
 )
 
 
+
+/**
+* Get shallow tree node records given list of IDs
+* @param {array} ids
+* @return {array} records 
+*/
+const getTreeNodeRecords = createSelector(
+	[ getTreeNodes, (state, ids) => (ids) ],
+	(nodes, ids) => (ids.map(nodeID => {
+		const { heatmapIndex, maxHeight, cellID } = nodes[nodeID]
+		return { heatmapIndex, maxHeight, cellID }
+	}))
+)
+
 /**
 * Selectors for specific React components
 */
@@ -129,18 +143,126 @@ export const makeGetTreeNodeRecord = () => (createSelector(
 const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('children'))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
-* Factory function for TreeChildren React component, to get all tree node record given list of IDs
+* Factory function for TreeChildren React component, to get aggregate children list (clades and nodes)
 * @return {func} selector
 *	@param {object} state
 * 	@param {array} ids
 *	@return {array} 
 */
-export const makeGetTreeNodeRecords = () => (createSelector(
-	[ getTreeNodes, (state, ids) => (ids) ],
-	(nodes, ids) => (ids.map(nodeID => {
-		const { heatmapIndex, maxHeight, cellID } = nodes[nodeID]
-		return { heatmapIndex, maxHeight, cellID }
-	}))
+export const makeGetTreeChildrenAggregations = () => (createSelector(
+	[ getTreeNodeRecords, getThresholdIndex ],
+	aggregateTreeChildren
 ))
+
+
+/**
+* Aggregate children, based on whether distance between siblings is greater than threshold
+* @param {array} children
+* @param {int} thresholdIndex
+* @return {array} list of clades and nodes
+*/
+const aggregateTreeChildren = (children, thresholdIndex) => {
+	let cladeDimensions = initializeClade()
+	let i = 0
+
+	let aggregations = []
+
+	while (i < children.length) {
+		const currNode = children[i]
+
+		if (isLastNode(i, children) || isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
+			// Already aggregating a clade - merge current node to clade and stop
+			if (isCladeAggregating(cladeDimensions)) {
+				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
+
+				aggregations = [ ...aggregations, { ...cladeDimensions } ]
+				cladeDimensions = initializeClade()
+			}
+
+			// Else add as normal node
+			else {
+				aggregations = [ ...aggregations, { ...currNode } ]
+			}
+
+		}
+		else { // nodes are too close
+			if (isCladeAggregating(cladeDimensions)) {
+				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
+			}
+			else {
+				cladeDimensions = startCladeDrawing(currNode)
+			}
+		}
+
+		i++
+	}
+
+	return aggregations
+}
+
+/**
+* Determines whether current index is at last node
+* @param {int} i - current index
+* @param {array} children
+* @return {bool}
+*/
+const isLastNode = (i, children) => (
+	i + 1 >= children.length
+)
+
+/**
+* Determines whether index distance between i and i+1 child is above threshold
+* @param {int} i - current i
+* @param {array} children
+* @param {int} threshold
+* @return {bool}
+*/
+const isNodeDistanceExceedThreshold = (i, children, threshold) => (
+	children[i+1]['heatmapIndex'] - children[i]['heatmapIndex'] > threshold
+)
+
+
+
+/**
+* cladeDimesions {object}
+* 	cladeDimensions.isAgg {bool} - whether clade is current aggregating
+* 	cladeDimensions.startIndex {int}
+*	cladeDimensions.endIndex {int}
+* 	cladeDimensions.maxHeight {int} - tallest branch so far
+*/
+const initializeClade = () => ({
+	isAgg: false
+})
+
+const isCladeAggregating = (cladeDimensions) => (
+	cladeDimensions.isAgg
+)
+
+const startCladeDrawing = (currNode) => ({
+	isAgg: true,
+	startIndex: currNode['heatmapIndex'],
+	endIndex: currNode['heatmapIndex'],
+	maxHeight: currNode['maxHeight']
+})
+
+const mergeNodeToClade = (cladeDimensions, currNode) => ({
+	...cladeDimensions,
+	endIndex: currNode['heatmapIndex'],
+	maxHeight: Math.max(cladeDimensions['maxHeight'], currNode['maxHeight'])
+})
 
