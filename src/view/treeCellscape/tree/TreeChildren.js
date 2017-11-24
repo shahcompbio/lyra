@@ -1,56 +1,24 @@
 /**
 * TreeChildren -  React Component
-* 	Determines which child nodes need to be aggregated
 */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeChildrenAggregations, getYScale, getThresholdIndex, getCladeColorScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeChildrenSummary, getYScale, getThresholdIndex, getClusterColorScale } from 'state/selectors/treeCellscape.js'
+import { addChildrenSummary } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode'
-import TreeClade from './TreeClade'
+import TreeCluster from './TreeCluster'
 import TreeVerticalBranch from './TreeVerticalBranch'
 
 
-/**
-* TreeChildren
-*/
-const TreeChildren = ({ childrenAggs, depth, parentIndex, yScale, cladeColorScale }) => {
-
-	let minAndMaxIndex = { minIndex: parentIndex, maxIndex: parentIndex }
-	const childrenJSX = childrenAggs.map((childAgg) => {
-		if (childAgg.hasOwnProperty('cellID')) {
-			minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, childAgg['heatmapIndex'])
-			return drawTreeNode(childAgg, depth)
-		}
-		else {
-			const cladeIndex = getCladeIndex(childAgg, parentIndex)
-			minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, cladeIndex)
-			return drawTreeClade(childAgg, depth, yScale, cladeIndex, cladeColorScale)
-		}
-
-	})
-
-
-	const { minIndex, maxIndex } = minAndMaxIndex
-	const verticalBranch = drawTreeVerticalBranch(minIndex, maxIndex, depth, yScale)
-
-	return (<g>
-				{verticalBranch}
-				{childrenJSX}
-			</g>)
-
-}
-
-	/**
-	* TreeChildren PropTypes
-	*/
-	TreeChildren.propTypes = {
-		/** children - list of aggregation children (combination of clades and nodes)*/
-		childrenAggs: PropTypes.arrayOf(PropTypes.object).isRequired,
+class TreeChildren extends Component {
+	static propTypes = {
+		/** childrenSummary - list of clusters and nodes*/
+		childrenSummary: PropTypes.arrayOf(PropTypes.object).isRequired,
 
 		/** depth - current depth of children*/
 		depth: PropTypes.number.isRequired,
@@ -61,22 +29,59 @@ const TreeChildren = ({ childrenAggs, depth, parentIndex, yScale, cladeColorScal
 	  	/** yScale*/
 		yScale: PropTypes.func.isRequired,
 
-		/** cladeColorScale*/
-		cladeColorScale: PropTypes.func.isRequired
+		/** clusterColorScale*/
+		clusterColorScale: PropTypes.func.isRequired
+	}
+
+	componentDidMount() {
+		const { dispatch, childrenSummary } = this.props
+		dispatch(addChildrenSummary(childrenSummary))
 	}
 
 
 
 
 
+	render() {
+		const { childrenSummary, depth, parentIndex, yScale, clusterColorScale } = this.props
+
+		let minAndMaxIndex = { minIndex: parentIndex, maxIndex: parentIndex }
+
+		const childrenJSX = childrenSummary.map((childAgg) => {
+			if (childAgg.hasOwnProperty('cellID')) {
+				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, childAgg['heatmapIndex'])
+				return drawTreeNode(childAgg, depth)
+			}
+			else {
+				const clusterIndex = getClusterIndex(childAgg, parentIndex)
+				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, clusterIndex)
+				return drawTreeCluster(childAgg, depth, yScale, clusterIndex, clusterColorScale)
+			}
+
+		})
+
+
+		const { minIndex, maxIndex } = minAndMaxIndex
+		const verticalBranch = drawTreeVerticalBranch(minIndex, maxIndex, depth, yScale)
+
+		return (<g>
+					{verticalBranch}
+					{childrenJSX}
+				</g>)
+	}
+
+}
+
+
+
 
 /**
-* Returns index where clade touches branch
-* @param {object} cladeDimensions
+* Returns index where cluster touches branch
+* @param {object} clusterDimensions
 * @return {int}
 */
-const getCladeIndex = (cladeDimensions) => (
-	(cladeDimensions.startIndex + cladeDimensions.endIndex) / 2
+const getClusterIndex = (clusterDimensions) => (
+	(clusterDimensions.startIndex + clusterDimensions.endIndex) / 2
 )
 
 
@@ -102,16 +107,16 @@ const updateMinAndMaxIndex = (minAndMax, i) => ({
 
 
 /**
-* Returns JSX for a clade
-* @param {object} cladeDimensions
+* Returns JSX for a cluster
+* @param {object} clusterDimensions
 * @param {int} depth - current
 * @param {func} yScale
-* @param {int} cladeIndex - index where clade point should touch branch
-* @param {func} cladeColorScale
+* @param {int} clusterIndex - index where cluster point should touch branch
+* @param {func} clusterColorScale
 * @return {JSX}
 */
-const drawTreeClade = (cladeDimensions, depth, yScale, cladeIndex, cladeColorScale) => (
-	<TreeClade key={cladeDimensions.startIndex} minIndex={cladeDimensions.startIndex} midIndex={cladeIndex} maxIndex={cladeDimensions.endIndex} depth={depth} yScale={yScale} maxHeight={cladeDimensions.maxHeight} cladeColorScale={cladeColorScale}/>
+const drawTreeCluster = (clusterDimensions, depth, yScale, clusterIndex, clusterColorScale) => (
+	<TreeCluster key={clusterDimensions.startIndex} minIndex={clusterDimensions.startIndex} midIndex={clusterIndex} maxIndex={clusterDimensions.endIndex} depth={depth} yScale={yScale} maxHeight={clusterDimensions.maxHeight} clusterColorScale={clusterColorScale}/>
 )
 
 
@@ -149,11 +154,11 @@ const drawTreeVerticalBranch = (minIndex, maxIndex, depth, yScale) => (
 * @return {func} mapState
 */
 const makeMapState = () => {
-	const getTreeChildrenAggregations = makeGetTreeChildrenAggregations()
+	const getTreeChildrenSummary = makeGetTreeChildrenSummary()
 	const mapState = (state, ownProps) => ({
-		childrenAggs: getTreeChildrenAggregations(state, ownProps.children),
+		childrenSummary: getTreeChildrenSummary(state, ownProps.children),
 		yScale: getYScale(state),
-		cladeColorScale: getCladeColorScale(state)
+		clusterColorScale: getClusterColorScale(state)
 	})
 	return mapState
 }

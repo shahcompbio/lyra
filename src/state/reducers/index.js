@@ -4,9 +4,11 @@
 
 import { combineReducers } from 'redux'
 import cells from './cells'
+import ui from './ui'
 
 const montageApp = combineReducers({
-	cells
+	cells,
+	ui
 })
 
 

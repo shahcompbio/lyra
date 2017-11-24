@@ -90,14 +90,14 @@ const getMaxHeight = createSelector(
 )
 
 /**
-* Get color scale for clade height
+* Get color scale for cluster height
 * @param {int} maxHeight
 * @return {scale} d3 scale
 */ 
-export const getCladeColorScale = createSelector(
+export const getClusterColorScale = createSelector(
 	[ getMaxHeight ],
 	(maxHeight) => scaleLinear().domain([0, maxHeight])
-					 .range(config['treeCladeColorGradient'])
+					 .range(config['treeClusterColorGradient'])
 )
 
 
@@ -158,61 +158,61 @@ const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('child
 
 
 /**
-* Factory function for TreeChildren React component, to get aggregate children list (clades and nodes)
+* Factory function for TreeChildren React component, to get summary children list (clusters and nodes)
 * @return {func} selector
 *	@param {object} state
 * 	@param {array} ids
 *	@return {array} 
 */
-export const makeGetTreeChildrenAggregations = () => (createSelector(
+export const makeGetTreeChildrenSummary = () => (createSelector(
 	[ getTreeNodeRecords, getThresholdIndex ],
-	aggregateTreeChildren
+	summaryTreeChildren
 ))
 
 
 /**
-* Aggregate children, based on whether distance between siblings is greater than threshold
+* Summarize children, based on whether distance between siblings is greater than threshold
 * @param {array} children
 * @param {int} thresholdIndex
-* @return {array} list of clades and nodes
+* @return {array} list of clusters and nodes
 */
-const aggregateTreeChildren = (children, thresholdIndex) => {
-	let cladeDimensions = initializeClade()
+const summaryTreeChildren = (children, thresholdIndex) => {
+	let clusterDimensions = initializeCluster()
 	let i = 0
 
-	let aggregations = []
+	let summary = []
 
 	while (i < children.length) {
 		const currNode = children[i]
 
 		if (isLastNode(i, children) || isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
-			// Already aggregating a clade - merge current node to clade and stop
-			if (isCladeAggregating(cladeDimensions)) {
-				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
+			// Already creating a cluster - merge current node to cluster and stop
+			if (isClusterCreating(clusterDimensions)) {
+				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
 
-				aggregations = [ ...aggregations, { ...cladeDimensions } ]
-				cladeDimensions = initializeClade()
+				summary = [ ...summary, { ...clusterDimensions } ]
+				clusterDimensions = initializeCluster()
 			}
 
 			// Else add as normal node
 			else {
-				aggregations = [ ...aggregations, { ...currNode } ]
+				summary = [ ...summary, { ...currNode } ]
 			}
 
 		}
 		else { // nodes are too close
-			if (isCladeAggregating(cladeDimensions)) {
-				cladeDimensions = mergeNodeToClade(cladeDimensions, currNode)
+			if (isClusterCreating(clusterDimensions)) {
+				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
 			}
 			else {
-				cladeDimensions = startCladeDrawing(currNode)
+				clusterDimensions = startClusterDrawing(currNode)
 			}
 		}
 
 		i++
 	}
 
-	return aggregations
+	return summary
 }
 
 /**
@@ -239,30 +239,44 @@ const isNodeDistanceExceedThreshold = (i, children, threshold) => (
 
 
 /**
-* cladeDimesions {object}
-* 	cladeDimensions.isAgg {bool} - whether clade is current aggregating
-* 	cladeDimensions.startIndex {int}
-*	cladeDimensions.endIndex {int}
-* 	cladeDimensions.maxHeight {int} - tallest branch so far
+* clusterDimesions {object}
+* 	clusterDimensions.isCreating {bool} - whether cluster is currently being created
+* 	clusterDimensions.startIndex {int}
+*	clusterDimensions.endIndex {int}
+* 	clusterDimensions.maxHeight {int} - tallest branch so far
 */
-const initializeClade = () => ({
-	isAgg: false
+const initializeCluster = () => ({
+	isCreating: false
 })
 
-const isCladeAggregating = (cladeDimensions) => (
-	cladeDimensions.isAgg
+const isClusterCreating = (clusterDimensions) => (
+	clusterDimensions.isCreating
 )
 
-const startCladeDrawing = (currNode) => ({
-	isAgg: true,
+const startClusterDrawing = (currNode) => ({
+	isCreating: true,
 	startIndex: currNode['heatmapIndex'],
 	endIndex: currNode['heatmapIndex'],
 	maxHeight: currNode['maxHeight']
 })
 
-const mergeNodeToClade = (cladeDimensions, currNode) => ({
-	...cladeDimensions,
+const mergeNodeToCluster = (clusterDimensions, currNode) => ({
+	...clusterDimensions,
 	endIndex: currNode['heatmapIndex'],
-	maxHeight: Math.max(cladeDimensions['maxHeight'], currNode['maxHeight'])
+	maxHeight: Math.max(clusterDimensions['maxHeight'], currNode['maxHeight'])
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

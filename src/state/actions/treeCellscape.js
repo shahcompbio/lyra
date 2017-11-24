@@ -21,8 +21,8 @@ export const types = {
 	fetchTreeNode: "TREECELLSCAPE_FETCH_TREE_NODE",
 	fetchTreeNodeSuccess: "TREECELLSCAPE_FETCH_TREE_NODE_SUCCESS",
 
-	/** After aggregation of children, add that to list*/
-	addChildrenAggregations: "TREECELLSCAPE_ADD_CHILDREN_AGGREGATION"
+	/** Add summary of tree children to store*/
+	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY"
 
 }
 
@@ -78,12 +78,12 @@ export const fetchTreeNodeSuccess = (treeNode) => ({
 
 
 /**
-* Add list of aggregations of tree's children to list
-* @param {array} aggs - list of children aggregations
+* Add summary of tree's children to store
+* @param {array} summary - collection of nodes and clusters
 * @return {object}
 * @public
 */
-export const addChildrenAggregations = (aggs) => ({
-	type: types.addChildrenAggregations,
-	aggs
+export const addChildrenSummary = (summary) => ({
+	type: types.addChildrenSummary,
+	summary
 })

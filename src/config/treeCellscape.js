@@ -54,9 +54,9 @@ const TREE_CONSTANTS = {
 
 	treeNodeColor: "#A3A3A3",
 	treeBranchColor: "#CECECE",
-	treeCladeColor: "#A3A3A3",
+	treeClusterColor: "#A3A3A3",
 
-	treeCladeColorGradient: ["#CECECE", "#000000"],
+	treeClusterColorGradient: ["#CECECE", "#000000"],
 
 	treeBranchWidth: 2,
 
@@ -67,7 +67,7 @@ const TREE_CONSTANTS = {
 export const treeConfig = {
 	...TREE_CONSTANTS,
 	treeNodeRadius: 3,
-	treeCladeWidth:  TREE_CONSTANTS.treeDepthSpacing - 10
+	treeClusterWidth:  TREE_CONSTANTS.treeDepthSpacing - 10
 
 }
 
