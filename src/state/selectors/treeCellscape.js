@@ -10,6 +10,9 @@ import { scaleLinear } from 'd3'
 
 
 
+import { uiSummarySelector } from 'state/reducers/ui.js'
+
+
 /**
 * Simple getters for state tree
 */
@@ -280,3 +283,29 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 
 
 
+
+
+
+
+
+
+
+
+/**
+* HEATMAP SELECTORS
+*/
+
+const getUISummary = uiSummarySelector
+
+
+export const getHeatmapIDs = createSelector(
+	[ getUISummary ],
+	(summary) => {
+		const ids = summary.reduce(
+						(ids, item) => (Array.isArray(item) ? [ ...ids, ...item ] : [ ...ids, item ]),
+						[]
+					)
+
+		return ids
+	}
+)
