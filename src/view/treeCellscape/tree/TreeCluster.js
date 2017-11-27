@@ -17,11 +17,16 @@ const TreeCluster = ({ minIndex, midIndex, maxIndex, depth, maxHeight, yScale, c
 	const yMid = yScale(midIndex)
 	const yMax = yScale(maxIndex)
 
-	const point1 = "" + x1 + "," + yMid
+
+	const yDist = yMax - yMin
+	const spacing = yDist * 0.8
+
+	const point1 = "" + x1 + "," + (yMin + spacing)
+	const point4 = "" + x1 + "," + (yMax - spacing)
 	const point2 = "" + x2 + "," + yMin
 	const point3 = "" + x2 + "," + yMax
 
-	const points = point1 + " " + point2 + " " + point3
+	const points = point1 + " " + point4 +  " " + point2 + " " + point3
 	return (
 		<polygon points={points} fill={clusterColorScale(maxHeight)}/>
 	)
