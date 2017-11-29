@@ -46,7 +46,7 @@ export const config = {
 	*/
 
 const TREE_CONSTANTS = {
-	width: 400,
+	width: 800,
 	height: CONSTANTS.height,
 
 	heatmapRowHeight: 5,
