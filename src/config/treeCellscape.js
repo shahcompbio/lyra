@@ -9,7 +9,6 @@
 */
 const TREE_MAPPINGS = {
 	cell_id: 'cellID',
-	num_nodes: 'numSuccessors',
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
 	parent: 'parent',

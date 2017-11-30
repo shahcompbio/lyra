@@ -41,7 +41,7 @@ const getTreeRootRecord = createSelector(
 */
 const getTotalIndexNum = createSelector(
 	[ getTreeRootRecord ],
-	(treeRoot) => (treeRoot['numSuccessors'] + 1)
+	(treeRoot) => (treeRoot['maxDescendantIndex'] + 1)
 )
 
 
