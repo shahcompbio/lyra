@@ -4,8 +4,7 @@
 * - Heatmap
 */
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 
 import Tree from './tree/Tree' 
 import Heatmap from './heatmap/Heatmap'

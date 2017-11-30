@@ -227,7 +227,11 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 }
 
 /**
-*
+* Determines whether number of descendants of node exceeds threshold index
+* @param {object} node
+* 	@param {int} node.maxDescendantIndex
+*   @param {int} node.minDescendantIndex
+* @param {int} threshold
 */
 const isNodeDescendantsExceedThreshold = (node, threshold) => (
 	node['maxDescendantIndex'] - node['minDescendantIndex'] + 1 > threshold
@@ -244,16 +248,7 @@ const isLastNode = (i, children) => (
 	i + 1 >= children.length
 )
 
-/**
-* Determines whether index distance between i and i+1 child is above threshold
-* @param {int} i - current i
-* @param {array} children
-* @param {int} threshold
-* @return {bool}
-*/
-const isNodeDistanceExceedThreshold = (i, children, threshold) => (
-	children[i+1]['heatmapIndex'] - children[i]['heatmapIndex'] > threshold
-)
+
 
 
 
@@ -274,14 +269,14 @@ const isClusterCreating = (clusterDimensions) => (
 
 const startClusterDrawing = (currNode) => ({
 	isCreating: true,
-	startIndex: currNode['heatmapIndex'],
-	endIndex: currNode['heatmapIndex'],
+	startIndex: currNode['minDescendantIndex'],
+	endIndex: currNode['maxDescendantIndex'],
 	maxHeight: currNode['maxHeight']
 })
 
 const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 	...clusterDimensions,
-	endIndex: currNode['heatmapIndex'],
+	endIndex: currNode['maxDescendantIndex'],
 	maxHeight: Math.max(clusterDimensions['maxHeight'], currNode['maxHeight'])
 })
 

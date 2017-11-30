@@ -10,11 +10,10 @@ const { treeClusterWidth } = config
 
 
 
-const TreeCluster = ({ minIndex, midIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale }) => {
+const TreeCluster = ({ minIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale }) => {
 	const x1 = getXPosition(depth - 1)
 	const x2 = x1 + treeClusterWidth
 	const yMin = yScale(minIndex)
-	const yMid = yScale(midIndex)
 	const yMax = yScale(maxIndex)
 
 
@@ -37,7 +36,6 @@ const TreeCluster = ({ minIndex, midIndex, maxIndex, depth, maxHeight, yScale, c
 	TreeCluster.propTypes = {
 		/** minIndex, midIndex, maxIndex - indices that indicate where points of cluster should be */
 		minIndex: PropTypes.number.isRequired,
-		midIndex: PropTypes.number.isRequired,
 		maxIndex: PropTypes.number.isRequired,
 
 		/** depth */

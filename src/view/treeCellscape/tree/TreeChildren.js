@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeChildrenSummary, getYScale, getThresholdIndex, getClusterColorScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeChildrenSummary, getYScale, getClusterColorScale } from 'state/selectors/treeCellscape.js'
 import { addChildrenSummary } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode'
@@ -55,7 +55,7 @@ class TreeChildren extends Component {
 			else {
 				const clusterIndex = getClusterIndex(childAgg, parentIndex)
 				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, clusterIndex)
-				return drawTreeCluster(childAgg, depth, yScale, clusterIndex, clusterColorScale)
+				return drawTreeCluster(childAgg, depth, yScale, clusterColorScale)
 			}
 
 		})
@@ -115,8 +115,8 @@ const updateMinAndMaxIndex = (minAndMax, i) => ({
 * @param {func} clusterColorScale
 * @return {JSX}
 */
-const drawTreeCluster = (clusterDimensions, depth, yScale, clusterIndex, clusterColorScale) => (
-	<TreeCluster key={clusterDimensions.startIndex} minIndex={clusterDimensions.startIndex} midIndex={clusterIndex} maxIndex={clusterDimensions.endIndex} depth={depth} yScale={yScale} maxHeight={clusterDimensions.maxHeight} clusterColorScale={clusterColorScale}/>
+const drawTreeCluster = (clusterDimensions, depth, yScale, clusterColorScale) => (
+	<TreeCluster key={clusterDimensions.startIndex} minIndex={clusterDimensions.startIndex} maxIndex={clusterDimensions.endIndex} depth={depth} yScale={yScale} maxHeight={clusterDimensions.maxHeight} clusterColorScale={clusterColorScale}/>
 )
 
 
