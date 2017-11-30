@@ -63,7 +63,7 @@ const getIndicesPerPixel = createSelector(
 */
 export const getThresholdIndex = createSelector(
 	[ getIndicesPerPixel ],
-	(indPerPx) => (indPerPx * config['heatmapRowHeight'])
+	(indPerPx) => (indPerPx * 4 * config['heatmapRowHeight'])
 )
 
 
@@ -113,8 +113,8 @@ export const getClusterColorScale = createSelector(
 const getTreeNodeRecords = createSelector(
 	[ getTreeNodes, (state, ids) => (ids) ],
 	(nodes, ids) => (ids.map(nodeID => {
-		const { heatmapIndex, maxHeight, cellID } = nodes[nodeID]
-		return { heatmapIndex, maxHeight, cellID }
+		const { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex } = nodes[nodeID]
+		return { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex }
 	}))
 )
 
@@ -184,31 +184,39 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 	let i = 0
 
 	let summary = []
-
 	while (i < children.length) {
 		const currNode = children[i]
 
-		if (isLastNode(i, children) || isNodeDistanceExceedThreshold(i, children, thresholdIndex)) {
-			// Already creating a cluster - merge current node to cluster and stop
-			if (isClusterCreating(clusterDimensions)) {
+		if (isClusterCreating(clusterDimensions)) {
+			if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
+				summary = [ ...summary, { ...clusterDimensions } ]
+				clusterDimensions = initializeCluster()
+				summary = [ ...summary, { ...currNode } ]
+			}
+			else if (isLastNode(i, children)) {
 				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
 
 				summary = [ ...summary, { ...clusterDimensions } ]
 				clusterDimensions = initializeCluster()
-			}
 
-			// Else add as normal node
+			}
 			else {
+				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
+			}
+		}
+
+		else {
+			if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
 				summary = [ ...summary, { ...currNode } ]
 			}
 
-		}
-		else { // nodes are too close
-			if (isClusterCreating(clusterDimensions)) {
-				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
+			else if (isLastNode(i, children) || isNodeDescendantsExceedThreshold(children[i+1], thresholdIndex)) {
+				summary = [ ...summary, { ...currNode } ]
 			}
+
 			else {
 				clusterDimensions = startClusterDrawing(currNode)
+
 			}
 		}
 
@@ -217,6 +225,14 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 
 	return summary
 }
+
+/**
+*
+*/
+const isNodeDescendantsExceedThreshold = (node, threshold) => (
+	node['maxDescendantIndex'] - node['minDescendantIndex'] + 1 > threshold
+)
+
 
 /**
 * Determines whether current index is at last node

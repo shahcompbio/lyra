@@ -13,7 +13,9 @@ const TREE_MAPPINGS = {
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
 	parent: 'parent',
-	max_height: 'maxHeight'
+	max_height: 'maxHeight',
+	min_index: 'minDescendantIndex',
+	max_index: 'maxDescendantIndex'
 }
 
 
@@ -60,7 +62,7 @@ const TREE_CONSTANTS = {
 
 	treeBranchWidth: 2,
 
-	treeDepthSpacing: 50
+	treeDepthSpacing: 30
 
 }
 
