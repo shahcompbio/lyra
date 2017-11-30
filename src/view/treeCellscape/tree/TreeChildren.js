@@ -45,24 +45,21 @@ class TreeChildren extends Component {
 	render() {
 		const { childrenSummary, depth, parentIndex, yScale, clusterColorScale } = this.props
 
-		let minAndMaxIndex = { minIndex: parentIndex, maxIndex: parentIndex }
+		let maxIndex = parentIndex
 
 		const childrenJSX = childrenSummary.map((childAgg) => {
 			if (childAgg.hasOwnProperty('cellID')) {
-				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, childAgg['heatmapIndex'])
+				maxIndex = Math.max(maxIndex, childAgg['heatmapIndex'])
 				return drawTreeNode(childAgg, depth)
 			}
 			else {
-				const clusterIndex = getClusterIndex(childAgg, parentIndex)
-				minAndMaxIndex = updateMinAndMaxIndex(minAndMaxIndex, clusterIndex)
+				maxIndex = Math.max(maxIndex, childAgg['endIndex'])
 				return drawTreeCluster(childAgg, depth, yScale, clusterColorScale)
 			}
 
 		})
 
-
-		const { minIndex, maxIndex } = minAndMaxIndex
-		const verticalBranch = drawTreeVerticalBranch(minIndex, maxIndex, depth, yScale)
+		const verticalBranch = drawTreeVerticalBranch(parentIndex, maxIndex, depth, yScale)
 
 		return (<g>
 					{verticalBranch}
@@ -72,29 +69,6 @@ class TreeChildren extends Component {
 
 }
 
-
-
-
-/**
-* Returns index where cluster touches branch
-* @param {object} clusterDimensions
-* @return {int}
-*/
-const getClusterIndex = (clusterDimensions) => (
-	(clusterDimensions.startIndex + clusterDimensions.endIndex) / 2
-)
-
-
-/**
-* Updates min and max indices with current index
-* @param {object} minAndMax
-* @param {int} i - current index
-* @return {object} updated minAndMax
-*/
-const updateMinAndMaxIndex = (minAndMax, i) => ({
-	minIndex: Math.min(minAndMax.minIndex, i),
-	maxIndex: Math.max(minAndMax.maxIndex, i)
-})
 
 
 

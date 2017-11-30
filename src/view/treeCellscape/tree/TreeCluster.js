@@ -11,23 +11,15 @@ const { treeClusterWidth } = config
 
 
 const TreeCluster = ({ minIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale }) => {
-	const x1 = getXPosition(depth - 1)
-	const x2 = x1 + treeClusterWidth
+	const x = getXPosition(depth - 1)
 	const yMin = yScale(minIndex)
 	const yMax = yScale(maxIndex)
 
 
-	const yDist = yMax - yMin
-	const spacing = yDist * 0.8
+	const height = yMax - yMin
 
-	const point1 = "" + x1 + "," + (yMin + spacing)
-	const point4 = "" + x1 + "," + (yMax - spacing)
-	const point2 = "" + x2 + "," + yMin
-	const point3 = "" + x2 + "," + yMax
-
-	const points = point1 + " " + point4 +  " " + point2 + " " + point3
 	return (
-		<polygon points={points} fill={clusterColorScale(maxHeight)}/>
+		<rect width={treeClusterWidth} height={height} x={x} y={yMin} fill={clusterColorScale(maxHeight)}/> 
 	)
 }
 	/**
