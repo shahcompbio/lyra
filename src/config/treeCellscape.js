@@ -53,22 +53,27 @@ const TREE_CONSTANTS = {
 	heatmapRowHeight: 5,
 
 
-	treeNodeColor: "#A3A3A3",
-	treeBranchColor: "#CECECE",
+	treeNodeRadius: 3,
+	treeNodeColor: "#000000",
+	treeBranchColor: "#000000",
 	treeClusterColor: "#A3A3A3",
 
 	treeClusterColorGradient: ["#CECECE", "#000000"],
 
-	treeBranchWidth: 2,
+	treeBranchWidth: 4,
 
-	treeDepthSpacing: 30
+	treeHorizontalBranchWidth: 1,
+	treeVerticalBranchWidth: 4,
+
+	treeDepthSpacing: 30,
+
+	treeClusterVerticalOffset: 5
 
 }
 
 export const treeConfig = {
 	...TREE_CONSTANTS,
-	treeNodeRadius: 3,
-	treeClusterWidth:  TREE_CONSTANTS.treeDepthSpacing - 10
+	treeClusterWidth:  TREE_CONSTANTS.treeDepthSpacing - TREE_CONSTANTS.treeNodeRadius
 
 }
 

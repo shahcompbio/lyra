@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeChildrenSummary, getYScale, getClusterColorScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeChildrenSummary, getYScale, getClusterColorScale, getOffsetIndex } from 'state/selectors/treeCellscape.js'
 import { addChildrenSummary } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode'
@@ -30,7 +30,12 @@ class TreeChildren extends Component {
 		yScale: PropTypes.func.isRequired,
 
 		/** clusterColorScale*/
-		clusterColorScale: PropTypes.func.isRequired
+		clusterColorScale: PropTypes.func.isRequired,
+
+
+		/** offsetIndex - number of indices to offset clusters by*/
+		offsetIndex: PropTypes.number.isRequired
+
 	}
 
 	componentDidMount() {
@@ -43,7 +48,7 @@ class TreeChildren extends Component {
 
 
 	render() {
-		const { childrenSummary, depth, parentIndex, yScale, clusterColorScale } = this.props
+		const { childrenSummary, depth, parentIndex, yScale, clusterColorScale, offsetIndex } = this.props
 
 		let maxIndex = parentIndex
 
@@ -53,8 +58,11 @@ class TreeChildren extends Component {
 				return drawTreeNode(childAgg, depth)
 			}
 			else {
-				maxIndex = Math.max(maxIndex, childAgg['endIndex'])
-				return drawTreeCluster(childAgg, depth, yScale, clusterColorScale)
+				const maxClusterIndex = getMaxClusterIndex(childAgg, offsetIndex)
+
+				maxIndex = Math.max(maxIndex, maxClusterIndex)
+
+				return drawTreeCluster(childAgg, maxClusterIndex, depth, yScale, clusterColorScale)
 			}
 
 		})
@@ -71,7 +79,18 @@ class TreeChildren extends Component {
 
 
 
+/**
+* Returns the end of the cluster index (with offset, or original if it's too small)
+* @param {object} clusterDimensions
+* @param {int} offsetIndex
+* @return {int}
+*/
+const getMaxClusterIndex = (clusterDimensions, offsetIndex) => {
+	const { startIndex, endIndex } = clusterDimensions
+	const indexDistance = endIndex - startIndex
 
+	return indexDistance - offsetIndex < 0 ? endIndex : endIndex - offsetIndex
+}
 
 
 
@@ -89,8 +108,8 @@ class TreeChildren extends Component {
 * @param {func} clusterColorScale
 * @return {JSX}
 */
-const drawTreeCluster = (clusterDimensions, depth, yScale, clusterColorScale) => (
-	<TreeCluster key={clusterDimensions.startIndex} minIndex={clusterDimensions.startIndex} maxIndex={clusterDimensions.endIndex} depth={depth} yScale={yScale} maxHeight={clusterDimensions.maxHeight} clusterColorScale={clusterColorScale}/>
+const drawTreeCluster = (clusterDimensions, maxClusterIndex, depth, yScale, clusterColorScale) => (
+	<TreeCluster key={clusterDimensions.startIndex} minIndex={clusterDimensions.startIndex} maxIndex={maxClusterIndex} depth={depth} yScale={yScale} maxHeight={clusterDimensions.maxHeight} clusterColorScale={clusterColorScale}/>
 )
 
 
@@ -132,7 +151,8 @@ const makeMapState = () => {
 	const mapState = (state, ownProps) => ({
 		childrenSummary: getTreeChildrenSummary(state, ownProps.children),
 		yScale: getYScale(state),
-		clusterColorScale: getClusterColorScale(state)
+		clusterColorScale: getClusterColorScale(state),
+		offsetIndex: getOffsetIndex(state)
 	})
 	return mapState
 }

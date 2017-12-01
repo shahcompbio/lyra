@@ -6,16 +6,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { treeConfig as config, getXPosition } from 'config/treeCellscape.js'
-const { treeClusterWidth } = config
+const { treeClusterWidth, treeVerticalBranchWidth, treeClusterVerticalOffset } = config
 
 
 
 const TreeCluster = ({ minIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale }) => {
-	const x = getXPosition(depth - 1)
+	const x = getXPosition(depth - 1) + (treeVerticalBranchWidth / 2)
 	const yMin = yScale(minIndex)
 	const yMax = yScale(maxIndex)
-
-
 	const height = yMax - yMin
 
 	return (

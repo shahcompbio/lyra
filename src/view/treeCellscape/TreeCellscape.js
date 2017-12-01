@@ -15,10 +15,12 @@ const { width, height } = config
 
 
 const TreeCellscape = () => (
-	<svg width={width} height={height}>
-		<Tree/>
-		<Heatmap/>
-	</svg>
+	<p>
+		<svg width={width} height={height}>
+			<Tree/>
+			<Heatmap/>
+		</svg>
+	</p>
 )
 
 

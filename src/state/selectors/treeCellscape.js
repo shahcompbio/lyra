@@ -67,6 +67,16 @@ export const getThresholdIndex = createSelector(
 )
 
 
+/**
+* Gets offset index distance - the number of indices to remove at the end for branch/cluster spacing
+* @param {int} indPerPx
+* @return {int}
+*/
+export const getOffsetIndex = createSelector(
+	[ getIndicesPerPixel ],
+	(indPerPx) => (indPerPx * config['treeClusterVerticalOffset'])
+)
+
 
 /**
 * Get yScale (index to pixel)
@@ -77,7 +87,7 @@ export const getYScale = createSelector(
 	[ getTotalIndexNum ],
 	(numNodes) => (
 		scaleLinear().domain([0, numNodes - 1])
-					 .range([0, config['height']])
+					 .range([config['treeNodeRadius'], config['height']])
 	)
 )
 
