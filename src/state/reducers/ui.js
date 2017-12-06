@@ -23,16 +23,17 @@ const summary = createReducer(initialSummary)({
 	),
 
 	[actions.addChildrenSummary]: (state, action) => (
-		[ ...state, ...extractIndicesFromSummary(action.summary)]
+		mergeInOrder(state, extractIndicesFromSummary(action.summary))
 	)
 })
-
 		/**
 		* Takes summary list (of objects) and returns list of indices
+		* @param {array} summary
+		* @return {array}
 		*/
 		const extractIndicesFromSummary = (summary) => (
 			summary.map((item) => (
-				isNode(item) ?
+				item.hasOwnProperty('cellID') ?
 					item['heatmapIndex'] :
 					[item['startIndex'], item['endIndex']]
 			))
@@ -40,9 +41,37 @@ const summary = createReducer(initialSummary)({
 
 
 		/**
+		* Takes current state and new summary list and merges them in order of increasing indices
+		* ASSUMES: both lists are already sorted by ascending order
+		*/
+		const mergeInOrder = (state, summary) => {
+			if (state.length === 0) {
+				return summary
+			}
+
+			else if (summary.length === 0) {
+				return state
+			}
+
+			else {
+				const [ firstSummary, ...restSummary ] = summary
+				const [ firstState, ...restState ] = state
+
+				const summaryIndex = isNode(firstSummary) ? firstSummary : firstSummary[0]
+				const stateIndex = isNode(firstState) ? firstState : firstState[0]
+
+				return summaryIndex < stateIndex ? [ firstSummary, ...mergeInOrder(state, restSummary)]
+												 : [ firstState,   ...mergeInOrder(restState, summary)]
+			}
+
+		}
+
+
+
+		/**
 		* Determines whether object is a node (true) or cluster (false)
 		*/
-		const isNode = (item) => (item.hasOwnProperty('cellID'))
+		const isNode = (item) => (Number.isInteger(item))
 
 
 /**

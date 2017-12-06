@@ -19,3 +19,17 @@ const initialSegs = {}
 const segs = createReducer(initialSegs)({
 
 })
+
+
+
+
+
+
+
+/**
+* State Selectors
+*/
+
+export const segsSelector = (state) => state.cells.segs
+
+export default segs

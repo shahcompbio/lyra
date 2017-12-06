@@ -8,7 +8,9 @@ import { treeRootIDSelector, treeNodesSelector } from 'state/reducers/cells/tree
 import { treeConfig as config } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
+import { indexToIDSelector } from 'state/reducers/cells.js'
 
+import { segsSelector } from 'state/reducers/cells/segs.js'
 
 import { uiSummarySelector } from 'state/reducers/ui.js'
 
@@ -330,3 +332,34 @@ export const getHeatmapIDs = createSelector(
 		return ids
 	}
 )
+
+
+
+const getSegs = segsSelector
+
+
+export const getMissingSegIndices = createSelector(
+	[ getHeatmapIDs, getSegs ],
+	(indices, segs) => (
+		indices.filter((index) => (!segs.hasOwnProperty(index)))
+	)
+
+)
+
+
+
+
+
+const getIndexToIDMapping = indexToIDSelector
+
+export const getIDsByIndex = createSelector(
+	[ getHeatmapIDs, getIndexToIDMapping ],
+	(ids, indexToIDs) => (
+		ids.map((id) => (indexToIDs[id]))
+	)
+)
+
+
+
+
+
