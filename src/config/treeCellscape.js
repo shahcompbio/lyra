@@ -54,11 +54,12 @@ const TREE_CONSTANTS = {
 
 
 	treeNodeRadius: 3,
-	treeNodeColor: "#000000",
+	treeNodeColor: "#b3b3b3",
 	treeBranchColor: "#000000",
+	treeHorizontalBranchColor: "#b3b3b3",
 	treeClusterColor: "#A3A3A3",
 
-	treeClusterColorGradient: ["#CECECE", "#000000"],
+	treeClusterColorGradient: ["#CECECE", "#CECECE"],
 
 	treeBranchWidth: 4,
 
