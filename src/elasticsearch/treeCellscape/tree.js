@@ -2,6 +2,8 @@
 *	Queries and parsers related to the tree view in Tree Cellscape
 */
 import { MAPPINGS } from 'config/treeCellscape.js'
+import { processRecord } from './utils.js'
+
 
 // Fetching root of tree
 
@@ -29,7 +31,7 @@ export const treeRootQuery = () => ({
 * @public
 */
 export const parseTreeRoot = (json) => {
- 	return { ...processTreeRecord(json.hits.hits[0]["_source"]) }
+ 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
 }
 
 
@@ -136,7 +138,7 @@ const addPostFilterForNodeToQuery = (query, nodeTerm) => ({
 * @public
 */
 export const parseTreeNode = (json) => {
-	const nodeData = { ...processTreeRecord(json.hits.hits[0]["_source"]) }
+	const nodeData = { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
 	const children = parseNodeChildren(json.aggregations["children"]["children_name"]["buckets"])
 							.sort(sortByHeatmapOrder)
 
@@ -186,28 +188,4 @@ const sortByHeatmapOrder = (childA, childB) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-/**
-* @param {JSON} record - tree node record
-* @return {object} processed tree record with mapped keys
-*/
-const processTreeRecord = (record) => {
-	let processedRecord = {}
-	for (let [key, value] of Object.entries(record)) {
-		processedRecord = {
-			...processedRecord,
-			[MAPPINGS[key]]: value
-		}
-	}
-	return processedRecord
-}
 

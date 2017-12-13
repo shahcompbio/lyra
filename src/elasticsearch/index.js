@@ -10,8 +10,8 @@ const config = {
 }
 
 
-export function fetchQuery(query) {
-	return fetch(config.HOST + config.INDEX + config.SEARCH, {
+export function fetchQuery(query, index) {
+	return fetch(config.HOST + index + config.SEARCH, {
 		    method: "POST",
 		    body: JSON.stringify(query),
 		    headers: {

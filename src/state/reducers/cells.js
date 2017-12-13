@@ -25,6 +25,11 @@ const indexToID = createReducer(initialIndexToID)({
 		...state,
 		...createIndexToIDMapping(action.treeNode),
 		...createChildrenIndexToIDMapping(action.treeNode['children'])
+	}),
+
+	[actions.fetchIndexToIDMappingsSuccess]: (state, action) => ({
+		...state,
+		...createIndexToIDMappings(action.records)
 	})
 })
 
@@ -48,6 +53,17 @@ const createChildrenIndexToIDMapping = (children) => (
 	children.reduce((map, child) => ({
 		...map,
 		...createIndexToIDMapping(child)
+	}), {})
+)
+
+
+/**
+*
+*/
+const createIndexToIDMappings = (nodes) => (
+	nodes.reduce((map, node) => ({
+		...map,
+		...createIndexToIDMapping(node)
 	}), {})
 )
 

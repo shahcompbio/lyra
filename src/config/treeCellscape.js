@@ -17,9 +17,17 @@ const TREE_MAPPINGS = {
 	max_index: 'maxDescendantIndex'
 }
 
-
+const SEG_MAPPINGS = {
+	cell_id: 'cellID',
+	start: 'start',
+	end: 'end',
+	chrom_number: 'chromosome',
+	state: 'state',
+	'integer_median': 'integerMedian'
+}
 export const MAPPINGS = {
-	...TREE_MAPPINGS
+	...TREE_MAPPINGS,
+	...SEG_MAPPINGS
 }
 
 

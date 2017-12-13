@@ -22,7 +22,18 @@ export const types = {
 	fetchTreeNodeSuccess: "TREECELLSCAPE_FETCH_TREE_NODE_SUCCESS",
 
 	/** Add summary of tree children to store*/
-	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY"
+	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY",
+
+
+	/** Fetch segment data */
+	fetchSegs: "TREECELLSCAPE_FETCH_SEGMENTS",
+	fetchSegsSuccess: "TREECELLSCAPE_FETCH_SEGMENTS_SUCCESS",
+
+
+	/** Fetch missing index to ID mappings */
+	fetchIndexToIDMappings: "TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS",
+	fetchIndexToIDMappingsSuccess: "TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS_SUCCESS"
+
 
 }
 
@@ -86,4 +97,33 @@ export const fetchTreeNodeSuccess = (treeNode) => ({
 export const addChildrenSummary = (summary) => ({
 	type: types.addChildrenSummary,
 	summary
+})
+
+
+
+/**
+* 
+*/
+export const fetchSegs = (indices) => ({
+	type: types.fetchSegs,
+	indices
+})
+
+
+/**
+*
+*/
+export const fetchSegsSuccess = (segs, indices, ids) => ({
+	type: types.fetchSegsSuccess,
+	segs,
+	indices,
+	ids
+})
+
+/**
+* 
+*/
+export const fetchIndexToIDMappingsSuccess = (records) => ({
+	type: types.fetchIndexToIDMappingsSuccess,
+	records
 })

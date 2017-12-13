@@ -10,7 +10,7 @@ import { scaleLinear } from 'd3'
 
 import { indexToIDSelector } from 'state/reducers/cells.js'
 
-import { segsSelector } from 'state/reducers/cells/segs.js'
+import { segsDataSelector, segsPendingSelector } from 'state/reducers/cells/segs.js'
 
 import { uiSummarySelector } from 'state/reducers/ui.js'
 
@@ -325,21 +325,22 @@ export const getHeatmapIDs = createSelector(
 	[ getUISummary ],
 	(summary) => {
 		const ids = summary.reduce(
-						(ids, item) => (Array.isArray(item) ? [ ...ids, ...item ] : [ ...ids, item ]),
+						(ids, item) => { 
+							return Array.isArray(item) ? [ ...ids, ...item ] : [ ...ids, item ]},
 						[]
 					)
-
 		return ids
 	}
 )
 
 
 
-const getSegs = segsSelector
+const getSegsData = segsDataSelector
+export const getSegsPending = segsPendingSelector
 
 
 export const getMissingSegIndices = createSelector(
-	[ getHeatmapIDs, getSegs ],
+	[ getHeatmapIDs, getSegsData ],
 	(indices, segs) => (
 		indices.filter((index) => (!segs.hasOwnProperty(index)))
 	)
@@ -348,14 +349,31 @@ export const getMissingSegIndices = createSelector(
 
 
 
+export const getAllHeatmapSegData = createSelector(
+	[ getHeatmapIDs, getSegsData ],
+	(indices, segs) => (
+		indices.map((index) => (segs[index]))
+	)
+)
+
+
 
 
 const getIndexToIDMapping = indexToIDSelector
 
+
+export const getMissingIDMappings = createSelector(
+	[ getIndexToIDMapping, (state, indices) => (indices) ],
+	(indexToIDs, indices) => (
+		indices.filter((index) => !indexToIDs.hasOwnProperty(index))
+	)
+)
+
+
 export const getIDsByIndex = createSelector(
-	[ getHeatmapIDs, getIndexToIDMapping ],
-	(ids, indexToIDs) => (
-		ids.map((id) => (indexToIDs[id]))
+	[ getIndexToIDMapping, (state, indices) => (indices) ],
+	(indexToIDs, indices) => (
+		indices.map((index) => (indexToIDs[index]))
 	)
 )
 

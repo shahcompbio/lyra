@@ -2,25 +2,164 @@
 * Reducer for segs
 */
 
-
+import { combineReducers } from 'redux'
 import createReducer from '../createReducer.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
-const initialSegs = {}
 
 
 /**
-* segs {object}
-* 	seg.key {int} - heatmap index
-* 	seg.value {array} - segments for that index
+* pending {array}
+*    all indices that are currently being fetched
 */
 
-const segs = createReducer(initialSegs)({
+const initialPending = []
+const pending = createReducer(initialPending)({
+	[actions.fetchSegs]: (state, action) => {
+		const indicesToAdd = action['indices'].filter((index) => !state.includes(index))
 
+		return indicesToAdd.length > 0 ? mergeInOrder(state, indicesToAdd) : state
+
+	},
+
+	[actions.fetchSegsSuccess]: (state, action) => {
+		const indicesToRemove = action.indices
+
+		return indicesToRemove.length > 0 ? removeInOrder(state, indicesToRemove) : state
+	}
 })
 
 
+		/**
+		* Takes current state and new list and merges them in order of increasing indices
+		* ASSUMES: both lists are already sorted by ascending order
+		*/
+		const mergeInOrder = (state, list) => {
+			if (state.length === 0) {
+				return list
+			}
+
+			else if (list.length === 0) {
+				return state
+			}
+
+			else {
+				const [ firstList, ...restList ] = list
+				const [ firstState, ...restState ] = state
+
+				return firstList < firstState ? [ firstList, ...mergeInOrder(state, restList)]
+												 : [ firstState,   ...mergeInOrder(restState, list)]
+			}
+
+		}
+
+
+
+
+		/**
+		*
+		*/
+		const removeInOrder = (state, list) => {
+			if (list.length === 0) {
+				return list
+			}
+			else {
+				const [ firstList, ...restList ] = list
+				const [ firstState, ...restState ] = state
+
+				return firstList === firstState ? [ ...removeInOrder(restState, restList) ]
+												: [ firstState, ...removeInOrder(restState, list)]
+			}
+
+		}
+
+
+
+/**
+* data {object}
+* 	data.key {int} - heatmap index
+* 	data.value {array} - segments for that index
+*/
+
+const initialSegsData = {}
+const data = createReducer(initialSegsData)({
+	[actions.fetchSegsSuccess]: (state, action) => ({
+		...state,
+		...processSegsForIndices(action.segs, action.indices, action.ids)
+	})
+
+})
+
+		/**
+		*
+		*/
+		const processSegsForIndices = (segs, indices, ids) => {
+			const IDToSegMap = createIDToSegMap(segs)
+			return indices.reduce((map, index, arrayIndex) => ({
+				...map,
+				[index]: IDToSegMap[ids[arrayIndex]]
+			}), {})
+
+		}
+
+
+
+		/**
+		*
+		*/
+		const createIDToSegMap = (segs) => (
+			segs.reduce((map, segment) => {
+				const cellID = segment['cellID']
+				const newSegments = map.hasOwnProperty(cellID) ?
+							[ ...map[cellID], segment ] :
+							[ segment ]
+
+				return {
+					...map,
+					[cellID]: newSegments
+				}
+			}, {})
+		)
+
+
+/**
+const parseSegs = (records) => {
+	return records.reduce((map, record) => {
+		// process record
+		const segment = processRecord(record.fields, MAPPINGS);
+
+		return updateMapWithSeg(segment, map)
+	}, {})
+}
+
+const updateMapWithSeg = (record, map) => {
+	const cellID = record['cellID']
+	const newEntry = map.hasOwnProperty(cellID) ?
+			[ ...map[cellID], record ] :
+			[ record ]
+
+	const newMap = {
+		...map,
+		[cellID]: newEntry
+	}
+
+	return newMap
+
+}
+*/
+
+
+
+/**
+* Segs reducer
+* - pending
+* - data
+*/
+const segs = combineReducers({
+	pending,
+	data
+})
 
 
 
@@ -31,5 +170,7 @@ const segs = createReducer(initialSegs)({
 */
 
 export const segsSelector = (state) => state.cells.segs
+export const segsDataSelector = (state) => state.cells.segs.data
+export const segsPendingSelector = (state) => state.cells.segs.pending
 
 export default segs
