@@ -25,6 +25,11 @@ export const types = {
 	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY",
 
 
+	/** Fetch chromosome min and max ranges*/
+	fetchChromRanges: "TREECELLSCAPE_FETCH_CHROM_RANGES",
+	fetchChromRangesSuccess: "TREECELLSCAPE_FETCH_CHROM_RANGES_SUCCESS",
+
+
 	/** Fetch segment data */
 	fetchSegs: "TREECELLSCAPE_FETCH_SEGMENTS",
 	fetchSegsSuccess: "TREECELLSCAPE_FETCH_SEGMENTS_SUCCESS",
@@ -99,6 +104,21 @@ export const addChildrenSummary = (summary) => ({
 	summary
 })
 
+
+/**
+* 
+*/
+export const fetchChromRanges = () => ({
+	type: types.fetchChromRanges
+})
+
+/**
+* 
+*/
+export const fetchChromRangesSuccess = (chromosomes) => ({
+	type: types.fetchChromRangesSuccess,
+	chromosomes
+})
 
 
 /**

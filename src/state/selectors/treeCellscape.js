@@ -14,6 +14,7 @@ import { segsDataSelector, segsPendingSelector } from 'state/reducers/cells/segs
 
 import { uiSummarySelector } from 'state/reducers/ui.js'
 
+import { chromosomesOrderSelector, chromosomesDataSelector } from 'state/reducers/chromosomes.js'
 
 /**
 * Simple getters for state tree
@@ -379,5 +380,12 @@ export const getIDsByIndex = createSelector(
 
 
 
+const getChromOrder = chromosomesOrderSelector
+const getChromData = chromosomesDataSelector
 
-
+export const getChromRanges = createSelector(
+	[ getChromOrder, getChromData ],
+	(order, data) => (
+		order.map((chrom) => data[chrom])
+	)
+)

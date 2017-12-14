@@ -123,31 +123,7 @@ const data = createReducer(initialSegsData)({
 		)
 
 
-/**
-const parseSegs = (records) => {
-	return records.reduce((map, record) => {
-		// process record
-		const segment = processRecord(record.fields, MAPPINGS);
 
-		return updateMapWithSeg(segment, map)
-	}, {})
-}
-
-const updateMapWithSeg = (record, map) => {
-	const cellID = record['cellID']
-	const newEntry = map.hasOwnProperty(cellID) ?
-			[ ...map[cellID], record ] :
-			[ record ]
-
-	const newMap = {
-		...map,
-		[cellID]: newEntry
-	}
-
-	return newMap
-
-}
-*/
 
 
 

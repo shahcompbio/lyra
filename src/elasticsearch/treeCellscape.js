@@ -1,7 +1,7 @@
 import { fetchQuery } from './index.js'
 import { treeRootQuery, parseTreeRoot, treeNodeQuery, parseTreeNode } from './treeCellscape/tree.js'
 
-import { indexToIDQuery, parseIndexToIDs, segsByIDsQuery, parseCellSegs } from './treeCellscape/heatmap.js'
+import { indexToIDQuery, parseIndexToIDs, segsByIDsQuery, parseCellSegs, chromRangesQuery, parseChromRanges } from './treeCellscape/heatmap.js'
 
 
 
@@ -61,7 +61,7 @@ export function fetchTreeNode(nodeID) {
 /**
 *
 */
-export function fetchIDsByIndicesFromAPI(indices) {
+export function fetchIDsByIndices(indices) {
 	return fetchForDataType(indexToIDQuery(indices), "tree")
 				.then(json => parseIndexToIDs(json))
 }
@@ -70,8 +70,18 @@ export function fetchIDsByIndicesFromAPI(indices) {
 /**
 *
 */
-export function fetchSegsByIDsFromAPI(ids) {
+export function fetchSegsByIDs(ids) {
 	return fetchForDataType(segsByIDsQuery(ids), "segs")
 				.then(json => parseCellSegs(json))
 
+}
+
+
+
+/**
+*
+*/
+export function fetchChromRanges() {
+	return fetchForDataType(chromRangesQuery(), "segs")
+				.then(json => parseChromRanges(json))
 }

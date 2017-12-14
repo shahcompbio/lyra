@@ -7,8 +7,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { getAllHeatmapSegData, getMissingSegIndices } from 'state/selectors/treeCellscape.js'
-import { fetchSegs } from 'state/actions/treeCellscape.js'
+import { getAllHeatmapSegData, getMissingSegIndices, getChromRanges } from 'state/selectors/treeCellscape.js'
+import { fetchSegs, fetchChromRanges } from 'state/actions/treeCellscape.js'
 
 
 
@@ -54,17 +54,53 @@ HeatmapSegFetcher = connect(mapState)(HeatmapSegFetcher)
 
 
 
+class HeatmapChromFetcher extends Component {
+	componentDidMount() {
+		this.fetchIfMissing(this.props)
+	}
+
+
+	fetchIfMissing(props) {
+		const { dispatch, chromRanges } = props
+		if (chromRanges.length === 0) {
+			dispatch(fetchChromRanges())
+		}
+	}
+
+	render() {
+		const { render, chromRanges } = this.props
+
+		return chromRanges.length === 0 ? (null) : render()
+	}
+}
+
+const chromMapState = (state) => ({
+	chromRanges: getChromRanges(state)
+})
+
+HeatmapChromFetcher = connect(chromMapState)(HeatmapChromFetcher)
+
+
+
+
 
 
 const Heatmap = () => {
+
 	const render = (segs, missingIndices) => {
 		console.log(segs)
 		return null
 	}
 
+	const chromRender = () => {
+		console.log("Hey I'm rendering a thing")
+		return (<HeatmapSegFetcher render={render}/>)
+	}
+
 	return (
-		<HeatmapSegFetcher render={render}/>
+		<HeatmapChromFetcher render={chromRender}/>
 	)
+
 }
 
 
