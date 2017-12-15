@@ -5,8 +5,8 @@
 
 import { createSelector } from 'reselect'
 import { treeRootIDSelector, treeNodesSelector } from 'state/reducers/cells/tree.js'
-import { treeConfig as config } from 'config/treeCellscape.js'
-import { scaleLinear } from 'd3'
+import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
+import { scaleLinear, scalePoint } from 'd3'
 
 import { indexToIDSelector } from 'state/reducers/cells.js'
 
@@ -353,9 +353,24 @@ export const getMissingSegIndices = createSelector(
 export const getAllHeatmapSegData = createSelector(
 	[ getHeatmapIDs, getSegsData ],
 	(indices, segs) => (
-		indices.map((index) => (segs[index]))
+		indices.filter(index => segs.hasOwnProperty(index))
+		       .map(index => createSegment(segs[index], index))
 	)
 )
+
+
+const createSegment = (seg, index) => ({
+	cellID: seg[0]['cellID'],
+	heatmapIndex: index,
+	segs: seg
+})
+
+
+
+
+
+
+
 
 
 
@@ -388,4 +403,60 @@ export const getChromRanges = createSelector(
 	(order, data) => (
 		order.map((chrom) => data[chrom])
 	)
+)
+
+
+
+
+
+
+
+
+
+const getTotalBP = createSelector(
+	[ getChromRanges ],
+	(chromosomes) => (
+		chromosomes.reduce((sum, chrom) => (sum + chrom.end - chrom.start + 1), 0)
+	)
+)
+
+
+export const getBPRatio = createSelector(
+	[ getTotalBP ],
+	(totalBP) => (
+		Math.ceil(totalBP / heatmapConfig.width)
+	)
+)
+
+
+export const getChromPixelMapping = createSelector(
+	[ getChromRanges, getBPRatio ],
+	(chromosomes, bpRatio) => {
+		let xShift = 0
+		return chromosomes.reduce((map, chrom) => {
+			const chromWidth = getChromWidth(chrom, bpRatio)
+
+			const mapEntry = {
+				x: xShift,
+				width: chromWidth
+			}
+
+			xShift += chromWidth
+
+			return {
+				...map,
+				[chrom.chrom]: mapEntry
+			}
+		}, {})
+	}
+)
+
+
+const getChromWidth = (chrom, bpRatio) => (Math.floor((chrom.end - chrom.start + 1) / bpRatio))
+
+
+export const getHeatmapYScale = createSelector(
+	[ getHeatmapIDs ],
+	(ids) => (scalePoint().domain(ids)
+						  .range([0, ids.length * config.heatmapRowHeight]))
 )

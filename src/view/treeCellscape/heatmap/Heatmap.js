@@ -7,10 +7,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { getAllHeatmapSegData, getMissingSegIndices, getChromRanges } from 'state/selectors/treeCellscape.js'
+import { getAllHeatmapSegData, getMissingSegIndices, getChromRanges, getHeatmapYScale, getChromPixelMapping, getBPRatio } from 'state/selectors/treeCellscape.js'
 import { fetchSegs, fetchChromRanges } from 'state/actions/treeCellscape.js'
+import HeatmapRow from './HeatmapRow'
 
 
+import { heatmapConfig as config } from 'config/treeCellscape.js'
+const { width, height } = config
 
 class HeatmapSegFetcher extends Component {
 
@@ -37,15 +40,18 @@ class HeatmapSegFetcher extends Component {
 	}
 
 	render() {
-		const { render, segs, missingIndices } = this.props
-		return render(segs, missingIndices)
+		const { render, missingIndices, segs, yScale, chromMap, bpRatio } = this.props
+		return missingIndices.length > 0 ? null : render(segs, yScale, chromMap, bpRatio)
 	}
 
 }
 
 const mapState = (state) => ({
 	segs: getAllHeatmapSegData(state),
-	missingIndices: getMissingSegIndices(state) 
+	missingIndices: getMissingSegIndices(state),
+	yScale: getHeatmapYScale(state),
+	chromMap: getChromPixelMapping(state),
+	bpRatio: getBPRatio(state)
 })
 
 HeatmapSegFetcher = connect(mapState)(HeatmapSegFetcher)
@@ -87,13 +93,22 @@ HeatmapChromFetcher = connect(chromMapState)(HeatmapChromFetcher)
 
 const Heatmap = () => {
 
-	const render = (segs, missingIndices) => {
+	const render = (segs, yScale, chromMap, bpRatio) => {
 		console.log(segs)
-		return null
+		return (
+			<svg width={width} height={height} x={config.x}>
+				{segs.map(rowData => 
+					<HeatmapRow key={rowData['cellID']}
+								rowData={rowData} 
+								yScale={yScale} 
+								chromMap={chromMap} 
+								bpRatio={bpRatio}
+					/>)}
+			</svg>
+		)
 	}
 
 	const chromRender = () => {
-		console.log("Hey I'm rendering a thing")
 		return (<HeatmapSegFetcher render={render}/>)
 	}
 

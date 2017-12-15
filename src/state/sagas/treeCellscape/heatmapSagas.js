@@ -42,7 +42,7 @@ function* fetchSegsSagaWatcher() {
 * @param {array} indices - heatmap indices to fetch
 */
 function* fetchSegsSaga(action) {
-	yield call(delay, 500)
+	yield call(delay, 1000)
 
 	// Get all heatmap indices we need segments for 
 	const indices = yield select(getSegsPending)

@@ -3,6 +3,7 @@
 */
 
 
+import { scaleOrdinal, scaleLinear } from 'd3'
 
 /**
 * Mappings for columns for ElasticSearch to redux store
@@ -41,8 +42,8 @@ export const MAPPINGS = {
 	*/
 
 const CONSTANTS = {
-	width: 1200,
-	height: 1000
+	width: 1500,
+	height: 2000
 }
 
 export const config = {
@@ -56,7 +57,7 @@ export const config = {
 
 const TREE_CONSTANTS = {
 	width: 800,
-	height: CONSTANTS.height,
+	height: 1000,
 
 	heatmapRowHeight: 5,
 
@@ -85,6 +86,20 @@ export const treeConfig = {
 	treeClusterWidth:  TREE_CONSTANTS.treeDepthSpacing - TREE_CONSTANTS.treeNodeRadius
 
 }
+
+
+
+
+export const heatmapConfig = {
+
+	width: config.width - treeConfig.width,
+	height: config.height,
+	x: treeConfig.width,
+	colorScale: scaleOrdinal()
+				.domain([1,2,3,4,5,6,7]) // state
+				.range(["#2e7aab", "#73a9d4", "#D6D5D5", "#fec28b", "#fd8b3a", "#ca632c", "#954c25"])
+}
+
 
 
 export const getXPosition = (depth) => (
