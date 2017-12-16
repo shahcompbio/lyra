@@ -24,6 +24,14 @@ export const getTreeNodes = treeNodesSelector
 
 
 
+const getUISummary = uiSummarySelector
+const getSegsData = segsDataSelector
+export const getSegsPending = segsPendingSelector
+const getIndexToIDMapping = indexToIDSelector
+const getChromOrder = chromosomesOrderSelector
+const getChromData = chromosomesDataSelector
+
+
 
 /**
 * Gets tree root record
@@ -319,9 +327,10 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 * HEATMAP SELECTORS
 */
 
-const getUISummary = uiSummarySelector
 
-
+/**
+* Gets subsampled list of indices to display on heatmap based on summary tree
+*/
 export const getHeatmapIDs = createSelector(
 	[ getUISummary ],
 	(summary) => {
@@ -336,10 +345,9 @@ export const getHeatmapIDs = createSelector(
 
 
 
-const getSegsData = segsDataSelector
-export const getSegsPending = segsPendingSelector
-
-
+/**
+* Gets list of indices that are to displayed on heatmap but do not have segment data in store
+*/
 export const getMissingSegIndices = createSelector(
 	[ getHeatmapIDs, getSegsData ],
 	(indices, segs) => (
@@ -349,7 +357,9 @@ export const getMissingSegIndices = createSelector(
 )
 
 
-
+/**
+* Gets heatmap segment if it exists
+*/
 export const getAllHeatmapSegData = createSelector(
 	[ getHeatmapIDs, getSegsData ],
 	(indices, segs) => (
@@ -357,7 +367,6 @@ export const getAllHeatmapSegData = createSelector(
 		       .map(index => createSegment(segs[index], index))
 	)
 )
-
 
 const createSegment = (seg, index) => ({
 	cellID: seg[0]['cellID'],
@@ -372,12 +381,9 @@ const createSegment = (seg, index) => ({
 
 
 
-
-
-
-const getIndexToIDMapping = indexToIDSelector
-
-
+/**
+* Filters for indices that do not have a cellID mapping yet
+*/
 export const getMissingIDMappings = createSelector(
 	[ getIndexToIDMapping, (state, indices) => (indices) ],
 	(indexToIDs, indices) => (
@@ -385,7 +391,9 @@ export const getMissingIDMappings = createSelector(
 	)
 )
 
-
+/**
+* Returns list of cellIDs given list of heatmap indices
+*/
 export const getIDsByIndex = createSelector(
 	[ getIndexToIDMapping, (state, indices) => (indices) ],
 	(indexToIDs, indices) => (
@@ -395,9 +403,9 @@ export const getIDsByIndex = createSelector(
 
 
 
-const getChromOrder = chromosomesOrderSelector
-const getChromData = chromosomesDataSelector
-
+/**
+* Gets chromosome range data in order
+*/
 export const getChromRanges = createSelector(
 	[ getChromOrder, getChromData ],
 	(order, data) => (
@@ -412,7 +420,9 @@ export const getChromRanges = createSelector(
 
 
 
-
+/**
+* Gets the total number of base pairs in chromosome ranges
+*/
 const getTotalBP = createSelector(
 	[ getChromRanges ],
 	(chromosomes) => (
@@ -420,7 +430,9 @@ const getTotalBP = createSelector(
 	)
 )
 
-
+/**
+* Gets the base pair to pixel ratio
+*/
 export const getBPRatio = createSelector(
 	[ getTotalBP ],
 	(totalBP) => (
@@ -428,7 +440,9 @@ export const getBPRatio = createSelector(
 	)
 )
 
-
+/**
+* Gets the chromosome to start pixel mapping
+*/
 export const getChromPixelMapping = createSelector(
 	[ getChromRanges, getBPRatio ],
 	(chromosomes, bpRatio) => {
@@ -452,9 +466,15 @@ export const getChromPixelMapping = createSelector(
 )
 
 
+/**
+* Returns the width (in pixels) for chromosome
+*/
 const getChromWidth = (chrom, bpRatio) => (Math.floor((chrom.end - chrom.start + 1) / bpRatio))
 
 
+/**
+* Gets the heatmap (index) to pixel y scale
+*/
 export const getHeatmapYScale = createSelector(
 	[ getHeatmapIDs ],
 	(ids) => (scalePoint().domain(ids)

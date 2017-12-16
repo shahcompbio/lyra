@@ -82,7 +82,7 @@ function* fetchSegsByIDsSaga(indices, ids) {
 
 
 /**
-* Watcher saga for fetching segments
+* Watcher saga for fetching chromosome ranges
 */
 // Fetching tree node
 function* fetchChromRangesWatcher() {
@@ -91,10 +91,9 @@ function* fetchChromRangesWatcher() {
 
 
 /**
-*
+* Saga to fetch chromosome ranges
 */
 function* fetchChromRangesSaga() {
 	const chromosomes = yield call(fetchChromRanges)
-	console.log(chromosomes)
 	yield put(fetchChromRangesSuccess(chromosomes))
 }

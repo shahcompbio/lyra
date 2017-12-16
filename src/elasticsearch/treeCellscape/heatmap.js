@@ -8,6 +8,9 @@ import { processRecord } from './utils.js'
 
 // Fetching IDs for heatmap indices
 
+/**
+* Query for getting records given heatmap indices
+*/
 export const indexToIDQuery = (indices) => ({
 	"size": 50000,
 	"query": {
@@ -22,7 +25,9 @@ export const indexToIDQuery = (indices) => ({
 })
 
 
-
+/**
+* Parse query result from index to ID query
+*/
 export const parseIndexToIDs = (json) => (
 	json.hits.hits.map((record) => (processRecord(record['_source'], MAPPINGS)))
 )
@@ -36,11 +41,17 @@ export const parseIndexToIDs = (json) => (
 
 // Fetching segs by cell IDs
 
+/**
+* Query for getting segment data by cellID
+*/
 export const segsByIDsQuery = ids => (
 	addByIDsFilter(segsByIDsBaseQuery(), ids)
 )
 
 
+/**
+* Base query for fetching segment data
+*/
 const segsByIDsBaseQuery = () => ({
 	"size": 50000,
 	"fields": [
@@ -67,7 +78,9 @@ const segsByIDsBaseQuery = () => ({
 })
 
 
-
+/**
+* Add filter by cellID to query
+*/
 const addByIDsFilter = (query, ids) => {
 	let terms = { terms: {} }
 
@@ -80,7 +93,9 @@ const addByIDsFilter = (query, ids) => {
 
 
 
-
+/**
+* Parse segment query results
+*/
 export const parseCellSegs = json => {
 	return json.hits.hits.map((record) => (processRecord(record['fields'], MAPPINGS)))
 }
@@ -89,6 +104,12 @@ export const parseCellSegs = json => {
 
 
 
+// Fetch chromosome ranges (start and end)
+
+
+/**
+* Query to get chromosome ranges
+*/
 export const chromRangesQuery = () => ({
 	"size": 0,
 	"aggs": {
@@ -130,6 +151,9 @@ export const chromRangesQuery = () => ({
 })
 
 
+/**
+* Parse chromosome range query results
+*/
 export const parseChromRanges = json => {
 	const chromBuckets = json.aggregations["chrom_ranges"].buckets
 

@@ -62,7 +62,9 @@ export function fetchTreeNode(nodeID) {
 
 
 /**
-*
+* Fetch cellIDs from Elasticsearch, given heatmap indices
+* @param {array} indices
+* @public
 */
 export function fetchIDsByIndices(indices) {
 	return fetchForDataType(indexToIDQuery(indices), "tree")
@@ -71,7 +73,9 @@ export function fetchIDsByIndices(indices) {
 
 
 /**
-*
+* Fetch segment data from Elasticsearch, given cellIDs
+* @param {array} ids
+* @public
 */
 export function fetchSegsByIDs(ids) {
 	return fetchForDataType(segsByIDsQuery(ids), "segs")
@@ -82,7 +86,8 @@ export function fetchSegsByIDs(ids) {
 
 
 /**
-*
+* Fetch chromosome ranges from Elasticsearch
+* @public
 */
 export function fetchChromRanges() {
 	return fetchForDataType(chromRangesQuery(), "segs")

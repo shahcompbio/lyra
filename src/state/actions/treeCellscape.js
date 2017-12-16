@@ -50,8 +50,6 @@ export const types = {
 
 /**
 * Fetch Tree Root
-* @return {object}
-* @public
 */
 export const fetchTreeRoot = () => ({
 	type: types.fetchTreeRoot
@@ -61,8 +59,6 @@ export const fetchTreeRoot = () => ({
 /**
 * Fetch tree root is successful
 * @param {object} treeRoot - tree root record
-* @return {object}
-* @public
 */
 export const fetchTreeRootSuccess = (treeRoot) => ({
 	type: types.fetchTreeRootSuccess,
@@ -73,8 +69,6 @@ export const fetchTreeRootSuccess = (treeRoot) => ({
 /**
 * Fetch tree node
 * @param {string} nodeID
-* @return {object}
-* @public
 */
 export const fetchTreeNode = (nodeID) => ({
 	type: types.fetchTreeNode,
@@ -84,8 +78,6 @@ export const fetchTreeNode = (nodeID) => ({
 /**
 * Fetch tree node is successful
 * @param {object} treeNode - tree node record
-* @return {object}
-* @public
 */
 export const fetchTreeNodeSuccess = (treeNode) => ({
 	type: types.fetchTreeNodeSuccess,
@@ -96,8 +88,6 @@ export const fetchTreeNodeSuccess = (treeNode) => ({
 /**
 * Add summary of tree's children to store
 * @param {array} summary - collection of nodes and clusters
-* @return {object}
-* @public
 */
 export const addChildrenSummary = (summary) => ({
 	type: types.addChildrenSummary,
@@ -106,14 +96,15 @@ export const addChildrenSummary = (summary) => ({
 
 
 /**
-* 
+* Fetch chromosome ranges (start and ends)  
 */
 export const fetchChromRanges = () => ({
 	type: types.fetchChromRanges
 })
 
 /**
-* 
+* Fetch chromosome ranges is successful
+* @param {array} chromosomes
 */
 export const fetchChromRangesSuccess = (chromosomes) => ({
 	type: types.fetchChromRangesSuccess,
@@ -122,7 +113,8 @@ export const fetchChromRangesSuccess = (chromosomes) => ({
 
 
 /**
-* 
+* Fetch segments given heatmap indices
+* @param {array} indices
 */
 export const fetchSegs = (indices) => ({
 	type: types.fetchSegs,
@@ -131,7 +123,10 @@ export const fetchSegs = (indices) => ({
 
 
 /**
-*
+* Fetch segments is successful
+* @param {array} segs - all segment records
+* @param {array} indices
+* @param {array} ids - cellIDs (maps in order with indices)
 */
 export const fetchSegsSuccess = (segs, indices, ids) => ({
 	type: types.fetchSegsSuccess,
@@ -141,7 +136,8 @@ export const fetchSegsSuccess = (segs, indices, ids) => ({
 })
 
 /**
-* 
+* Fetch index to cellID mappings is successful
+* @param {array} records
 */
 export const fetchIndexToIDMappingsSuccess = (records) => ({
 	type: types.fetchIndexToIDMappingsSuccess,
