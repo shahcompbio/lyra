@@ -1,52 +1,28 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+/**
+* Tree Cellscape Dashboard
+* - Tree
+* - Heatmap
+*/
 
-import { connect } from 'react-redux'
+import React from 'react'
 
-import { getTreeRootID } from 'state/selectors/treeCellscape.js'
-import { fetchTreeRoot } from 'state/actions/treeCellscape.js'
-
-import TreeNode from './TreeNode' 
-
+import Tree from './tree/Tree' 
+import Heatmap from './heatmap/Heatmap'
 
 import { config } from 'config/treeCellscape.js'
 const { width, height } = config
 
 
-/**
-* Tree Cellscape Dashboard - React Component
-*/
-class TreeCellscape extends Component {
-	static propTypes = {
-		/** ID of tree root - "" if not fetched yet  */
-		rootID: PropTypes.string
-	}
 
-	componentDidMount() {
-		const { dispatch } = this.props
-		dispatch(fetchTreeRoot())
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return nextProps.rootID !== this.props.rootID
-	}
-
-	render() {
-		const { rootID } = this.props
-		return rootID === '' 
-			? ('') 
-			: (<svg width={width} height={height}>
-					<TreeNode nodeID={rootID} depth={0}/>
-				</svg>)
-	}
-
-}
-
-
-const mapState = (state) => (
-	{ rootID: getTreeRootID(state) }
+const TreeCellscape = () => (
+	<p>
+		<svg width={width} height={height}>
+			<Tree/>
+			<Heatmap/>
+		</svg>
+	</p>
 )
 
 
 
-export default connect(mapState)(TreeCellscape)
+export default TreeCellscape

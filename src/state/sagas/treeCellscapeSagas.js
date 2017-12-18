@@ -4,6 +4,8 @@
 
 import { all, fork } from 'redux-saga/effects'
 import { treeSagas } from './treeCellscape/treeSagas.js'
+import { heatmapSagas } from './treeCellscape/heatmapSagas.js'
+
 
 /**
 * All sagas related to treeCellscape
@@ -12,6 +14,7 @@ import { treeSagas } from './treeCellscape/treeSagas.js'
 */
 export function* treeCellscapeSagas() {
 	yield all([
-		fork(treeSagas)
+		fork(treeSagas),
+		fork(heatmapSagas)
 	])
 }

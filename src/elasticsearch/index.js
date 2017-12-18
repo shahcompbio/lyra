@@ -4,13 +4,14 @@
 
 const config = {
 	HOST: "http://localhost:9200/",
-	INDEX: "tree_test", // For testing
+	INDEX: "htert_tree", // For testing
+	//INDEX: "tree_test",
 	SEARCH: "/_search"
 }
 
 
-export function fetchQuery(query) {
-	return fetch(config.HOST + config.INDEX + config.SEARCH, {
+export function fetchQuery(query, index) {
+	return fetch(config.HOST + index + config.SEARCH, {
 		    method: "POST",
 		    body: JSON.stringify(query),
 		    headers: {

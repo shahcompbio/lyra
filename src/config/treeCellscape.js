@@ -3,22 +3,32 @@
 */
 
 
+import { scaleOrdinal, scaleLinear } from 'd3'
 
 /**
 * Mappings for columns for ElasticSearch to redux store
 */
 const TREE_MAPPINGS = {
 	cell_id: 'cellID',
-	num_nodes: 'numSuccessors',
 	heatmap_order: 'heatmapIndex',
 	children: 'children',
 	parent: 'parent',
-	max_height: 'maxHeight'
+	max_height: 'maxHeight',
+	min_index: 'minDescendantIndex',
+	max_index: 'maxDescendantIndex'
 }
 
-
+const SEG_MAPPINGS = {
+	cell_id: 'cellID',
+	start: 'start',
+	end: 'end',
+	chrom_number: 'chromosome',
+	state: 'state',
+	'integer_median': 'integerMedian'
+}
 export const MAPPINGS = {
-	...TREE_MAPPINGS
+	...TREE_MAPPINGS,
+	...SEG_MAPPINGS
 }
 
 
@@ -27,33 +37,73 @@ export const MAPPINGS = {
 * Configuration defaults for views
 */
 
-const CONFIG_CONSTANTS = {
-	width: 400,
+	/**
+	* Overall config
+	*/
+
+const CONSTANTS = {
+	width: 1500,
+	height: 2000
+}
+
+export const config = {
+	...CONSTANTS
+}
+
+
+	/**
+	* Tree-related config
+	*/
+
+const TREE_CONSTANTS = {
+	width: 800,
 	height: 1000,
 
 	heatmapRowHeight: 5,
 
 
-	treeNodeColor: "#A3A3A3",
-	treeBranchColor: "#CECECE",
-	treeCladeColor: "#A3A3A3",
-
-	treeCladeColorGradient: ["#CECECE", "#000000"],
-
-	treeBranchWidth: 2,
-
-	treeDepthSpacing: 50
-
-}
-
-export const config = {
-	...CONFIG_CONSTANTS,
 	treeNodeRadius: 3,
-	treeCladeWidth:  CONFIG_CONSTANTS.treeDepthSpacing - 10
+	treeNodeColor: "#b3b3b3",
+	treeBranchColor: "#000000",
+	treeHorizontalBranchColor: "#b3b3b3",
+	treeClusterColor: "#A3A3A3",
+
+	treeClusterColorGradient: ["#CECECE", "#CECECE"],
+
+	treeBranchWidth: 4,
+
+	treeHorizontalBranchWidth: 1,
+	treeVerticalBranchWidth: 4,
+
+	treeDepthSpacing: 30,
+
+	treeClusterVerticalOffset: 5
 
 }
+
+export const treeConfig = {
+	...TREE_CONSTANTS,
+	treeClusterWidth:  TREE_CONSTANTS.treeDepthSpacing - TREE_CONSTANTS.treeNodeRadius
+
+}
+
+
+
+
+export const heatmapConfig = {
+
+	width: config.width - treeConfig.width,
+	height: config.height,
+	x: treeConfig.width,
+	colorScale: scaleOrdinal()
+				.domain([1,2,3,4,5,6,7]) // state
+				.range(["#2e7aab", "#73a9d4", "#D6D5D5", "#fec28b", "#fd8b3a", "#ca632c", "#954c25"])
+}
+
 
 
 export const getXPosition = (depth) => (
-	(depth * config.treeDepthSpacing) + config.treeNodeRadius
+	(depth * treeConfig.treeDepthSpacing) + treeConfig.treeNodeRadius
 )
+
+

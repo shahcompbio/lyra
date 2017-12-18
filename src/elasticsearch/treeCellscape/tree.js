@@ -2,6 +2,8 @@
 *	Queries and parsers related to the tree view in Tree Cellscape
 */
 import { MAPPINGS } from 'config/treeCellscape.js'
+import { processRecord } from './utils.js'
+
 
 // Fetching root of tree
 
@@ -29,7 +31,7 @@ export const treeRootQuery = () => ({
 * @public
 */
 export const parseTreeRoot = (json) => {
- 	return { ...processTreeRecord(json.hits.hits[0]["_source"]) }
+ 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
 }
 
 
@@ -95,6 +97,18 @@ const addChildrenIndexAggToQuery = (query, parentTerm) => ({
 			                "field": "max_height",
 			                "size": 10
 			              }
+			            },
+			            "children_minIndex": {
+			            	"terms": {
+			            		"field": "min_index",
+			            		"size": 10
+			            	}
+			            },
+			            "children_maxIndex": {
+			            	"terms": {
+			            		"field": "max_index",
+			            		"size": 10
+			            	}
 			            }
 					}
 				}
@@ -124,7 +138,7 @@ const addPostFilterForNodeToQuery = (query, nodeTerm) => ({
 * @public
 */
 export const parseTreeNode = (json) => {
-	const nodeData = { ...processTreeRecord(json.hits.hits[0]["_source"]) }
+	const nodeData = { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
 	const children = parseNodeChildren(json.aggregations["children"]["children_name"]["buckets"])
 							.sort(sortByHeatmapOrder)
 
@@ -142,7 +156,9 @@ const parseNodeChildren = (childAggs) => (
 	childAggs.map((child) => ({
 			[MAPPINGS['cell_id']]: child.key,
 			[MAPPINGS['heatmap_order']]: getBucketValueForChild(child["children_index"]),
-			[MAPPINGS['max_height']]: getBucketValueForChild(child["children_height"])
+			[MAPPINGS['max_height']]: getBucketValueForChild(child["children_height"]),
+			[MAPPINGS['min_index']]: getBucketValueForChild(child["children_minIndex"]),
+			[MAPPINGS['max_index']]: getBucketValueForChild(child["children_maxIndex"])
 		})
 	)
 )
@@ -172,28 +188,4 @@ const sortByHeatmapOrder = (childA, childB) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-/**
-* @param {JSON} record - tree node record
-* @return {object} processed tree record with mapped keys
-*/
-const processTreeRecord = (record) => {
-	let processedRecord = {}
-	for (let [key, value] of Object.entries(record)) {
-		processedRecord = {
-			...processedRecord,
-			[MAPPINGS[key]]: value
-		}
-	}
-	return processedRecord
-}
 
