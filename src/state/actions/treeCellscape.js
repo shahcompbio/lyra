@@ -17,9 +17,9 @@ export const types = {
 	fetchTreeRoot: "TREECELLSCAPE_FETCH_TREE_ROOT",
 	fetchTreeRootSuccess: "TREECELLSCAPE_FETCH_TREE_ROOT_SUCCESS",
 
-	/** Fetch tree root node from database*/
+	/** Fetch tree nodes from database*/
 	fetchTreeNode: "TREECELLSCAPE_FETCH_TREE_NODE",
-	fetchTreeNodeSuccess: "TREECELLSCAPE_FETCH_TREE_NODE_SUCCESS",
+	fetchTreeNodesSuccess: "TREECELLSCAPE_FETCH_TREE_NODES_SUCCESS",
 
 	/** Add summary of tree children to store*/
 	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY",
@@ -67,7 +67,7 @@ export const fetchTreeRootSuccess = (treeRoot) => ({
 
 
 /**
-* Fetch tree node
+* Fetch tree nodes for given cellIDs
 * @param {string} nodeID
 */
 export const fetchTreeNode = (nodeID) => ({
@@ -76,12 +76,14 @@ export const fetchTreeNode = (nodeID) => ({
 })
 
 /**
-* Fetch tree node is successful
-* @param {object} treeNode - tree node record
+* Fetch tree nodes is successful
+* @param {array} treeNodes - all tree node records
+* @param {array} nodeIDs
 */
-export const fetchTreeNodeSuccess = (treeNode) => ({
-	type: types.fetchTreeNodeSuccess,
-	treeNode
+export const fetchTreeNodesSuccess = (treeNodes, nodeIDs) => ({
+	type: types.fetchTreeNodesSuccess,
+	treeNodes,
+	nodeIDs
 })
 
 

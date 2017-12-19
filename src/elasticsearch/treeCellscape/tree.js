@@ -31,7 +31,7 @@ export const treeRootQuery = () => ({
 * @public
 */
 export const parseTreeRoot = (json) => {
- 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
+ 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS, false) }
 }
 
 
@@ -45,13 +45,13 @@ export const parseTreeRoot = (json) => {
 
 /**
 * Get query to get tree node, and name/index/depth for its children
-* @param {string} nodeID
+* @param {array} nodeIDs
 * @return {Query}
 * @public
 */
-export const treeNodeQuery = (nodeID) => {
-	const parentTerm = { "term" : { "parent": nodeID }}
-	const nodeTerm = { "term": { "cell_id": nodeID }}
+export const treeNodeQuery = (nodeIDs) => {
+	const parentTerm = { "terms" : { "parent": nodeIDs }}
+	const nodeTerm = { "terms": { "cell_id": nodeIDs }}
 
 	const baseQuery = {
 		"size": 50000,
@@ -133,18 +133,16 @@ const addPostFilterForNodeToQuery = (query, nodeTerm) => ({
 /**
 * Parse query results for tree node and children aggregation
 * @param {JSON} json - query result from tree node query
-* @return {object} tree node record
-* @property {array} children  node's children with name, heatmap index, and depth to deepest child
+* @return {array} tree node records
 * @public
 */
 export const parseTreeNode = (json) => {
-	const nodeData = { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
+	const nodesData = json.hits.hits.map(record => processRecord(record["_source"], MAPPINGS, false))
 	const children = parseNodeChildren(json.aggregations["children"]["children_name"]["buckets"])
-							.sort(sortByHeatmapOrder)
 
-	return { ...nodeData,
-			 children }
+	return [ ...nodesData, ...children ]
 }
+
 
 
 /**
@@ -170,22 +168,6 @@ const parseNodeChildren = (childAggs) => (
 const getBucketValueForChild = (indexBucket) => (
 	indexBucket.buckets[0].key
 )
-
-
-/**
-* Comparer for children, sorted by heatmap index
-* @param {object} childA
-* @param {number} childA.heatmapIndex
-* @param {object} childB
-* @param {number} childB.heatmapIndex
-* @return {number} indicator of whether to put childA before (-1) or after (1) childB
-*/
-const sortByHeatmapOrder = (childA, childB) => {
-	return childA['heatmapIndex'] < childB['heatmapIndex'] ? -1
-		 : childA['heatmapIndex'] > childB['heatmapIndex'] ? 1
-		 : 0
-}
-
 
 
 

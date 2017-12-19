@@ -4,7 +4,7 @@
 
 
 import { createSelector } from 'reselect'
-import { treeRootIDSelector, treeNodesSelector } from 'state/reducers/cells/tree.js'
+import { treeRootIDSelector, treeNodesSelector, treePendingSelector } from 'state/reducers/cells/tree.js'
 import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
 import { scaleLinear, scalePoint } from 'd3'
 
@@ -21,6 +21,7 @@ import { chromosomesOrderSelector, chromosomesDataSelector } from 'state/reducer
 */
 export const getTreeRootID = treeRootIDSelector
 export const getTreeNodes = treeNodesSelector
+export const getTreePending = treePendingSelector
 
 
 
