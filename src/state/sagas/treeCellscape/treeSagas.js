@@ -3,9 +3,9 @@
 */
 
 import { delay } from 'redux-saga'
-import { all, fork, take, call, put, takeLatest, takeEvery, select } from 'redux-saga/effects'
-import { types as actions, fetchTreeRootSuccess, fetchTreeNodeSuccess } from 'state/actions/treeCellscape.js'
-import { fetchTreeRoot, fetchTreeNode } from 'elasticsearch/treeCellscape.js'
+import { all, fork, take, call, put, takeLatest, select } from 'redux-saga/effects'
+import { types as actions, fetchTreeRootSuccess, fetchTreeNodesSuccess } from 'state/actions/treeCellscape.js'
+import { fetchTreeRoot, fetchTreeNodes } from 'elasticsearch/treeCellscape.js'
 import { getTreePending } from 'state/selectors/treeCellscape.js'
 
 /**
@@ -17,7 +17,7 @@ import { getTreePending } from 'state/selectors/treeCellscape.js'
 export function* treeSagas() {
 	yield all([
 		fork(fetchTreeRootSaga),
-		fork(fetchTreeNodeSagaWatcher)
+		fork(fetchTreeNodesSagaWatcher)
 	])
 }
 
@@ -38,19 +38,18 @@ function* fetchTreeRootSaga() {
 * Watcher saga for fetching tree nodes
 */
 // Fetching tree node
-function* fetchTreeNodeSagaWatcher() {
-	yield takeLatest(actions.fetchTreeNode, fetchTreeNodeSaga)
+function* fetchTreeNodesSagaWatcher() {
+	yield takeLatest(actions.fetchTreeNode, fetchTreeNodesSaga)
 }
 
 
 /**
-* Saga for fetching tree node from database and populating store
+* Saga for fetching tree nodes from database and populating store
 * @param {object} action 
-* @param {string} action.nodeID - node to fetch
 */
-function* fetchTreeNodeSaga(action) {
+function* fetchTreeNodesSaga(action) {
 	yield call(delay, 50)
 	const nodeIDs = yield select(getTreePending)
-	const nodeData = yield call(fetchTreeNode, nodeIDs)
-	yield put(fetchTreeNodeSuccess(nodeData, nodeIDs))
+	const nodeData = yield call(fetchTreeNodes, nodeIDs)
+	yield put(fetchTreeNodesSuccess(nodeData, nodeIDs))
 }

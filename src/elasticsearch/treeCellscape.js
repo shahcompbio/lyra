@@ -48,13 +48,13 @@ export function fetchTreeRoot() {
 
 
 /**
-* Fetch tree node record from ElasticSearch, given nodeID
-* @param {string} nodeID
-* @return {object} tree node record
+* Fetch tree node record from ElasticSearch, given nodeIDs
+* @param {array} nodeIDs
+* @return {array} tree node records
 * @public
 */
-export function fetchTreeNode(nodeID) {
-	return fetchForDataType(treeNodeQuery(nodeID), "tree")
+export function fetchTreeNodes(nodeIDs) {
+	return fetchForDataType(treeNodeQuery(nodeIDs), "tree")
 				.then(json => parseTreeNode(json))
 }
 

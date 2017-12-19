@@ -35,13 +35,17 @@ const pending = createReducer(initialPending)({
 		action.nodeID
 	]),
 
-	[actions.fetchTreeNodeSuccess]: (state, action) => ([
+	[actions.fetchTreeNodesSuccess]: (state, action) => ([
 		...removeInOrder(state, action.nodeIDs)
 	])
 })
 
 		/**
-		*
+		* Remove all elements in list from state
+		* ASSUME: lists are ordered in same way
+		* @param {array} state
+		* @param {array} list
+		* @return {array}
 		*/
 		const removeInOrder = (state, list) => {
 			if (list.length === 0) {
@@ -77,10 +81,10 @@ const nodes = createReducer(initialNodes)({
 		}
 	},
 
-	[actions.fetchTreeNodeSuccess]: (state, action) => {
-		const { treeNode } = action
+	[actions.fetchTreeNodesSuccess]: (state, action) => {
+		const { treeNodes } = action
 
-		const treeNodeMap = treeNode.reduce((map, record) => ({
+		const treeNodeMap = treeNodes.reduce((map, record) => ({
 			...map,
 			[record['cellID']]: record
 		}), {})
@@ -91,23 +95,6 @@ const nodes = createReducer(initialNodes)({
 		}
 	}
 })
-
-		/**
-		* Normalizes children into list of IDs and flat object of nodes
-		*/
-		const nodeReducer = (node, children) => ({
-			...node,
-			children: children.map((child) => (child['cellID']))
-		})
-
-		const childrenToNodesReducer = (children) => (
-			children.reduce((nodes, child) => {
-				return {
-					...nodes,
-					[child['cellID']]: child
-				}
-				}, {})
-		)
 
 
 

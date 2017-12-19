@@ -21,9 +21,9 @@ import { types as actions } from 'state/actions/treeCellscape.js'
 
 const initialIndexToID = {}
 const indexToID = createReducer(initialIndexToID)({
-	[actions.fetchTreeNodeSuccess]: (state, action) => ({
+	[actions.fetchTreeNodesSuccess]: (state, action) => ({
 		...state,
-		...createIndexToIDMappings(action.treeNode)
+		...createIndexToIDMappings(action.treeNodes)
 	}),
 
 	[actions.fetchIndexToIDMappingsSuccess]: (state, action) => ({

@@ -133,8 +133,7 @@ const addPostFilterForNodeToQuery = (query, nodeTerm) => ({
 /**
 * Parse query results for tree node and children aggregation
 * @param {JSON} json - query result from tree node query
-* @return {object} tree node record
-* @property {array} children  node's children with name, heatmap index, and depth to deepest child
+* @return {array} tree node records
 * @public
 */
 export const parseTreeNode = (json) => {
@@ -169,22 +168,6 @@ const parseNodeChildren = (childAggs) => (
 const getBucketValueForChild = (indexBucket) => (
 	indexBucket.buckets[0].key
 )
-
-
-/**
-* Comparer for children, sorted by heatmap index
-* @param {object} childA
-* @param {number} childA.heatmapIndex
-* @param {object} childB
-* @param {number} childB.heatmapIndex
-* @return {number} indicator of whether to put childA before (-1) or after (1) childB
-*/
-const sortByHeatmapOrder = (childA, childB) => {
-	return childA['heatmapIndex'] < childB['heatmapIndex'] ? -1
-		 : childA['heatmapIndex'] > childB['heatmapIndex'] ? 1
-		 : 0
-}
-
 
 
 
