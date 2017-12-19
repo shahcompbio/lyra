@@ -23,8 +23,7 @@ const initialIndexToID = {}
 const indexToID = createReducer(initialIndexToID)({
 	[actions.fetchTreeNodeSuccess]: (state, action) => ({
 		...state,
-		...createIndexToIDMapping(action.treeNode),
-		...createChildrenIndexToIDMapping(action.treeNode['children'])
+		...createIndexToIDMappings(action.treeNode)
 	}),
 
 	[actions.fetchIndexToIDMappingsSuccess]: (state, action) => ({

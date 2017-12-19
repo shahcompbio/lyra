@@ -29,7 +29,7 @@ export const indexToIDQuery = (indices) => ({
 * Parse query result from index to ID query
 */
 export const parseIndexToIDs = (json) => (
-	json.hits.hits.map((record) => (processRecord(record['_source'], MAPPINGS)))
+	json.hits.hits.map((record) => (processRecord(record['_source'], MAPPINGS, false)))
 )
 
 
@@ -97,7 +97,7 @@ const addByIDsFilter = (query, ids) => {
 * Parse segment query results
 */
 export const parseCellSegs = json => {
-	return json.hits.hits.map((record) => (processRecord(record['fields'], MAPPINGS)))
+	return json.hits.hits.map((record) => (processRecord(record['fields'], MAPPINGS, true)))
 }
 
 

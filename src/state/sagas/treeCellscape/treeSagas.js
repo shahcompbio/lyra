@@ -2,9 +2,11 @@
 * Sagas for tree view of Tree Cellscape
 */
 
-import { all, fork, take, takeEvery, call, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { all, fork, take, call, put, takeLatest, takeEvery, select } from 'redux-saga/effects'
 import { types as actions, fetchTreeRootSuccess, fetchTreeNodeSuccess } from 'state/actions/treeCellscape.js'
 import { fetchTreeRoot, fetchTreeNode } from 'elasticsearch/treeCellscape.js'
+import { getTreePending } from 'state/selectors/treeCellscape.js'
 
 /**
 * All sagas related to tree view
@@ -37,7 +39,7 @@ function* fetchTreeRootSaga() {
 */
 // Fetching tree node
 function* fetchTreeNodeSagaWatcher() {
-	yield takeEvery(actions.fetchTreeNode, fetchTreeNodeSaga)
+	yield takeLatest(actions.fetchTreeNode, fetchTreeNodeSaga)
 }
 
 
@@ -47,7 +49,8 @@ function* fetchTreeNodeSagaWatcher() {
 * @param {string} action.nodeID - node to fetch
 */
 function* fetchTreeNodeSaga(action) {
-	const { nodeID } = action
-	const nodeData = yield call(fetchTreeNode, nodeID)
-	yield put(fetchTreeNodeSuccess(nodeData))
+	yield call(delay, 50)
+	const nodeIDs = yield select(getTreePending)
+	const nodeData = yield call(fetchTreeNode, nodeIDs)
+	yield put(fetchTreeNodeSuccess(nodeData, nodeIDs))
 }

@@ -31,7 +31,7 @@ export const treeRootQuery = () => ({
 * @public
 */
 export const parseTreeRoot = (json) => {
- 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
+ 	return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS, false) }
 }
 
 
@@ -45,13 +45,13 @@ export const parseTreeRoot = (json) => {
 
 /**
 * Get query to get tree node, and name/index/depth for its children
-* @param {string} nodeID
+* @param {array} nodeIDs
 * @return {Query}
 * @public
 */
-export const treeNodeQuery = (nodeID) => {
-	const parentTerm = { "term" : { "parent": nodeID }}
-	const nodeTerm = { "term": { "cell_id": nodeID }}
+export const treeNodeQuery = (nodeIDs) => {
+	const parentTerm = { "terms" : { "parent": nodeIDs }}
+	const nodeTerm = { "terms": { "cell_id": nodeIDs }}
 
 	const baseQuery = {
 		"size": 50000,
@@ -138,13 +138,12 @@ const addPostFilterForNodeToQuery = (query, nodeTerm) => ({
 * @public
 */
 export const parseTreeNode = (json) => {
-	const nodeData = { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS) }
+	const nodesData = json.hits.hits.map(record => processRecord(record["_source"], MAPPINGS, false))
 	const children = parseNodeChildren(json.aggregations["children"]["children_name"]["buckets"])
-							.sort(sortByHeatmapOrder)
 
-	return { ...nodeData,
-			 children }
+	return [ ...nodesData, ...children ]
 }
+
 
 
 /**

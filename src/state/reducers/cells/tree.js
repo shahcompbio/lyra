@@ -23,6 +23,41 @@ const rootID = createReducer(initialTreeRootID)({
 })
 
 
+/**
+* pending {array}
+* 	all cellIDs that are currently being fetched
+*/
+
+const initialPending = []
+const pending = createReducer(initialPending)({
+	[actions.fetchTreeNode]: (state, action) => ([
+		...state,
+		action.nodeID
+	]),
+
+	[actions.fetchTreeNodeSuccess]: (state, action) => ([
+		...removeInOrder(state, action.nodeIDs)
+	])
+})
+
+		/**
+		*
+		*/
+		const removeInOrder = (state, list) => {
+			if (list.length === 0) {
+				return list
+			}
+			else {
+				const [ firstList, ...restList ] = list
+				const [ firstState, ...restState ] = state
+
+				return firstList === firstState ? [ ...removeInOrder(restState, restList) ]
+												: [ firstState, ...removeInOrder(restState, list)]
+			}
+		}
+
+
+
 
 /**
 * nodes {object}
@@ -43,12 +78,16 @@ const nodes = createReducer(initialNodes)({
 	},
 
 	[actions.fetchTreeNodeSuccess]: (state, action) => {
-		const { children } = action.treeNode
+		const { treeNode } = action
 
-		return { 
-			...state, 
-			[action.treeNode['cellID']]: nodeReducer(action.treeNode, children),
-			...childrenToNodesReducer(children)
+		const treeNodeMap = treeNode.reduce((map, record) => ({
+			...map,
+			[record['cellID']]: record
+		}), {})
+
+		return {
+			...state,
+			...treeNodeMap
 		}
 	}
 })
@@ -79,7 +118,8 @@ const nodes = createReducer(initialNodes)({
 */
 const tree = combineReducers({
 	rootID,
-	nodes
+	nodes,
+	pending
 })
 
 
@@ -92,6 +132,7 @@ const tree = combineReducers({
 
 export const treeRootIDSelector = (state) => state.cells.tree.rootID
 export const treeNodesSelector = (state) => state.cells.tree.nodes
+export const treePendingSelector = (state) => state.cells.tree.pending
 
 
 

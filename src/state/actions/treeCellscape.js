@@ -79,9 +79,10 @@ export const fetchTreeNode = (nodeID) => ({
 * Fetch tree node is successful
 * @param {object} treeNode - tree node record
 */
-export const fetchTreeNodeSuccess = (treeNode) => ({
+export const fetchTreeNodeSuccess = (treeNode, nodeIDs) => ({
 	type: types.fetchTreeNodeSuccess,
-	treeNode
+	treeNode,
+	nodeIDs
 })
 
 
