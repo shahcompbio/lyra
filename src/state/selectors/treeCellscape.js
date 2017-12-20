@@ -328,18 +328,25 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 * HEATMAP SELECTORS
 */
 
+/**
+* Gets number of indices that can fit per heatmap row
+*/
+const getIndicesPerRow = createSelector(
+	[ getIndicesPerPixel ],
+	(indPerPx) => (indPerPx * config['heatmapRowHeight'])
+)
+
 
 /**
 * Gets subsampled list of indices to display on heatmap based on summary tree
 */
 export const getHeatmapIDs = createSelector(
-	[ getUISummary ],
-	(summary) => {
-		const ids = summary.reduce(
-						(ids, item) => { 
-							return Array.isArray(item) ? [ ...ids, ...item ] : [ ...ids, item ]},
-						[]
-					)
+	[ getIndicesPerRow, getTotalIndexNum ],
+	(indPerRow, totalIndices) => {
+		const numRows = Math.floor( totalIndices / indPerRow )
+
+		const ids = Array.from(Array(numRows), (_, x) => (x * indPerRow))
+
 		return ids
 	}
 )
