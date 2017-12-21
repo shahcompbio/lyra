@@ -4,17 +4,22 @@
 
 
 import { createSelector } from 'reselect'
-import { treeRootIDSelector, treeNodesSelector, treePendingSelector } from 'state/reducers/cells/tree.js'
 import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
 import { scaleLinear, scalePoint } from 'd3'
 
-import { indexToIDSelector } from 'state/reducers/cells.js'
+import { stateSelectors } from 'state/reducers/index.js'
 
-import { segsDataSelector, segsPendingSelector } from 'state/reducers/cells/segs.js'
-
-import { uiSummarySelector } from 'state/reducers/ui.js'
-
-import { chromosomesOrderSelector, chromosomesDataSelector } from 'state/reducers/chromosomes.js'
+const { 
+	chromosomesOrderSelector, 
+	chromosomesDataSelector, 
+	uiSummarySelector,
+	segsDataSelector, 
+	segsPendingSelector,
+	indexToIDSelector, 
+	treeRootIDSelector, 
+	treeNodesSelector, 
+	treePendingSelector
+} = stateSelectors
 
 /**
 * Simple getters for state tree

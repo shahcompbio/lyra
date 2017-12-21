@@ -3,7 +3,8 @@
 */
 
 import { combineReducers } from 'redux'
-import createReducer from '../createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
@@ -117,10 +118,23 @@ const tree = combineReducers({
 * State Selectors
 */
 
-export const treeRootIDSelector = (state) => state.cells.tree.rootID
-export const treeNodesSelector = (state) => state.cells.tree.nodes
-export const treePendingSelector = (state) => state.cells.tree.pending
 
+const treeRootIDSelector = state => state.rootID
+const treeNodesSelector = state => state.nodes
+const treePendingSelector = state => state.pending
+
+const treeRootIDStateSelectors = {}
+const treeNodesStateSelectors = {}
+const treePendingStateSelectors = {}
+
+export const stateSelectors = {
+	treeRootIDSelector,
+	treeNodesSelector,
+	treePendingSelector,
+	...shiftSelectors(treeRootIDSelector, treeRootIDStateSelectors),
+	...shiftSelectors(treeNodesSelector, treeNodesStateSelectors),
+	...shiftSelectors(treePendingSelector, treePendingStateSelectors)
+}
 
 
 export default tree

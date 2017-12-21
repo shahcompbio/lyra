@@ -3,12 +3,14 @@
 */
 
 import { combineReducers } from 'redux'
-import tree from './cells/tree.js'
-import segs from './cells/segs.js'
 
-
-import createReducer from './createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
+
+import tree, { stateSelectors as treeStateSelectors } from './cells/tree.js'
+import segs, { stateSelectors as segsStateSelectors } from './cells/segs.js'
+
 
 
 
@@ -86,7 +88,23 @@ const cells = combineReducers({
 * State Selectors
 */
 
-export const indexToIDSelector = (state) => state.cells.indexToID
+
+const treeSelector = state => state.tree
+const segsSelector = state => state.segs
+const indexToIDSelector = state => state.indexToID
+
+
+const indexToIDStateSelectors = {}
+
+
+export const stateSelectors = {
+	treeSelector: treeSelector,
+	segsSelector: segsSelector,
+	indexToIDSelector: indexToIDSelector,
+	...shiftSelectors(treeSelector, treeStateSelectors),
+	...shiftSelectors(segsSelector, segsStateSelectors),
+	...shiftSelectors(indexToIDSelector, indexToIDStateSelectors)
+}
 
 
 
