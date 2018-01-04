@@ -33,12 +33,10 @@ export const getTreeNodeRecords = treeNodesSelector
 
 /**
 * Gets tree root record
-* @param {object} nodes - all node data
-* @param {string} rootID
-* @return {object} root record
 */
 export const getTreeRootRecord = createSelector(
 	[ getTreeNodeRecords, getTreeRootID ],
+	// (object, string) => object
 	(nodes, rootID) => (nodes[rootID])
 )
 
@@ -51,11 +49,10 @@ export const getTreeRootRecord = createSelector(
 
 /**
 * Gets number of nodes contained in tree from root
-* @param {object} treeRoot - root record
-* @return {int} number of tree nodes
 */
 export const getTotalIndexNum = createSelector(
 	[ getTreeRootRecord ],
+	// object => int
 	(treeRoot) => (treeRoot['maxDescendantIndex'] + 1)
 )
 
@@ -63,11 +60,10 @@ export const getTotalIndexNum = createSelector(
 
 /**
 * Gets ratio of heatmap indices per pixel
-* @param {int} numNodes
-* @return {int}
 */
 export const getIndicesPerPixel = createSelector(
 	[ getTotalIndexNum ],
+	// int => int
 	(numNodes) => (Math.max(1, Math.ceil(numNodes / config['height'])))
 )
 
@@ -79,6 +75,7 @@ export const getIndicesPerPixel = createSelector(
 */
 export const getIndicesPerRow = createSelector(
 	[ getIndicesPerPixel ],
+	// int => int
 	(indPerPx) => (indPerPx * config['heatmapRowHeight'])
 )
 
@@ -89,8 +86,9 @@ export const getIndicesPerRow = createSelector(
 * @return {int}
 */
 export const getThresholdIndex = createSelector(
-	[ getIndicesPerPixel ],
-	(indPerPx) => (indPerPx * 4 * config['heatmapRowHeight'])
+	[ getIndicesPerRow ],
+	// int => int
+	(indPerRow) => (indPerRow * 4)
 )
 
 

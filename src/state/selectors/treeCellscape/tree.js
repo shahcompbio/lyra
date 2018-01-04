@@ -31,24 +31,17 @@ const getTreeNodeRecords = treeNodesSelector
 
 
 
-
-
-
-
 /******************************************
 * DATA SELECTORS
 *******************************************/
 
 
 /**
-* Factory function for TreeNode React component, to get an entire tree node record given ID
-* @return {func} selector
-*	@param {object} state
-* 	@param {string} id
-*	@return {object || null} record of nodeID, null if not full record
+* Factory function - gets tree record for specific cell ID
 */
 export const makeGetTreeNodeRecord = () => (createSelector(
 	[ getTreeNodeRecords, (state, id) => id ],
+	// (object, string) => object || null
 	(nodes, id) => {
 		const node = nodes[id]
 		return isFullRecord(node) ? node : null
@@ -71,21 +64,21 @@ const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('child
 
 
 /**
-* 	Factory function to get summary children list (clusters and nodes)
+* 	Factory function - gets summary list (nodes and clusters) of tree's (by cell ID) children
 */
 export const makeGetTreeChildrenSummary = () => (createSelector(
 	[ getTreeNodeRecordsByID, getThresholdIndex ],
+	// (array, int) => array
 	summaryTreeChildren
 ))
 
 
 /**
 * Get shallow tree node records given list of IDs
-* @param {array} ids
-* @return {array} records 
 */
 const getTreeNodeRecordsByID = createSelector(
 	[ getTreeNodeRecords, (state, ids) => (ids) ],
+	// (object, array) => array
 	(nodes, ids) => (ids.map(nodeID => {
 		const { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex } = nodes[nodeID]
 		return { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex }
@@ -223,12 +216,11 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 
 
 /**
-* Get yScale (index to pixel)
-* @param {int} numNodes
-* @return {scale} d3 scale
+* Gets heatmap index to y-coordinate scale
 */
 export const getYScale = createSelector(
 	[ getTotalIndexNum ],
+	// int => func
 	(numNodes) => (
 		scaleLinear().domain([0, numNodes - 1])
 					 .range([config['treeNodeRadius'], config['height']])
@@ -238,11 +230,10 @@ export const getYScale = createSelector(
 
 /**
 * Get max height of tree
-* @param {object} treeRoot - root record
-* @return {int} max height
 */
 const getMaxHeight = createSelector(
 	[ getTreeRootRecord ],
+	// object => int
 	(treeRoot) => (treeRoot['maxHeight'])
 )
 
@@ -252,11 +243,10 @@ const getMaxHeight = createSelector(
 
 /**
 * Get color scale for cluster height
-* @param {int} maxHeight
-* @return {scale} d3 scale
 */ 
 export const getClusterColorScale = createSelector(
 	[ getMaxHeight ],
+	// int => func
 	(maxHeight) => scaleLinear().domain([0, maxHeight])
 					 .range(config['treeClusterColorGradient'])
 )
@@ -271,11 +261,10 @@ export const getClusterColorScale = createSelector(
 
 /**
 * Gets offset index distance - the number of indices to remove at the end for branch/cluster spacing
-* @param {int} indPerPx
-* @return {int}
 */
 export const getOffsetIndex = createSelector(
 	[ getIndicesPerPixel ],
+	// int => int
 	(indPerPx) => (indPerPx * config['treeClusterVerticalOffset'])
 )
 

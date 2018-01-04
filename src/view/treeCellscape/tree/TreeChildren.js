@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeChildrenSummary, getYScale, getClusterColorScale, getOffsetIndex } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeChildrenSummary, getTreeYScale, getClusterColorScale, getOffsetIndex } from 'state/selectors/treeCellscape.js'
 import { addChildrenSummary } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode'
@@ -150,7 +150,7 @@ const makeMapState = () => {
 	const getTreeChildrenSummary = makeGetTreeChildrenSummary()
 	const mapState = (state, ownProps) => ({
 		childrenSummary: getTreeChildrenSummary(state, ownProps.children),
-		yScale: getYScale(state),
+		yScale: getTreeYScale(state),
 		clusterColorScale: getClusterColorScale(state),
 		offsetIndex: getOffsetIndex(state)
 	})

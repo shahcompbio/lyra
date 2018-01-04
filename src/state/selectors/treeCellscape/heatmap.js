@@ -40,6 +40,7 @@ const getIndexToIDMapping = indexToIDSelector
 */
 const getHeatmapIDs = createSelector(
 	[ getIndicesPerRow, getTotalIndexNum ],
+	// (int, int) => array
 	(indPerRow, totalIndices) => {
 		const numRows = Math.floor( totalIndices / indPerRow )
 
@@ -52,16 +53,24 @@ const getHeatmapIDs = createSelector(
 
 
 /**
-* Gets heatmap segment if it exists
+* Gets all segment records for heatmap indices that are displayed and currently have data
 */
 export const getAllHeatmapSegData = createSelector(
 	[ getHeatmapIDs, getSegsData ],
+	// (array, object) => array
 	(indices, segs) => (
 		indices.filter(index => segs.hasOwnProperty(index))
 		       .map(index => createSegment(segs[index], index))
 	)
 )
 
+
+/**
+* Creates record given segment data and heatmap index
+* @param {array} seg
+* @param {int} index
+* @return {object}
+*/
 const createSegment = (seg, index) => ({
 	cellID: seg[0]['cellID'],
 	heatmapIndex: index,
@@ -76,6 +85,7 @@ const createSegment = (seg, index) => ({
 */
 export const getMissingSegIndices = createSelector(
 	[ getHeatmapIDs, getSegsData ],
+	// (array, object) => array
 	(indices, segs) => (
 		indices.filter((index) => (!segs.hasOwnProperty(index)))
 	)
@@ -84,11 +94,18 @@ export const getMissingSegIndices = createSelector(
 
 
 
+/******************************************
+* INDEX -> ID MAPPING SELECTORS
+*******************************************/
+
+
+
 /**
 * Returns list of cellIDs given list of heatmap indices
 */
 export const getIDsByIndex = createSelector(
 	[ getIndexToIDMapping, (state, indices) => (indices) ],
+	// (array, array) => array
 	(indexToIDs, indices) => (
 		indices.map((index) => (indexToIDs[index]))
 	)
@@ -99,10 +116,20 @@ export const getIDsByIndex = createSelector(
 */
 export const getMissingIDMappings = createSelector(
 	[ getIndexToIDMapping, (state, indices) => (indices) ],
+	// (array, array) => array
 	(indexToIDs, indices) => (
 		indices.filter((index) => !indexToIDs.hasOwnProperty(index))
 	)
 )
+
+
+
+
+
+
+/******************************************
+* DRAWING SELECTORS
+*******************************************/
 
 
 
@@ -111,21 +138,20 @@ export const getMissingIDMappings = createSelector(
 */
 export const getChromRanges = createSelector(
 	[ getChromOrder, getChromData ],
+	// (array, object) => array
 	(order, data) => (
 		order.map((chrom) => data[chrom])
 	)
 )
 
 
-/******************************************
-* DRAWING SELECTORS
-*******************************************/
 
 /**
 * Gets the heatmap (index) to pixel y scale
 */
-export const getHeatmapYScale = createSelector(
+export const getYScale = createSelector(
 	[ getHeatmapIDs ],
+	// array => func
 	(ids) => (scalePoint().domain(ids)
 						  .range([0, ids.length * config.heatmapRowHeight]))
 )
@@ -138,27 +164,23 @@ export const getHeatmapYScale = createSelector(
 */
 const getTotalBP = createSelector(
 	[ getChromRanges ],
+	// array => int
 	(chromosomes) => (
 		chromosomes.reduce((sum, chrom) => (sum + chrom.end - chrom.start + 1), 0)
 	)
 )
 
 /**
-* Gets the base pair to pixel ratio
+* Gets base pair to pixel ratio
 */
 export const getBPRatio = createSelector(
 	[ getTotalBP ],
+	// int => int
 	(totalBP) => (
 		Math.ceil(totalBP / heatmapConfig.width)
 	)
 )
 
-
-
-
-/******************************************
-* CHROMOSOME RANGES SELECTORS
-*******************************************/
 
 
 
@@ -171,6 +193,7 @@ export const getBPRatio = createSelector(
 */
 export const getChromPixelMapping = createSelector(
 	[ getChromRanges, getBPRatio ],
+	// (array, int) => object
 	(chromosomes, bpRatio) => {
 		let xShift = 0
 		return chromosomes.reduce((map, chrom) => {
@@ -194,6 +217,9 @@ export const getChromPixelMapping = createSelector(
 
 /**
 * Returns the width (in pixels) for chromosome
+* @param {object} chrom - data
+* @param {int} bpRatio
+* @return {int}
 */
 const getChromWidth = (chrom, bpRatio) => (Math.floor((chrom.end - chrom.start + 1) / bpRatio))
 
