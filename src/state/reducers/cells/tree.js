@@ -3,7 +3,8 @@
 */
 
 import { combineReducers } from 'redux'
-import createReducer from '../createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
@@ -64,14 +65,14 @@ const pending = createReducer(initialPending)({
 
 
 /**
-* nodes {object}
-* 	nodes.key {string} - cell ID of node
-* 	nodes.value {object} - record of node
+* data {object}
+* 	data.key {string} - cell ID of node
+* 	data.value {object} - record of node
 */
 
 const initialNodes = {}
 
-const nodes = createReducer(initialNodes)({
+const data = createReducer(initialNodes)({
 	[actions.fetchTreeRootSuccess]: (state, action) => {
 		const { children, ...otherRootProps } = action.root
 
@@ -105,7 +106,7 @@ const nodes = createReducer(initialNodes)({
 */
 const tree = combineReducers({
 	rootID,
-	nodes,
+	data,
 	pending
 })
 
@@ -117,10 +118,23 @@ const tree = combineReducers({
 * State Selectors
 */
 
-export const treeRootIDSelector = (state) => state.cells.tree.rootID
-export const treeNodesSelector = (state) => state.cells.tree.nodes
-export const treePendingSelector = (state) => state.cells.tree.pending
 
+const treeRootIDSelector = state => state.rootID
+const treeDataSelector = state => state.data
+const treePendingSelector = state => state.pending
+
+const treeRootIDStateSelectors = {}
+const treeDataStateSelectors = {}
+const treePendingStateSelectors = {}
+
+export const stateSelectors = {
+	treeRootIDSelector,
+	treeDataSelector,
+	treePendingSelector,
+	...shiftSelectors(treeRootIDSelector, treeRootIDStateSelectors),
+	...shiftSelectors(treeDataSelector, treeDataStateSelectors),
+	...shiftSelectors(treePendingSelector, treePendingStateSelectors)
+}
 
 
 export default tree

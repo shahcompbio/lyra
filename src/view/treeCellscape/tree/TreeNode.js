@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { makeGetTreeNodeRecord, getYScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeNodeRecord, getTreeYScale } from 'state/selectors/treeCellscape.js'
 import { fetchTreeNode } from 'state/actions/treeCellscape.js'
 
 import TreeNodeCircle from './TreeNodeCircle'
@@ -81,7 +81,7 @@ const makeMapStateForTreeNode = () => {
 	const getTreeNodeRecord = makeGetTreeNodeRecord()
 	const mapState = (state, ownProps) => ({
 		treeNode: getTreeNodeRecord(state, ownProps.nodeID),
-		yScale: getYScale(state)
+		yScale: getTreeYScale(state)
 	})
 	return mapState
 }

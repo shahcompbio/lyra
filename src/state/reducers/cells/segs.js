@@ -3,7 +3,8 @@
 */
 
 import { combineReducers } from 'redux'
-import createReducer from '../createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
@@ -145,8 +146,18 @@ const segs = combineReducers({
 * State Selectors
 */
 
-export const segsSelector = (state) => state.cells.segs
-export const segsDataSelector = (state) => state.cells.segs.data
-export const segsPendingSelector = (state) => state.cells.segs.pending
+const segsDataSelector = state => state.data
+const segsPendingSelector = state => state.pending
+
+const segsDataStateSelectors = {}
+const segsPendingStateSelectors = {}
+
+export const stateSelectors = {
+	segsDataSelector,
+	segsPendingSelector,
+	...shiftSelectors(segsDataSelector, segsDataStateSelectors),
+	...shiftSelectors(segsPendingSelector, segsPendingStateSelectors)
+}
+
 
 export default segs

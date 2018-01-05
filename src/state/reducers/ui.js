@@ -4,7 +4,8 @@
 
 
 import { combineReducers } from 'redux'
-import createReducer from './createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
@@ -89,8 +90,15 @@ const ui = combineReducers({
 * State Selectors
 */
 
-export const uiSummarySelector = (state) => state.ui.summary
+
+const uiSummarySelector = state => state.summary
+
+const uiSummaryStateSelectors = {}
 
 
+export const stateSelectors = {
+	uiSummarySelector,
+	...shiftSelectors(uiSummarySelector, uiSummaryStateSelectors)
+}
 
 export default ui

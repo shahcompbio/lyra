@@ -3,7 +3,8 @@
 */
 
 import { combineReducers } from 'redux'
-import createReducer from 'state/reducers/createReducer.js'
+import createReducer from 'state/reducers/utils/createReducer.js'
+import shiftSelectors from 'state/reducers/utils/shiftSelectors.js'
 import { types as actions } from 'state/actions/treeCellscape.js'
 
 
@@ -59,9 +60,20 @@ const chromosomes = combineReducers({
 * State Selectors
 */
 
-export const chromosomesSelector = (state) => state.chromosomes
-export const chromosomesDataSelector = (state) => state.chromosomes.data
-export const chromosomesOrderSelector = (state) => state.chromosomes.order
+const chromosomesDataSelector = state => state.data
+const chromosomesOrderSelector = state => state.order
+
+
+const chromosomesDataStateSelectors = {}
+const chromosomesOrderStateSelectors = {}
+
+export const stateSelectors = {
+	chromosomesDataSelector: chromosomesDataSelector,
+	chromosomesOrderSelector: chromosomesOrderSelector,
+	...shiftSelectors(chromosomesDataSelector, chromosomesDataStateSelectors),
+	...shiftSelectors(chromosomesOrderSelector, chromosomesOrderStateSelectors)
+}
+
 
 
 export default chromosomes
