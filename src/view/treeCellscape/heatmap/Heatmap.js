@@ -7,6 +7,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import DataFetcher from 'view/DataFetcher'
+
 import { getAllHeatmapSegData, getMissingSegIndices, getChromRanges, getHeatmapYScale, getChromPixelMapping, getBPRatio } from 'state/selectors/treeCellscape.js'
 import { fetchSegs, fetchChromRanges } from 'state/actions/treeCellscape.js'
 import HeatmapRow from './HeatmapRow'
@@ -17,58 +19,23 @@ const { width, height } = config
 
 
 
+
+
+
+
 /**
-* HeatmapSegFetcher
+* Segment Data Fetcher
 */
-class HeatmapSegFetcher extends Component {
-	static propTypes = {
-		/** segs - segment data for all cells*/
-		segs: PropTypes.array.isRequired,
 
-		/** missingIndices - all indices that are missing segment data*/
-		missingIndices: PropTypes.array.isRequired,
-
-		/** yScale */
-		yScale: PropTypes.func,
-
-		/** chromMap - chromosome to pixel start map */
-		chromMap: PropTypes.object,
-
-		/** bpRatio - base pair to pixel ratio */
-		bpRatio: PropTypes.number,
-
-		/** render */
-		render: PropTypes.func.isRequired
-	}
+const segIsDataMissing = (props) => {
+	const { missingIndices } = props
+	return missingIndices.length> 0
+}
 
 
-	componentDidMount() {
-		this.fetchIfMissing(this.props)
-	}
-
-	/*shouldComponentUpdate(nextProps, nextState) {
-		return nextProps.missingIndices.length !== this.props.missingIndices.length
-
-	}*/
-	
-
-	componentWillUpdate(nextProps, nextState) {
-		this.fetchIfMissing(nextProps)
-	}
-
-
-	fetchIfMissing(props) {
-		const { dispatch, missingIndices } = props
-		if (missingIndices.length > 0) {
-			dispatch(fetchSegs(missingIndices))
-		}
-	}
-
-	render() {
-		const { render, missingIndices, segs, yScale, chromMap, bpRatio } = this.props
-		return missingIndices.length > 0 ? null : render(segs, yScale, chromMap, bpRatio)
-	}
-
+const segFetchData = (props) => {
+	const { missingIndices } = props
+	return fetchSegs(missingIndices)
 }
 
 const mapState = (state) => ({
@@ -79,48 +46,53 @@ const mapState = (state) => ({
 	bpRatio: getBPRatio(state)
 })
 
-HeatmapSegFetcher = connect(mapState)(HeatmapSegFetcher)
+const HeatmapSegFetcher = connect(mapState)(DataFetcher)
+
+	HeatmapSegFetcher.PropTypes = {
+		/** segs - all segment records */
+		segs: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+		/** missingIndices - all indices that are missing segment records*/
+		missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired,
+
+		/** yScale */
+		yScale: PropTypes.func.isRequired,
+
+		/** chromMap - chromosome number to pixel start position mapping */
+		chromMap: PropTypes.object.isRequired,
+
+		/** bpRatio - base pair to pixel ratio */
+		bpRatio: PropTypes.number.isRequired
+	}
+
 
 
 
 
 /**
-* HeatmapChromFetcher
+* Chromosome Range Data Fetcher
 */
-class HeatmapChromFetcher extends Component {
-	static propTypes = {
-		/** chromRanges */
-		chromRanges: PropTypes.array,
 
-		/** render */
-		render: PropTypes.func.isRequired
-	}
-
-
-	componentDidMount() {
-		this.fetchIfMissing(this.props)
-	}
-
-
-	fetchIfMissing(props) {
-		const { dispatch, chromRanges } = props
-		if (chromRanges.length === 0) {
-			dispatch(fetchChromRanges())
-		}
-	}
-
-	render() {
-		const { render, chromRanges } = this.props
-
-		return chromRanges.length === 0 ? (null) : render()
-	}
+const chromIsDataMissing = (props) => {
+	const { chromRanges } = props
+	return chromRanges.length === 0
 }
+
+const chromFetchData = (props) => {
+	return fetchChromRanges()
+}
+
 
 const chromMapState = (state) => ({
 	chromRanges: getChromRanges(state)
 })
 
-HeatmapChromFetcher = connect(chromMapState)(HeatmapChromFetcher)
+const HeatmapChromFetcher = connect(chromMapState)(DataFetcher)
+
+	HeatmapChromFetcher.PropTypes = {
+		/** chromRanges - chromosome ranges in order of number */
+		chromRanges: PropTypes.arrayOf(PropTypes.object)
+	}
 
 
 
@@ -131,7 +103,11 @@ HeatmapChromFetcher = connect(chromMapState)(HeatmapChromFetcher)
 */
 const Heatmap = () => {
 
-	const render = (segs, yScale, chromMap, bpRatio) => {
+
+
+	const segsRender = (props) => {
+		const { segs, yScale, chromMap, bpRatio } = props
+
 		return (
 			<svg width={width} height={height} x={config.x}>
 				{segs.map(rowData => 
@@ -145,12 +121,12 @@ const Heatmap = () => {
 		)
 	}
 
-	const chromRender = () => {
-		return (<HeatmapSegFetcher render={render}/>)
+	const chromRender = (props) => {
+		return (<HeatmapSegFetcher render={segsRender} isDataMissing={segIsDataMissing} fetchData={segFetchData}/>)
 	}
 
 	return (
-		<HeatmapChromFetcher render={chromRender}/>
+		<HeatmapChromFetcher render={chromRender} isDataMissing={chromIsDataMissing} fetchData={chromFetchData}/>
 	)
 
 }

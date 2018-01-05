@@ -9,73 +9,43 @@ import { connect } from 'react-redux'
 import { makeGetTreeNodeRecord, getTreeYScale } from 'state/selectors/treeCellscape.js'
 import { fetchTreeNode } from 'state/actions/treeCellscape.js'
 
+import DataFetcher from 'view/DataFetcher'
+
 import TreeNodeCircle from './TreeNodeCircle'
 import TreeChildren from './TreeChildren'
 import TreeHorizontalBranch from './TreeHorizontalBranch'
 
 
 
+
+
 /**
-* TreeNodeFetcher
-* TODO: abstract this so you can input:
-// 	Data missing boolean
-//  mapstate??
+* Tree Node Data Fetcher
 */
-class TreeNodeFetcher extends Component {
-	static propTypes = {
-		/** nodeID - cellID of node*/
-		nodeID: PropTypes.string.isRequired,
 
-		/** treeNode - data for nodeID */
-		treeNode: PropTypes.object,
-
-		/** yScale */
-		yScale: PropTypes.func,
-
-		/** render */
-		render: PropTypes.func.isRequired
-	}
-
-	componentDidMount() {
-		this.fetchIfMissing(this.props)
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		const currNode = this.props.treeNode
-		const nextNode = nextProps.treeNode
-
-		return nextNode === null && currNode === null ? false
-		: currNode === null || nextNode === null ? true
-		: currNode.cellID !== nextNode.cellID
-	}
-
-	componentWillUpdate(nextProps) {
-		this.fetchIfMissing(nextProps)
-	}
-
-
-	/** Dispatches fetch action if tree data doesn't exist*/
-	fetchIfMissing(props) {
-		const { dispatch, treeNode, nodeID } = props
-		if (this.isDataMissing(treeNode)) {
-			dispatch(fetchTreeNode(nodeID))
-		}
-	}
-
-	/** Determines if tree data doesn't exist*/
-	isDataMissing(treeNode) {
-		return treeNode === null
-	}
-
-	render() {
-		const { render, treeNode, yScale } = this.props
-		return this.isDataMissing(treeNode) ? ('Loading') : render(treeNode, yScale)
-	}
+const isDataMissing = (props) => {
+	const { treeNode } = props
+	return treeNode === null
 }
 
+
+const fetchData = (props) => {
+	const { nodeID } = props
+	return fetchTreeNode(nodeID)
+}
+
+const shouldComponentUpdate = (currProps, nextProps) => {
+	const currNode = currProps.treeNode
+	const nextNode = nextProps.treeNode
+
+	return nextNode === null && currNode === null ? false
+	: currNode === null || nextNode === null ? true
+	: currNode.cellID !== nextNode.cellID
+}
+
+
 /**
-* MapState Factory function for Tree Node (use of Reselect)
-* @return {func} mapState
+* Factory function for mapstate to Tree Node
 */
 const makeMapStateForTreeNode = () => {
 	const getTreeNodeRecord = makeGetTreeNodeRecord()
@@ -86,10 +56,15 @@ const makeMapStateForTreeNode = () => {
 	return mapState
 }
 
-TreeNodeFetcher = connect(makeMapStateForTreeNode())(TreeNodeFetcher)
+const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher)
 
+	TreeNodeFetcher.PropTypes = {
+		/** treeNode */
+		treeNode: PropTypes.object,
 
-
+		/** yScale */
+		yScale: PropTypes.func.isRequired
+	}
 
 
 
@@ -102,19 +77,21 @@ TreeNodeFetcher = connect(makeMapStateForTreeNode())(TreeNodeFetcher)
 
 
 /**
-* TreeNode function - passes render prop to TreeNodeFetcher
+* TreeNode
 * @param {string} nodeID
 * @param {int} depth
 */
 const TreeNode = ({nodeID, depth}) => {
+
 
 	/**
 	* render prop
 	* @param {object} nodeData
 	* @param {func} yScale
 	*/
-	const render = (nodeData, yScale) => {
-		const { heatmapIndex, children, parent } = nodeData
+	const render = (props) => {
+		const { treeNode, yScale } = props
+		const { heatmapIndex, children, parent } = treeNode
 		const branch = parent === "root" ? '' : <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
 		return (<g>
 					{branch}
@@ -122,18 +99,15 @@ const TreeNode = ({nodeID, depth}) => {
 					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
 				</g>)
 	} 
-	return (<TreeNodeFetcher render={render} nodeID={nodeID}/>)
+	return (<TreeNodeFetcher render={render} nodeID={nodeID} fetchData={fetchData} isDataMissing={isDataMissing} shouldComponentUpdate={shouldComponentUpdate}/>)
 }
 
-	/**
-	* TreeNode propTypes
-	*/
 	TreeNode.PropTypes = {
 		/** nodeID*/
 		nodeID: PropTypes.string.isRequired,
 
-		/** yScale*/
-		yScale: PropTypes.func.isRequired,
+		/** depth - current depth of node from root */
+		depth: PropTypes.number.isRequired
 	}
 
 
