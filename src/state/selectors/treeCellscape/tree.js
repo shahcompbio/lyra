@@ -66,24 +66,26 @@ const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('child
 /**
 * 	Factory function - gets summary list (nodes and clusters) of tree's (by cell ID) children
 */
-export const makeGetTreeChildrenSummary = () => (createSelector(
+export const makeGetTreeChildrenSummary = () => {
+	const getTreeNodeRecordsByID = makeGetTreeNodeRecordsByID()
+	return createSelector(
 	[ getTreeNodeRecordsByID, getThresholdIndex ],
 	// (array, int) => array
 	summaryTreeChildren
-))
+)}
 
 
 /**
-* Get shallow tree node records given list of IDs
+* Factory function - Get shallow tree node records given list of IDs
 */
-const getTreeNodeRecordsByID = createSelector(
+const makeGetTreeNodeRecordsByID = () => (createSelector(
 	[ getTreeNodeRecords, (state, ids) => (ids) ],
 	// (object, array) => array
 	(nodes, ids) => (ids.map(nodeID => {
 		const { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex } = nodes[nodeID]
 		return { heatmapIndex, maxHeight, cellID, minDescendantIndex, maxDescendantIndex }
 	}))
-)
+))
 
 
 
