@@ -65,14 +65,14 @@ const pending = createReducer(initialPending)({
 
 
 /**
-* nodes {object}
-* 	nodes.key {string} - cell ID of node
-* 	nodes.value {object} - record of node
+* data {object}
+* 	data.key {string} - cell ID of node
+* 	data.value {object} - record of node
 */
 
 const initialNodes = {}
 
-const nodes = createReducer(initialNodes)({
+const data = createReducer(initialNodes)({
 	[actions.fetchTreeRootSuccess]: (state, action) => {
 		const { children, ...otherRootProps } = action.root
 
@@ -106,7 +106,7 @@ const nodes = createReducer(initialNodes)({
 */
 const tree = combineReducers({
 	rootID,
-	nodes,
+	data,
 	pending
 })
 
@@ -120,19 +120,19 @@ const tree = combineReducers({
 
 
 const treeRootIDSelector = state => state.rootID
-const treeNodesSelector = state => state.nodes
+const treeDataSelector = state => state.data
 const treePendingSelector = state => state.pending
 
 const treeRootIDStateSelectors = {}
-const treeNodesStateSelectors = {}
+const treeDataStateSelectors = {}
 const treePendingStateSelectors = {}
 
 export const stateSelectors = {
 	treeRootIDSelector,
-	treeNodesSelector,
+	treeDataSelector,
 	treePendingSelector,
 	...shiftSelectors(treeRootIDSelector, treeRootIDStateSelectors),
-	...shiftSelectors(treeNodesSelector, treeNodesStateSelectors),
+	...shiftSelectors(treeDataSelector, treeDataStateSelectors),
 	...shiftSelectors(treePendingSelector, treePendingStateSelectors)
 }
 

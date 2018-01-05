@@ -14,7 +14,7 @@ import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
 	treeRootIDSelector,
-	treeNodesSelector
+	treeDataSelector
 } = stateSelectors
 
 
@@ -24,7 +24,7 @@ const {
 *******************************************/
 
 const getTreeRootID = treeRootIDSelector
-const getTreeNodeRecords = treeNodesSelector
+const getTreeNodeRecords = treeDataSelector
 
 
 
