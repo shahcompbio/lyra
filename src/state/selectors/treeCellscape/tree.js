@@ -4,7 +4,7 @@
 
 
 import { createSelector } from 'reselect'
-import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
+import { treeConfig } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
 
@@ -225,7 +225,7 @@ export const getYScale = createSelector(
 	// int => func
 	(numNodes) => (
 		scaleLinear().domain([0, numNodes - 1])
-					 .range([config['treeNodeRadius'], config['height']])
+					 .range([treeConfig['treeNodeRadius'], treeConfig['height']])
 	)
 )
 
@@ -250,7 +250,7 @@ export const getClusterColorScale = createSelector(
 	[ getMaxHeight ],
 	// int => func
 	(maxHeight) => scaleLinear().domain([0, maxHeight])
-					 .range(config['treeClusterColorGradient'])
+					 .range(treeConfig['treeClusterColorGradient'])
 )
 
 
@@ -267,7 +267,7 @@ export const getClusterColorScale = createSelector(
 export const getOffsetIndex = createSelector(
 	[ getIndicesPerPixel ],
 	// int => int
-	(indPerPx) => (indPerPx * config['treeClusterVerticalOffset'])
+	(indPerPx) => (indPerPx * treeConfig['treeClusterVerticalOffset'])
 )
 
 

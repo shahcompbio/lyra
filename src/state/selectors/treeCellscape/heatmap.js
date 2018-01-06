@@ -3,7 +3,7 @@
 */
 
 import { createSelector } from 'reselect'
-import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
+import { treeConfig, heatmapConfig } from 'config/treeCellscape.js'
 import { scalePoint } from 'd3'
 
 import { getIndicesPerRow, getTotalIndexNum } from './utils.js'
@@ -153,7 +153,7 @@ export const getYScale = createSelector(
 	[ getHeatmapIDs ],
 	// array => func
 	(ids) => (scalePoint().domain(ids)
-						  .range([0, ids.length * config.heatmapRowHeight]))
+						  .range([0, ids.length * heatmapConfig['rowHeight']]))
 )
 
 
@@ -177,7 +177,7 @@ export const getBPRatio = createSelector(
 	[ getTotalBP ],
 	// int => int
 	(totalBP) => (
-		Math.ceil(totalBP / heatmapConfig.width)
+		Math.ceil(totalBP / heatmapConfig['width'])
 	)
 )
 

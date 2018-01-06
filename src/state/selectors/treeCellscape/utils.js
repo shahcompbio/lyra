@@ -4,7 +4,9 @@
 
 
 import { createSelector } from 'reselect'
-import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
+
+
+import { treeConfig, heatmapConfig } from 'config/treeCellscape.js'
 
 import { stateSelectors } from 'state/reducers/index.js'
 
@@ -64,7 +66,7 @@ export const getTotalIndexNum = createSelector(
 export const getIndicesPerPixel = createSelector(
 	[ getTotalIndexNum ],
 	// int => int
-	(numNodes) => (Math.max(1, Math.ceil(numNodes / config['height'])))
+	(numNodes) => (Math.max(1, Math.ceil(numNodes / treeConfig['height'])))
 )
 
 
@@ -76,7 +78,7 @@ export const getIndicesPerPixel = createSelector(
 export const getIndicesPerRow = createSelector(
 	[ getIndicesPerPixel ],
 	// int => int
-	(indPerPx) => (indPerPx * config['heatmapRowHeight'])
+	(indPerPx) => (indPerPx * heatmapConfig['rowHeight'])
 )
 
 

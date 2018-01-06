@@ -4,7 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { treeConfig as config, heatmapConfig } from 'config/treeCellscape.js'
+import { heatmapConfig as config} from 'config/treeCellscape.js'
 
 
 
@@ -14,10 +14,10 @@ const HeatmapRow = ({ rowData, yScale, chromMap, bpRatio }) => {
 
 	return (<g>{segs.map(seg => <rect key={rowData['cellID'] + "-" + seg['chromosome'] + "-" + seg['start']} 
 								  width={getSegWidth(seg, bpRatio)} 
-								  height={config.heatmapRowHeight}
+								  height={config['rowHeight']}
 								  x={getSegX(seg, chromMap, bpRatio)}
 								  y={yScale(heatmapIndex)}
-								  fill={heatmapConfig.colorScale(seg.state)}/>)}
+								  fill={config['colorScale'](seg.state)}/>)}
 		</g>)
 }
 

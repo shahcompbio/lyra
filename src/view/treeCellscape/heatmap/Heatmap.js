@@ -109,7 +109,7 @@ const Heatmap = () => {
 		const { segs, yScale, chromMap, bpRatio } = props
 
 		return (
-			<svg width={width} height={height} x={config.x}>
+			<svg width={width} height={height} x={config['x']}>
 				{segs.map(rowData => 
 					<HeatmapRow key={rowData['cellID']}
 								rowData={rowData} 

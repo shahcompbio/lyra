@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { treeConfig as config, getXPosition } from 'config/treeCellscape.js'
+import { treeConfig as config, getTreeXPosition as getXPosition } from 'config/treeCellscape.js'
 const { treeNodeRadius, treeNodeColor } = config
 
 
