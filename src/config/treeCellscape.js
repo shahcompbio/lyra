@@ -59,9 +59,6 @@ const TREE_CONSTANTS = {
 	width: 800,
 	height: 1000,
 
-	heatmapRowHeight: 5,
-
-
 	treeNodeRadius: 3,
 	treeNodeColor: "#b3b3b3",
 	treeBranchColor: "#000000",
@@ -88,9 +85,18 @@ export const treeConfig = {
 }
 
 
+	/**
+	* Heatmap-related config
+	*/
 
+
+const HEATMAP_CONSTANTS = {
+	rowHeight: 5
+}
 
 export const heatmapConfig = {
+
+	...HEATMAP_CONSTANTS,
 
 	width: config.width - treeConfig.width,
 	height: config.height,
@@ -102,7 +108,13 @@ export const heatmapConfig = {
 
 
 
-export const getXPosition = (depth) => (
+
+/**
+* Gets x position for tree component given some depth
+* @param {int} depth
+* @return {int}
+*/
+export const getTreeXPosition = (depth) => (
 	(depth * treeConfig.treeDepthSpacing) + treeConfig.treeNodeRadius
 )
 

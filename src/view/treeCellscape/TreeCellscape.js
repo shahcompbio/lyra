@@ -13,7 +13,6 @@ import { config } from 'config/treeCellscape.js'
 const { width, height } = config
 
 
-
 const TreeCellscape = () => (
 	<p>
 		<svg width={width} height={height}>
