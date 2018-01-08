@@ -6,10 +6,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { makeGetTreeNodeRecord, getTreeYScale } from 'state/selectors/treeCellscape.js'
+import { makeGetTreeNodeRecordByID, getTreeYScale } from 'state/selectors/treeCellscape.js'
 import { fetchTreeNode } from 'state/actions/treeCellscape.js'
 
-import DataFetcher from 'view/DataFetcher'
+import DataFetcher from 'view/utils/DataFetcher'
 
 import TreeNodeCircle from './TreeNodeCircle'
 import TreeChildren from './TreeChildren'
@@ -48,9 +48,9 @@ const shouldComponentUpdate = (currProps, nextProps) => {
 * Factory function for mapstate to Tree Node
 */
 const makeMapStateForTreeNode = () => {
-	const getTreeNodeRecord = makeGetTreeNodeRecord()
+	const getTreeNodeRecordByID = makeGetTreeNodeRecordByID()
 	const mapState = (state, ownProps) => ({
-		treeNode: getTreeNodeRecord(state, ownProps.nodeID),
+		treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
 		yScale: getTreeYScale(state)
 	})
 	return mapState

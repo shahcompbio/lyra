@@ -55,7 +55,7 @@ const getHeatmapIDs = createSelector(
 /**
 * Gets all segment records for heatmap indices that are displayed and currently have data
 */
-export const getAllHeatmapSegData = createSelector(
+export const getHeatmapSegData = createSelector(
 	[ getHeatmapIDs, getSegsData ],
 	// (array, object) => array
 	(indices, segs) => (

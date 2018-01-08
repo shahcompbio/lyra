@@ -35,7 +35,7 @@ export {
 	*	Factory function - gets tree record for specific cell ID
 	*	@return {func} ( , {string}) => {object}
 	*/
-	makeGetTreeNodeRecord,
+	makeGetTreeNodeRecordByID,
 
 	/** 
 	*	Factory function - gets summary list (nodes and clusters) of tree's (by cell ID) children
@@ -81,7 +81,7 @@ export {
 	*	Gets all segment records for heatmap indices that are displayed and currently have data
 	*	@return {array}
 	*/
-	getAllHeatmapSegData,
+	getHeatmapSegData,
 
 	/** 
 	*	Gets list of heatmap indices that are displayed and do not have segment records

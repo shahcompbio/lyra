@@ -39,7 +39,7 @@ const getTreeNodeRecords = treeDataSelector
 /**
 * Factory function - gets tree record for specific cell ID
 */
-export const makeGetTreeNodeRecord = () => (createSelector(
+export const makeGetTreeNodeRecordByID = () => (createSelector(
 	[ getTreeNodeRecords, (state, id) => id ],
 	// (object, string) => object || null
 	(nodes, id) => {
