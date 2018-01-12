@@ -4,20 +4,26 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { heatmapConfig as config} from 'config/treeCellscape.js'
 
+import { heatmapConfig as config } from 'config/treeCellscape.js'
+import IndicatorCell from './IndicatorCell'
 
 
 
 const HeatmapRow = ({ rowData, yScale, chromMap, bpRatio }) => {
 	const { heatmapIndex, segs } = rowData
-
-	return (<g>{segs.map(seg => <rect key={rowData['cellID'] + "-" + seg['chromosome'] + "-" + seg['start']} 
+	const height = config['rowHeight']
+	const y = yScale(heatmapIndex)
+	return (<g className={heatmapIndex} onMouseEnter={ () => console.log(heatmapIndex)} data-tip>
+				<IndicatorCell cellID={rowData['cellID']} height={height} y={y}/>
+				{segs.map(seg => <rect key={rowData['cellID'] + "-" + seg['chromosome'] + "-" + seg['start']} 
 								  width={getSegWidth(seg, bpRatio)} 
-								  height={config['rowHeight']}
+								  height={height}
 								  x={getSegX(seg, chromMap, bpRatio)}
-								  y={yScale(heatmapIndex)}
-								  fill={config['colorScale'](seg.state)}/>)}
+								  y={y}
+								  fill={config['colorScale'](seg.state)}
+								  />
+				)}
 		</g>)
 }
 
@@ -48,7 +54,7 @@ const HeatmapRow = ({ rowData, yScale, chromMap, bpRatio }) => {
 * @param {number}
 */
 const getSegX = (seg, chromMap, bpRatio) => (
-	Math.floor(seg.start / bpRatio) + chromMap[seg.chromosome].x
+	Math.floor(seg.start / bpRatio) + chromMap[seg.chromosome].x + config['indicatorWidth']
 )
 
 /**

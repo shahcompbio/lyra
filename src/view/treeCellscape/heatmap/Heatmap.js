@@ -15,7 +15,7 @@ import HeatmapRow from './HeatmapRow'
 
 
 import { heatmapConfig as config } from 'config/treeCellscape.js'
-const { width, height } = config
+const { totalWidth, height } = config
 
 
 
@@ -109,7 +109,7 @@ const Heatmap = () => {
 		const { segs, yScale, chromMap, bpRatio } = props
 
 		return (
-			<svg width={width} height={height} x={config['x']}>
+			<svg width={totalWidth} height={height} x={config['x']}>
 				{segs.map(rowData => 
 					<HeatmapRow key={rowData['cellID']}
 								rowData={rowData} 

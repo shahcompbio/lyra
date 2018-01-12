@@ -177,7 +177,7 @@ export const getBPRatio = createSelector(
 	[ getTotalBP ],
 	// int => int
 	(totalBP) => (
-		Math.ceil(totalBP / heatmapConfig['width'])
+		Math.ceil(totalBP / heatmapConfig['contentWidth'])
 	)
 )
 
