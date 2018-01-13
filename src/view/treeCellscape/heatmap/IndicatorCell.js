@@ -8,13 +8,13 @@ import { heatmapConfig as config } from 'config/treeCellscape.js'
 
 
 
-const IndicatorCell = ({ cellID, height, y }) => 
+const IndicatorCell = ({ cellID, height, y, isHighlighted }) => 
 	(<rect key={cellID + "-indicator"}
 		  width={config['indicatorWidth']}
 		  height={height}
 		  x={0}
 		  y={y}
-		  fill="#000000"
+		  fill={isHighlighted ? "#000000" : "#FFFFFF"}
 	/>)
 
 

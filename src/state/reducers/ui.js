@@ -75,12 +75,28 @@ const summary = createReducer(initialSummary)({
 		const isNode = (item) => (Number.isInteger(item))
 
 
+
+/**
+* highlighted {null || int || array}
+* 	index or range of indices that is being hovered upon
+*/
+
+const initialHighlighted = null
+const highlighted = createReducer(initialHighlighted)({
+	[actions.highlightIndex]: (state, action) => (action.index),
+	[actions.unhighlightIndex]: (state, action) => (null)
+})
+
+
+
+
 /**
 * UI reducer
 * - summary {array}
 */
 const ui = combineReducers({
-	summary
+	summary,
+	highlighted
 })
 
 
@@ -92,13 +108,17 @@ const ui = combineReducers({
 
 
 const uiSummarySelector = state => state.summary
+const uiHighlightedSelector = state => state.highlighted
 
 const uiSummaryStateSelectors = {}
+const uiHighlightedStateSelectors = {}
 
 
 export const stateSelectors = {
 	uiSummarySelector,
-	...shiftSelectors(uiSummarySelector, uiSummaryStateSelectors)
+	uiHighlightedSelector,
+	...shiftSelectors(uiSummarySelector, uiSummaryStateSelectors),
+	...shiftSelectors(uiHighlightedSelector, uiHighlightedStateSelectors)
 }
 
 export default ui

@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 
 import DataFetcher from 'view/utils/DataFetcher'
 
-import { getHeatmapSegData, getMissingSegIndices, getChromRanges, getHeatmapYScale, getChromPixelMapping, getBPRatio } from 'state/selectors/treeCellscape.js'
+import { getHeatmapSegData, getMissingSegIndices, getChromRanges  } from 'state/selectors/treeCellscape.js'
 import { fetchSegs, fetchChromRanges } from 'state/actions/treeCellscape.js'
 import HeatmapRow from './HeatmapRow'
 
@@ -40,10 +40,7 @@ const segFetchData = (props) => {
 
 const mapState = (state) => ({
 	segs: getHeatmapSegData(state),
-	missingIndices: getMissingSegIndices(state),
-	yScale: getHeatmapYScale(state),
-	chromMap: getChromPixelMapping(state),
-	bpRatio: getBPRatio(state)
+	missingIndices: getMissingSegIndices(state)
 })
 
 const HeatmapSegFetcher = connect(mapState)(DataFetcher)

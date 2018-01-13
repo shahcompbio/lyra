@@ -37,8 +37,13 @@ export const types = {
 
 	/** Fetch missing index to ID mappings */
 	fetchIndexToIDMappings: "TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS",
-	fetchIndexToIDMappingsSuccess: "TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS_SUCCESS"
+	fetchIndexToIDMappingsSuccess: "TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS_SUCCESS",
 
+
+
+	/** Highlight/Unhighlighted tree node or heatmap row */
+	highlightIndex: "TREECELLSCAPE_HIGHLIGHT_INDEX",
+	unhighlightIndex: "TREECELLSCAPE_UNHIGHLIGHT_INDEX"
 
 }
 
@@ -145,3 +150,24 @@ export const fetchIndexToIDMappingsSuccess = (records) => ({
 	type: types.fetchIndexToIDMappingsSuccess,
 	records
 })
+
+
+/**
+* Highlight given cell
+* @param {int || array} index
+*/
+export const highlightIndex = (index) => ({
+	type: types.highlightIndex,
+	index
+})
+
+
+
+/**
+* Unhighlight current cell
+*/
+export const unhighlightIndex = () => ({
+	type: types.unhighlightIndex
+})
+
+

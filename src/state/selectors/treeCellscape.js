@@ -8,7 +8,8 @@ import { stateSelectors } from 'state/reducers/index.js'
 const { 
 	treeRootIDSelector,
 	treePendingSelector,
-	segsPendingSelector
+	segsPendingSelector,
+	uiHighlightedSelector
 } = stateSelectors
 
 /******************************************
@@ -126,3 +127,16 @@ export {
 	getChromPixelMapping
 
 } from './treeCellscape/heatmap.js'
+
+
+
+
+/******************************************
+* UNIVERSAL SELECTORS
+*******************************************/
+
+/**
+* Gets index or index range of highlighted cells
+* @return {null || int || array}
+*/
+export const getHighlightedIndex = uiHighlightedSelector
