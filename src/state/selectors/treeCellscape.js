@@ -140,3 +140,9 @@ export {
 * @return {null || int || array}
 */
 export const getHighlightedIndex = uiHighlightedSelector
+
+export  {
+	getHighlightedCellID
+
+
+} from './treeCellscape/utils.js'

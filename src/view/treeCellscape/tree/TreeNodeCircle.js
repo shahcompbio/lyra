@@ -14,6 +14,7 @@ const TreeNodeCircle = ({ heatmapIndex, depth, yScale}) =>
 			 cy={yScale(heatmapIndex)} 
 			 r={treeNodeRadius} 
 			 fill={treeNodeColor}
+			 data-tip
 	/>)
 
 	

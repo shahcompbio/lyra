@@ -13,6 +13,7 @@ import { addChildrenSummary } from 'state/actions/treeCellscape.js'
 import TreeNode from './TreeNode'
 import TreeCluster from './TreeCluster'
 import TreeVerticalBranch from './TreeVerticalBranch'
+import ReactTooltip from 'react-tooltip'
 
 
 class TreeChildren extends Component {
@@ -41,6 +42,7 @@ class TreeChildren extends Component {
 	componentDidMount() {
 		const { dispatch, childrenSummary } = this.props
 		dispatch(addChildrenSummary(childrenSummary))
+		ReactTooltip.rebuild()
 	}
 
 

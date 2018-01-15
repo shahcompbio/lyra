@@ -12,7 +12,10 @@ import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
 	treeRootIDSelector,
-	treeDataSelector
+	treeDataSelector,
+
+	uiHighlightedSelector,
+	indexToIDSelector
 } = stateSelectors 
 
 
@@ -26,6 +29,8 @@ export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
+export const getHighlightedIndex = uiHighlightedSelector
+const getIndexToIDMapping = indexToIDSelector
 
 
 
@@ -41,6 +46,7 @@ export const getTreeRootRecord = createSelector(
 	// (object, string) => object
 	(nodes, rootID) => (nodes[rootID])
 )
+
 
 
 
@@ -91,6 +97,17 @@ export const getThresholdIndex = createSelector(
 	[ getIndicesPerRow ],
 	// int => int
 	(indPerRow) => (indPerRow * 4)
+)
+
+
+
+/******************************************
+* HIGHLIGHTED CELLS SELECTORS
+*******************************************/
+
+export const getHighlightedCellID = createSelector(
+	[ getHighlightedIndex, getIndexToIDMapping ],
+	(index, indexToID) => (indexToID[index])
 )
 
 
