@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 
 
 import TreeNodeCircle from './TreeNodeCircle'
-import { getTreeYScale, makeIsIDHighlighted } from 'state/selectors/treeCellscape.js'
+import { getTreeYScale, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
 import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
 
 
@@ -47,9 +47,9 @@ class TreeNodePoint extends Component {
 }
 
 const makeMapState = () => {
-	const isIDHighlighted = makeIsIDHighlighted()
+	const isIndexHighlighted = makeIsIndexHighlighted()
 	const mapState = (state, ownProps) => ({
-		isHighlighted: isIDHighlighted(state, ownProps.nodeID)
+		isHighlighted: isIndexHighlighted(state, ownProps.heatmapIndex)
 	})
 
 	return mapState

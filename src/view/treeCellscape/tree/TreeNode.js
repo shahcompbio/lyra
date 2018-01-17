@@ -83,8 +83,7 @@ const TreeNode = ({ nodeID, depth }) => {
 	
 		return (<g>
 					{branch}
-					<TreeNodePoint  nodeID={nodeID}
-									heatmapIndex={heatmapIndex}
+					<TreeNodePoint  heatmapIndex={heatmapIndex}
 									depth={depth}
 									yScale={yScale}/>
 					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>

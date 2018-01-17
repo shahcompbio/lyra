@@ -143,9 +143,7 @@ export {
 export  {
 	getHighlightedCellID,
 
-	makeIsIndexHighlighted,
-
-	makeIsIDHighlighted
+	makeIsIndexHighlighted
 
 
 } from './treeCellscape/utils.js'
