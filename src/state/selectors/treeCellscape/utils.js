@@ -111,4 +111,13 @@ export const getHighlightedCellID = createSelector(
 )
 
 
+export const makeIsIndexHighlighted = () => createSelector(
+	[ getHighlightedIndex, (state, index) => index ],
+	(highlightedIndex, index) => (highlightedIndex === index)
+)
+
+export const makeIsIDHighlighted = () => createSelector(
+	[ getHighlightedCellID, (state, cellID) => cellID ],
+	(highlightedCellID, cellID) => (highlightedCellID === cellID)
+)
 

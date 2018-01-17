@@ -10,7 +10,7 @@ import { heatmapConfig as config } from 'config/treeCellscape.js'
 import IndicatorCell from './IndicatorCell'
 import HeatmapRowContent from './HeatmapRowContent'
 
-import { getHeatmapYScale, getChromPixelMapping, getBPRatio, getHighlightedIndex } from 'state/selectors/treeCellscape.js'
+import { getHeatmapYScale, getChromPixelMapping, getBPRatio, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
 import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
 
 class HeatmapRow extends Component { 
@@ -29,18 +29,14 @@ class HeatmapRow extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		const cellID = this.props.rowData['heatmapIndex']
-		// Current highlighted cell is row
-		return nextProps.highlighted ===  cellID ||
-		// Or current cell is unhighlighted
-		(this.props.highlighted === cellID && nextProps.highlighted !== cellID)
+		return this.props.isHighlighted !== nextProps.isHighlighted
 	}
 
 
 	render() {
 
 
-		const { rowData, yScale, chromMap, bpRatio, highlighted } = this.props
+		const { rowData, yScale, chromMap, bpRatio, isHighlighted } = this.props
 		const { heatmapIndex, segs, cellID } = rowData
 		const height = config['rowHeight']
 		const y = yScale(heatmapIndex)
@@ -62,7 +58,7 @@ class HeatmapRow extends Component {
 					onMouseLeave={onMouseLeave}
 					data-tip
 				>
-					<IndicatorCell cellID={cellID} height={height} y={y} isHighlighted={highlighted===heatmapIndex}/>
+					<IndicatorCell cellID={cellID} height={height} y={y} isHighlighted={isHighlighted}/>
 					<HeatmapRowContent cellID={cellID} 
 										segs={segs} 
 										height={height} 
@@ -84,14 +80,19 @@ class HeatmapRow extends Component {
 /**
 * MapState function
 */
-const mapState = (state) => ({
-	highlighted: getHighlightedIndex(state),
-	yScale: getHeatmapYScale(state),
-	chromMap: getChromPixelMapping(state),
-	bpRatio: getBPRatio(state)
-})
+const makeMapState = () => {
+	const isIndexHighlighted = makeIsIndexHighlighted()
+	const mapState = (state, ownProps) => ({
+		isHighlighted: isIndexHighlighted(state, ownProps.rowData['heatmapIndex']),
+		yScale: getHeatmapYScale(state),
+		chromMap: getChromPixelMapping(state),
+		bpRatio: getBPRatio(state)	
+	})
+
+	return mapState
+}
 
 
 
 
-export default connect(mapState)(HeatmapRow)
+export default connect(makeMapState())(HeatmapRow)

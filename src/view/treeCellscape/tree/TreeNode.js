@@ -11,7 +11,7 @@ import { fetchTreeNode, highlightIndex, unhighlightIndex } from 'state/actions/t
 
 import DataFetcher from 'view/utils/DataFetcher'
 
-import TreeNodeCircle from './TreeNodeCircle'
+import TreeNodePoint from './TreeNodePoint'
 import TreeChildren from './TreeChildren'
 import TreeHorizontalBranch from './TreeHorizontalBranch'
 
@@ -50,7 +50,8 @@ const shouldComponentUpdate = (currProps, nextProps) => {
 const makeMapStateForTreeNode = () => {
 	const getTreeNodeRecordByID = makeGetTreeNodeRecordByID()
 	const mapState = (state, ownProps) => ({
-		treeNode: getTreeNodeRecordByID(state, ownProps.nodeID)
+		treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
+		yScale: getTreeYScale(state)
 	})
 	return mapState
 }
@@ -68,8 +69,33 @@ const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher)
 
 
 
-class TreeNode extends Component {
-	static propTypes = {
+const TreeNode = ({ nodeID, depth }) => {		
+	/**
+	* render prop
+	* @param {object} nodeData
+	* @param {func} yScale
+	*/
+	const render = (props) => {
+		const { treeNode, yScale } = props
+		const { heatmapIndex, children, parent } = treeNode
+		const branch = parent === "root" ? '' : <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+		
+	
+		return (<g>
+					{branch}
+					<TreeNodePoint  nodeID={nodeID}
+									heatmapIndex={heatmapIndex}
+									depth={depth}
+									yScale={yScale}/>
+					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
+				</g>)
+	} 
+	return (<TreeNodeFetcher render={render} 
+							nodeID={nodeID} fetchData={fetchData} isDataMissing={isDataMissing}/>)
+
+}
+
+	TreeNode.propTypes = {
 		/** nodeID*/
 		nodeID: PropTypes.string.isRequired,
 
@@ -78,58 +104,5 @@ class TreeNode extends Component {
 	}
 
 
-	shouldComponentUpdate(nextProps, nextState) {
-		const cellID = this.props.nodeID
-		// Current highlighted cell is row
-		return nextProps.highlighted ===  cellID ||
-		// Or current cell is unhighlighted
-		(this.props.highlighted === cellID && nextProps.highlighted !== cellID)
-	}
 
-	render() {
-
-		const { nodeID, depth, yScale, highlighted } = this.props
-		
-		/**
-		* render prop
-		* @param {object} nodeData
-		* @param {func} yScale
-		*/
-		const render = (props) => {
-			const { treeNode } = props
-			const { heatmapIndex, children, parent } = treeNode
-			const branch = parent === "root" ? '' : <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
-			
-
-
-			const onMouseEnter = () => {
-				const { dispatch } = this.props
-				dispatch(highlightIndex(heatmapIndex))
-			}
-
-			const onMouseLeave = () => {
-				const { dispatch } = this.props
-				dispatch(unhighlightIndex())
-			}
-			return (<g>
-						{branch}
-						<TreeNodeCircle heatmapIndex={heatmapIndex} 
-										depth={depth} yScale={yScale} 
-										onMouseEnter={onMouseEnter}
-										onMouseLeave={onMouseLeave}
-										isHighlighted={highlighted===nodeID}
-						/>
-						<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
-					</g>)
-		} 
-		return (<TreeNodeFetcher render={render} 
-								nodeID={nodeID} fetchData={fetchData} isDataMissing={isDataMissing}/>)
-	}
-}
-const mapState = (state) => ({
-	highlighted: getHighlightedCellID(state),
-	yScale: getTreeYScale(state)
-})
-
-
-export default connect(mapState)(TreeNode)
+export default TreeNode

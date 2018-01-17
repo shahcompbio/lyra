@@ -139,10 +139,13 @@ export {
 * Gets index or index range of highlighted cells
 * @return {null || int || array}
 */
-export const getHighlightedIndex = uiHighlightedSelector
 
 export  {
-	getHighlightedCellID
+	getHighlightedCellID,
+
+	makeIsIndexHighlighted,
+
+	makeIsIDHighlighted
 
 
 } from './treeCellscape/utils.js'
