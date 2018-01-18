@@ -6,18 +6,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { treeConfig as config, getTreeXPosition as getXPosition } from 'config/treeCellscape.js'
-const { treeClusterWidth, treeVerticalBranchWidth, treeClusterVerticalOffset } = config
+const { treeClusterWidth, treeVerticalBranchWidth, treeClusterVerticalOffset, treeHighlightColor } = config
 
 
 
-const TreeCluster = ({ minIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale }) => {
+const TreeCluster = ({ minIndex, maxIndex, depth, maxHeight, yScale, clusterColorScale, isHighlighted, onMouseEnter, onMouseLeave }) => {
 	const x = getXPosition(depth - 1) + (treeVerticalBranchWidth / 2)
 	const yMin = yScale(minIndex)
 	const yMax = yScale(maxIndex)
 	const height = yMax - yMin
 
 	return (
-		<rect width={treeClusterWidth} height={height} x={x} y={yMin} fill={clusterColorScale(maxHeight)}/> 
+		<rect width={treeClusterWidth} 
+			  height={height} 
+			  x={x} 
+			  y={yMin} 
+			  fill={isHighlighted ? treeHighlightColor : clusterColorScale(maxHeight)}
+			  onMouseEnter={onMouseEnter}
+			  onMouseLeave={onMouseLeave}
+			  data-tip
+		/> 
 	)
 }
 	/**
