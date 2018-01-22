@@ -3,7 +3,7 @@
 */
 
 
-import { scaleOrdinal, scaleLinear } from 'd3'
+import { scaleOrdinal } from 'd3'
 
 /**
 * Mappings for columns for ElasticSearch to redux store

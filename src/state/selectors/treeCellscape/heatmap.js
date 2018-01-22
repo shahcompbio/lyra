@@ -3,7 +3,7 @@
 */
 
 import { createSelector } from 'reselect'
-import { treeConfig, heatmapConfig } from 'config/treeCellscape.js'
+import { heatmapConfig } from 'config/treeCellscape.js'
 import { scalePoint } from 'd3'
 
 import { getIndicesPerRow, getTotalIndexNum } from './utils.js'

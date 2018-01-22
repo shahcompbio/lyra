@@ -2,12 +2,12 @@
 * TreeNode -  React Component
 */
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { makeGetTreeNodeRecordByID, getTreeYScale, getHighlightedCellID } from 'state/selectors/treeCellscape.js'
-import { fetchTreeNode, highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
+import { makeGetTreeNodeRecordByID, getTreeYScale } from 'state/selectors/treeCellscape.js'
+import { fetchTreeNode } from 'state/actions/treeCellscape.js'
 
 import DataFetcher from 'view/utils/DataFetcher'
 
@@ -34,6 +34,7 @@ const fetchData = (props) => {
 	return fetchTreeNode(nodeID)
 }
 
+/*
 const shouldComponentUpdate = (currProps, nextProps) => {
 	const currNode = currProps.treeNode
 	const nextNode = nextProps.treeNode
@@ -42,7 +43,7 @@ const shouldComponentUpdate = (currProps, nextProps) => {
 	: currNode === null || nextNode === null ? true
 	: currNode.cellID !== nextNode.cellID
 }
-
+*/
 
 /**
 * Factory function for mapstate to Tree Node
@@ -78,7 +79,9 @@ const TreeNode = ({ nodeID, depth }) => {
 	const render = (props) => {
 		const { treeNode, yScale } = props
 		const { heatmapIndex, children, parent } = treeNode
-		const branch = parent === "root" ? '' : <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+		const branch = parent === "root" 
+				? '' 
+				: <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
 		
 	
 		return (<g>
@@ -90,10 +93,16 @@ const TreeNode = ({ nodeID, depth }) => {
 				</g>)
 	} 
 	return (<TreeNodeFetcher render={render} 
-							nodeID={nodeID} fetchData={fetchData} isDataMissing={isDataMissing}/>)
+							nodeID={nodeID} 
+							fetchData={fetchData} 
+							isDataMissing={isDataMissing}
+			/>)
 
 }
 
+	/**
+	* PropTypes
+	*/
 	TreeNode.propTypes = {
 		/** nodeID*/
 		nodeID: PropTypes.string.isRequired,

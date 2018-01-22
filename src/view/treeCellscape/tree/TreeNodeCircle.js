@@ -31,7 +31,14 @@ const TreeNodeCircle = ({ heatmapIndex, depth, yScale, onMouseEnter, onMouseLeav
 		depth: PropTypes.number.isRequired,
 
 		/** yScale */
-		yScale: PropTypes.func.isRequired
+		yScale: PropTypes.func.isRequired,
+		
+		/** isHighlighted - whether current node is highlighted */
+		isHighlighted: PropTypes.bool.isRequired,
+
+		/** onMouseEnter, onMouseLeave - event handlers */
+		onMouseEnter: PropTypes.func.isRequired,
+		onMouseLeave: PropTypes.func.isRequired
 	}
 
 export default TreeNodeCircle

@@ -6,9 +6,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { heatmapConfig as config } from 'config/treeCellscape.js'
-import IndicatorCell from './IndicatorCell'
+import HeatmapRowIndicators from './HeatmapRowIndicators'
 import HeatmapRowContent from './HeatmapRowContent'
+import ReactTooltip from 'react-tooltip'
 
 import { getHeatmapYScale, getChromPixelMapping, getBPRatio, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
 import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
@@ -25,8 +25,15 @@ class HeatmapRow extends Component {
 		chromMap: PropTypes.object.isRequired,
 
 		/** bpRatio */
-		bpRatio: PropTypes.number.isRequired
+		bpRatio: PropTypes.number.isRequired,
+		
+		/** isHighlighted - whether current row is highlighted */
+		isHighlighted: PropTypes.bool.isRequired
 	}
+
+	componentDidMount() {
+		ReactTooltip.rebuild()
+	} 
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.props.isHighlighted !== nextProps.isHighlighted
@@ -38,7 +45,6 @@ class HeatmapRow extends Component {
 
 		const { rowData, yScale, chromMap, bpRatio, isHighlighted } = this.props
 		const { heatmapIndex, segs, cellID } = rowData
-		const height = config['rowHeight']
 		const y = yScale(heatmapIndex)
 
 
@@ -58,10 +64,12 @@ class HeatmapRow extends Component {
 					onMouseLeave={onMouseLeave}
 					data-tip
 				>
-					<IndicatorCell cellID={cellID} height={height} y={y} isHighlighted={isHighlighted}/>
+					<HeatmapRowIndicators cellID={cellID} 
+										  y={y} 
+										  isHighlighted={isHighlighted}
+					/>
 					<HeatmapRowContent cellID={cellID} 
 										segs={segs} 
-										height={height} 
 										y={y} 
 										chromMap={chromMap}
 										bpRatio={bpRatio}

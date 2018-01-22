@@ -79,6 +79,7 @@ const summary = createReducer(initialSummary)({
 /**
 * highlighted {null || int || array}
 * 	index or range of indices that is being hovered upon
+* 	NOTE: array is just [min, max]
 */
 
 const initialHighlighted = null

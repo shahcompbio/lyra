@@ -1,3 +1,7 @@
+/**
+* TreeChildrenCluster container component
+*/
+
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -12,6 +16,26 @@ import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js
 
 
 class TreeChildrenCluster extends Component {
+	static propTypes = {
+		/** minIndex, maxIndex - indices that indicate where points of cluster should be */
+		minIndex: PropTypes.number.isRequired,
+		maxIndex: PropTypes.number.isRequired,
+
+		/** depth */
+		depth: PropTypes.number.isRequired,
+
+		/** maxHeight - length of tallest branch of a node in this cluster */
+		maxHeight: PropTypes.number.isRequired,
+
+		/** yScale, clusterColorScale */
+		yScale: PropTypes.func.isRequired,
+		clusterColorScale: PropTypes.func.isRequired,
+		
+		/** isHighlighted - whether current cluster is highlighted */
+		isHighlighted: PropTypes.bool.isRequired
+
+	}
+
 	componentDidMount() {
 		ReactTooltip.rebuild()
 	} 
@@ -51,6 +75,9 @@ class TreeChildrenCluster extends Component {
 }
 
 
+/**
+* MapState function
+*/
 const makeMapState = () => {
 	const isHighlighted = makeIsIndexRangeHighlighted()
 	const mapState = (state, ownProps) => ({

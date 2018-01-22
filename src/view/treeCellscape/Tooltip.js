@@ -14,7 +14,18 @@ const Tooltip = ({ cellID }) => (
 	<ReactTooltip getContent={() => (<span>{cellID}</span>)}/>
 )
 
+	/**
+	* PropTypes
+	*/
+	Tooltip.propTypes = {
+		/** cellID */
+		cellID: PropTypes.string.isRequired	
+	}
 
+
+/**
+* MapState function
+*/
 const mapState = (state) => ({
 	cellID: getHighlightedCellID(state)
 })

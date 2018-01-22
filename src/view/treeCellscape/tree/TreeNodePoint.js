@@ -8,13 +8,32 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-
 import TreeNodeCircle from './TreeNodeCircle'
-import { getTreeYScale, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
+import ReactTooltip from 'react-tooltip'
+
+import { makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
 import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
 
 
 class TreeNodePoint extends Component {
+	static propTypes = {
+		/** heatmapIndex */
+		heatmapIndex: PropTypes.number.isRequired,
+
+		/** depth */
+		depth: PropTypes.number.isRequired,
+
+		/** yScale */
+		yScale: PropTypes.func.isRequired,
+		
+		/** isHighlighted - whether current node is highlighted */
+		isHighlighted: PropTypes.bool.isRequired
+	}
+
+	componentDidMount() {
+		ReactTooltip.rebuild()
+	} 
+
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.props.isHighlighted !== nextProps.isHighlighted
@@ -44,7 +63,12 @@ class TreeNodePoint extends Component {
 				/>)
 	}
 
-}
+}	
+
+
+/**
+* MapState
+*/
 
 const makeMapState = () => {
 	const isIndexHighlighted = makeIsIndexHighlighted()

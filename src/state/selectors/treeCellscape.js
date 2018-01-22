@@ -8,8 +8,7 @@ import { stateSelectors } from 'state/reducers/index.js'
 const { 
 	treeRootIDSelector,
 	treePendingSelector,
-	segsPendingSelector,
-	uiHighlightedSelector
+	segsPendingSelector
 } = stateSelectors
 
 /******************************************
@@ -135,16 +134,24 @@ export {
 * UNIVERSAL SELECTORS
 *******************************************/
 
-/**
-* Gets index or index range of highlighted cells
-* @return {null || int || array}
-*/
 
 export  {
+	/**
+	* Gets cellID of highlighted index. If it is range, returns total range
+	* @return {string}
+	*/
 	getHighlightedCellID,
 
+	/** 
+	*	Factory function - determines whether given index is currently highlighted
+	*	@return {func} ( , {int}) => {bool}
+	*/
 	makeIsIndexHighlighted,
 
+	/** 
+	*	Factory function - determines whether given index range is currently highlighted
+	*	@return {func} ( , {array}) => {bool}
+	*/
 	makeIsIndexRangeHighlighted
 
 

@@ -90,8 +90,6 @@ export const getIndicesPerRow = createSelector(
 
 /**
 * Gets threshold index distance - the number of indices apart children have to be in order to be visible
-* @param {int} indPerPx
-* @return {int}
 */
 export const getThresholdIndex = createSelector(
 	[ getIndicesPerRow ],
@@ -105,6 +103,9 @@ export const getThresholdIndex = createSelector(
 * HIGHLIGHTED CELLS SELECTORS
 *******************************************/
 
+/**
+* Gets cellID of highlighted index. If it is range, returns total range
+*/
 export const getHighlightedCellID = createSelector(
 	[ getHighlightedIndex, getIndexToIDMapping ],
 	(index, indexToID) => (
@@ -113,7 +114,9 @@ export const getHighlightedCellID = createSelector(
 			: indexToID[index])
 )
 
-
+/** 
+*	Factory function - determines whether given index is currently highlighted
+*/
 export const makeIsIndexHighlighted = () => createSelector(
 	[ getHighlightedIndex, (state, index) => index ],
 	(highlightedIndex, index) => (
@@ -123,7 +126,9 @@ export const makeIsIndexHighlighted = () => createSelector(
 		)
 )
 
-
+/** 
+*	Factory function - determines whether given index range is currently highlighted
+*/
 export const makeIsIndexRangeHighlighted = () => createSelector(
 	[ getHighlightedIndex, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
 	(highlightedIndex, indexRange) => (

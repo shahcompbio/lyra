@@ -41,7 +41,7 @@ export const types = {
 
 
 
-	/** Highlight/Unhighlighted tree node or heatmap row */
+	/** Highlight/Unhighlighted tree node/cluster or heatmap row */
 	highlightIndex: "TREECELLSCAPE_HIGHLIGHT_INDEX",
 	unhighlightIndex: "TREECELLSCAPE_UNHIGHLIGHT_INDEX"
 
@@ -153,7 +153,7 @@ export const fetchIndexToIDMappingsSuccess = (records) => ({
 
 
 /**
-* Highlight given cell
+* Highlight given cell index/indices
 * @param {int || array} index
 */
 export const highlightIndex = (index) => ({
@@ -164,7 +164,7 @@ export const highlightIndex = (index) => ({
 
 
 /**
-* Unhighlight current cell
+* Unhighlight current cell index/indices
 */
 export const unhighlightIndex = () => ({
 	type: types.unhighlightIndex
