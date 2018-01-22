@@ -2,7 +2,7 @@
 * TreeNode -  React Component
 */
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -11,7 +11,7 @@ import { fetchTreeNode } from 'state/actions/treeCellscape.js'
 
 import DataFetcher from 'view/utils/DataFetcher'
 
-import TreeNodeCircle from './TreeNodeCircle'
+import TreeNodePoint from './TreeNodePoint'
 import TreeChildren from './TreeChildren'
 import TreeHorizontalBranch from './TreeHorizontalBranch'
 
@@ -34,6 +34,7 @@ const fetchData = (props) => {
 	return fetchTreeNode(nodeID)
 }
 
+/*
 const shouldComponentUpdate = (currProps, nextProps) => {
 	const currNode = currProps.treeNode
 	const nextNode = nextProps.treeNode
@@ -42,7 +43,7 @@ const shouldComponentUpdate = (currProps, nextProps) => {
 	: currNode === null || nextNode === null ? true
 	: currNode.cellID !== nextNode.cellID
 }
-
+*/
 
 /**
 * Factory function for mapstate to Tree Node
@@ -61,9 +62,6 @@ const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher)
 	TreeNodeFetcher.PropTypes = {
 		/** treeNode */
 		treeNode: PropTypes.object,
-
-		/** yScale */
-		yScale: PropTypes.func.isRequired
 	}
 
 
@@ -72,18 +70,7 @@ const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher)
 
 
 
-
-
-
-
-/**
-* TreeNode
-* @param {string} nodeID
-* @param {int} depth
-*/
-const TreeNode = ({nodeID, depth}) => {
-
-
+const TreeNode = ({ nodeID, depth }) => {		
 	/**
 	* render prop
 	* @param {object} nodeData
@@ -92,23 +79,38 @@ const TreeNode = ({nodeID, depth}) => {
 	const render = (props) => {
 		const { treeNode, yScale } = props
 		const { heatmapIndex, children, parent } = treeNode
-		const branch = parent === "root" ? '' : <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+		const branch = parent === "root" 
+				? '' 
+				: <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+		
+	
 		return (<g>
 					{branch}
-					<TreeNodeCircle heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+					<TreeNodePoint  heatmapIndex={heatmapIndex}
+									depth={depth}
+									yScale={yScale}/>
 					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
 				</g>)
 	} 
-	return (<TreeNodeFetcher render={render} nodeID={nodeID} fetchData={fetchData} isDataMissing={isDataMissing} shouldComponentUpdate={shouldComponentUpdate}/>)
+	return (<TreeNodeFetcher render={render} 
+							nodeID={nodeID} 
+							fetchData={fetchData} 
+							isDataMissing={isDataMissing}
+			/>)
+
 }
 
-	TreeNode.PropTypes = {
+	/**
+	* PropTypes
+	*/
+	TreeNode.propTypes = {
 		/** nodeID*/
 		nodeID: PropTypes.string.isRequired,
 
 		/** depth - current depth of node from root */
 		depth: PropTypes.number.isRequired
 	}
+
 
 
 export default TreeNode

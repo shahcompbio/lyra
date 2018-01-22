@@ -3,7 +3,7 @@
 */
 
 
-import { scaleOrdinal, scaleLinear } from 'd3'
+import { scaleOrdinal } from 'd3'
 
 /**
 * Mappings for columns for ElasticSearch to redux store
@@ -64,6 +64,7 @@ const TREE_CONSTANTS = {
 	treeBranchColor: "#000000",
 	treeHorizontalBranchColor: "#b3b3b3",
 	treeClusterColor: "#A3A3A3",
+	treeHighlightColor: "#2e7aab",
 
 	treeClusterColorGradient: ["#CECECE", "#CECECE"],
 
@@ -91,14 +92,16 @@ export const treeConfig = {
 
 
 const HEATMAP_CONSTANTS = {
-	rowHeight: 5
+	rowHeight: 5,
+	indicatorWidth: 10
 }
 
 export const heatmapConfig = {
 
 	...HEATMAP_CONSTANTS,
 
-	width: config.width - treeConfig.width,
+	totalWidth: config.width - treeConfig.width,
+	contentWidth: config.width - treeConfig.width - HEATMAP_CONSTANTS.indicatorWidth,
 	height: config.height,
 	x: treeConfig.width,
 	colorScale: scaleOrdinal()

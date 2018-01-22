@@ -1,30 +1,20 @@
 /**
-* HeatmapRow presentational component
+* HeatmapRow container component
 */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { heatmapConfig as config} from 'config/treeCellscape.js'
+import { connect } from 'react-redux'
 
+import HeatmapRowIndicators from './HeatmapRowIndicators'
+import HeatmapRowContent from './HeatmapRowContent'
+import ReactTooltip from 'react-tooltip'
 
+import { getHeatmapYScale, getChromPixelMapping, getBPRatio, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
+import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
 
-
-const HeatmapRow = ({ rowData, yScale, chromMap, bpRatio }) => {
-	const { heatmapIndex, segs } = rowData
-
-	return (<g>{segs.map(seg => <rect key={rowData['cellID'] + "-" + seg['chromosome'] + "-" + seg['start']} 
-								  width={getSegWidth(seg, bpRatio)} 
-								  height={config['rowHeight']}
-								  x={getSegX(seg, chromMap, bpRatio)}
-								  y={yScale(heatmapIndex)}
-								  fill={config['colorScale'](seg.state)}/>)}
-		</g>)
-}
-
-	/**
-	* PropTypes
-	*/
-	HeatmapRow.propTypes = {
+class HeatmapRow extends Component { 
+	static propTypes = {
 		/** rowData */
 		rowData: PropTypes.object.isRequired,
 
@@ -35,29 +25,82 @@ const HeatmapRow = ({ rowData, yScale, chromMap, bpRatio }) => {
 		chromMap: PropTypes.object.isRequired,
 
 		/** bpRatio */
-		bpRatio: PropTypes.number.isRequired
+		bpRatio: PropTypes.number.isRequired,
+		
+		/** isHighlighted - whether current row is highlighted */
+		isHighlighted: PropTypes.bool.isRequired
+	}
+
+	componentDidMount() {
+		ReactTooltip.rebuild()
+	} 
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return this.props.isHighlighted !== nextProps.isHighlighted
+	}
+
+
+	render() {
+
+
+		const { rowData, yScale, chromMap, bpRatio, isHighlighted } = this.props
+		const { heatmapIndex, segs, cellID } = rowData
+		const y = yScale(heatmapIndex)
+
+
+		const onMouseEnter = () => {
+			const { dispatch } = this.props
+			dispatch(highlightIndex(heatmapIndex))
+		}
+
+		const onMouseLeave = () => {
+			const { dispatch } = this.props
+			dispatch(unhighlightIndex())
+		}
+
+
+		return (<g className={heatmapIndex} 
+					onMouseEnter={onMouseEnter}
+					onMouseLeave={onMouseLeave}
+					data-tip
+				>
+					<HeatmapRowIndicators cellID={cellID} 
+										  y={y} 
+										  isHighlighted={isHighlighted}
+					/>
+					<HeatmapRowContent cellID={cellID} 
+										segs={segs} 
+										y={y} 
+										chromMap={chromMap}
+										bpRatio={bpRatio}
+					/>
+
+			</g>)
 	}
 
 
 
-/**
-* Returns segment starting x position
-* @param {object} seg
-* @param {object} chromMap
-* @param {number} bpRatio
-* @param {number}
-*/
-const getSegX = (seg, chromMap, bpRatio) => (
-	Math.floor(seg.start / bpRatio) + chromMap[seg.chromosome].x
-)
+
+}
+
+
 
 /**
-* Returns segment width in pixels
-* @param {object} seg
-* @param {number} bpRatio
+* MapState function
 */
-const getSegWidth = (seg, bpRatio) => (
-	Math.floor((seg.end - seg.start + 1) / bpRatio)
-)
+const makeMapState = () => {
+	const isIndexHighlighted = makeIsIndexHighlighted()
+	const mapState = (state, ownProps) => ({
+		isHighlighted: isIndexHighlighted(state, ownProps.rowData['heatmapIndex']),
+		yScale: getHeatmapYScale(state),
+		chromMap: getChromPixelMapping(state),
+		bpRatio: getBPRatio(state)	
+	})
 
-export default HeatmapRow
+	return mapState
+}
+
+
+
+
+export default connect(makeMapState())(HeatmapRow)

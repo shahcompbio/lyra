@@ -12,7 +12,10 @@ import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
 	treeRootIDSelector,
-	treeDataSelector
+	treeDataSelector,
+
+	uiHighlightedSelector,
+	indexToIDSelector
 } = stateSelectors 
 
 
@@ -26,6 +29,8 @@ export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
+export const getHighlightedIndex = uiHighlightedSelector
+const getIndexToIDMapping = indexToIDSelector
 
 
 
@@ -41,6 +46,7 @@ export const getTreeRootRecord = createSelector(
 	// (object, string) => object
 	(nodes, rootID) => (nodes[rootID])
 )
+
 
 
 
@@ -84,8 +90,6 @@ export const getIndicesPerRow = createSelector(
 
 /**
 * Gets threshold index distance - the number of indices apart children have to be in order to be visible
-* @param {int} indPerPx
-* @return {int}
 */
 export const getThresholdIndex = createSelector(
 	[ getIndicesPerRow ],
@@ -95,3 +99,41 @@ export const getThresholdIndex = createSelector(
 
 
 
+/******************************************
+* HIGHLIGHTED CELLS SELECTORS
+*******************************************/
+
+/**
+* Gets cellID of highlighted index. If it is range, returns total range
+*/
+export const getHighlightedCellID = createSelector(
+	[ getHighlightedIndex, getIndexToIDMapping ],
+	(index, indexToID) => (
+		Array.isArray(index)
+			? (index[1] - index[0] + 1) + ' descendents'
+			: indexToID[index])
+)
+
+/** 
+*	Factory function - determines whether given index is currently highlighted
+*/
+export const makeIsIndexHighlighted = () => createSelector(
+	[ getHighlightedIndex, (state, index) => index ],
+	(highlightedIndex, index) => (
+		Array.isArray(highlightedIndex) 
+			? highlightedIndex[0] <= index && index <= highlightedIndex[1] 
+			: highlightedIndex === index
+		)
+)
+
+/** 
+*	Factory function - determines whether given index range is currently highlighted
+*/
+export const makeIsIndexRangeHighlighted = () => createSelector(
+	[ getHighlightedIndex, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
+	(highlightedIndex, indexRange) => (
+		Array.isArray(highlightedIndex)
+			? highlightedIndex[0] === indexRange[0] && highlightedIndex[1] === indexRange[1]
+			: indexRange[0] <= highlightedIndex && highlightedIndex <= indexRange[1]
+	)
+)

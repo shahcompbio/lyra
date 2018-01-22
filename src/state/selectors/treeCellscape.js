@@ -126,3 +126,33 @@ export {
 	getChromPixelMapping
 
 } from './treeCellscape/heatmap.js'
+
+
+
+
+/******************************************
+* UNIVERSAL SELECTORS
+*******************************************/
+
+
+export  {
+	/**
+	* Gets cellID of highlighted index. If it is range, returns total range
+	* @return {string}
+	*/
+	getHighlightedCellID,
+
+	/** 
+	*	Factory function - determines whether given index is currently highlighted
+	*	@return {func} ( , {int}) => {bool}
+	*/
+	makeIsIndexHighlighted,
+
+	/** 
+	*	Factory function - determines whether given index range is currently highlighted
+	*	@return {func} ( , {array}) => {bool}
+	*/
+	makeIsIndexRangeHighlighted
+
+
+} from './treeCellscape/utils.js'

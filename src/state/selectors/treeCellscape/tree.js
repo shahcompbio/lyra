@@ -13,7 +13,6 @@ import { getTotalIndexNum, getTreeRootRecord, getIndicesPerPixel, getThresholdIn
 import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
-	treeRootIDSelector,
 	treeDataSelector
 } = stateSelectors
 
@@ -23,7 +22,6 @@ const {
 * STATE TREE SELECTORS
 *******************************************/
 
-const getTreeRootID = treeRootIDSelector
 const getTreeNodeRecords = treeDataSelector
 
 
