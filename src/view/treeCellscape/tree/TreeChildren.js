@@ -30,7 +30,10 @@ class TreeChildren extends Component {
 
 
 		/** offsetIndex - number of indices to offset clusters by*/
-		offsetIndex: PropTypes.number.isRequired
+		offsetIndex: PropTypes.number.isRequired,
+
+		/** auntIndex - offsetted heatmap index of adjacent aunt node */
+		auntIndex: PropTypes.number
 
 	}
 
@@ -44,49 +47,100 @@ class TreeChildren extends Component {
 
 
 	render() {
-		const { childrenSummary, depth, parentIndex, yScale, offsetIndex } = this.props
+
+		const children = this.props.childrenSummary.reverse()
+		const { offsetIndex, depth, yScale, parentIndex, auntIndex, offsetBy } = this.props
 
 		let maxIndex = parentIndex
+		let nextSiblingIndex, childJSX
 
-		const childrenJSX = childrenSummary.map((childAgg) => {
-			if (childAgg.hasOwnProperty('cellID')) {
-				maxIndex = Math.max(maxIndex, childAgg['heatmapIndex'])
-				return drawTreeNode(childAgg, depth)
+		const childrenJSX = children.map((child) => {
+			let newOffsetBy = getOffsetByIndex(child, offsetIndex, offsetBy, auntIndex, nextSiblingIndex)
+
+			if (isChildNode(child)) {
+				childJSX = drawTreeNode(child, depth, nextSiblingIndex, newOffsetBy)
+				maxIndex = Math.max(maxIndex, getChildIndex(child) - newOffsetBy)
 			}
 			else {
-				const maxClusterIndex = getMaxClusterIndex(childAgg, offsetIndex)
-
-				maxIndex = Math.max(maxIndex, maxClusterIndex)
-
-				return drawTreeCluster(childAgg, maxClusterIndex, depth, yScale)
+				const clusterHeight = getClusterIndexHeight(child, offsetIndex)
+				childJSX = drawTreeCluster(child, clusterHeight, depth, yScale, newOffsetBy, parentIndex)
+				maxIndex = Math.max(maxIndex, getChildIndex(child) + clusterHeight - newOffsetBy, parentIndex + clusterHeight)
 			}
 
+			nextSiblingIndex = getChildIndex(child) - newOffsetBy
+			return childJSX
 		})
+
+
 
 		const verticalBranch = drawTreeVerticalBranch(parentIndex, maxIndex, depth, yScale)
 
 		return (<g>
 					{verticalBranch}
-					{childrenJSX}
+					{childrenJSX.reverse()}
 				</g>)
 	}
 
 }
 
 
+/**
+* Determines whether current child is a node (true) or cluster (false)
+* @param {object} child
+* @return {bool}
+*/
+const isChildNode = (child) => (child.hasOwnProperty('cellID'))
+
 
 /**
-* Returns the end of the cluster index (with offset, or original if it's too small)
-* @param {object} clusterDimensions
-* @param {int} offsetIndex
+* Returns the index (or start index, if cluster) of current child
+* @param {object} child
 * @return {int}
 */
-const getMaxClusterIndex = (clusterDimensions, offsetIndex) => {
-	const { startIndex, endIndex } = clusterDimensions
-	const indexDistance = endIndex - startIndex
+const getChildIndex = (child) => (
+	 isChildNode(child) ? child['heatmapIndex'] : child['startIndex']
+)
 
-	return indexDistance - offsetIndex < 0 ? endIndex : endIndex - offsetIndex
+
+
+/**
+* Returns offset for current child
+* @param {object} child
+* @param {int} offsetIndex - how much to offset if needed
+* @param {int} offsetBy - current total offset
+* @param {int} auntIndex - offsetted index of aunt node
+* @param {int} nextSiblingIndex - offsetted index of next sibling
+* @return {int}
+*/
+const getOffsetByIndex = (child, offsetIndex, offsetBy, auntIndex, nextSiblingIndex) => {
+	const comparingIndex = auntIndex === undefined ? nextSiblingIndex : auntIndex
+	const childIndex = (isChildNode(child) ? child['heatmapIndex'] : child['endIndex']) - offsetBy
+
+	if (comparingIndex === undefined) {
+		return offsetBy
+	}
+	else {
+		return childIndex + offsetIndex > comparingIndex 
+			? Math.abs(comparingIndex - childIndex) + offsetIndex + offsetBy
+			: offsetBy
+	}
 }
+
+
+/**
+* Returns height for cluster, with offset if needed
+* @param {object} clusterDimensions
+* @param {int} offsetIndex - how much to offset if needed
+* @return {int}
+*/
+const getClusterIndexHeight = (clusterDimensions, offsetIndex) => {
+	const { startIndex, endIndex } = clusterDimensions
+
+	const currHeight = endIndex - startIndex
+
+	return currHeight - offsetIndex < 0 ? currHeight : currHeight - offsetIndex
+}
+
 
 
 
@@ -103,14 +157,16 @@ const getMaxClusterIndex = (clusterDimensions, offsetIndex) => {
 * @param {int} clusterIndex - index where cluster point should touch branch
 * @return {JSX}
 */
-const drawTreeCluster = (clusterDimensions, maxClusterIndex, depth, yScale) => (
+const drawTreeCluster = (clusterDimensions, clusterHeight, depth, yScale, offsetBy, parentIndex) => (
 	<TreeChildrenCluster key={clusterDimensions.startIndex} 
 						minIndex={clusterDimensions.startIndex} 
 						maxIndex={clusterDimensions.endIndex}
-						maxIndexWithOffset={maxClusterIndex} 
+						parentIndex={parentIndex}
+						clusterHeight={clusterHeight} 
 						depth={depth} 
 						yScale={yScale} 
-						maxHeight={clusterDimensions.maxHeight} 
+						maxHeight={clusterDimensions.maxHeight}
+						offsetBy={offsetBy} 
 	/>
 )
 
@@ -121,8 +177,13 @@ const drawTreeCluster = (clusterDimensions, maxClusterIndex, depth, yScale) => (
 * @param {int} depth
 * @return {JSX}
 */
-const drawTreeNode = (currNode, depth) => (
-	<TreeNode key={currNode['heatmapIndex']} nodeID={currNode['cellID']} depth={depth}/>
+const drawTreeNode = (currNode, depth, siblingIndex, offsetBy) => (
+	<TreeNode key={currNode['heatmapIndex']} 
+			  nodeID={currNode['cellID']} 
+			  depth={depth} 
+			  siblingIndex={siblingIndex}
+			  offsetBy={offsetBy}
+	/>
 )
 
 

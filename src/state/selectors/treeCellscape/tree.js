@@ -67,7 +67,7 @@ const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('child
 export const makeGetTreeChildrenSummary = () => {
 	const getTreeNodeRecordsByID = makeGetTreeNodeRecordsByID()
 	return createSelector(
-	[ getTreeNodeRecordsByID, getThresholdIndex ],
+	[ getTreeNodeRecordsByID, getThresholdIndex, getTreeClusterMinDescendants ],
 	// (array, int) => array
 	summaryTreeChildren
 )}
@@ -94,7 +94,7 @@ const makeGetTreeNodeRecordsByID = () => (createSelector(
 * @param {int} thresholdIndex
 * @return {array} list of clusters and nodes
 */
-const summaryTreeChildren = (children, thresholdIndex) => {
+const summaryTreeChildren = (children, thresholdIndex, minClusterDescendants) => {
 	let clusterDimensions = initializeCluster()
 	let i = 0
 
@@ -111,7 +111,9 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 			else if (isLastNode(i, children)) {
 				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
 
-				summary = [ ...summary, { ...clusterDimensions } ]
+				summary = hasEnoughDescendants(clusterDimensions, minClusterDescendants) 
+						? [ ...summary, { ...clusterDimensions } ]
+						: summary
 				clusterDimensions = initializeCluster()
 
 			}
@@ -125,8 +127,12 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 				summary = [ ...summary, { ...currNode } ]
 			}
 
-			else if (isLastNode(i, children) || isNodeDescendantsExceedThreshold(children[i+1], thresholdIndex)) {
+			else if (isLastNode(i, children)) {
 				summary = [ ...summary, { ...currNode } ]
+			}
+
+			else if (isNodeDescendantsExceedThreshold(children[i+1], thresholdIndex)) {
+
 			}
 
 			else {
@@ -140,6 +146,8 @@ const summaryTreeChildren = (children, thresholdIndex) => {
 
 	return summary
 }
+
+
 
 
 /**
@@ -165,6 +173,15 @@ const isLastNode = (i, children) => (
 )
 
 
+/**
+* Determines whether cluster has enough descendants to be drawn
+* @param {object} cluster
+* @param {int} minDescendants - threshold
+* @return {bool}
+*/
+const hasEnoughDescendants = (cluster, minDescendants) => (
+	cluster['endIndex'] - cluster['startIndex'] + 1 >= minDescendants
+)
 
 
 
@@ -213,6 +230,12 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 * DRAWING SELECTORS
 *******************************************/
 
+const getTreeClusterMinDescendants = createSelector(
+	[ getIndicesPerPixel ],
+	(indPerPx) => (
+		indPerPx * treeConfig['treeClusterMinHeight']
+	)
+)
 
 
 /**
