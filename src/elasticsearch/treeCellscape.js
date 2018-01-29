@@ -12,8 +12,11 @@ const CONFIG = {
 	//TREE_INDEX: "tree_test",
 	//SEG_INDEX: "a73044b_sc-561_denormalized"
 
-	TREE_INDEX: "htert_tree",
-	SEG_INDEX: "htert_seg"
+	//TREE_INDEX: "htert_tree",
+	//SEG_INDEX: "htert_seg",
+
+	TREE_INDEX: "htert_sc763_tree",
+	SEG_INDEX: "htert_sc763_seg"
 }
 
 

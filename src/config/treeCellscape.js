@@ -73,7 +73,7 @@ const TREE_CONSTANTS = {
 	treeHorizontalBranchWidth: 1,
 	treeVerticalBranchWidth: 4,
 
-	treeDepthSpacing: 30,
+	treeDepthSpacing: 20,
 
 	treeClusterVerticalOffset: 5,
 
