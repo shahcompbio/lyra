@@ -19,7 +19,7 @@ const Tooltip = ({ cellID }) => (
 	*/
 	Tooltip.propTypes = {
 		/** cellID */
-		cellID: PropTypes.string.isRequired	
+		cellID: PropTypes.string
 	}
 
 

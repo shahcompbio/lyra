@@ -17,12 +17,15 @@ import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js
 
 class TreeChildrenCluster extends Component {
 	static propTypes = {
-		/** minIndex, maxIndex - indices that indicate where points of cluster should be */
+		/** minIndex, maxIndex - min and max indices for cluster (for highlighting) */
 		minIndex: PropTypes.number.isRequired,
 		maxIndex: PropTypes.number.isRequired,
 
 		/** depth */
 		depth: PropTypes.number.isRequired,
+
+		/** clusterHeight - number of indices to be drawn */
+		clusterHeight: PropTypes.number.isRequired,
 
 		/** maxHeight - length of tallest branch of a node in this cluster */
 		maxHeight: PropTypes.number.isRequired,
@@ -30,6 +33,10 @@ class TreeChildrenCluster extends Component {
 		/** yScale, clusterColorScale */
 		yScale: PropTypes.func.isRequired,
 		clusterColorScale: PropTypes.func.isRequired,
+
+		/** offsetBy - number of indices to offset clusters by*/
+		offsetBy: PropTypes.number.isRequired,
+
 		
 		/** isHighlighted - whether current cluster is highlighted */
 		isHighlighted: PropTypes.bool.isRequired
@@ -47,7 +54,7 @@ class TreeChildrenCluster extends Component {
 
 
 	render() {
-		const { minIndex, maxIndex, maxIndexWithOffset, depth, yScale, maxHeight, clusterColorScale, isHighlighted } = this.props
+		const { minIndex, maxIndex, clusterHeight,  maxHeight, depth, yScale, clusterColorScale, isHighlighted, offsetBy, parentIndex } = this.props
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
@@ -59,9 +66,10 @@ class TreeChildrenCluster extends Component {
 			dispatch(unhighlightIndex())
 		}
 
+		const startingIndex = Math.max(minIndex - offsetBy, parentIndex)
 
-		return (<TreeCluster minIndex={minIndex} 
-							 maxIndex={maxIndexWithOffset} 
+		return (<TreeCluster minIndex={startingIndex} 
+							 maxIndex={startingIndex + clusterHeight} 
 							 depth={depth} 
 							 yScale={yScale} 
 							 maxHeight={maxHeight} 

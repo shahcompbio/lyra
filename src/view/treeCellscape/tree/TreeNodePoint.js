@@ -25,6 +25,9 @@ class TreeNodePoint extends Component {
 
 		/** yScale */
 		yScale: PropTypes.func.isRequired,
+
+		/** offsetBy - number of indices to offset drawing by */
+		offsetBy: PropTypes.number.isRequired,
 		
 		/** isHighlighted - whether current node is highlighted */
 		isHighlighted: PropTypes.bool.isRequired
@@ -41,7 +44,7 @@ class TreeNodePoint extends Component {
 
 
 	render() {
-		const { heatmapIndex, depth, yScale, isHighlighted} = this.props
+		const { heatmapIndex, depth, yScale, isHighlighted, offsetBy } = this.props
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
@@ -54,7 +57,7 @@ class TreeNodePoint extends Component {
 		}
 
 
-		return (<TreeNodeCircle heatmapIndex={heatmapIndex} 
+		return (<TreeNodeCircle heatmapIndex={heatmapIndex - offsetBy} 
 								depth={depth} 
 								yScale={yScale} 
 								onMouseEnter={onMouseEnter}

@@ -62,7 +62,7 @@ const TREE_CONSTANTS = {
 	treeNodeRadius: 3,
 	treeNodeColor: "#b3b3b3",
 	treeBranchColor: "#000000",
-	treeHorizontalBranchColor: "#b3b3b3",
+	treeHorizontalBranchColor: "#626262",
 	treeClusterColor: "#A3A3A3",
 	treeHighlightColor: "#2e7aab",
 
@@ -75,7 +75,9 @@ const TREE_CONSTANTS = {
 
 	treeDepthSpacing: 30,
 
-	treeClusterVerticalOffset: 5
+	treeClusterVerticalOffset: 5,
+
+	treeClusterMinHeight: 3
 
 }
 

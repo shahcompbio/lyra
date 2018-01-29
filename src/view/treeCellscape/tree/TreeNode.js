@@ -70,7 +70,7 @@ const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher)
 
 
 
-const TreeNode = ({ nodeID, depth }) => {		
+const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {		
 	/**
 	* render prop
 	* @param {object} nodeData
@@ -81,15 +81,22 @@ const TreeNode = ({ nodeID, depth }) => {
 		const { heatmapIndex, children, parent } = treeNode
 		const branch = parent === "root" 
 				? '' 
-				: <TreeHorizontalBranch heatmapIndex={heatmapIndex} depth={depth} yScale={yScale}/>
+				: <TreeHorizontalBranch heatmapIndex={heatmapIndex - offsetBy} depth={depth} yScale={yScale}/>
 		
 	
 		return (<g>
 					{branch}
 					<TreeNodePoint  heatmapIndex={heatmapIndex}
 									depth={depth}
-									yScale={yScale}/>
-					<TreeChildren children={children} depth={depth+1} parentIndex={heatmapIndex}/>
+									yScale={yScale}
+									offsetBy={offsetBy}
+					/>
+					<TreeChildren children={children} 
+								  depth={depth+1} 
+								  parentIndex={heatmapIndex - offsetBy} 
+								  auntIndex={siblingIndex} 
+								  offsetBy={offsetBy}
+					/>
 				</g>)
 	} 
 	return (<TreeNodeFetcher render={render} 
@@ -108,7 +115,13 @@ const TreeNode = ({ nodeID, depth }) => {
 		nodeID: PropTypes.string.isRequired,
 
 		/** depth - current depth of node from root */
-		depth: PropTypes.number.isRequired
+		depth: PropTypes.number.isRequired,
+
+		/** siblingIndex - offsetted heatmap index of adjacent sibling */
+		siblingIndex: PropTypes.number,
+
+		/** offsetBy - number of indices to offset drawing by */
+		offsetBy: PropTypes.number.isRequired
 	}
 
 
