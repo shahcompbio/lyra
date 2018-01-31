@@ -14,7 +14,7 @@ const {
 	treeRootIDSelector,
 	treeDataSelector,
 
-	uiHighlightedSelector,
+	uiHighlightedIndexSelector,
 	indexToIDSelector
 } = stateSelectors 
 
@@ -29,7 +29,7 @@ export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
-export const getHighlightedIndex = uiHighlightedSelector
+export const getHighlightedIndex = uiHighlightedIndexSelector
 const getIndexToIDMapping = indexToIDSelector
 
 

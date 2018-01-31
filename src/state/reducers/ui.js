@@ -77,13 +77,13 @@ const elements = createReducer(initialElements)({
 
 
 /**
-* highlighted {null || int || array}
-* 	index or range of indices that is being hovered upon
+* highlightedIndex {null || int || array}
+* 	index or indices of element that is being hovered upon
 * 	NOTE: array is just [min, max]
 */
 
-const initialHighlighted = null
-const highlighted = createReducer(initialHighlighted)({
+const initialHighlightedIndex = null
+const highlightedIndex = createReducer(initialHighlightedIndex)({
 	[actions.highlightIndex]: (state, action) => (action.index),
 	[actions.unhighlightIndex]: (state, action) => (null)
 })
@@ -98,7 +98,7 @@ const highlighted = createReducer(initialHighlighted)({
 */
 const ui = combineReducers({
 	elements,
-	highlighted
+	highlightedIndex
 })
 
 
@@ -110,17 +110,17 @@ const ui = combineReducers({
 
 
 const uiElementsSelector = state => state.elements
-const uiHighlightedSelector = state => state.highlighted
+const uiHighlightedIndexSelector = state => state.highlightedIndex
 
 const uiElementsStateSelectors = {}
-const uiHighlightedStateSelectors = {}
+const uiHighlightedIndexStateSelectors = {}
 
 
 export const stateSelectors = {
 	uiElementsSelector,
-	uiHighlightedSelector,
+	uiHighlightedIndexSelector,
 	...shiftSelectors(uiElementsSelector, uiElementsStateSelectors),
-	...shiftSelectors(uiHighlightedSelector, uiHighlightedStateSelectors)
+	...shiftSelectors(uiHighlightedIndexSelector, uiHighlightedIndexStateSelectors)
 }
 
 export default ui
