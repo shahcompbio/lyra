@@ -62,14 +62,14 @@ const isFullRecord = (node) => (node !== undefined && node.hasOwnProperty('child
 
 
 /**
-* 	Factory function - gets summary list (nodes and clusters) of tree's (by cell ID) children
+* 	Factory function - gets elements (nodes and clusters) of tree's (by cell ID) children
 */
-export const makeGetTreeChildrenSummary = () => {
+export const makeGetTreeElementsByChildren = () => {
 	const getTreeNodeRecordsByID = makeGetTreeNodeRecordsByID()
 	return createSelector(
 	[ getTreeNodeRecordsByID, getThresholdIndex, getTreeClusterMinDescendants ],
 	// (array, int) => array
-	summaryTreeChildren
+	createTreeElementsForChildren
 )}
 
 
@@ -89,31 +89,31 @@ const makeGetTreeNodeRecordsByID = () => (createSelector(
 
 
 /**
-* Summarize children, based on whether distance between siblings is greater than threshold
+* Create elements for children, based on whether distance between siblings is greater than threshold
 * @param {array} children
 * @param {int} thresholdIndex
-* @return {array} list of clusters and nodes
+* @return {array} elements - list of clusters and nodes
 */
-const summaryTreeChildren = (children, thresholdIndex, minClusterDescendants) => {
+const createTreeElementsForChildren = (children, thresholdIndex, minClusterDescendants) => {
 	let clusterDimensions = initializeCluster()
 	let i = 0
 
-	let summary = []
+	let elements = []
 	while (i < children.length) {
 		const currNode = children[i]
 
 		if (isClusterCreating(clusterDimensions)) {
 			if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
-				summary = [ ...summary, { ...clusterDimensions } ]
+				elements = [ ...elements, { ...clusterDimensions } ]
 				clusterDimensions = initializeCluster()
-				summary = [ ...summary, { ...currNode } ]
+				elements = [ ...elements, { ...currNode } ]
 			}
 			else if (isLastNode(i, children)) {
 				clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode)
 
-				summary = hasEnoughDescendants(clusterDimensions, minClusterDescendants) 
-						? [ ...summary, { ...clusterDimensions } ]
-						: summary
+				elements = hasEnoughDescendants(clusterDimensions, minClusterDescendants) 
+						? [ ...elements, { ...clusterDimensions } ]
+						: elements
 				clusterDimensions = initializeCluster()
 
 			}
@@ -124,11 +124,11 @@ const summaryTreeChildren = (children, thresholdIndex, minClusterDescendants) =>
 
 		else {
 			if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
-				summary = [ ...summary, { ...currNode } ]
+				elements = [ ...elements, { ...currNode } ]
 			}
 
 			else if (isLastNode(i, children)) {
-				summary = [ ...summary, { ...currNode } ]
+				elements = [ ...elements, { ...currNode } ]
 			}
 
 			else if (isNodeDescendantsExceedThreshold(children[i+1], thresholdIndex)) {
@@ -144,7 +144,7 @@ const summaryTreeChildren = (children, thresholdIndex, minClusterDescendants) =>
 		i++
 	}
 
-	return summary
+	return elements
 }
 
 

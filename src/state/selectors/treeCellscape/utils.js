@@ -109,7 +109,7 @@ export const getThresholdIndex = createSelector(
 export const getHighlightedCellID = createSelector(
 	[ getHighlightedIndex, getIndexToIDMapping ],
 	(index, indexToID) => (
-		Array.isArray(index)
+		isCluster(index)
 			? (index[1] - index[0] + 1) + ' descendents'
 			: indexToID[index])
 )
@@ -120,7 +120,7 @@ export const getHighlightedCellID = createSelector(
 export const makeIsIndexHighlighted = () => createSelector(
 	[ getHighlightedIndex, (state, index) => index ],
 	(highlightedIndex, index) => (
-		Array.isArray(highlightedIndex) 
+		isCluster(highlightedIndex) 
 			? highlightedIndex[0] <= index && index <= highlightedIndex[1] 
 			: highlightedIndex === index
 		)
@@ -132,8 +132,16 @@ export const makeIsIndexHighlighted = () => createSelector(
 export const makeIsIndexRangeHighlighted = () => createSelector(
 	[ getHighlightedIndex, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
 	(highlightedIndex, indexRange) => (
-		Array.isArray(highlightedIndex)
+		isCluster(highlightedIndex)
 			? highlightedIndex[0] === indexRange[0] && highlightedIndex[1] === indexRange[1]
 			: indexRange[0] <= highlightedIndex && highlightedIndex <= indexRange[1]
 	)
 )
+
+
+
+/** 
+* Determines whether given element index/indices is a node or cluster
+* @param { array || int } elementIndex
+*/
+const isCluster = (elementIndex) => (Array.isArray(elementIndex))

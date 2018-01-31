@@ -7,8 +7,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 
-import { makeGetTreeChildrenSummary, getTreeYScale, getOffsetIndex } from 'state/selectors/treeCellscape.js'
-import { addChildrenSummary } from 'state/actions/treeCellscape.js'
+import { makeGetTreeElementsByChildren, getTreeYScale, getOffsetIndex } from 'state/selectors/treeCellscape.js'
+import { addTreeElements } from 'state/actions/treeCellscape.js'
 
 import TreeNode from './TreeNode'
 import TreeChildrenCluster from './TreeChildrenCluster'
@@ -16,8 +16,8 @@ import TreeVerticalBranch from './TreeVerticalBranch'
 
 class TreeChildren extends Component {
 	static propTypes = {
-		/** childrenSummary - list of clusters and nodes*/
-		childrenSummary: PropTypes.arrayOf(PropTypes.object).isRequired,
+		/** childrenElements - list of clusters and nodes*/
+		childrenElements: PropTypes.arrayOf(PropTypes.object).isRequired,
 
 		/** depth - current depth of children*/
 		depth: PropTypes.number.isRequired,
@@ -38,8 +38,8 @@ class TreeChildren extends Component {
 	}
 
 	componentDidMount() {
-		const { dispatch, childrenSummary } = this.props
-		dispatch(addChildrenSummary(childrenSummary))
+		const { dispatch, childrenElements } = this.props
+		dispatch(addTreeElements(childrenElements))
 	}
 
 
@@ -48,7 +48,7 @@ class TreeChildren extends Component {
 
 	render() {
 
-		const children = this.props.childrenSummary.reverse()
+		const children = this.props.childrenElements.reverse()
 		const { offsetIndex, depth, yScale, parentIndex, auntIndex, offsetBy } = this.props
 
 		let maxIndex = parentIndex
@@ -210,9 +210,9 @@ const drawTreeVerticalBranch = (minIndex, maxIndex, depth, yScale) => (
 * @return {func} mapState
 */
 const makeMapState = () => {
-	const getTreeChildrenSummary = makeGetTreeChildrenSummary()
+	const getTreeElements = makeGetTreeElementsByChildren()
 	const mapState = (state, ownProps) => ({
-		childrenSummary: getTreeChildrenSummary(state, ownProps.children),
+		childrenElements: getTreeElements(state, ownProps.children),
 		yScale: getTreeYScale(state),
 		offsetIndex: getOffsetIndex(state)
 	})

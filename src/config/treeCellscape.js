@@ -63,7 +63,6 @@ const TREE_CONSTANTS = {
 	treeNodeColor: "#b3b3b3",
 	treeBranchColor: "#000000",
 	treeHorizontalBranchColor: "#626262",
-	treeClusterColor: "#A3A3A3",
 	treeHighlightColor: "#2e7aab",
 
 	treeClusterColorGradient: ["#CECECE", "#CECECE"],

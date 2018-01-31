@@ -38,10 +38,10 @@ export {
 	makeGetTreeNodeRecordByID,
 
 	/** 
-	*	Factory function - gets summary list (nodes and clusters) of tree's (by cell ID) children
+	*	Factory function - gets elements (nodes and clusters) of tree's (by cell ID) children
 	*	@return {func} ( , {array}) => {array}
 	*/	
-	makeGetTreeChildrenSummary,
+	makeGetTreeElementsByChildren,
 
 
 	/** 

@@ -21,8 +21,8 @@ export const types = {
 	fetchTreeNode: "TREECELLSCAPE_FETCH_TREE_NODE",
 	fetchTreeNodesSuccess: "TREECELLSCAPE_FETCH_TREE_NODES_SUCCESS",
 
-	/** Add summary of tree children to store*/
-	addChildrenSummary: "TREECELLSCAPE_ADD_SUMMARY",
+	/** Add tree elements to store*/
+	addTreeElements: "TREECELLSCAPE_ADD_ELEMENTS",
 
 
 	/** Fetch chromosome min and max ranges*/
@@ -93,12 +93,12 @@ export const fetchTreeNodesSuccess = (treeNodes, nodeIDs) => ({
 
 
 /**
-* Add summary of tree's children to store
-* @param {array} summary - collection of nodes and clusters
+* Add tree elements to store
+* @param {array} elements - list of nodes and clusters
 */
-export const addChildrenSummary = (summary) => ({
-	type: types.addChildrenSummary,
-	summary
+export const addTreeElements = (elements) => ({
+	type: types.addTreeElements,
+	elements
 })
 
 

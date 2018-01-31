@@ -10,59 +10,59 @@ import { types as actions } from 'state/actions/treeCellscape.js'
 
 
 /**
-* summary {array}
-* 	list of clusters and nodes in current summary tree
+* elements {array}
+* 	list of clusters and nodes in current tree
 *    nodes as index
 * 	 clusters as [minIndex, maxIndex]
 */
 
-const initialSummary = []
+const initialElements = []
 
-const summary = createReducer(initialSummary)({
+const elements = createReducer(initialElements)({
 	[actions.fetchTreeRootSuccess]: (state, action) => (
 		[ ...state, action.root['heatmapIndex'] ]
 	),
 
-	[actions.addChildrenSummary]: (state, action) => (
-		mergeInOrder(state, extractIndicesFromSummary(action.summary))
+	[actions.addTreeElements]: (state, action) => (
+		mergeInOrder(state, extractIndicesFromElements(action.elements))
 	)
 })
 		/**
-		* Takes summary list (of objects) and returns list of indices
-		* @param {array} summary
+		* Takes list of elements (nodes and clusters) and returns list of indices
+		* @param {array} elements
 		* @return {array}
 		*/
-		const extractIndicesFromSummary = (summary) => (
-			summary.map((item) => (
-				item.hasOwnProperty('cellID') ?
-					item['heatmapIndex'] :
-					[item['startIndex'], item['endIndex']]
+		const extractIndicesFromElements = (elements) => (
+			elements.map((element) => (
+				element.hasOwnProperty('cellID') ?
+					element['heatmapIndex'] :
+					[element['startIndex'], element['endIndex']]
 			))
 		)
 
 
 		/**
-		* Takes current state and new summary list and merges them in order of increasing indices
+		* Takes current state and new element list and merges them in order of increasing indices
 		* ASSUMES: both lists are already sorted by ascending order
 		*/
-		const mergeInOrder = (state, summary) => {
+		const mergeInOrder = (state, elements) => {
 			if (state.length === 0) {
-				return summary
+				return elements
 			}
 
-			else if (summary.length === 0) {
+			else if (elements.length === 0) {
 				return state
 			}
 
 			else {
-				const [ firstSummary, ...restSummary ] = summary
+				const [ firstElement, ...restElements ] = elements
 				const [ firstState, ...restState ] = state
 
-				const summaryIndex = isNode(firstSummary) ? firstSummary : firstSummary[0]
+				const elementIndex = isNode(firstElement) ? firstElement : firstElement[0]
 				const stateIndex = isNode(firstState) ? firstState : firstState[0]
 
-				return summaryIndex < stateIndex ? [ firstSummary, ...mergeInOrder(state, restSummary)]
-												 : [ firstState,   ...mergeInOrder(restState, summary)]
+				return elementIndex < stateIndex ? [ firstElement, ...mergeInOrder(state, restElements)]
+												 : [ firstState,   ...mergeInOrder(restState, elements)]
 			}
 
 		}
@@ -93,10 +93,11 @@ const highlighted = createReducer(initialHighlighted)({
 
 /**
 * UI reducer
-* - summary {array}
+* - elements {array}
+* - highlighted { null || int || array }
 */
 const ui = combineReducers({
-	summary,
+	elements,
 	highlighted
 })
 
@@ -108,17 +109,17 @@ const ui = combineReducers({
 */
 
 
-const uiSummarySelector = state => state.summary
+const uiElementsSelector = state => state.elements
 const uiHighlightedSelector = state => state.highlighted
 
-const uiSummaryStateSelectors = {}
+const uiElementsStateSelectors = {}
 const uiHighlightedStateSelectors = {}
 
 
 export const stateSelectors = {
-	uiSummarySelector,
+	uiElementsSelector,
 	uiHighlightedSelector,
-	...shiftSelectors(uiSummarySelector, uiSummaryStateSelectors),
+	...shiftSelectors(uiElementsSelector, uiElementsStateSelectors),
 	...shiftSelectors(uiHighlightedSelector, uiHighlightedStateSelectors)
 }
 
