@@ -1,6 +1,4 @@
 
-import { MAPPINGS } from 'config/treeCellscape.js'
-
 /**
 * @param {JSON} record - record
 * @param {object} mapping

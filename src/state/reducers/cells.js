@@ -45,18 +45,6 @@ const createIndexToIDMapping = (node) => ({
 })
 
 
-/**
-* Creates index to ID map for each child
-* @param {array} children
-* @return {object}
-*/
-const createChildrenIndexToIDMapping = (children) => (
-	children.reduce((map, child) => ({
-		...map,
-		...createIndexToIDMapping(child)
-	}), {})
-)
-
 
 /**
 * Creates index to ID mapping for nodes
