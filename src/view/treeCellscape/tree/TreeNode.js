@@ -78,7 +78,7 @@ const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
 	*/
 	const render = (props) => {
 		const { treeNode, yScale } = props
-		const { heatmapIndex, children, parent } = treeNode
+		const { heatmapIndex, children, parent, maxDescendantIndex } = treeNode
 		const branch = parent === "root" 
 				? '' 
 				: <TreeHorizontalBranch heatmapIndex={heatmapIndex - offsetBy} depth={depth} yScale={yScale}/>
@@ -87,6 +87,7 @@ const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
 		return (<g>
 					{branch}
 					<TreeNodePoint  heatmapIndex={heatmapIndex}
+									maxDescendantIndex={maxDescendantIndex}
 									depth={depth}
 									yScale={yScale}
 									offsetBy={offsetBy}

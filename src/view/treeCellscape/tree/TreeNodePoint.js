@@ -12,13 +12,16 @@ import TreeNodeCircle from './TreeNodeCircle'
 import ReactTooltip from 'react-tooltip'
 
 import { makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
-import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
+import { highlightElement, unhighlightElement } from 'state/actions/treeCellscape.js'
 
 
 class TreeNodePoint extends Component {
 	static propTypes = {
 		/** heatmapIndex */
 		heatmapIndex: PropTypes.number.isRequired,
+
+		/** maxDescendantIndex */
+		maxDescendantIndex: PropTypes.number.isRequired,
 
 		/** depth */
 		depth: PropTypes.number.isRequired,
@@ -44,16 +47,16 @@ class TreeNodePoint extends Component {
 
 
 	render() {
-		const { heatmapIndex, depth, yScale, isHighlighted, offsetBy } = this.props
+		const { heatmapIndex, maxDescendantIndex, depth, yScale, isHighlighted, offsetBy } = this.props
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
-			dispatch(highlightIndex(heatmapIndex))
+			dispatch(highlightElement({ index: heatmapIndex, range: [heatmapIndex, maxDescendantIndex] }))
 		}
 
 		const onMouseLeave = () => {
 			const { dispatch } = this.props
-			dispatch(unhighlightIndex())
+			dispatch(unhighlightElement())
 		}
 
 

@@ -6,7 +6,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { getHighlightedCellID } from 'state/selectors/treeCellscape.js'
+import { getTooltipText } from 'state/selectors/treeCellscape.js'
 import ReactTooltip from 'react-tooltip'
 
 
@@ -27,7 +27,7 @@ const Tooltip = ({ cellID }) => (
 * MapState function
 */
 const mapState = (state) => ({
-	cellID: getHighlightedCellID(state)
+	cellID: getTooltipText(state)
 })
 
 export default connect(mapState)(Tooltip)

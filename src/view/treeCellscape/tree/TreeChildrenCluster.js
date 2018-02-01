@@ -12,7 +12,7 @@ import TreeCluster from './TreeCluster'
 
 
 import { makeIsIndexRangeHighlighted, getClusterColorScale } from 'state/selectors/treeCellscape.js'
-import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
+import { highlightElement, unhighlightElement } from 'state/actions/treeCellscape.js'
 
 
 class TreeChildrenCluster extends Component {
@@ -58,12 +58,12 @@ class TreeChildrenCluster extends Component {
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
-			dispatch(highlightIndex([minIndex, maxIndex]))
+			dispatch(highlightElement({ range: [minIndex, maxIndex] }))
 		}
 
 		const onMouseLeave = () => {
 			const { dispatch } = this.props
-			dispatch(unhighlightIndex())
+			dispatch(unhighlightElement())
 		}
 
 		const startingIndex = Math.max(minIndex - offsetBy, parentIndex)
