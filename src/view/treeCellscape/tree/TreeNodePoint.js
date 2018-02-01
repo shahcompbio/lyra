@@ -20,6 +20,9 @@ class TreeNodePoint extends Component {
 		/** heatmapIndex */
 		heatmapIndex: PropTypes.number.isRequired,
 
+		/** maxDescendantIndex */
+		maxDescendantIndex: PropTypes.number.isRequired,
+
 		/** depth */
 		depth: PropTypes.number.isRequired,
 
@@ -44,11 +47,11 @@ class TreeNodePoint extends Component {
 
 
 	render() {
-		const { heatmapIndex, depth, yScale, isHighlighted, offsetBy } = this.props
+		const { heatmapIndex, maxDescendantIndex, depth, yScale, isHighlighted, offsetBy } = this.props
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
-			dispatch(highlightElement({ index: heatmapIndex }))
+			dispatch(highlightElement({ index: heatmapIndex, range: [heatmapIndex, maxDescendantIndex] }))
 		}
 
 		const onMouseLeave = () => {

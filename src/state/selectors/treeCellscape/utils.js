@@ -111,8 +111,7 @@ export const getThresholdIndex = createSelector(
 export const getTooltipText = createSelector(
 	[ getHighlightedIndex, getHighlightedRange, getIndexToIDMapping ],
 	(index, range, indexToID) => (
-		isCluster(index, range)
-			? (range[1] - range[0] + 1) + ' descendents'
+		isCluster(index, range) ? (range[1] - range[0] + 1) + ' descendents'
 			: indexToID[index])
 )
 
@@ -122,9 +121,11 @@ export const getTooltipText = createSelector(
 export const makeIsIndexHighlighted = () => createSelector(
 	[ getHighlightedIndex, getHighlightedRange, (state, index) => index ],
 	(highlightedIndex, highlightedRange, index) => (
+		isClade(highlightedIndex, highlightedRange) 
+			? highlightedRange[0] <= index && index <= highlightedRange[1] :
 		isCluster(highlightedIndex, highlightedRange) 
 			? highlightedRange[0] <= index && index <= highlightedRange[1] 
-			: highlightedIndex === index
+		: highlightedIndex === index
 		)
 )
 
@@ -134,16 +135,24 @@ export const makeIsIndexHighlighted = () => createSelector(
 export const makeIsIndexRangeHighlighted = () => createSelector(
 	[ getHighlightedIndex, getHighlightedRange, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
 	(highlightedIndex, highlightedRange, indexRange) => (
+		isClade(highlightedIndex, highlightedRange) 
+			? highlightedRange[0] <= indexRange[0] && highlightedRange[1] >= indexRange[1] :
 		isCluster(highlightedIndex, highlightedRange)
 			? highlightedRange[0] === indexRange[0] && highlightedRange[1] === indexRange[1]
-			: indexRange[0] <= highlightedIndex && highlightedIndex <= indexRange[1]
+		: indexRange[0] <= highlightedIndex && highlightedIndex <= indexRange[1]
 	)
 )
 
+/** 
+* Determines whether clade has been highlighted
+* @param { null || int } index
+* @param { null || array } range
+*/
+const isClade = (index, range) => (index !== null && range !== null)
 
 
 /** 
-* Determines whether given element index/indices is a node or cluster
+* Determines whether cluster has been highlighted
 * @param { null || int } index
 * @param { null || array } range
 */
