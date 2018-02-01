@@ -76,29 +76,48 @@ const elements = createReducer(initialElements)({
 
 
 
+
+
+
+
+
 /**
-* highlightedIndex {null || int || array}
-* 	index or indices of element that is being hovered upon
-* 	NOTE: array is just [min, max]
+* highlightedIndex { null || int }
+* 	index of node or heatmap row that is being hovered on
 */
 
 const initialHighlightedIndex = null
 const highlightedIndex = createReducer(initialHighlightedIndex)({
-	[actions.highlightIndex]: (state, action) => (action.index),
-	[actions.unhighlightIndex]: (state, action) => (null)
+	[actions.highlightElement]: (state, action) => (action.index === undefined ? null : action.index),
+	[actions.unhighlightElement]: (state, action) => (null)
 })
 
 
 
 
 /**
+* highlightedRange { null || array }
+*	[min, max] range of indices that is being hovered on
+*/
+
+const initialHighlightedRange = null
+const highlightedRange = createReducer(initialHighlightedRange)({
+	[actions.highlightElement]: (state, action) => (action.range === undefined ? null : action.range),
+	[actions.unhighlightElement]: (state, action) => (null)
+})
+
+
+
+/**
 * UI reducer
 * - elements {array}
-* - highlighted { null || int || array }
+* - highlightedIndex { null || int }
+* - highlightedRange { null || array }
 */
 const ui = combineReducers({
 	elements,
-	highlightedIndex
+	highlightedIndex,
+	highlightedRange
 })
 
 
@@ -111,16 +130,20 @@ const ui = combineReducers({
 
 const uiElementsSelector = state => state.elements
 const uiHighlightedIndexSelector = state => state.highlightedIndex
+const uiHighlightedRangeSelector = state => state.highlightedRange
 
 const uiElementsStateSelectors = {}
 const uiHighlightedIndexStateSelectors = {}
+const uiHighlightedRangeStateSelectors = {}
 
 
 export const stateSelectors = {
 	uiElementsSelector,
 	uiHighlightedIndexSelector,
+	uiHighlightedRangeSelector,
 	...shiftSelectors(uiElementsSelector, uiElementsStateSelectors),
-	...shiftSelectors(uiHighlightedIndexSelector, uiHighlightedIndexStateSelectors)
+	...shiftSelectors(uiHighlightedIndexSelector, uiHighlightedIndexStateSelectors),
+	...shiftSelectors(uiHighlightedRangeSelector, uiHighlightedRangeStateSelectors)
 }
 
 export default ui

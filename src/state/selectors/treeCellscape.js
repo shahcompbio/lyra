@@ -137,10 +137,10 @@ export {
 
 export  {
 	/**
-	* Gets cellID of highlighted index. If it is range, returns total range
+	* Returns tooltip text - either cell ID (node and row) or # of descendents (clusters)
 	* @return {string}
 	*/
-	getHighlightedCellID,
+	getTooltipText,
 
 	/** 
 	*	Factory function - determines whether given index is currently highlighted

@@ -15,6 +15,7 @@ const {
 	treeDataSelector,
 
 	uiHighlightedIndexSelector,
+	uiHighlightedRangeSelector,
 	indexToIDSelector
 } = stateSelectors 
 
@@ -30,6 +31,7 @@ export const getTreeNodeRecords = treeDataSelector
 
 
 export const getHighlightedIndex = uiHighlightedIndexSelector
+const getHighlightedRange = uiHighlightedRangeSelector
 const getIndexToIDMapping = indexToIDSelector
 
 
@@ -104,13 +106,13 @@ export const getThresholdIndex = createSelector(
 *******************************************/
 
 /**
-* Gets cellID of highlighted index. If it is range, returns total range
+* Returns tooltip text - either cell ID (node and row) or # of descendents (clusters)
 */
-export const getHighlightedCellID = createSelector(
-	[ getHighlightedIndex, getIndexToIDMapping ],
-	(index, indexToID) => (
-		isCluster(index)
-			? (index[1] - index[0] + 1) + ' descendents'
+export const getTooltipText = createSelector(
+	[ getHighlightedIndex, getHighlightedRange, getIndexToIDMapping ],
+	(index, range, indexToID) => (
+		isCluster(index, range)
+			? (range[1] - range[0] + 1) + ' descendents'
 			: indexToID[index])
 )
 
@@ -118,10 +120,10 @@ export const getHighlightedCellID = createSelector(
 *	Factory function - determines whether given index is currently highlighted
 */
 export const makeIsIndexHighlighted = () => createSelector(
-	[ getHighlightedIndex, (state, index) => index ],
-	(highlightedIndex, index) => (
-		isCluster(highlightedIndex) 
-			? highlightedIndex[0] <= index && index <= highlightedIndex[1] 
+	[ getHighlightedIndex, getHighlightedRange, (state, index) => index ],
+	(highlightedIndex, highlightedRange, index) => (
+		isCluster(highlightedIndex, highlightedRange) 
+			? highlightedRange[0] <= index && index <= highlightedRange[1] 
 			: highlightedIndex === index
 		)
 )
@@ -130,10 +132,10 @@ export const makeIsIndexHighlighted = () => createSelector(
 *	Factory function - determines whether given index range is currently highlighted
 */
 export const makeIsIndexRangeHighlighted = () => createSelector(
-	[ getHighlightedIndex, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
-	(highlightedIndex, indexRange) => (
-		isCluster(highlightedIndex)
-			? highlightedIndex[0] === indexRange[0] && highlightedIndex[1] === indexRange[1]
+	[ getHighlightedIndex, getHighlightedRange, (state, minIndex, maxIndex) => ([minIndex, maxIndex])],
+	(highlightedIndex, highlightedRange, indexRange) => (
+		isCluster(highlightedIndex, highlightedRange)
+			? highlightedRange[0] === indexRange[0] && highlightedRange[1] === indexRange[1]
 			: indexRange[0] <= highlightedIndex && highlightedIndex <= indexRange[1]
 	)
 )
@@ -142,6 +144,7 @@ export const makeIsIndexRangeHighlighted = () => createSelector(
 
 /** 
 * Determines whether given element index/indices is a node or cluster
-* @param { array || int } elementIndex
+* @param { null || int } index
+* @param { null || array } range
 */
-const isCluster = (elementIndex) => (Array.isArray(elementIndex))
+const isCluster = (index, range) => (index === null && range !== null)

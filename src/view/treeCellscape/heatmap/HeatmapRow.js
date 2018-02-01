@@ -11,7 +11,7 @@ import HeatmapRowContent from './HeatmapRowContent'
 import ReactTooltip from 'react-tooltip'
 
 import { getHeatmapYScale, getChromPixelMapping, getBPRatio, makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
-import { highlightIndex, unhighlightIndex } from 'state/actions/treeCellscape.js'
+import { highlightElement, unhighlightElement } from 'state/actions/treeCellscape.js'
 
 class HeatmapRow extends Component { 
 	static propTypes = {
@@ -50,12 +50,12 @@ class HeatmapRow extends Component {
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
-			dispatch(highlightIndex(heatmapIndex))
+			dispatch(highlightElement({ index: heatmapIndex }))
 		}
 
 		const onMouseLeave = () => {
 			const { dispatch } = this.props
-			dispatch(unhighlightIndex())
+			dispatch(unhighlightElement())
 		}
 
 
