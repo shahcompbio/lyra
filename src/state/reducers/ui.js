@@ -78,6 +78,21 @@ const elements = createReducer(initialElements)({
 
 
 
+/**
+* treeRootPath { array }
+* 	list of tree roots we've zoomed into so far to get to current tree root
+*/
+const initialTreeRootPath = []
+const treeRootPath = createReducer(initialTreeRootPath)({
+	[actions.fetchTreeRootSuccess]: (state, action) => ([action.root['cellID'], ...state]),
+	[actions.setTreeRoot]: (state, action) => ([action.nodeID, ...state]),
+	[actions.unsetTreeRoot]: (state, action) => {
+		const [ firstRoot, ...restRoot ] = state
+		return restRoot
+	}
+})
+
+
 
 
 
@@ -91,7 +106,8 @@ const initialHighlightedIndex = null
 const highlightedIndex = createReducer(initialHighlightedIndex)({
 	[actions.highlightElement]: (state, action) => (action.index === undefined ? null : action.index),
 	[actions.unhighlightElement]: (state, action) => (null),
-	[actions.setTreeRoot]: (state, action) => (null)
+	[actions.setTreeRoot]: (state, action) => (null),
+	[actions.unsetTreeRoot]: (state, action) => (null)
 })
 
 
@@ -106,7 +122,8 @@ const initialHighlightedRange = null
 const highlightedRange = createReducer(initialHighlightedRange)({
 	[actions.highlightElement]: (state, action) => (action.range === undefined ? null : action.range),
 	[actions.unhighlightElement]: (state, action) => (null),
-	[actions.setTreeRoot]: (state, action) => (null)
+	[actions.setTreeRoot]: (state, action) => (null),
+	[actions.unsetTreeRoot]: (state, action) => (null)
 })
 
 
@@ -118,9 +135,9 @@ const highlightedRange = createReducer(initialHighlightedRange)({
 * - highlightedRange { null || array }
 */
 const ui = combineReducers({
-	elements,
 	highlightedIndex,
-	highlightedRange
+	highlightedRange,
+	treeRootPath
 })
 
 
@@ -134,19 +151,23 @@ const ui = combineReducers({
 const uiElementsSelector = state => state.elements
 const uiHighlightedIndexSelector = state => state.highlightedIndex
 const uiHighlightedRangeSelector = state => state.highlightedRange
+const uiTreeRootPathSelector = state => state.treeRootPath
 
 const uiElementsStateSelectors = {}
 const uiHighlightedIndexStateSelectors = {}
 const uiHighlightedRangeStateSelectors = {}
+const uiTreeRootPathStateSelectors = {}
 
 
 export const stateSelectors = {
-	uiElementsSelector,
+	//uiElementsSelector,
 	uiHighlightedIndexSelector,
 	uiHighlightedRangeSelector,
-	...shiftSelectors(uiElementsSelector, uiElementsStateSelectors),
+	uiTreeRootPathSelector,
+	//...shiftSelectors(uiElementsSelector, uiElementsStateSelectors),
 	...shiftSelectors(uiHighlightedIndexSelector, uiHighlightedIndexStateSelectors),
-	...shiftSelectors(uiHighlightedRangeSelector, uiHighlightedRangeStateSelectors)
+	...shiftSelectors(uiHighlightedRangeSelector, uiHighlightedRangeStateSelectors),
+	...shiftSelectors(uiTreeRootPathSelector, uiTreeRootPathStateSelectors)
 }
 
 export default ui

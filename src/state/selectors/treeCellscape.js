@@ -19,7 +19,7 @@ const {
 *	Gets cell ID of tree root
 *	@return {string}
 */
-export const getTreeRootID = treeRootIDSelector
+//export const getTreeRootID = treeRootIDSelector
 
 
 
@@ -136,6 +136,9 @@ export {
 
 
 export  {
+
+	getCurrTreeRoot as getTreeRootID,
+
 	/**
 	* Returns tooltip text - either cell ID (node and row) or # of descendents (clusters)
 	* @return {string}

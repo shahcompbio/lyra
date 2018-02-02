@@ -47,7 +47,8 @@ export const types = {
 
 
 	/** set new tree root */
-	setTreeRoot: "TREECELLSCAPE_SET_TREE_ROOT"
+	setTreeRoot: "TREECELLSCAPE_SET_TREE_ROOT",
+	unsetTreeRoot: "TREECELLSCAPE_UNSET_TREE_ROOT"
 
 }
 
@@ -187,3 +188,9 @@ export const setTreeRoot = (nodeID) => ({
 	nodeID
 })
 
+/**
+* Unset tree root, go back
+*/
+export const unsetTreeRoot = () => ({
+	type: types.unsetTreeRoot
+})

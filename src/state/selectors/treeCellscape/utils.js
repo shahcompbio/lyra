@@ -16,6 +16,9 @@ const {
 
 	uiHighlightedIndexSelector,
 	uiHighlightedRangeSelector,
+
+	uiTreeRootPathSelector,
+
 	indexToIDSelector
 } = stateSelectors 
 
@@ -26,12 +29,15 @@ const {
 * STATE TREE SELECTORS
 *******************************************/
 
-export const getTreeRootID = treeRootIDSelector
+//export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
 export const getHighlightedIndex = uiHighlightedIndexSelector
 const getHighlightedRange = uiHighlightedRangeSelector
+
+const getTreeRootPath = uiTreeRootPathSelector
+
 const getIndexToIDMapping = indexToIDSelector
 
 
@@ -41,10 +47,20 @@ const getIndexToIDMapping = indexToIDSelector
 *******************************************/
 
 /**
+* Gets ID of current tree root
+*/
+export const getCurrTreeRoot = createSelector(
+	[ getTreeRootPath ],
+
+	(path) => (path.length === 0 ? '' : path[0])
+)
+
+
+/**
 * Gets tree root record
 */
 export const getTreeRootRecord = createSelector(
-	[ getTreeNodeRecords, getTreeRootID ],
+	[ getTreeNodeRecords, getCurrTreeRoot ],
 	// (object, string) => object
 	(nodes, rootID) => (nodes[rootID])
 )

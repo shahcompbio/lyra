@@ -20,9 +20,6 @@ const initialTreeRootID = ''
 const rootID = createReducer(initialTreeRootID)({
 	[actions.fetchTreeRootSuccess]: (state, action) => (
 		action.root['cellID']
-	),
-	[actions.setTreeRoot]: (state, action) => (
-		action.nodeID
 	)
 })
 
