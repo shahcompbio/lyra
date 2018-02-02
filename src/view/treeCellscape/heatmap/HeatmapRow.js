@@ -37,6 +37,7 @@ class HeatmapRow extends Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.props.isHighlighted !== nextProps.isHighlighted
+			|| this.props.rowData.heatmapIndex !== nextProps.rowData.heatmapIndex
 	}
 
 

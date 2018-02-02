@@ -49,7 +49,14 @@ class TreeChildrenCluster extends Component {
 
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.props.isHighlighted !== nextProps.isHighlighted
+		return this.props.isHighlighted !== nextProps.isHighlighted ||
+			   this.isDifferentCluster(this.props, nextProps)
+	}
+
+	isDifferentCluster(currProps, nextProps) {
+		return currProps.minIndex !== nextProps.minIndex 
+			|| currProps.maxIndex !== nextProps.maxIndex
+			|| currProps.depth !== nextProps.depth
 	}
 
 

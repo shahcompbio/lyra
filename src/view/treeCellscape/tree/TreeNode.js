@@ -86,7 +86,8 @@ const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
 	
 		return (<g>
 					{branch}
-					<TreeNodePoint  heatmapIndex={heatmapIndex}
+					<TreeNodePoint  nodeID={nodeID}
+									heatmapIndex={heatmapIndex}
 									maxDescendantIndex={maxDescendantIndex}
 									depth={depth}
 									yScale={yScale}

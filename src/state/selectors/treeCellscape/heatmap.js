@@ -6,7 +6,7 @@ import { createSelector } from 'reselect'
 import { heatmapConfig } from 'config/treeCellscape.js'
 import { scalePoint } from 'd3'
 
-import { getIndicesPerRow, getTotalIndexNum } from './utils.js'
+import { getIndicesPerRow, getTotalIndexNum, getIndicesPerPixel, getTreeRootRecord } from './utils.js'
 
 import { stateSelectors } from 'state/reducers/index.js'
 
@@ -39,12 +39,14 @@ const getIndexToIDMapping = indexToIDSelector
 * Gets list of indices to display on heatmap
 */
 const getHeatmapIDs = createSelector(
-	[ getIndicesPerRow, getTotalIndexNum ],
+	[ getIndicesPerRow, getTotalIndexNum, getTreeRootRecord ],
 	// (int, int) => array
-	(indPerRow, totalIndices) => {
+	(indPerRow, totalIndices, treeRoot) => {
 		const numRows = Math.floor( totalIndices / indPerRow )
 
-		const ids = Array.from(Array(numRows), (_, x) => (x * indPerRow))
+		console.log(numRows, totalIndices, indPerRow)
+
+		const ids = Array.from(Array(numRows), (_, x) => ((x * indPerRow) + treeRoot['heatmapIndex']))
 
 		return ids
 	}

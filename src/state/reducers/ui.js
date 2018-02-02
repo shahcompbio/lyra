@@ -25,7 +25,8 @@ const elements = createReducer(initialElements)({
 
 	[actions.addTreeElements]: (state, action) => (
 		mergeInOrder(state, extractIndicesFromElements(action.elements))
-	)
+	),
+	[actions.setTreeRoot]: (state, action) => (initialElements)
 })
 		/**
 		* Takes list of elements (nodes and clusters) and returns list of indices
@@ -89,7 +90,8 @@ const elements = createReducer(initialElements)({
 const initialHighlightedIndex = null
 const highlightedIndex = createReducer(initialHighlightedIndex)({
 	[actions.highlightElement]: (state, action) => (action.index === undefined ? null : action.index),
-	[actions.unhighlightElement]: (state, action) => (null)
+	[actions.unhighlightElement]: (state, action) => (null),
+	[actions.setTreeRoot]: (state, action) => (null)
 })
 
 
@@ -103,7 +105,8 @@ const highlightedIndex = createReducer(initialHighlightedIndex)({
 const initialHighlightedRange = null
 const highlightedRange = createReducer(initialHighlightedRange)({
 	[actions.highlightElement]: (state, action) => (action.range === undefined ? null : action.range),
-	[actions.unhighlightElement]: (state, action) => (null)
+	[actions.unhighlightElement]: (state, action) => (null),
+	[actions.setTreeRoot]: (state, action) => (null)
 })
 
 
