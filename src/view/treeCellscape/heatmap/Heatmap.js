@@ -96,7 +96,6 @@ const Heatmap = () => {
 
 	const segsRender = (props) => {
 		const { segs } = props
-
 		return (
 			<svg width={totalWidth} height={height} x={config['x']}>
 				{segs.map(rowData => 

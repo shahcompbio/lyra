@@ -44,8 +44,6 @@ const getHeatmapIDs = createSelector(
 	(indPerRow, totalIndices, treeRoot) => {
 		const numRows = Math.floor( totalIndices / indPerRow )
 
-		console.log(numRows, totalIndices, indPerRow)
-
 		const ids = Array.from(Array(numRows), (_, x) => ((x * indPerRow) + treeRoot['heatmapIndex']))
 
 		return ids

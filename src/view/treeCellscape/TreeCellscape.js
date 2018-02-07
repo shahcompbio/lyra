@@ -6,6 +6,8 @@
 
 import React from 'react'
 
+import TreeRootBackButton from './menu/TreeRootBackButton'
+
 import Tree from './tree/Tree' 
 import Heatmap from './heatmap/Heatmap'
 
@@ -17,11 +19,14 @@ const { width, height } = config
 
 const TreeCellscape = () => (
 	<div>
-		<svg width={width} height={height}>
-			<Tree/>
-			<Heatmap/>
-		</svg>
-		<Tooltip/>
+		<TreeRootBackButton/>
+		<div>
+			<svg width={width} height={height}>
+				<Tree/>
+				<Heatmap/>
+			</svg>
+			<Tooltip/>
+		</div>
 	</div>
 )
 

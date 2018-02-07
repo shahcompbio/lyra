@@ -38,6 +38,14 @@ class HeatmapRow extends Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.props.isHighlighted !== nextProps.isHighlighted
 			|| this.props.rowData.heatmapIndex !== nextProps.rowData.heatmapIndex
+			|| this.isYPositionsDifferent(this.props, nextProps)
+	}
+
+	isYPositionsDifferent(currProps, nextProps) {
+
+		return currProps.yScale(currProps.rowData.heatmapIndex) !==
+			   nextProps.yScale(nextProps.rowData.heatmapIndex)
+
 	}
 
 
