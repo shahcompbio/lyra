@@ -43,7 +43,7 @@ export const MAPPINGS = {
 
 const CONSTANTS = {
 	width: 1500,
-	height: 2000
+	height: 1000
 }
 
 export const config = {

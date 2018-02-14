@@ -6,7 +6,6 @@
 import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
-	treeRootIDSelector,
 	treePendingSelector,
 	segsPendingSelector
 } = stateSelectors
@@ -14,12 +13,6 @@ const {
 /******************************************
 * TREE SELECTORS
 *******************************************/
-
-/** 
-*	Gets cell ID of tree root
-*	@return {string}
-*/
-export const getTreeRootID = treeRootIDSelector
 
 
 
@@ -136,6 +129,12 @@ export {
 
 
 export  {
+	/** 
+	*	Gets cell ID of current tree root
+	*	@return {string}
+	*/
+	getCurrTreeRoot as getTreeRootID,
+
 	/**
 	* Returns tooltip text - either cell ID (node and row) or # of descendents (clusters)
 	* @return {string}

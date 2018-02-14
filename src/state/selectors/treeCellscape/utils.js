@@ -11,11 +11,13 @@ import { treeConfig, heatmapConfig } from 'config/treeCellscape.js'
 import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
-	treeRootIDSelector,
 	treeDataSelector,
 
 	uiHighlightedIndexSelector,
 	uiHighlightedRangeSelector,
+
+	uiTreeRootPathSelector,
+
 	indexToIDSelector
 } = stateSelectors 
 
@@ -26,12 +28,14 @@ const {
 * STATE TREE SELECTORS
 *******************************************/
 
-export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
 export const getHighlightedIndex = uiHighlightedIndexSelector
 const getHighlightedRange = uiHighlightedRangeSelector
+
+const getTreeRootPath = uiTreeRootPathSelector
+
 const getIndexToIDMapping = indexToIDSelector
 
 
@@ -41,10 +45,20 @@ const getIndexToIDMapping = indexToIDSelector
 *******************************************/
 
 /**
+* Gets ID of current tree root
+*/
+export const getCurrTreeRoot = createSelector(
+	[ getTreeRootPath ],
+	// (array) => string
+	(path) => (path.length === 0 ? '' : path[0])
+)
+
+
+/**
 * Gets tree root record
 */
 export const getTreeRootRecord = createSelector(
-	[ getTreeNodeRecords, getTreeRootID ],
+	[ getTreeNodeRecords, getCurrTreeRoot ],
 	// (object, string) => object
 	(nodes, rootID) => (nodes[rootID])
 )
@@ -63,7 +77,7 @@ export const getTreeRootRecord = createSelector(
 export const getTotalIndexNum = createSelector(
 	[ getTreeRootRecord ],
 	// object => int
-	(treeRoot) => (treeRoot['maxDescendantIndex'] + 1)
+	(treeRoot) => (treeRoot['maxDescendantIndex'] - treeRoot['heatmapIndex'] + 1)
 )
 
 
@@ -74,7 +88,7 @@ export const getTotalIndexNum = createSelector(
 export const getIndicesPerPixel = createSelector(
 	[ getTotalIndexNum ],
 	// int => int
-	(numNodes) => (Math.max(1, Math.ceil(numNodes / treeConfig['height'])))
+	(numNodes) => (numNodes / treeConfig['height'])
 )
 
 
@@ -86,7 +100,7 @@ export const getIndicesPerPixel = createSelector(
 export const getIndicesPerRow = createSelector(
 	[ getIndicesPerPixel ],
 	// int => int
-	(indPerPx) => (indPerPx * heatmapConfig['rowHeight'])
+	(indPerPx) => (Math.ceil(indPerPx * heatmapConfig['rowHeight']))
 )
 
 
@@ -96,7 +110,7 @@ export const getIndicesPerRow = createSelector(
 export const getThresholdIndex = createSelector(
 	[ getIndicesPerRow ],
 	// int => int
-	(indPerRow) => (indPerRow * 4)
+	(indPerRow) => (indPerRow === 1 ? -1 : indPerRow * 4)
 )
 
 

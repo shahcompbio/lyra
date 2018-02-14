@@ -12,11 +12,14 @@ import TreeNodeCircle from './TreeNodeCircle'
 import ReactTooltip from 'react-tooltip'
 
 import { makeIsIndexHighlighted } from 'state/selectors/treeCellscape.js'
-import { highlightElement, unhighlightElement } from 'state/actions/treeCellscape.js'
+import { highlightElement, unhighlightElement, setTreeRoot } from 'state/actions/treeCellscape.js'
 
 
 class TreeNodePoint extends Component {
 	static propTypes = {
+		/** nodeID*/
+		nodeID: PropTypes.string.isRequired,
+
 		/** heatmapIndex */
 		heatmapIndex: PropTypes.number.isRequired,
 
@@ -42,12 +45,13 @@ class TreeNodePoint extends Component {
 
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.props.isHighlighted !== nextProps.isHighlighted
+		return this.props.isHighlighted !== nextProps.isHighlighted ||
+			   this.props.heatmapIndex !== nextProps.heatmapIndex
 	}
 
 
 	render() {
-		const { heatmapIndex, maxDescendantIndex, depth, yScale, isHighlighted, offsetBy } = this.props
+		const { nodeID, heatmapIndex, maxDescendantIndex, depth, yScale, isHighlighted, offsetBy } = this.props
 
 		const onMouseEnter = () => {
 			const { dispatch } = this.props
@@ -59,12 +63,18 @@ class TreeNodePoint extends Component {
 			dispatch(unhighlightElement())
 		}
 
+		const onMouseClick = () => {
+			const { dispatch } = this.props
+			dispatch(setTreeRoot(nodeID))
+		}
+
 
 		return (<TreeNodeCircle heatmapIndex={heatmapIndex - offsetBy} 
 								depth={depth} 
 								yScale={yScale} 
 								onMouseEnter={onMouseEnter}
 								onMouseLeave={onMouseLeave}
+								onMouseClick={onMouseClick}
 								isHighlighted={isHighlighted}
 				/>)
 	}

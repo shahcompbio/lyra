@@ -9,13 +9,14 @@ import { treeConfig as config, getTreeXPosition as getXPosition } from 'config/t
 const { treeNodeRadius, treeNodeColor, treeHighlightColor } = config
 
 
-const TreeNodeCircle = ({ heatmapIndex, depth, yScale, onMouseEnter, onMouseLeave, isHighlighted}) => 
+const TreeNodeCircle = ({ heatmapIndex, depth, yScale, onMouseEnter, onMouseLeave, onMouseClick, isHighlighted}) => 
 	(<circle cx={getXPosition(depth)} 
 			 cy={yScale(heatmapIndex)} 
 			 r={isHighlighted ? treeNodeRadius + 1 : treeNodeRadius} 
 			 fill={isHighlighted ? treeHighlightColor : treeNodeColor}
 			 onMouseEnter={onMouseEnter}
 			 onMouseLeave={onMouseLeave}
+			 onClick={onMouseClick}
 			 data-tip
 	/>)
 
@@ -36,9 +37,10 @@ const TreeNodeCircle = ({ heatmapIndex, depth, yScale, onMouseEnter, onMouseLeav
 		/** isHighlighted - whether current node is highlighted */
 		isHighlighted: PropTypes.bool.isRequired,
 
-		/** onMouseEnter, onMouseLeave - event handlers */
+		/** onMouseEnter, onMouseLeave, onMouseClick - event handlers */
 		onMouseEnter: PropTypes.func.isRequired,
-		onMouseLeave: PropTypes.func.isRequired
+		onMouseLeave: PropTypes.func.isRequired,
+		onMouseClick: PropTypes.func.isRequired
 	}
 
 export default TreeNodeCircle

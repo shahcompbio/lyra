@@ -8,7 +8,7 @@ import { treeConfig } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
 
-import { getTotalIndexNum, getTreeRootRecord, getIndicesPerPixel, getThresholdIndex } from './utils.js'
+import { getTreeRootRecord, getIndicesPerPixel, getThresholdIndex } from './utils.js'
 
 import { stateSelectors } from 'state/reducers/index.js'
 
@@ -233,7 +233,7 @@ const mergeNodeToCluster = (clusterDimensions, currNode) => ({
 const getTreeClusterMinDescendants = createSelector(
 	[ getIndicesPerPixel ],
 	(indPerPx) => (
-		indPerPx * treeConfig['treeClusterMinHeight']
+		Math.floor(indPerPx * treeConfig['treeClusterMinHeight'])
 	)
 )
 
@@ -242,10 +242,10 @@ const getTreeClusterMinDescendants = createSelector(
 * Gets heatmap index to y-coordinate scale
 */
 export const getYScale = createSelector(
-	[ getTotalIndexNum ],
+	[ getTreeRootRecord ],
 	// int => func
-	(numNodes) => (
-		scaleLinear().domain([0, numNodes - 1])
+	(treeRoot) => (
+		scaleLinear().domain([treeRoot['heatmapIndex'], treeRoot['maxDescendantIndex']])
 					 .range([treeConfig['treeNodeRadius'], treeConfig['height']])
 	)
 )

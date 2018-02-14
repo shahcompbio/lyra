@@ -43,7 +43,12 @@ export const types = {
 
 	/** Highlight/Unhighlighted tree node/cluster or heatmap row */
 	highlightElement: "TREECELLSCAPE_HIGHLIGHT_ELEMENT",
-	unhighlightElement: "TREECELLSCAPE_UNHIGHLIGHT_ELEMENT"
+	unhighlightElement: "TREECELLSCAPE_UNHIGHLIGHT_ELEMENT",
+
+
+	/** set new tree root */
+	setTreeRoot: "TREECELLSCAPE_SET_TREE_ROOT",
+	unsetTreeRoot: "TREECELLSCAPE_UNSET_TREE_ROOT"
 
 }
 
@@ -174,3 +179,18 @@ export const unhighlightElement = () => ({
 })
 
 
+/**
+* Set tree root as nodeID
+* @param {string} nodeID
+*/
+export const setTreeRoot = (nodeID) => ({
+	type: types.setTreeRoot,
+	nodeID
+})
+
+/**
+* Unset tree root, go back
+*/
+export const unsetTreeRoot = () => ({
+	type: types.unsetTreeRoot
+})
