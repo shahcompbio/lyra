@@ -10,6 +10,11 @@ import { unsetTreeRoot } from 'state/actions/treeCellscape.js'
 
 class TreeRootBackButton extends Component {
 
+	static propTypes = {
+		/** rootID */
+		rootID: PropTypes.string.isRequired
+	}
+
 	render() {
 		const { rootID } = this.props
 
@@ -17,7 +22,7 @@ class TreeRootBackButton extends Component {
 			const { dispatch } = this.props
 			dispatch(unsetTreeRoot())
 		}
-
+		console.log(rootID)
 		return (<button onClick={onClick}>Back</button>)
 	}
 }

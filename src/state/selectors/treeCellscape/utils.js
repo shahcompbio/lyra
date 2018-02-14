@@ -11,7 +11,6 @@ import { treeConfig, heatmapConfig } from 'config/treeCellscape.js'
 import { stateSelectors } from 'state/reducers/index.js'
 
 const { 
-	treeRootIDSelector,
 	treeDataSelector,
 
 	uiHighlightedIndexSelector,
@@ -29,7 +28,6 @@ const {
 * STATE TREE SELECTORS
 *******************************************/
 
-//export const getTreeRootID = treeRootIDSelector
 export const getTreeNodeRecords = treeDataSelector
 
 
@@ -51,7 +49,7 @@ const getIndexToIDMapping = indexToIDSelector
 */
 export const getCurrTreeRoot = createSelector(
 	[ getTreeRootPath ],
-
+	// (array) => string
 	(path) => (path.length === 0 ? '' : path[0])
 )
 

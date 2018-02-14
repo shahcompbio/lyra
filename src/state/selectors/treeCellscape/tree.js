@@ -8,7 +8,7 @@ import { treeConfig } from 'config/treeCellscape.js'
 import { scaleLinear } from 'd3'
 
 
-import { getTotalIndexNum, getTreeRootRecord, getIndicesPerPixel, getThresholdIndex } from './utils.js'
+import { getTreeRootRecord, getIndicesPerPixel, getThresholdIndex } from './utils.js'
 
 import { stateSelectors } from 'state/reducers/index.js'
 

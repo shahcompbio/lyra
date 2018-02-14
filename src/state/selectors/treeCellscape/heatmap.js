@@ -6,7 +6,7 @@ import { createSelector } from 'reselect'
 import { heatmapConfig } from 'config/treeCellscape.js'
 import { scalePoint } from 'd3'
 
-import { getIndicesPerRow, getTotalIndexNum, getIndicesPerPixel, getTreeRootRecord } from './utils.js'
+import { getIndicesPerRow, getTotalIndexNum, getTreeRootRecord } from './utils.js'
 
 import { stateSelectors } from 'state/reducers/index.js'
 
