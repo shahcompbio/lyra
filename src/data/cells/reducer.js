@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 
-import shiftSelectors from "utils/shiftSelectors.js";
-import { types as actions } from "./actions.js";
+import actions from "./types.js";
 
 import tree, { stateSelectors as treeStateSelectors } from "./tree/reducer.js";
 import segs, { stateSelectors as segsStateSelectors } from "./segs/reducer.js";
 
 import createReducer from "utils/createReducer.js";
+import shiftSelectors from "utils/shiftSelectors.js";
 
 /**
  * METADATA - index to ID mapping

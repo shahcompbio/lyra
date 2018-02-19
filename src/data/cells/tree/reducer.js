@@ -3,9 +3,9 @@
  */
 
 import { combineReducers } from "redux";
-import createReducer from "state/reducers/utils/createReducer.js";
-import shiftSelectors from "state/reducers/utils/shiftSelectors.js";
-import { types as actions } from "state/actions/treeCellscape.js";
+import createReducer from "utils/createReducer.js";
+import shiftSelectors from "utils/shiftSelectors.js";
+import actions from "./types.js";
 
 /**
  * rootID {string}

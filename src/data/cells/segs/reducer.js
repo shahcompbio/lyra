@@ -5,7 +5,7 @@
 import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
 import shiftSelectors from "utils/shiftSelectors.js";
-import { types as actions } from "./actions.js";
+import actions from "./types.js";
 
 /**
  * pending {array}

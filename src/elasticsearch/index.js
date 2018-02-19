@@ -3,7 +3,7 @@
 */
 
 const config = {
-	HOST: "http://localhost:9200/",
+	HOST: "http://localhost:9201/",
 	INDEX: "htert_sc763_tree",
 	//INDEX: "htert_tree", // For testing
 	//INDEX: "tree_test",

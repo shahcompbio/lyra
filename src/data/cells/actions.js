@@ -1,8 +1,11 @@
-import * as segsActions from './segs/actions.js'
-import * as treeActions from './tree/actions.js'
+export * from "./segs/actions.js";
+export * from "./tree/actions.js";
 
-
-const { segTypes, ...segsActionCreators } = segsActions
-const { treeTypes, ... }
-
-export 
+/**
+ * Fetch index to cellID mappings is successful
+ * @param {array} records
+ */
+export const fetchIndexToIDMappingsSuccess = records => ({
+	type: types.fetchIndexToIDMappingsSuccess,
+	records
+});
