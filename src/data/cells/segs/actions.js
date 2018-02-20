@@ -2,22 +2,20 @@ import types from "./types.js";
 
 /**
  * Fetch segments given heatmap indices
- * @param {array} indices
+ * @param {array} ids
  */
-export const fetchSegs = indices => ({
-	type: types.fetchSegs,
-	indices
+export const fetchSegs = ids => ({
+  type: types.fetchSegs,
+  ids
 });
 
 /**
  * Fetch segments is successful
  * @param {array} segs - all segment records
- * @param {array} indices
  * @param {array} ids - cellIDs (maps in order with indices)
  */
-export const fetchSegsSuccess = (segs, indices, ids) => ({
-	type: types.fetchSegsSuccess,
-	segs,
-	indices,
-	ids
+export const fetchSegsSuccess = (segs, ids) => ({
+  type: types.fetchSegsSuccess,
+  segs,
+  ids
 });

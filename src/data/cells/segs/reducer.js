@@ -9,63 +9,57 @@ import actions from "./types.js";
 
 /**
  * pending {array}
- *    all indices that are currently being fetched
+ *    all cell IDs that are currently being fetched
  */
 
 const initialPending = [];
 const pending = createReducer(initialPending)({
-	[actions.fetchSegs]: (state, action) => {
-		const indicesToAdd = action["indices"].filter(
-			index => !state.includes(index)
-		);
+  [actions.fetchSegs]: (state, action) => {
+    const idsToAdd = action["ids"].filter(id => !state.includes(id));
 
-		return indicesToAdd.length > 0
-			? mergeInOrder(state, indicesToAdd)
-			: state;
-	},
+    return idsToAdd.length > 0 ? mergeInOrder(state, idsToAdd) : state;
+  },
 
-	[actions.fetchSegsSuccess]: (state, action) => {
-		const indicesToRemove = action.indices;
+  [actions.fetchSegsSuccess]: (state, action) => {
+    const idsToRemove = action.ids;
 
-		return indicesToRemove.length > 0
-			? removeInOrder(state, indicesToRemove)
-			: state;
-	}
+    return idsToRemove.length > 0 ? removeInOrder(state, idsToRemove) : state;
+  }
 });
 
 /**
- * Takes current state and new list and merges them in order of increasing indices
- * ASSUMES: both lists are already sorted by ascending order
+ * Takes current state and new list and merges them
+ * ASSUMES: both lists are already sorted
  */
 const mergeInOrder = (state, list) => {
-	if (state.length === 0) {
-		return list;
-	} else if (list.length === 0) {
-		return state;
-	} else {
-		const [firstList, ...restList] = list;
-		const [firstState, ...restState] = state;
+  if (state.length === 0) {
+    return list;
+  } else if (list.length === 0) {
+    return state;
+  } else {
+    const [firstList, ...restList] = list;
+    const [firstState, ...restState] = state;
 
-		return firstList < firstState
-			? [firstList, ...mergeInOrder(state, restList)]
-			: [firstState, ...mergeInOrder(restState, list)];
-	}
+    return firstList < firstState
+      ? [firstList, ...mergeInOrder(state, restList)]
+      : [firstState, ...mergeInOrder(restState, list)];
+  }
 };
 
 /**
  *
  */
 const removeInOrder = (state, list) => {
-	if (list.length === 0) {
-		return list;
-	} else {
-		const [firstList, ...restList] = list;
-		const [firstState, ...restState] = state;
+  if (list.length === 0) {
+    return list;
+  } else {
+    const [firstList, ...restList] = list;
+    const [firstState, ...restState] = state;
 
-		return firstList === firstState
-			? [...removeInOrder(restState, restList)]
-			: [firstState, ...removeInOrder(restState, list)];
-	}
+    return firstList === firstState
+      ? [...removeInOrder(restState, restList)]
+      : [firstState, ...removeInOrder(restState, list)];
+  }
 };
 
 /**
@@ -76,41 +70,21 @@ const removeInOrder = (state, list) => {
 
 const initialSegsData = {};
 const data = createReducer(initialSegsData)({
-	[actions.fetchSegsSuccess]: (state, action) => ({
-		...state,
-		...processSegsForIndices(action.segs, action.indices, action.ids)
-	})
+  [actions.fetchSegsSuccess]: (state, action) => ({
+    ...state,
+    ...actions.segs.reduce((map, segment) => {
+      const cellID = segment["cellID"];
+      const newSegments = map.hasOwnProperty(cellID)
+        ? [...map[cellID], segment]
+        : [segment];
+
+      return {
+        ...map,
+        [cellID]: newSegments
+      };
+    })
+  })
 });
-
-/**
- *
- */
-const processSegsForIndices = (segs, indices, ids) => {
-	const IDToSegMap = createIDToSegMap(segs);
-	return indices.reduce(
-		(map, index, arrayIndex) => ({
-			...map,
-			[index]: IDToSegMap[ids[arrayIndex]]
-		}),
-		{}
-	);
-};
-
-/**
- *
- */
-const createIDToSegMap = segs =>
-	segs.reduce((map, segment) => {
-		const cellID = segment["cellID"];
-		const newSegments = map.hasOwnProperty(cellID)
-			? [...map[cellID], segment]
-			: [segment];
-
-		return {
-			...map,
-			[cellID]: newSegments
-		};
-	}, {});
 
 /**
  * Segs reducer
@@ -118,25 +92,8 @@ const createIDToSegMap = segs =>
  * - data
  */
 const reducer = combineReducers({
-	pending,
-	data
+  pending,
+  data
 });
-
-/**
- * State Selectors
- */
-
-const segsDataSelector = state => state.data;
-const segsPendingSelector = state => state.pending;
-
-const segsDataStateSelectors = {};
-const segsPendingStateSelectors = {};
-
-export const stateSelectors = {
-	segsDataSelector,
-	segsPendingSelector,
-	...shiftSelectors(segsDataSelector, segsDataStateSelectors),
-	...shiftSelectors(segsPendingSelector, segsPendingStateSelectors)
-};
 
 export default reducer;

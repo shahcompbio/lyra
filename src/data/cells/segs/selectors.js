@@ -1,6 +1,26 @@
 import { createSelector } from "reselect";
-import { stateSelectors } from "./reducers.js";
 
-const getSegsData = segsDataSelector;
+/**
+ * State Selectors
+ */
 
-export const getSegDataByID = createSelector;
+const getSegsData = state => state.data;
+const getSegsPending = state => state.pending;
+
+const segsDataStateSelectors = {};
+const segsPendingStateSelectors = {};
+
+export const stateSelectors = {
+  segsDataSelector,
+  segsPendingSelector,
+  ...shiftSelectors(segsDataSelector, segsDataStateSelectors),
+  ...shiftSelectors(segsPendingSelector, segsPendingStateSelectors)
+};
+
+/**
+ * Reselectors
+ */
+
+/**
+ *
+ */
