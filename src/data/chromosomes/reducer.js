@@ -4,7 +4,6 @@
 
 import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
-import shiftSelectors from "utils/shiftSelectors.js";
 import actions from "./types.js";
 
 /**
@@ -14,8 +13,8 @@ import actions from "./types.js";
 
 const initialOrder = [];
 const order = createReducer(initialOrder)({
-	[actions.fetchChromRangesSuccess]: (state, action) =>
-		action.chromosomes.map(chrom => chrom["chrom"])
+  [actions.fetchChromRangesSuccess]: (state, action) =>
+    action.chromosomes.map(chrom => chrom["chrom"])
 });
 
 /**
@@ -26,14 +25,14 @@ const order = createReducer(initialOrder)({
 
 const initialData = {};
 const data = createReducer(initialData)({
-	[actions.fetchChromRangesSuccess]: (state, action) =>
-		action.chromosomes.reduce(
-			(map, chrom) => ({
-				...map,
-				[chrom["chrom"]]: chrom
-			}),
-			{}
-		)
+  [actions.fetchChromRangesSuccess]: (state, action) =>
+    action.chromosomes.reduce(
+      (map, chrom) => ({
+        ...map,
+        [chrom["chrom"]]: chrom
+      }),
+      {}
+    )
 });
 
 /**
@@ -43,25 +42,8 @@ const data = createReducer(initialData)({
  */
 
 const reducer = combineReducers({
-	order,
-	data
+  order,
+  data
 });
-
-/**
- * State Selectors
- */
-
-const chromosomesDataSelector = state => state.data;
-const chromosomesOrderSelector = state => state.order;
-
-const chromosomesDataStateSelectors = {};
-const chromosomesOrderStateSelectors = {};
-
-export const stateSelectors = {
-	chromosomesDataSelector: chromosomesDataSelector,
-	chromosomesOrderSelector: chromosomesOrderSelector,
-	...shiftSelectors(chromosomesDataSelector, chromosomesDataStateSelectors),
-	...shiftSelectors(chromosomesOrderSelector, chromosomesOrderStateSelectors)
-};
 
 export default reducer;

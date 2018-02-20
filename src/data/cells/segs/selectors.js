@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import shiftSelectors from "utils/shiftSelectors.js";
 
 /**
  * State Selectors
@@ -11,10 +12,10 @@ const segsDataStateSelectors = {};
 const segsPendingStateSelectors = {};
 
 export const stateSelectors = {
-  segsDataSelector,
-  segsPendingSelector,
-  ...shiftSelectors(segsDataSelector, segsDataStateSelectors),
-  ...shiftSelectors(segsPendingSelector, segsPendingStateSelectors)
+  getSegsData,
+  getSegsPending,
+  ...shiftSelectors(getSegsData, segsDataStateSelectors),
+  ...shiftSelectors(getSegsPending, segsPendingStateSelectors)
 };
 
 /**
@@ -24,3 +25,29 @@ export const stateSelectors = {
 /**
  *
  */
+export const getSegsByID = createSelector(
+  [getSegsData, (state, ids) => ids],
+  (segs, ids) =>
+    ids
+      .filter(id => segs.hasOwnProperty(id))
+      .map(id => createSegmentsRecord(segs[id], id))
+);
+
+/**
+ * Creates record given segment data and heatmap index
+ * @param {array} seg
+ * @param {string} id
+ * @return {object}
+ */
+const createSegment = (segs, cellID) => ({
+  cellID,
+  segs
+});
+
+/**
+ *
+ */
+export const getMissingSegIDs = createSelector(
+  [getSegsData, (state, ids) => ids],
+  (segs, ids) => ids.filter(id => !segs.hasOwnProperty(id))
+);

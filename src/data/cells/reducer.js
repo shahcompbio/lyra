@@ -2,11 +2,10 @@ import { combineReducers } from "redux";
 
 import actions from "./types.js";
 
-import tree, { stateSelectors as treeStateSelectors } from "./tree/reducer.js";
-import segs, { stateSelectors as segsStateSelectors } from "./segs/reducer.js";
+import tree from "./tree/reducer.js";
+import segs from "./segs/reducer.js";
 
 import createReducer from "utils/createReducer.js";
-import shiftSelectors from "utils/shiftSelectors.js";
 
 /**
  * METADATA - index to ID mapping
@@ -17,15 +16,15 @@ import shiftSelectors from "utils/shiftSelectors.js";
 
 const initialIndexToID = {};
 const indexToID = createReducer(initialIndexToID)({
-	[actions.fetchTreeNodesSuccess]: (state, action) => ({
-		...state,
-		...createIndexToIDMappings(action.treeNodes)
-	}),
+  [actions.fetchTreeNodesSuccess]: (state, action) => ({
+    ...state,
+    ...createIndexToIDMappings(action.treeNodes)
+  }),
 
-	[actions.fetchIndexToIDMappingsSuccess]: (state, action) => ({
-		...state,
-		...createIndexToIDMappings(action.records)
-	})
+  [actions.fetchIndexToIDMappingsSuccess]: (state, action) => ({
+    ...state,
+    ...createIndexToIDMappings(action.records)
+  })
 });
 
 /**
@@ -34,7 +33,7 @@ const indexToID = createReducer(initialIndexToID)({
  * @return {object}
  */
 const createIndexToIDMapping = node => ({
-	[node["heatmapIndex"]]: node["cellID"]
+  [node["heatmapIndex"]]: node["cellID"]
 });
 
 /**
@@ -43,41 +42,22 @@ const createIndexToIDMapping = node => ({
  * @return {object}
  */
 const createIndexToIDMappings = nodes =>
-	nodes.reduce(
-		(map, node) => ({
-			...map,
-			...createIndexToIDMapping(node)
-		}),
-		{}
-	);
+  nodes.reduce(
+    (map, node) => ({
+      ...map,
+      ...createIndexToIDMapping(node)
+    }),
+    {}
+  );
 
 /**
  * Cell reducer
  * - tree
  */
 const reducer = combineReducers({
-	tree,
-	segs,
-	indexToID
+  tree,
+  segs,
+  indexToID
 });
-
-/**
- * State Selectors
- */
-
-const treeSelector = state => state.tree;
-const segsSelector = state => state.segs;
-const indexToIDSelector = state => state.indexToID;
-
-const indexToIDStateSelectors = {};
-
-export const stateSelectors = {
-	treeSelector: treeSelector,
-	segsSelector: segsSelector,
-	indexToIDSelector: indexToIDSelector,
-	...shiftSelectors(treeSelector, treeStateSelectors),
-	...shiftSelectors(segsSelector, segsStateSelectors),
-	...shiftSelectors(indexToIDSelector, indexToIDStateSelectors)
-};
 
 export default reducer;

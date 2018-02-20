@@ -15,7 +15,7 @@ import actions from "./types.js";
 const initialTreeRootID = "";
 
 const rootID = createReducer(initialTreeRootID)({
-	[actions.fetchTreeRootSuccess]: (state, action) => action.root["cellID"]
+  [actions.fetchTreeRootSuccess]: (state, action) => action.root["cellID"]
 });
 
 /**
@@ -25,11 +25,11 @@ const rootID = createReducer(initialTreeRootID)({
 
 const initialPending = [];
 const pending = createReducer(initialPending)({
-	[actions.fetchTreeNode]: (state, action) => [...state, action.nodeID],
+  [actions.fetchTreeNode]: (state, action) => [...state, action.nodeID],
 
-	[actions.fetchTreeNodesSuccess]: (state, action) => [
-		...removeInOrder(state, action.nodeIDs)
-	]
+  [actions.fetchTreeNodesSuccess]: (state, action) => [
+    ...removeInOrder(state, action.nodeIDs)
+  ]
 });
 
 /**
@@ -40,16 +40,16 @@ const pending = createReducer(initialPending)({
  * @return {array}
  */
 const removeInOrder = (state, list) => {
-	if (list.length === 0) {
-		return list;
-	} else {
-		const [firstList, ...restList] = list;
-		const [firstState, ...restState] = state;
+  if (list.length === 0) {
+    return list;
+  } else {
+    const [firstList, ...restList] = list;
+    const [firstState, ...restState] = state;
 
-		return firstList === firstState
-			? [...removeInOrder(restState, restList)]
-			: [firstState, ...removeInOrder(restState, list)];
-	}
+    return firstList === firstState
+      ? [...removeInOrder(restState, restList)]
+      : [firstState, ...removeInOrder(restState, list)];
+  }
 };
 
 /**
@@ -61,31 +61,31 @@ const removeInOrder = (state, list) => {
 const initialNodes = {};
 
 const data = createReducer(initialNodes)({
-	[actions.fetchTreeRootSuccess]: (state, action) => {
-		const { children, ...otherRootProps } = action.root;
+  [actions.fetchTreeRootSuccess]: (state, action) => {
+    const { children, ...otherRootProps } = action.root;
 
-		return {
-			...state,
-			[action.root["cellID"]]: otherRootProps
-		};
-	},
+    return {
+      ...state,
+      [action.root["cellID"]]: otherRootProps
+    };
+  },
 
-	[actions.fetchTreeNodesSuccess]: (state, action) => {
-		const { treeNodes } = action;
+  [actions.fetchTreeNodesSuccess]: (state, action) => {
+    const { treeNodes } = action;
 
-		const treeNodeMap = treeNodes.reduce(
-			(map, record) => ({
-				...map,
-				[record["cellID"]]: record
-			}),
-			{}
-		);
+    const treeNodeMap = treeNodes.reduce(
+      (map, record) => ({
+        ...map,
+        [record["cellID"]]: record
+      }),
+      {}
+    );
 
-		return {
-			...state,
-			...treeNodeMap
-		};
-	}
+    return {
+      ...state,
+      ...treeNodeMap
+    };
+  }
 });
 
 /**
@@ -94,30 +94,9 @@ const data = createReducer(initialNodes)({
  * - nodes {object}
  */
 const reducer = combineReducers({
-	rootID,
-	data,
-	pending
+  rootID,
+  data,
+  pending
 });
-
-/**
- * State Selectors
- */
-
-const treeRootIDSelector = state => state.rootID;
-const treeDataSelector = state => state.data;
-const treePendingSelector = state => state.pending;
-
-const treeRootIDStateSelectors = {};
-const treeDataStateSelectors = {};
-const treePendingStateSelectors = {};
-
-export const stateSelectors = {
-	treeRootIDSelector,
-	treeDataSelector,
-	treePendingSelector,
-	...shiftSelectors(treeRootIDSelector, treeRootIDStateSelectors),
-	...shiftSelectors(treeDataSelector, treeDataStateSelectors),
-	...shiftSelectors(treePendingSelector, treePendingStateSelectors)
-};
 
 export default reducer;
