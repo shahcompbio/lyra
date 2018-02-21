@@ -1,7 +1,7 @@
 import { fetchForDataType } from "/api/index.js";
 import { processRecord } from "/api/utils.js";
 
-const MAPPINGS = {
+export const MAPPINGS = {
   cell_id: "cellID",
   heatmap_order: "heatmapIndex",
   children: "children",
