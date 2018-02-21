@@ -13,6 +13,7 @@ export function fetchQuery(query, index) {
   return fetch(config.HOST + index + config.SEARCH, {
     method: "POST",
     body: JSON.stringify(query),
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json"
     }
