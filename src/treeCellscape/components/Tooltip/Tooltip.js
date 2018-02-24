@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { getTooltipText } from "../selectors.js";
+import { getTooltipText } from "./selectors.js";
 import ReactTooltip from "react-tooltip";
 
 const Tooltip = ({ text }) => (

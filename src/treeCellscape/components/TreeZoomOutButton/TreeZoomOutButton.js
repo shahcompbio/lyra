@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { isCurrRootAtRoot } from "treeCellscape/selectors.js";
-import { unsetTreeRoot } from "treeCellscape/actions.js";
+import { isCurrRootAtRoot } from "./selectors.js";
+import { unsetTreeRoot } from "./actions.js";
 
 const TreeZoomOutButton = ({ isDisabled, onClick }) => (
   <button disable={isDisabled} onClick={onClick}>
