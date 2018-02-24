@@ -11,9 +11,9 @@ import { fetchTreeNode } from "./actions.js";
 
 import DataFetcher from "utils/DataFetcher";
 
-import TreeNodePoint from "./TreeNodePoint";
+import TreeNodePoint from "./TreeNode/TreeNodePoint";
 import TreeChildren from "./TreeChildren";
-import TreeHorizontalBranch from "./TreeHorizontalBranch";
+import TreeHorizontalBranch from "./TreeBranch/TreeHorizontalBranch";
 
 /**
  * Tree Node Data Fetcher

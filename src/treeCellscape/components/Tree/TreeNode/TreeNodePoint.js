@@ -63,23 +63,18 @@ class TreeNodePoint extends Component {
     } = this.props;
 
     const onMouseEnter = () => {
-      const { dispatch } = this.props;
-      dispatch(
-        highlightElement({
-          index: heatmapIndex,
-          range: [heatmapIndex, maxDescendantIndex]
-        })
-      );
+      this.props.highlightElement({
+        index: heatmapIndex,
+        range: [heatmapIndex, maxDescendantIndex]
+      });
     };
 
     const onMouseLeave = () => {
-      const { dispatch } = this.props;
-      dispatch(unhighlightElement());
+      this.props.unhighlightElement();
     };
 
     const onMouseClick = () => {
-      const { dispatch } = this.props;
-      dispatch(setTreeRoot(nodeID));
+      this.props.setTreeRoot(nodeID);
     };
 
     return (
@@ -109,4 +104,14 @@ const makeMapState = () => {
   return mapState;
 };
 
-export default connect(makeMapState())(TreeNodePoint);
+const mapDispatch = dispatch =>
+  bindActionCreators(
+    {
+      highlightElement,
+      unhighlightElement,
+      setTreeRoot
+    },
+    dispatch
+  );
+
+export default connect(makeMapState(), mapDispatch)(TreeNodePoint);

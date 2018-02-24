@@ -8,13 +8,13 @@ import { connect } from "react-redux";
 
 import {
   makeGetTreeElementsByChildren,
-  getTreeYScale,
+  getYScale,
   getOffsetIndex
 } from "./selectors.js";
 
 import TreeNode from "./TreeNode";
-import TreeChildrenCluster from "./TreeChildrenCluster";
-import TreeVerticalBranch from "./TreeVerticalBranch";
+import TreeChildrenCluster from "./TreeChildren/TreeChildrenCluster";
+import TreeVerticalBranch from "./TreeBranch/TreeVerticalBranch";
 
 class TreeChildren extends Component {
   static propTypes = {

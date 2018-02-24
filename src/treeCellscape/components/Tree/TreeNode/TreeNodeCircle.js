@@ -5,11 +5,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {
-  treeConfig as config,
-  getTreeXPosition as getXPosition
-} from "config/treeCellscape.js";
-const { treeNodeRadius, treeNodeColor, treeHighlightColor } = config;
+import { getXPosition } from "./selectors.js";
 
 const TreeNodeCircle = ({
   heatmapIndex,
@@ -18,13 +14,14 @@ const TreeNodeCircle = ({
   onMouseEnter,
   onMouseLeave,
   onMouseClick,
-  isHighlighted
+  isHighlighted,
+  style
 }) => (
   <circle
     cx={getXPosition(depth)}
     cy={yScale(heatmapIndex)}
-    r={isHighlighted ? treeNodeRadius + 1 : treeNodeRadius}
-    fill={isHighlighted ? treeHighlightColor : treeNodeColor}
+    r={isHighlighted ? style.treeNodeRadius + 1 : style.treeNodeRadius}
+    fill={isHighlighted ? style.treeHighlightColor : style.treeNodeColor}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
     onClick={onMouseClick}
@@ -51,7 +48,9 @@ TreeNodeCircle.propTypes = {
   /** onMouseEnter, onMouseLeave, onMouseClick - event handlers */
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
-  onMouseClick: PropTypes.func.isRequired
+  onMouseClick: PropTypes.func.isRequired,
+
+  style: PropTypes.object.isRequired
 };
 
 export default TreeNodeCircle;
