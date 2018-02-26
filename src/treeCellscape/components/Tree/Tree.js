@@ -8,6 +8,8 @@ import { fetchTreeRoot } from "./actions.js";
 
 import TreeNode from "./TreeNode";
 
+import config from "./config.js";
+
 /**
  * Tree - React Component
  */
@@ -31,11 +33,11 @@ class Tree extends Component {
   }
 
   render() {
-    const { rootID, width, height } = this.props;
+    const { rootID } = this.props;
     return rootID === "" ? (
       ""
     ) : (
-      <svg width={width} height={height}>
+      <svg width={config["width"]} height={config["height"]}>
         <TreeNode nodeID={rootID} />
       </svg>
     );

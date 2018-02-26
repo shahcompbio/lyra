@@ -6,6 +6,8 @@ import {
   getTotalBP
 } from "../selectors.js";
 
+import config from "./config.js";
+
 /**
  * Gets the heatmap (index) to pixel y scale
  */
@@ -15,7 +17,7 @@ export const getYScale = createSelector(
   ids =>
     scalePoint()
       .domain(ids)
-      .range([0, ids.length * heatmapConfig["rowHeight"]])
+      .range([0, ids.length * config["rowHeight"]])
 );
 
 /**
@@ -34,7 +36,7 @@ const getTotalBP = createSelector(
 export const getBPRatio = createSelector(
   [getTotalBP],
   // int => int
-  totalBP => Math.ceil(totalBP / heatmapConfig["contentWidth"])
+  totalBP => Math.ceil(totalBP / config["contentWidth"])
 );
 
 /**
@@ -62,3 +64,12 @@ export const getChromPixelMapping = createSelector(
     }, {});
   }
 );
+
+/**
+ * Returns the width (in pixels) for chromosome
+ * @param {object} chrom - data
+ * @param {int} bpRatio
+ * @return {int}
+ */
+const getChromWidth = (chrom, bpRatio) =>
+  Math.floor((chrom.end - chrom.start + 1) / bpRatio);

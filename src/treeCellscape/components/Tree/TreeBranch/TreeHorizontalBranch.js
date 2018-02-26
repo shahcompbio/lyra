@@ -5,15 +5,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import config from "./config.js";
+
 import { getXPosition } from "./selectors.js";
 
-const TreeHorizontalBranch = ({
-  heatmapIndex,
-  depth,
-  yScale,
-  branchColor,
-  branchWidth
-}) => {
+const TreeHorizontalBranch = ({ heatmapIndex, depth, yScale }) => {
   const x1 = getXPosition(depth - 1);
   const x2 = getXPosition(depth);
   const y = yScale(heatmapIndex);
@@ -23,8 +19,8 @@ const TreeHorizontalBranch = ({
       y1={y}
       x2={x2}
       y2={y}
-      stroke={branchColor}
-      strokeWidth={branchWidth}
+      stroke={config["horizontalBranchColor"]}
+      strokeWidth={config["horizontalBranchWidth"]}
     />
   );
 };

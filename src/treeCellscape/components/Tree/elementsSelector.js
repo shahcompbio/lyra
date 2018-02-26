@@ -4,9 +4,11 @@ import {
   getIndicesPerPixel
 } from "../selectors.js";
 
+import config from "./config.js";
+
 const getTreeClusterMinDescendants = createSelector(
   [getIndicesPerPixel],
-  indPerPx => Math.floor(indPerPx * treeConfig["treeClusterMinHeight"])
+  indPerPx => Math.floor(indPerPx * config["clusterMinHeight"])
 );
 
 /**

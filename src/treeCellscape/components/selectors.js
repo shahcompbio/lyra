@@ -14,6 +14,8 @@ export {
   getIndexToIDMapping
 } from "data/selectors.js";
 
+export { treeConfig } from "../config.js";
+
 /**
  * Gets number of nodes contained in tree from root
  */

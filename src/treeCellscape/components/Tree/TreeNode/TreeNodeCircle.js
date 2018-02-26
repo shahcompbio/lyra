@@ -6,6 +6,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { getXPosition } from "./selectors.js";
+import config from "./config.js";
 
 const TreeNodeCircle = ({
   heatmapIndex,
@@ -14,14 +15,13 @@ const TreeNodeCircle = ({
   onMouseEnter,
   onMouseLeave,
   onMouseClick,
-  isHighlighted,
-  style
+  isHighlighted
 }) => (
   <circle
     cx={getXPosition(depth)}
     cy={yScale(heatmapIndex)}
-    r={isHighlighted ? style.treeNodeRadius + 1 : style.treeNodeRadius}
-    fill={isHighlighted ? style.treeHighlightColor : style.treeNodeColor}
+    r={isHighlighted ? config["nodeRadius"] + 1 : config["nodeRadius"]}
+    fill={isHighlighted ? config["highlightColor"] : config["nodeColor"]}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
     onClick={onMouseClick}

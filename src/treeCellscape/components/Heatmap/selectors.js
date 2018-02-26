@@ -10,13 +10,15 @@ import {
   getTreeRootRecord
 } from "../selectors.js";
 
+import config from "./config.js";
+
 /**
  * Gets number of indices that can fit per heatmap row
  */
 export const getIndicesPerRow = createSelector(
   [getIndicesPerPixel],
   // int => int
-  indPerPx => Math.ceil(indPerPx * heatmapConfig["rowHeight"])
+  indPerPx => Math.ceil(indPerPx * config["rowHeight"])
 );
 
 /**

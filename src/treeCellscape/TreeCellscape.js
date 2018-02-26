@@ -6,7 +6,7 @@ import Heatmap from "./components/heatmap/Heatmap";
 
 import Tooltip from "./components/Tooltip";
 
-import { config } from "config/treeCellscape.js";
+import { config } from "./config.js";
 const { width, height } = config;
 
 const TreeCellscape = () => (

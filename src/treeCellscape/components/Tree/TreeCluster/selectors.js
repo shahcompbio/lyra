@@ -1,5 +1,6 @@
 import { getMaxHeight } from "../selectors.js";
 import { scaleLinear } from "d3";
+import config from "./config.js";
 
 export { makeIsIndexRangeHighlighted, getXPosition } from "../selectors.js";
 
@@ -13,5 +14,5 @@ export const getClusterColorScale = createSelector(
   maxHeight =>
     scaleLinear()
       .domain([0, maxHeight])
-      .range(treeConfig["treeClusterColorGradient"])
+      .range(config["clusterColorGradient"])
 );

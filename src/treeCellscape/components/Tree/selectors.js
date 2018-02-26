@@ -1,5 +1,6 @@
 import { scaleLinear } from "d3";
 import { getTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
+import config from "./config.js";
 
 export {
   makeIsIndexHighlighted,
@@ -25,7 +26,7 @@ export const getMaxHeight = createSelector(
 export const getOffsetIndex = createSelector(
   [getIndicesPerPixel],
   // int => int
-  indPerPx => indPerPx * treeConfig["treeClusterVerticalOffset"]
+  indPerPx => indPerPx * config["clusterVerticalOffset"]
 );
 
 /**
@@ -37,7 +38,7 @@ export const getYScale = createSelector(
   treeRoot =>
     scaleLinear()
       .domain([treeRoot["heatmapIndex"], treeRoot["maxDescendantIndex"]])
-      .range([treeConfig["treeNodeRadius"], treeConfig["height"]])
+      .range([config["nodeRadius"], config["height"]])
 );
 
 /**
@@ -46,4 +47,4 @@ export const getYScale = createSelector(
  * @return {int}
  */
 export const getXPosition = depth =>
-  depth * treeConfig.treeDepthSpacing + treeConfig.treeNodeRadius;
+  depth * config["depthSpacing"] + config["nodeRadius"];

@@ -5,6 +5,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import config from "./config.js";
+
 import { getXPosition } from "./selectors.js";
 
 const TreeCluster = ({
@@ -16,8 +18,7 @@ const TreeCluster = ({
   clusterColorScale,
   isHighlighted,
   onMouseEnter,
-  onMouseLeave,
-  style
+  onMouseLeave
 }) => {
   const x = getXPosition(depth - 1) + style.treeVerticalBranchWidth / 2;
   const yMin = yScale(minIndex);
@@ -26,12 +27,12 @@ const TreeCluster = ({
 
   return (
     <rect
-      width={style.treeClusterWidth}
+      width={config["clusterWidth"]}
       height={height}
       x={x}
       y={yMin}
       fill={
-        isHighlighted ? style.treeHighlightColor : clusterColorScale(maxHeight)
+        isHighlighted ? config["highlightColor"] : clusterColorScale(maxHeight)
       }
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
