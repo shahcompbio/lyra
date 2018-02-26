@@ -40,6 +40,7 @@ const TREE_CONSTANTS = {
 
   clusterVerticalOffset: 5,
 
+  thresholdMin: 5,
   clusterMinHeight: 3
 };
 

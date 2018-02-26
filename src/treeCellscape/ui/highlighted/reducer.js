@@ -8,7 +8,7 @@ import actions from "./types.js";
  */
 
 const initialIndex = null;
-const index = createReducer(initialHighlightedIndex)({
+const index = createReducer(initialIndex)({
   [actions.highlightElement]: (state, action) =>
     action.index === undefined ? null : action.index,
   [actions.unhighlightElement]: (state, action) => null
@@ -20,7 +20,7 @@ const index = createReducer(initialHighlightedIndex)({
  */
 
 const initalRange = null;
-const range = createReducer(initialHighlightedRange)({
+const range = createReducer(initalRange)({
   [actions.highlightElement]: (state, action) =>
     action.range === undefined ? null : action.range,
   [actions.unhighlightElement]: (state, action) => null

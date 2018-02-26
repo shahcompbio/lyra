@@ -3,7 +3,7 @@ import { all, fork, takeLatest, call, select, put } from "redux-saga/effects";
 import actions from "./types.js";
 import { getSegsPending } from "./selectors.js";
 import { fetchSegsByIDs } from "./api.js";
-import { fetchSegsSucess } from "./actions.js";
+import { fetchSegsSuccess } from "./actions.js";
 
 function* segsSagas() {
   yield all([fork(fetchSegsSagaWatcher)]);

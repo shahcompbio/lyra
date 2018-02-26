@@ -11,7 +11,7 @@ import DataFetcher from "utils/DataFetcher";
 import {
   getHeatmapSegData,
   getMissingSegIndices,
-  getChromRanges
+  getOrderedChromosomeData
 } from "./selectors.js";
 import { fetchSegs, fetchChromRanges } from "./actions.js";
 import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
@@ -61,7 +61,7 @@ const chromFetchData = props => {
 };
 
 const chromMapState = state => ({
-  chromRanges: getChromRanges(state)
+  chromRanges: getOrderedChromosomeData(state)
 });
 
 const HeatmapChromFetcher = connect(chromMapState)(DataFetcher);

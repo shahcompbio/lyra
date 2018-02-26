@@ -2,6 +2,7 @@ export {
   highlightElement,
   unhighlightElement,
   setTreeRoot,
+  fetchTreeRoot,
   unsetTreeRoot
 } from "../ui/actions.js";
 

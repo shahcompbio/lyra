@@ -5,9 +5,9 @@ import shiftSelectors from "utils/shiftSelectors.js";
  * State Selectors
  */
 
-const getTreeRootID = state => state.rootID;
-const getTreeData = state => state.data;
-const getTreePending = state => state.pending;
+export const getTreeRootID = state => state.rootID;
+export const getTreeData = state => state.data;
+export const getTreePending = state => state.pending;
 
 const treeRootIDStateSelectors = {};
 const treeDataStateSelectors = {};
@@ -50,7 +50,7 @@ const isFullRecord = node =>
 /**
  * Factory function - Get shallow tree node records given list of IDs
  */
-const makeGetTreeNodeRecordsByID = () =>
+export const makeGetTreeNodeRecordsByID = () =>
   createSelector(
     [getTreeData, (state, ids) => ids],
     // (object, array) => array

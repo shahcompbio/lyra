@@ -6,7 +6,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { makeGetTreeNodeRecordByID, getTreeYScale } from "./selectors.js";
+import { makeGetTreeNodeRecordByID, getYScale } from "./selectors.js";
 import { fetchTreeNode } from "./actions.js";
 
 import DataFetcher from "utils/DataFetcher";
@@ -47,7 +47,7 @@ const makeMapStateForTreeNode = () => {
   const getTreeNodeRecordByID = makeGetTreeNodeRecordByID();
   const mapState = (state, ownProps) => ({
     treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
-    yScale: getTreeYScale(state)
+    yScale: getYScale(state)
   });
   return mapState;
 };

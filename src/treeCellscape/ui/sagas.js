@@ -1,4 +1,4 @@
-import { all, fork, put } from "redux-saga/effects";
+import { all, fork, put, takeEvery } from "redux-saga/effects";
 import ReactTooltip from "react-tooltip";
 import { unhighlightElement } from "./actions.js";
 import actions from "./types.js";

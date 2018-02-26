@@ -13,7 +13,7 @@ import {
 } from "./selectors.js";
 
 import TreeNode from "./TreeNode";
-import TreeChildrenCluster from "./TreeChildren/TreeChildrenCluster";
+import TreeChildrenCluster from "./TreeCluster/TreeChildrenCluster";
 import TreeVerticalBranch from "./TreeBranch/TreeVerticalBranch";
 
 class TreeChildren extends Component {
@@ -232,7 +232,7 @@ const makeMapState = () => {
   const getTreeElements = makeGetTreeElementsByChildren();
   const mapState = (state, ownProps) => ({
     childrenElements: getTreeElements(state, ownProps.children),
-    yScale: getTreeYScale(state),
+    yScale: getYScale(state),
     offsetIndex: getOffsetIndex(state)
   });
   return mapState;

@@ -1,6 +1,7 @@
+import { createSelector } from "reselect";
+
 import {
   makeGetTreeNodeRecordsByID,
-  getThresholdIndex,
   getIndicesPerPixel
 } from "../selectors.js";
 
@@ -9,6 +10,18 @@ import config from "./config.js";
 const getTreeClusterMinDescendants = createSelector(
   [getIndicesPerPixel],
   indPerPx => Math.floor(indPerPx * config["clusterMinHeight"])
+);
+
+/**
+ * Gets threshold index distance - the number of indices apart children have to be in order to be visible
+ */
+const getThresholdIndex = createSelector(
+  [getIndicesPerPixel],
+  // int => int
+  indPerPx => {
+    const thresholdIndex = indPerPx * config["thresholdMin"];
+    return thresholdIndex <= 1 ? -1 : thresholdIndex;
+  }
 );
 
 /**

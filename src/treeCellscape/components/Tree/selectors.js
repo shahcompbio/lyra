@@ -1,5 +1,6 @@
 import { scaleLinear } from "d3";
 import { getTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
+import { createSelector } from "reselect";
 import config from "./config.js";
 
 export {

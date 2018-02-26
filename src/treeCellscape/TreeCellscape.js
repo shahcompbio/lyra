@@ -1,10 +1,10 @@
 import React from "react";
 
 import TreeZoomOutButton from "./components/TreeZoomOutButton/TreeZoomOutButton";
-import Tree from "./components/tree/Tree";
-import Heatmap from "./components/heatmap/Heatmap";
+import Tree from "./components/Tree/Tree";
+import Heatmap from "./components/Heatmap/Heatmap";
 
-import Tooltip from "./components/Tooltip";
+import Tooltip from "./components/Tooltip/Tooltip";
 
 import { config } from "./config.js";
 const { width, height } = config;

@@ -1,5 +1,5 @@
-import { fetchForDataType } from "/api/index.js";
-import { processRecord } from "/api/utils.js";
+import { fetchForDataType } from "api/index.js";
+import { processRecord } from "api/utils.js";
 
 export const MAPPINGS = {
   cell_id: "cellID",

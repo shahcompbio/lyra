@@ -1,3 +1,14 @@
+import { createSelector } from "reselect";
+import { treeConfig } from "../config.js";
+
+import {
+  getCurrTreeRootRecord as getTreeRootRecord,
+  getHighlightedIndex,
+  getHighlightedRange
+} from "../ui/selectors.js";
+
+import { getCellsIndexToID } from "data/selectors.js";
+
 export {
   getCurrTreeRootID,
   getCurrTreeRootRecord as getTreeRootRecord,
@@ -8,13 +19,12 @@ export {
 
 export {
   getOrderedChromosomeData,
-  getSegsByID,
+  getSegsData,
   getMissingSegIndices,
   makeGetTreeNodeRecordByID,
-  getIndexToIDMapping
+  makeGetTreeNodeRecordsByID,
+  getCellsIndexToID
 } from "data/selectors.js";
-
-export { treeConfig } from "../config.js";
 
 /**
  * Gets number of nodes contained in tree from root
@@ -38,7 +48,7 @@ export const getIndicesPerPixel = createSelector(
  * Returns text - either cell ID (node and row) or # of descendents (clusters)
  */
 export const getHighlightedText = createSelector(
-  [getHighlightedIndex, getHighlightedRange, getIndexToIDMapping],
+  [getHighlightedIndex, getHighlightedRange, getCellsIndexToID],
   (index, range, indexToID) =>
     isCluster(index, range)
       ? range[1] - range[0] + 1 + " descendents"

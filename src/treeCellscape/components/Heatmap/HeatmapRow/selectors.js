@@ -1,12 +1,10 @@
-export { makeIsIndexHighlighted } from "../selectors.js";
-
-import {
-  getHeatmapIDs,
-  getOrderedChromosomeData,
-  getTotalBP
-} from "../selectors.js";
+import { getHeatmapIDs, getOrderedChromosomeData } from "../selectors.js";
 
 import config from "./config.js";
+import { createSelector } from "reselect";
+import { scalePoint } from "d3";
+
+export { makeIsIndexHighlighted } from "../selectors.js";
 
 /**
  * Gets the heatmap (index) to pixel y scale

@@ -10,7 +10,7 @@ import { stateSelectors as segsStateSelectors } from "./segs/selectors.js";
 
 const getCellsTree = state => state.tree;
 const getCellsSegs = state => state.segs;
-const getCellsIndexToID = state => state.indexToID;
+export const getCellsIndexToID = state => state.indexToID;
 
 const indexToIDStateSelectors = {};
 

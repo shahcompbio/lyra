@@ -1,8 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
-import { rootSaga } from "./state/sagas/index.js";
 
-import { combineReducers } from "redux";
 import data from "./data/reducer.js";
 import ui from "./treeCellscape/ui/reducer.js";
 

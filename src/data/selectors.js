@@ -13,7 +13,7 @@ const getDataChromosomes = state => state.chromosomes;
 export const stateSelectors = {
   getDataCells,
   getDataChromosomes,
-  ...shiftSelectors(getDataCells, cellStateSelectors),
+  ...shiftSelectors(getDataCells, cellsStateSelectors),
   ...shiftSelectors(getDataChromosomes, chromosomesStateSelectors)
 };
 

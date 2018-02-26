@@ -5,13 +5,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import HeatmapRowIndicators from "./HeatmapRowIndicators";
 import HeatmapRowContent from "./HeatmapRowContent";
 import ReactTooltip from "react-tooltip";
 
 import {
-  getHeatmapYScale,
+  getYScale,
   getChromPixelMapping,
   getBPRatio,
   makeIsIndexHighlighted
@@ -99,7 +100,7 @@ const makeMapState = () => {
   const isIndexHighlighted = makeIsIndexHighlighted();
   const mapState = (state, ownProps) => ({
     isHighlighted: isIndexHighlighted(state, ownProps.rowData["heatmapIndex"]),
-    yScale: getHeatmapYScale(state),
+    yScale: getYScale(state),
     chromMap: getChromPixelMapping(state),
     bpRatio: getBPRatio(state)
   });

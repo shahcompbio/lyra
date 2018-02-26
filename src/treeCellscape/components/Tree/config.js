@@ -7,6 +7,7 @@ const config = {
   clusterMinHeight: prevConfig["clusterMinHeight"],
   clusterVerticalOffset: prevConfig["clusterVerticalOffset"],
   depthSpacing: prevConfig["depthSpacing"],
+  thresholdMin: prevConfig["thresholdMin"],
 
   nodeRadius: prevConfig["nodeRadius"],
   nodeColor: prevConfig["nodeColor"],

@@ -20,7 +20,7 @@ const TreeCluster = ({
   onMouseEnter,
   onMouseLeave
 }) => {
-  const x = getXPosition(depth - 1) + style.treeVerticalBranchWidth / 2;
+  const x = getXPosition(depth - 1) + config["verticalBranchWidth"] / 2;
   const yMin = yScale(minIndex);
   const yMax = yScale(maxIndex);
   const height = yMax - yMin;
