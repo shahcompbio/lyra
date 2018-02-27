@@ -7,6 +7,10 @@ import segs from "./segs/reducer.js";
 
 import createReducer from "utils/createReducer.js";
 
+import shiftSelectors from "utils/shiftSelectors.js";
+import { stateSelectors as treeStateSelectors } from "./tree/reducer.js";
+import { stateSelectors as segsStateSelectors } from "./segs/reducer.js";
+
 /**
  * METADATA - index to ID mapping
  * indexToID {object}
@@ -59,5 +63,21 @@ const reducer = combineReducers({
   segs,
   indexToID
 });
+
+/**
+ * State Selectors
+ */
+
+const getCellsTree = state => state.tree;
+const getCellsSegs = state => state.segs;
+const getCellsIndexToID = state => state.indexToID;
+
+export const stateSelectors = {
+  getCellsTree,
+  getCellsSegs,
+  getCellsIndexToID,
+  ...shiftSelectors(getCellsTree, treeStateSelectors),
+  ...shiftSelectors(getCellsSegs, segsStateSelectors)
+};
 
 export default reducer;

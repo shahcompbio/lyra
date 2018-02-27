@@ -4,27 +4,23 @@ import { treeConfig } from "../config.js";
 import {
   getCurrTreeRootRecord,
   getHighlightedIndex,
-  getHighlightedRange
-} from "../ui/selectors.js";
-
-import { getCellsIndexToID } from "data/selectors.js";
+  getHighlightedRange,
+  getCellsIndexToID
+} from "../selectors.js";
 
 export {
   getCurrTreeRootID,
   getCurrTreeRootRecord,
   isCurrRootAtRoot,
   getHighlightedIndex,
-  getHighlightedRange
-} from "../ui/selectors.js";
-
-export {
+  getHighlightedRange,
   getOrderedChromosomeData,
   getSegsData,
-  getMissingSegIndices,
+  getMissingSegIDs,
   makeGetTreeNodeRecordByID,
   makeGetTreeNodeRecordsByID,
   getCellsIndexToID
-} from "data/selectors.js";
+} from "../selectors.js";
 
 /**
  * Gets number of nodes contained in tree from root

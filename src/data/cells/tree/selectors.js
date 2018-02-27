@@ -1,26 +1,4 @@
 import { createSelector } from "reselect";
-import shiftSelectors from "utils/shiftSelectors.js";
-
-/**
- * State Selectors
- */
-
-export const getTreeRootID = state => state.rootID;
-export const getTreeData = state => state.data;
-export const getTreePending = state => state.pending;
-
-const treeRootIDStateSelectors = {};
-const treeDataStateSelectors = {};
-const treePendingStateSelectors = {};
-
-export const stateSelectors = {
-  getTreeRootID,
-  getTreeData,
-  getTreePending,
-  ...shiftSelectors(getTreeRootID, treeRootIDStateSelectors),
-  ...shiftSelectors(getTreeData, treeDataStateSelectors),
-  ...shiftSelectors(getTreePending, treePendingStateSelectors)
-};
 
 /**
  * Reselectors
@@ -29,7 +7,7 @@ export const stateSelectors = {
 /**
  * Factory function - gets tree record for specific cell ID
  */
-export const makeGetTreeNodeRecordByID = () =>
+export const makeGetTreeNodeRecordByID = getTreeData => () =>
   createSelector(
     [getTreeData, (state, id) => id],
     // (object, string) => object || null
@@ -50,7 +28,7 @@ const isFullRecord = node =>
 /**
  * Factory function - Get shallow tree node records given list of IDs
  */
-export const makeGetTreeNodeRecordsByID = () =>
+export const makeGetTreeNodeRecordsByID = getTreeData => () =>
   createSelector(
     [getTreeData, (state, ids) => ids],
     // (object, array) => array

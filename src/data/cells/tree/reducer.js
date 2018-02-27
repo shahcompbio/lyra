@@ -99,4 +99,18 @@ const reducer = combineReducers({
   pending
 });
 
+/**
+ * State Selectors
+ */
+
+const getTreeRootID = state => state.rootID;
+const getTreeData = state => state.data;
+const getTreePending = state => state.pending;
+
+export const stateSelectors = {
+  getTreeRootID,
+  getTreeData,
+  getTreePending
+};
+
 export default reducer;

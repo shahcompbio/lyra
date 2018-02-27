@@ -96,4 +96,15 @@ const reducer = combineReducers({
   data
 });
 
+/**
+ * State Selectors
+ */
+const getSegsData = state => state.data;
+const getSegsPending = state => state.pending;
+
+export const stateSelectors = {
+  getSegsData,
+  getSegsPending
+};
+
 export default reducer;
