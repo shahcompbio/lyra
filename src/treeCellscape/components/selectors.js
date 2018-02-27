@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 import { treeConfig } from "../config.js";
 
 import {
-  getCurrTreeRootRecord as getTreeRootRecord,
+  getCurrTreeRootRecord,
   getHighlightedIndex,
   getHighlightedRange
 } from "../ui/selectors.js";
@@ -11,7 +11,7 @@ import { getCellsIndexToID } from "data/selectors.js";
 
 export {
   getCurrTreeRootID,
-  getCurrTreeRootRecord as getTreeRootRecord,
+  getCurrTreeRootRecord,
   isCurrRootAtRoot,
   getHighlightedIndex,
   getHighlightedRange
@@ -30,7 +30,7 @@ export {
  * Gets number of nodes contained in tree from root
  */
 export const getTotalIndexNum = createSelector(
-  [getTreeRootRecord],
+  [getCurrTreeRootRecord],
   // object => int
   treeRoot => treeRoot["maxDescendantIndex"] - treeRoot["heatmapIndex"] + 1
 );

@@ -6,7 +6,7 @@ import { isCurrRootAtRoot } from "./selectors.js";
 import { unsetTreeRoot } from "./actions.js";
 
 const TreeZoomOutButton = ({ isDisabled, onClick }) => (
-  <button disable={isDisabled} onClick={onClick}>
+  <button disabled={isDisabled} onClick={onClick}>
     Zoom Out
   </button>
 );

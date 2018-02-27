@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import {
   getIndicesPerPixel,
   getTotalIndexNum,
-  getTreeRootRecord,
+  getCurrTreeRootRecord,
   getSegsData,
   getCellsIndexToID
 } from "../selectors.js";
@@ -11,7 +11,8 @@ import {
 import config from "./config.js";
 export {
   getOrderedChromosomeData,
-  getMissingSegIndices
+  getMissingSegIndices,
+  makeIsIndexHighlighted
 } from "../selectors.js";
 
 /**
@@ -27,7 +28,7 @@ export const getIndicesPerRow = createSelector(
  * Gets list of indices to display on heatmap
  */
 const getHeatmapIndices = createSelector(
-  [getIndicesPerRow, getTotalIndexNum, getTreeRootRecord],
+  [getIndicesPerRow, getTotalIndexNum, getCurrTreeRootRecord],
   // (int, int) => array
   (indPerRow, totalIndices, treeRoot) => {
     const numRows = Math.floor(totalIndices / indPerRow);

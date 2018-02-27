@@ -1,5 +1,5 @@
 import { scaleLinear } from "d3";
-import { getTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
+import { getCurrTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
 import { createSelector } from "reselect";
 import config from "./config.js";
 
@@ -16,7 +16,7 @@ export { makeGetTreeElementsByChildren } from "./elementsSelector.js";
  * Get max height of tree
  */
 export const getMaxHeight = createSelector(
-  [getTreeRootRecord],
+  [getCurrTreeRootRecord],
   // object => int
   treeRoot => treeRoot["maxHeight"]
 );
@@ -34,12 +34,16 @@ export const getOffsetIndex = createSelector(
  * Gets heatmap index to y-coordinate scale
  */
 export const getYScale = createSelector(
-  [getTreeRootRecord],
+  [getCurrTreeRootRecord],
   // int => func
-  treeRoot =>
-    scaleLinear()
+  treeRoot => {
+    console.log(getCurrTreeRootRecord());
+    console.log(treeRoot);
+
+    return scaleLinear()
       .domain([treeRoot["heatmapIndex"], treeRoot["maxDescendantIndex"]])
-      .range([config["nodeRadius"], config["height"]])
+      .range([config["nodeRadius"], config["height"]]);
+  }
 );
 
 /**
