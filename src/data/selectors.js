@@ -1,4 +1,6 @@
-export {
+import { stateSelectors } from "./reducer.js";
+
+export const {
   getTreeRootID,
   getTreeData,
   getTreePending,
@@ -9,7 +11,7 @@ export {
   getCellsIndexToID,
   getChromosomeData,
   getChromosomeOrder
-} from "./reducer.js";
+} = stateSelectors;
 
 export * from "./cells/selectors.js";
 export * from "./chromosomes/selectors.js";

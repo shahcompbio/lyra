@@ -18,7 +18,3 @@ export const {
   getHighlightedIndex,
   getHighlightedRange
 } = stateSelectors;
-
-/**
- * Reselectors
- */
