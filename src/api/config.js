@@ -1,5 +1,5 @@
 const config = {
-  HOST: "http://localhost:9200/",
+  HOST: "",
   SEARCH: "/_search",
 
   TREE_INDEX: "htert_sc763_tree",
