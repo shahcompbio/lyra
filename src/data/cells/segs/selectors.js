@@ -1,7 +1,5 @@
 import { createSelector } from "reselect";
-import { getSegsData } from "../selectors.js";
-
-export { getSegsData, getSegsPending } from "../selectors.js";
+import { getSegsData } from "./stateSelectors.js";
 
 /**
  * Reselectors

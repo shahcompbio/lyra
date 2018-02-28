@@ -11,7 +11,7 @@ import {
 import actions from "./types.js";
 import { fetchTreeRootSuccess, fetchTreeNodesSuccess } from "./actions.js";
 import { fetchTreeRoot, fetchTreeNodes } from "./api.js";
-import { getTreePending } from "./selectors.js";
+import { getTreePending } from "./stateSelectors.js";
 
 function* treeSagas() {
   yield all([fork(fetchTreeRootSaga), fork(fetchTreeNodesSagaWatcher)]);

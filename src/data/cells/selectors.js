@@ -1,16 +1,5 @@
 import { createSelector } from "reselect";
-import { getCellsIndexToID } from "../selectors.js";
-
-export {
-  getTreeRootID,
-  getTreeData,
-  getTreePending,
-  getSegsData,
-  getSegsPending,
-  getCellsSegs,
-  getCellsTree,
-  getCellsIndexToID
-} from "../selectors.js";
+import { getCellsIndexToID } from "./stateSelectors.js";
 
 /**
  * Reselectors

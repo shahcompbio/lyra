@@ -1,7 +1,7 @@
 import { delay } from "redux-saga";
 import { all, fork, takeLatest, call, select, put } from "redux-saga/effects";
 import actions from "./types.js";
-import { getSegsPending } from "./selectors.js";
+import { getSegsPending } from "./stateSelectors.js";
 import { fetchSegsByIDs } from "./api.js";
 import { fetchSegsSuccess } from "./actions.js";
 

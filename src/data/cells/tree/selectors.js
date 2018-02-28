@@ -1,7 +1,5 @@
 import { createSelector } from "reselect";
-import { getTreeData } from "../selectors.js";
-
-export { getTreeData, getTreePending, getTreeRootID } from "../selectors.js";
+import { getTreeData } from "./stateSelectors.js";
 
 /**
  * Reselectors

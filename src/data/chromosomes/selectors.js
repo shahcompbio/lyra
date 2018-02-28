@@ -1,7 +1,5 @@
 import { createSelector } from "reselect";
-import { getChromosomeData, getChromosomeOrder } from "../selectors";
-
-export { getChromosomeData, getChromosomeOrder } from "../selectors";
+import { getChromosomeData, getChromosomeOrder } from "./stateSelectors.js";
 
 /**
  * Gets chromosome range data in order
