@@ -108,7 +108,6 @@ HeatmapChromFetcher.PropTypes = {
 const Heatmap = () => {
   const segsRender = props => {
     const { segs } = props;
-    console.log(segs);
     return (
       <svg width={config["width"]} height={config["height"]} x={config["x"]}>
         {segs.map(rowData => (
