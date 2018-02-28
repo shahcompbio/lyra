@@ -5,7 +5,7 @@ import actions from "./types.js";
 import treeDataActions from "data/types.js";
 
 import shiftSelectors from "utils/shiftSelectors.js";
-import { stateSelectors as highlightedStateSelectors } from "./highlighted/selectors.js";
+import { stateSelectors as highlightedStateSelectors } from "./highlighted/reducer.js";
 
 /**
  * treeRootPath { array }

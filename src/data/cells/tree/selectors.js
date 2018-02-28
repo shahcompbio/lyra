@@ -1,4 +1,7 @@
 import { createSelector } from "reselect";
+import { getTreeData } from "../selectors.js";
+
+export { getTreeData, getTreePending, getTreeRootID } from "../selectors.js";
 
 /**
  * Reselectors
@@ -7,7 +10,7 @@ import { createSelector } from "reselect";
 /**
  * Factory function - gets tree record for specific cell ID
  */
-export const makeGetTreeNodeRecordByID = getTreeData => () =>
+export const makeGetTreeNodeRecordByID = () =>
   createSelector(
     [getTreeData, (state, id) => id],
     // (object, string) => object || null
@@ -28,7 +31,7 @@ const isFullRecord = node =>
 /**
  * Factory function - Get shallow tree node records given list of IDs
  */
-export const makeGetTreeNodeRecordsByID = getTreeData => () =>
+export const makeGetTreeNodeRecordsByID = () =>
   createSelector(
     [getTreeData, (state, ids) => ids],
     // (object, array) => array

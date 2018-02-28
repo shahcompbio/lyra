@@ -18,11 +18,16 @@ const reducer = combineReducers({
 const getDataCells = state => state.cells;
 const getDataChromosomes = state => state.chromosomes;
 
-export const stateSelectors = {
+const localStateSelectors = {
   getDataCells,
   getDataChromosomes,
   ...shiftSelectors(getDataCells, cellsStateSelectors),
   ...shiftSelectors(getDataChromosomes, chromosomesStateSelectors)
 };
+
+export const stateSelectors = shiftSelectors(
+  state => state.data,
+  localStateSelectors
+);
 
 export default reducer;

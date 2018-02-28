@@ -3,8 +3,8 @@ import ui from "./ui/reducer.js";
 import { combineReducers } from "redux";
 
 import shiftSelectors from "utils/shiftSelectors.js";
-import { stateSelectors as dataStateSelectors } from "data/selectors.js";
-import { stateSelectors as uiStateSelectors } from "./ui/selectors.js";
+import { stateSelectors as dataStateSelectors } from "data/reducer.js";
+import { stateSelectors as uiStateSelectors } from "./ui/reducer.js";
 
 const reducer = combineReducers({
   data,
@@ -21,7 +21,7 @@ const getUI = state => state.ui;
 export const stateSelectors = {
   getData,
   getUI,
-  ...shiftSelectors(getData, dataStateSelectors),
+  ...dataStateSelectors,
   ...shiftSelectors(getUI, uiStateSelectors)
 };
 
