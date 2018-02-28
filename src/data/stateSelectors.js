@@ -1,4 +1,4 @@
-import { stateSelectors } from "./reducer.js";
+import { stateSelectors } from "treeCellscape/reducer.js";
 
 export const {
   getTreeRootID,

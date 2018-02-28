@@ -2,5 +2,6 @@ export {
   highlightElement,
   unhighlightElement,
   fetchSegs,
-  fetchChromRanges
+  fetchChromRanges,
+  fetchIndexToIDMappings
 } from "../actions.js";

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { getCurrTreeRootID } from "./selectors.js";
@@ -17,9 +17,6 @@ class Tree extends Component {
   static propTypes = {
     /** ID of tree root - "" if not fetched yet  */
     rootID: PropTypes.string,
-
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
 
     fetchTreeRoot: PropTypes.func.isRequired
   };
@@ -46,8 +43,6 @@ class Tree extends Component {
 
 const mapState = state => ({ rootID: getCurrTreeRootID(state) });
 
-const mapDispatch = dispatch => ({
-  fetchTreeRoot: () => dispatch(fetchTreeRoot())
-});
+const mapDispatch = dispatch => bindActionCreators({ fetchTreeRoot }, dispatch);
 
 export default connect(mapState, mapDispatch)(Tree);

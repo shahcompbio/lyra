@@ -37,9 +37,6 @@ export const getYScale = createSelector(
   [getCurrTreeRootRecord],
   // int => func
   treeRoot => {
-    console.log(getCurrTreeRootRecord());
-    console.log(treeRoot);
-
     return scaleLinear()
       .domain([treeRoot["heatmapIndex"], treeRoot["maxDescendantIndex"]])
       .range([config["nodeRadius"], config["height"]]);

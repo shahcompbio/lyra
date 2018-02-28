@@ -1,7 +1,8 @@
 import prevConfig from "../config.js";
 
 const config = {
-  branchColor: prevConfig["branchColor"],
+  horizontalBranchColor: prevConfig["horizontalBranchColor"],
+  verticalBranchColor: prevConfig["verticalBranchColor"],
   horizontalBranchWidth: prevConfig["horizontalBranchWidth"],
   verticalBranchWidth: prevConfig["verticalBranchWidth"],
   nodeRadius: prevConfig["nodeRadius"]

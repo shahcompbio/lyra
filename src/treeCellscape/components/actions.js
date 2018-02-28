@@ -2,8 +2,13 @@ export {
   highlightElement,
   unhighlightElement,
   setTreeRoot,
-  fetchTreeRoot,
   unsetTreeRoot
 } from "../ui/actions.js";
 
-export { fetchSegs, fetchChromRanges, fetchTreeNode } from "data/actions.js";
+export {
+  fetchSegs,
+  fetchChromRanges,
+  fetchTreeNode,
+  fetchTreeRoot,
+  fetchIndexToIDMappings
+} from "data/actions.js";

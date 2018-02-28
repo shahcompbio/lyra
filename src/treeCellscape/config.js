@@ -40,13 +40,13 @@ const TREE_CONSTANTS = {
 
   clusterVerticalOffset: 5,
 
-  thresholdMin: 5,
+  thresholdMin: 20,
   clusterMinHeight: 3
 };
 
 export const treeConfig = {
   ...TREE_CONSTANTS,
-  clusterWidth: TREE_CONSTANTS.treeDepthSpacing - TREE_CONSTANTS.treeNodeRadius
+  clusterWidth: TREE_CONSTANTS.depthSpacing - TREE_CONSTANTS.nodeRadius
 };
 
 /**

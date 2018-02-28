@@ -10,10 +10,17 @@ import DataFetcher from "utils/DataFetcher";
 
 import {
   getHeatmapSegData,
-  getMissingSegIndices,
-  getOrderedChromosomeData
+  getHeatmapIDs,
+  getMissingSegIDs,
+  getOrderedChromosomeData,
+  getHeatmapIndices,
+  getMissingIDMappings
 } from "./selectors.js";
-import { fetchSegs, fetchChromRanges } from "./actions.js";
+import {
+  fetchSegs,
+  fetchChromRanges,
+  fetchIndexToIDMappings
+} from "./actions.js";
 import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
 
 import config from "./config.js";
@@ -34,7 +41,7 @@ const segFetchData = props => {
 
 const mapState = state => ({
   segs: getHeatmapSegData(state),
-  missingIndices: getMissingSegIndices(state)
+  missingIndices: getMissingSegIDs(state, getHeatmapIDs(state))
 });
 
 const HeatmapSegFetcher = connect(mapState)(DataFetcher);
@@ -44,6 +51,30 @@ HeatmapSegFetcher.PropTypes = {
   segs: PropTypes.arrayOf(PropTypes.object).isRequired,
 
   /** missingIndices - all indices that are missing segment records*/
+  missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
+};
+
+/**
+ * Index to ID Data Fetcher
+ */
+const indexIsDataMissing = props => {
+  const { missingIndices } = props;
+  return missingIndices.length > 0;
+};
+
+const indexFetchData = props => {
+  const { missingIndices } = props;
+  return fetchIndexToIDMappings(missingIndices);
+};
+
+const indexMapState = state => ({
+  missingIndices: getMissingIDMappings(state, getHeatmapIndices(state))
+});
+
+const HeatmapIndexFetcher = connect(indexMapState)(DataFetcher);
+
+HeatmapIndexFetcher.PropTypes = {
+  /** missingIndices - all indices that are missing ID mappings */
   missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
@@ -77,6 +108,7 @@ HeatmapChromFetcher.PropTypes = {
 const Heatmap = () => {
   const segsRender = props => {
     const { segs } = props;
+    console.log(segs);
     return (
       <svg width={config["width"]} height={config["height"]} x={config["x"]}>
         {segs.map(rowData => (
@@ -86,12 +118,22 @@ const Heatmap = () => {
     );
   };
 
-  const chromRender = props => {
+  const indexRender = props => {
     return (
       <HeatmapSegFetcher
         render={segsRender}
         isDataMissing={segIsDataMissing}
         fetchData={segFetchData}
+      />
+    );
+  };
+
+  const chromRender = props => {
+    return (
+      <HeatmapIndexFetcher
+        render={indexRender}
+        isDataMissing={indexIsDataMissing}
+        fetchData={indexFetchData}
       />
     );
   };

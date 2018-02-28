@@ -11,8 +11,9 @@ import {
 import config from "./config.js";
 export {
   getOrderedChromosomeData,
-  getMissingSegIndices,
-  makeIsIndexHighlighted
+  getMissingSegIDs,
+  makeIsIndexHighlighted,
+  getMissingIDMappings
 } from "../selectors.js";
 
 /**
@@ -27,7 +28,7 @@ export const getIndicesPerRow = createSelector(
 /**
  * Gets list of indices to display on heatmap
  */
-const getHeatmapIndices = createSelector(
+export const getHeatmapIndices = createSelector(
   [getIndicesPerRow, getTotalIndexNum, getCurrTreeRootRecord],
   // (int, int) => array
   (indPerRow, totalIndices, treeRoot) => {
@@ -44,21 +45,18 @@ const getHeatmapIndices = createSelector(
 
 export const getHeatmapIDs = createSelector(
   [getHeatmapIndices, getCellsIndexToID],
-  (indices, indexToID) =>
-    indices
-      .filter(index => indexToID.hasOwnProperty(index))
-      .map(index => indexToID[index])
+  (indices, indexToID) => indices.map(index => indexToID[index])
 );
 
 /**
  *
  */
 export const getHeatmapSegData = createSelector(
-  [getSegsData, getHeatmapIDs],
-  (segs, ids) =>
+  [getSegsData, getHeatmapIDs, getHeatmapIndices],
+  (segs, ids, indices) =>
     ids
       .filter(id => segs.hasOwnProperty(id))
-      .map(id => createSegment(segs[id], id))
+      .map((id, index) => createSegment(segs[id], id, indices[index]))
 );
 
 /**
@@ -67,7 +65,8 @@ export const getHeatmapSegData = createSelector(
  * @param {string} id
  * @return {object}
  */
-const createSegment = (segs, cellID) => ({
+const createSegment = (segs, cellID, heatmapIndex) => ({
   cellID,
-  segs
+  segs,
+  heatmapIndex
 });

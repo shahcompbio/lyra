@@ -24,7 +24,6 @@ const TreeCluster = ({
   const yMin = yScale(minIndex);
   const yMax = yScale(maxIndex);
   const height = yMax - yMin;
-
   return (
     <rect
       width={config["clusterWidth"]}

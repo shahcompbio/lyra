@@ -22,7 +22,6 @@ const pending = createReducer(initialPending)({
 
   [actions.fetchSegsSuccess]: (state, action) => {
     const idsToRemove = action.ids;
-
     return idsToRemove.length > 0 ? removeInOrder(state, idsToRemove) : state;
   }
 });
@@ -72,7 +71,7 @@ const initialSegsData = {};
 const data = createReducer(initialSegsData)({
   [actions.fetchSegsSuccess]: (state, action) => ({
     ...state,
-    ...actions.segs.reduce((map, segment) => {
+    ...action.segs.reduce((map, segment) => {
       const cellID = segment["cellID"];
       const newSegments = map.hasOwnProperty(cellID)
         ? [...map[cellID], segment]
@@ -82,7 +81,7 @@ const data = createReducer(initialSegsData)({
         ...map,
         [cellID]: newSegments
       };
-    })
+    }, {})
   })
 });
 

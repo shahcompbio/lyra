@@ -19,7 +19,8 @@ export {
   getMissingSegIDs,
   makeGetTreeNodeRecordByID,
   makeGetTreeNodeRecordsByID,
-  getCellsIndexToID
+  getCellsIndexToID,
+  getMissingIDMappings
 } from "../selectors.js";
 
 /**

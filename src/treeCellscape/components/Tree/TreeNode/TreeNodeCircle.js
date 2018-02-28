@@ -48,9 +48,7 @@ TreeNodeCircle.propTypes = {
   /** onMouseEnter, onMouseLeave, onMouseClick - event handlers */
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
-  onMouseClick: PropTypes.func.isRequired,
-
-  style: PropTypes.object.isRequired
+  onMouseClick: PropTypes.func.isRequired
 };
 
 export default TreeNodeCircle;

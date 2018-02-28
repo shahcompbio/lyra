@@ -21,7 +21,7 @@ const getUI = state => state.ui;
 export const stateSelectors = {
   getData,
   getUI,
-  ...dataStateSelectors,
+  ...shiftSelectors(getData, dataStateSelectors),
   ...shiftSelectors(getUI, uiStateSelectors)
 };
 

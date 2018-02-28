@@ -51,15 +51,15 @@ class HeatmapRow extends Component {
 
   isYPositionsDifferent(currProps, nextProps) {
     return (
-      currProps.yScale(currProps.rowData.heatmapIndex) !==
-      nextProps.yScale(nextProps.rowData.heatmapIndex)
+      currProps.yScale(currProps.rowData.cellID) !==
+      nextProps.yScale(nextProps.rowData.cellID)
     );
   }
 
   render() {
     const { rowData, yScale, chromMap, bpRatio, isHighlighted } = this.props;
     const { heatmapIndex, segs, cellID } = rowData;
-    const y = yScale(heatmapIndex);
+    const y = yScale(cellID);
 
     const onMouseEnter = () => {
       this.props.highlightElement({ index: heatmapIndex });

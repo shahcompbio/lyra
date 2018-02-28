@@ -76,6 +76,7 @@ class TreeChildrenCluster extends Component {
     } = this.props;
 
     const onMouseEnter = () => {
+      console.log(this.props);
       this.props.highlightElement({ range: [minIndex, maxIndex] });
     };
 
@@ -122,4 +123,4 @@ const mapDispatch = dispatch =>
     dispatch
   );
 
-export default connect(makeMapState())(TreeChildrenCluster);
+export default connect(makeMapState(), mapDispatch)(TreeChildrenCluster);
