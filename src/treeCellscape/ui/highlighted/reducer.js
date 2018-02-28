@@ -2,8 +2,6 @@ import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
 import actions from "./types.js";
 
-import shiftSelectors from "utils/shiftSelectors.js";
-
 /**
  * highlightedIndex { null || int }
  * 	index of node or heatmap row that is being hovered on
