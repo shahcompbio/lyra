@@ -27,14 +27,14 @@ const TREE_CONSTANTS = {
 
   nodeRadius: 3,
   nodeColor: "#b3b3b3",
-  verticalBranchColor: "#000000",
-  horizontalBranchColor: "#626262",
+  horizontalBranchColor: "#333333",
+  verticalBranchColor: "#bfbfbf",
   highlightColor: "#2e7aab",
 
   clusterColorGradient: ["#CECECE", "#CECECE"],
 
   horizontalBranchWidth: 1,
-  verticalBranchWidth: 4,
+  verticalBranchWidth: 2,
 
   depthSpacing: 20,
 
