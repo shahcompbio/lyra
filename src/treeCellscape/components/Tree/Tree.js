@@ -34,7 +34,7 @@ class Tree extends Component {
     return rootID === "" ? (
       ""
     ) : (
-      <svg width={config["width"]} height={config["height"]}>
+      <svg width={config["width"]} height={config["height"]} x={config["x"]}>
         <TreeNode nodeID={rootID} />
       </svg>
     );

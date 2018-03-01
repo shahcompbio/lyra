@@ -6,12 +6,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import config from "./config.js";
 
-const HeatmapRowIndicators = ({ cellID, y, isHighlighted }) => (
+const HeatmapRowIndicators = ({ cellID, x, y, isHighlighted }) => (
   <rect
     key={cellID + "-indicator"}
     width={config["indicatorWidth"]}
     height={config["rowHeight"]}
-    x={0}
+    x={x}
     y={y}
     fill={isHighlighted ? "#000000" : "#FFFFFF"}
   />

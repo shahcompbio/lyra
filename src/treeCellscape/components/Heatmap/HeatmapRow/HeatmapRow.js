@@ -15,7 +15,8 @@ import {
   getYScale,
   getChromPixelMapping,
   getBPRatio,
-  makeIsIndexHighlighted
+  makeIsIndexHighlighted,
+  getActualContentWidth
 } from "./selectors.js";
 import { highlightElement, unhighlightElement } from "./actions.js";
 
@@ -57,10 +58,17 @@ class HeatmapRow extends Component {
   }
 
   render() {
-    const { rowData, yScale, chromMap, bpRatio, isHighlighted } = this.props;
+    const {
+      rowData,
+      yScale,
+      chromMap,
+      bpRatio,
+      isHighlighted,
+      actualContentWidth
+    } = this.props;
     const { heatmapIndex, segs, cellID } = rowData;
     const y = yScale(cellID);
-
+    console.log(actualContentWidth);
     const onMouseEnter = () => {
       this.props.highlightElement({ index: heatmapIndex });
     };
@@ -76,17 +84,18 @@ class HeatmapRow extends Component {
         onMouseLeave={onMouseLeave}
         data-tip
       >
-        <HeatmapRowIndicators
-          cellID={cellID}
-          y={y}
-          isHighlighted={isHighlighted}
-        />
         <HeatmapRowContent
           cellID={cellID}
           segs={segs}
           y={y}
           chromMap={chromMap}
           bpRatio={bpRatio}
+        />
+        <HeatmapRowIndicators
+          cellID={cellID}
+          x={actualContentWidth}
+          y={y}
+          isHighlighted={isHighlighted}
         />
       </g>
     );
@@ -102,7 +111,8 @@ const makeMapState = () => {
     isHighlighted: isIndexHighlighted(state, ownProps.rowData["heatmapIndex"]),
     yScale: getYScale(state),
     chromMap: getChromPixelMapping(state),
-    bpRatio: getBPRatio(state)
+    bpRatio: getBPRatio(state),
+    actualContentWidth: getActualContentWidth(state)
   });
 
   return mapState;

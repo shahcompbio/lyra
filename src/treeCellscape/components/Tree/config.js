@@ -3,6 +3,7 @@ import { treeConfig as prevConfig } from "../../config.js";
 const config = {
   height: prevConfig["height"],
   width: prevConfig["width"],
+  x: prevConfig["x"],
 
   clusterMinHeight: prevConfig["clusterMinHeight"],
   clusterVerticalOffset: prevConfig["clusterVerticalOffset"],
