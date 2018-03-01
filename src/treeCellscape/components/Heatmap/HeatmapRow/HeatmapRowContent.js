@@ -46,9 +46,7 @@ HeatmapRowContent.propTypes = {
  * @param {number}
  */
 const getSegX = (seg, chromMap, bpRatio) =>
-  Math.floor(seg.start / bpRatio) +
-  chromMap[seg.chromosome].x +
-  config["indicatorWidth"];
+  Math.floor(seg.start / bpRatio) + chromMap[seg.chromosome].x;
 
 /**
  * Returns segment width in pixels

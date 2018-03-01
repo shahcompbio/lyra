@@ -24,6 +24,7 @@ export const config = {
 const TREE_CONSTANTS = {
   width: 800,
   height: 1000,
+  x: 750,
 
   nodeRadius: 3,
   nodeColor: "#b3b3b3",
@@ -65,7 +66,7 @@ export const heatmapConfig = {
   contentWidth:
     config.width - treeConfig.width - HEATMAP_CONSTANTS.indicatorWidth,
   height: config.height,
-  x: treeConfig.width,
+  x: 0,
   colorScale: scaleOrdinal()
     .domain([1, 2, 3, 4, 5, 6, 7]) // state
     .range([

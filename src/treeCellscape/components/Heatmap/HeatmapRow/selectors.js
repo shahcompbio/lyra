@@ -71,3 +71,9 @@ export const getChromPixelMapping = createSelector(
  */
 const getChromWidth = (chrom, bpRatio) =>
   Math.floor((chrom.end - chrom.start + 1) / bpRatio);
+
+export const getActualContentWidth = createSelector(
+  [getChromPixelMapping],
+  chromPixelMapping =>
+    chromPixelMapping["Y"]["width"] + chromPixelMapping["Y"]["x"]
+);
