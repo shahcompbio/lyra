@@ -76,8 +76,10 @@ class TreeChildrenCluster extends Component {
     } = this.props;
 
     const onMouseEnter = () => {
-      console.log(this.props);
-      this.props.highlightElement({ range: [minIndex, maxIndex] });
+      this.props.highlightElement({
+        range: [minIndex, maxIndex],
+        element: "cluster"
+      });
     };
 
     const onMouseLeave = () => {

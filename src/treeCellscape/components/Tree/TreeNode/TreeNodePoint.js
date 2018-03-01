@@ -66,7 +66,8 @@ class TreeNodePoint extends Component {
     const onMouseEnter = () => {
       this.props.highlightElement({
         index: heatmapIndex,
-        range: [heatmapIndex, maxDescendantIndex]
+        range: [heatmapIndex, maxDescendantIndex],
+        element: "clade"
       });
     };
 

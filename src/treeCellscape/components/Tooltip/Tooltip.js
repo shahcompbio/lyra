@@ -6,7 +6,16 @@ import { getTooltipText } from "./selectors.js";
 import ReactTooltip from "react-tooltip";
 
 const Tooltip = ({ text }) => (
-  <ReactTooltip getContent={() => <span>{text}</span>} />
+  <ReactTooltip
+    getContent={() =>
+      text.split("\n").map(item => (
+        <span>
+          {item}
+          <br />
+        </span>
+      ))
+    }
+  />
 );
 
 /**

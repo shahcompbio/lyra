@@ -1,1 +1,5 @@
-export { getHighlightedIndex, getHighlightedRange } from "../stateSelectors.js";
+export {
+  getHighlightedIndex,
+  getHighlightedRange,
+  getHighlightedElement
+} from "../stateSelectors.js";

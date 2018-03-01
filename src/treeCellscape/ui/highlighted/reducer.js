@@ -26,9 +26,21 @@ const range = createReducer(initalRange)({
   [actions.unhighlightElement]: (state, action) => null
 });
 
+/**
+ * element { null || string }
+ *   type of element that is highlighted
+ */
+
+const initialElement = null;
+const element = createReducer(initialElement)({
+  [actions.highlightElement]: (state, action) => action.element,
+  [actions.unhighlightElement]: (state, action) => null
+});
+
 const reducer = combineReducers({
   index,
-  range
+  range,
+  element
 });
 
 /**
@@ -37,10 +49,12 @@ const reducer = combineReducers({
 
 const getHighlightedIndex = state => state.index;
 const getHighlightedRange = state => state.range;
+const getHighlightedElement = state => state.element;
 
 export const stateSelectors = {
   getHighlightedIndex,
-  getHighlightedRange
+  getHighlightedRange,
+  getHighlightedElement
 };
 
 export default reducer;

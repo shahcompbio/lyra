@@ -62,7 +62,7 @@ class HeatmapRow extends Component {
     const y = yScale(cellID);
 
     const onMouseEnter = () => {
-      this.props.highlightElement({ index: heatmapIndex });
+      this.props.highlightElement({ index: heatmapIndex, element: "row" });
     };
 
     const onMouseLeave = () => {
