@@ -9,7 +9,7 @@ const Tooltip = ({ text }) => (
   <ReactTooltip
     getContent={() =>
       text.split("\n").map(item => (
-        <span>
+        <span key={item}>
           {item}
           <br />
         </span>
