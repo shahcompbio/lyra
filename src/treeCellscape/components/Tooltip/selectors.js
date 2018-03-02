@@ -4,7 +4,7 @@ import {
   getHighlightedIndex,
   getHighlightedRange,
   getCellsIndexToID,
-  getTreeData,
+  getHighlightedTreeData,
   isClade,
   isCluster,
   isRow
@@ -19,14 +19,14 @@ const getHighlightedNodeText = createSelector(
     getHighlightedIndex,
     getHighlightedRange,
     getCellsIndexToID,
-    getTreeData
+    getHighlightedTreeData
   ],
-  (element, index, range, indexToID, treeData) =>
+  (element, index, range, indexToID, nodeData) =>
     isClade(element)
       ? indexToID[index] +
         "\n" +
         "Children: " +
-        treeData[indexToID[index]]["children"].length +
+        nodeData["children"].length +
         "\n" +
         "Descendants: " +
         (range[1] - range[0])

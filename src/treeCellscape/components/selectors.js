@@ -6,7 +6,8 @@ import {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
-  getCellsIndexToID
+  getCellsIndexToID,
+  getTreeData
 } from "../selectors.js";
 
 export {
@@ -17,7 +18,6 @@ export {
   getHighlightedRange,
   getHighlightedElement,
   getOrderedChromosomeData,
-  getTreeData,
   getSegsData,
   getMissingSegIDs,
   makeGetTreeNodeRecordByID,
@@ -84,6 +84,11 @@ export const makeIsIndexRangeHighlighted = () =>
           : indexRange[0] <= highlightedIndex &&
             highlightedIndex <= indexRange[1]
   );
+
+export const getHighlightedTreeData = createSelector(
+  [getTreeData, getHighlightedIndex, getCellsIndexToID],
+  (treeData, index, indexToID) => (index ? treeData[indexToID[index]] : null)
+);
 
 /**
  * Determines whether clade/cluster/row has been highlighted
