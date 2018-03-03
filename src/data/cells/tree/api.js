@@ -46,6 +46,21 @@ const parseTreeRoot = json => {
   return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS, false) };
 };
 
+export function fetchAllTreeNodes() {
+  return fetchForDataType(allTreeNodesQuery(), "tree").then(json =>
+    parseAllTreeNodes(json)
+  );
+}
+
+const allTreeNodesQuery = () => ({
+  size: 50000
+});
+
+const parseAllTreeNodes = json =>
+  json.hits.hits.map(record =>
+    processRecord(record["_source"], MAPPINGS, false)
+  );
+
 // Fetching tree nodes
 
 /**

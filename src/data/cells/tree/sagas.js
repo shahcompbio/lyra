@@ -9,8 +9,12 @@ import {
   select
 } from "redux-saga/effects";
 import actions from "./types.js";
-import { fetchTreeRootSuccess, fetchTreeNodesSuccess } from "./actions.js";
-import { fetchTreeRoot, fetchTreeNodes } from "./api.js";
+import {
+  fetchTreeRootSuccess,
+  fetchTreeNodesSuccess,
+  fetchAllTreeNodesSuccess
+} from "./actions.js";
+import { fetchTreeRoot, fetchTreeNodes, fetchAllTreeNodes } from "./api.js";
 import { getTreePending } from "./stateSelectors.js";
 
 function* treeSagas() {
@@ -34,6 +38,11 @@ function* fetchTreeNodesSaga(action) {
   const nodeIDs = yield select(getTreePending);
   const nodeData = yield call(fetchTreeNodes, nodeIDs);
   yield put(fetchTreeNodesSuccess(nodeData, nodeIDs));
+}
+
+function* fetchAllTreeNodesSaga() {
+  const nodeData = yield call(fetchAllTreeNodes);
+  yield put(fetchAllTreeNodesSuccess(nodeData));
 }
 
 export default treeSagas;

@@ -4,7 +4,7 @@ import types from "./types.js";
  * Fetch Tree Root
  */
 export const fetchTreeRoot = () => ({
-	type: types.fetchTreeRoot
+  type: types.fetchTreeRoot
 });
 
 /**
@@ -12,8 +12,8 @@ export const fetchTreeRoot = () => ({
  * @param {object} treeRoot - tree root record
  */
 export const fetchTreeRootSuccess = treeRoot => ({
-	type: types.fetchTreeRootSuccess,
-	root: treeRoot
+  type: types.fetchTreeRootSuccess,
+  root: treeRoot
 });
 
 /**
@@ -21,8 +21,8 @@ export const fetchTreeRootSuccess = treeRoot => ({
  * @param {string} nodeID
  */
 export const fetchTreeNode = nodeID => ({
-	type: types.fetchTreeNode,
-	nodeID
+  type: types.fetchTreeNode,
+  nodeID
 });
 
 /**
@@ -31,7 +31,22 @@ export const fetchTreeNode = nodeID => ({
  * @param {array} nodeIDs
  */
 export const fetchTreeNodesSuccess = (treeNodes, nodeIDs) => ({
-	type: types.fetchTreeNodesSuccess,
-	treeNodes,
-	nodeIDs
+  type: types.fetchTreeNodesSuccess,
+  treeNodes,
+  nodeIDs
+});
+
+/**
+ * Fetch all tree nodes
+ */
+export const fetchAllTreeNodes = () => ({
+  type: types.fetchAllTreeNodes
+});
+
+/**
+ * Fetch all tree nodes is successful
+ */
+export const fetchAllTreeNodesSuccess = treeNodes => ({
+  type: types.fetchAllTreeNodesSuccess,
+  treeNodes
 });

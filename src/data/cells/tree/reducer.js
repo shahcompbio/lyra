@@ -72,20 +72,27 @@ const data = createReducer(initialNodes)({
   [actions.fetchTreeNodesSuccess]: (state, action) => {
     const { treeNodes } = action;
 
-    const treeNodeMap = treeNodes.reduce(
-      (map, record) => ({
-        ...map,
-        [record["cellID"]]: record
-      }),
-      {}
-    );
+    const treeNodeMap = processTreeNodes(treeNodes);
 
     return {
       ...state,
       ...treeNodeMap
     };
-  }
+  },
+  [actions.fetchAllTreeNodesSuccess]: (state, action) => ({
+    ...state,
+    ...processTreeNodes(action.treeNodes)
+  })
 });
+
+const processTreeNodes = treeNodes =>
+  treeNodes.reduce(
+    (map, record) => ({
+      ...map,
+      [record["cellID"]]: record
+    }),
+    {}
+  );
 
 /**
  * Tree reducer
