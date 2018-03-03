@@ -25,6 +25,7 @@ function* treeSagas() {
 function* fetchTreeRootSaga() {
   yield take(actions.fetchTreeRoot);
   const treeRoot = yield call(fetchTreeRoot);
+  yield call(fetchAllTreeNodesSaga);
   yield put(fetchTreeRootSuccess(treeRoot));
 }
 
