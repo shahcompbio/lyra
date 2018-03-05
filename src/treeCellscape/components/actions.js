@@ -9,6 +9,7 @@ export {
   fetchSegs,
   fetchChromRanges,
   fetchTreeNode,
+  fetchAllTreeNodes,
   fetchTreeRoot,
   fetchIndexToIDMappings
 } from "data/actions.js";

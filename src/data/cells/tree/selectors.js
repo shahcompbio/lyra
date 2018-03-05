@@ -18,14 +18,6 @@ export const makeGetTreeNodeRecordByID = () =>
   );
 
 /**
- * Determines whether record is full (has child attributes)
- * @param {object} node - record
- * @return {bool}
- */
-const isFullRecord = node =>
-  node !== undefined && node.hasOwnProperty("children");
-
-/**
  * Factory function - Get shallow tree node records given list of IDs
  */
 export const makeGetTreeNodeRecordsByID = () =>

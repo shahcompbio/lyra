@@ -1,7 +1,6 @@
 export {
   getTreeRootID,
   getTreeData,
-  getTreePending,
   getSegsData,
   getSegsPending,
   getCellsSegs,

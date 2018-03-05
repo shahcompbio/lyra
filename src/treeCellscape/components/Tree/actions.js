@@ -3,5 +3,6 @@ export {
   unhighlightElement,
   setTreeRoot,
   fetchTreeRoot,
-  fetchTreeNode
+  fetchTreeNode,
+  fetchAllTreeNodes
 } from "../actions.js";

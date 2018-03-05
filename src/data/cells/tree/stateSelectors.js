@@ -1,5 +1,1 @@
-export {
-  getTreeRootID,
-  getTreeData,
-  getTreePending
-} from "../stateSelectors.js";
+export { getTreeRootID, getTreeData } from "../stateSelectors.js";

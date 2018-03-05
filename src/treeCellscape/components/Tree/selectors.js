@@ -7,7 +7,8 @@ export {
   makeIsIndexHighlighted,
   makeIsIndexRangeHighlighted,
   getCurrTreeRootID,
-  makeGetTreeNodeRecordByID
+  makeGetTreeNodeRecordByID,
+  getTreeData
 } from "../selectors.js";
 
 export { makeGetTreeElementsByChildren } from "./elementsSelector.js";
