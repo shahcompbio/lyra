@@ -60,15 +60,6 @@ const removeInOrder = (state, list) => {
 const initialNodes = {};
 
 const data = createReducer(initialNodes)({
-  [actions.fetchTreeRootSuccess]: (state, action) => {
-    const { children, ...otherRootProps } = action.root;
-
-    return {
-      ...state,
-      [action.root["cellID"]]: otherRootProps
-    };
-  },
-
   [actions.fetchTreeNodesSuccess]: (state, action) => {
     const { treeNodes } = action;
 

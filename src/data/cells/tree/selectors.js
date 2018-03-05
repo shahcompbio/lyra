@@ -13,8 +13,7 @@ export const makeGetTreeNodeRecordByID = () =>
     [getTreeData, (state, id) => id],
     // (object, string) => object || null
     (nodes, id) => {
-      const node = nodes[id];
-      return isFullRecord(node) ? node : null;
+      return nodes[id];
     }
   );
 

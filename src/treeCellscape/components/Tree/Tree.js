@@ -10,39 +10,10 @@ import TreeNode from "./TreeNode";
 
 import config from "./config.js";
 
-/**
- * Tree - React Component
- */
-class Tree extends Component {
-  static propTypes = {
-    /** ID of tree root - "" if not fetched yet  */
-    rootID: PropTypes.string,
+const Tree = ({ rootID }) => (
+  <svg width={config["width"]} height={config["height"]} x={config["x"]}>
+    <TreeNode nodeID={rootID} />
+  </svg>
+);
 
-    fetchTreeRoot: PropTypes.func.isRequired
-  };
-
-  componentDidMount() {
-    this.props.fetchTreeRoot();
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.rootID !== this.props.rootID;
-  }
-
-  render() {
-    const { rootID } = this.props;
-    return rootID === "" ? (
-      ""
-    ) : (
-      <svg width={config["width"]} height={config["height"]} x={config["x"]}>
-        <TreeNode nodeID={rootID} />
-      </svg>
-    );
-  }
-}
-
-const mapState = state => ({ rootID: getCurrTreeRootID(state) });
-
-const mapDispatch = dispatch => bindActionCreators({ fetchTreeRoot }, dispatch);
-
-export default connect(mapState, mapDispatch)(Tree);
+export default Tree;
