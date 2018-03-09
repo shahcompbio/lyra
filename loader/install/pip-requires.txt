@@ -1,0 +1,14 @@
+elasticsearch
+certifi
+mock  
+nose  
+coverage  
+pylint  
+nosexcover
+xlrd
+prettytable
+radon
+PyIntervalTree
+PyYAML
+PyVCF
+networkx
