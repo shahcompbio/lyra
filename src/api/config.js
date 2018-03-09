@@ -1,9 +1,9 @@
 const config = {
-  HOST: "",
+  HOST: "http://localhost:9200/",
   SEARCH: "/_search",
 
-  TREE_INDEX: "htert_sc763_tree",
-  SEG_INDEX: "htert_sc763_seg"
+  TREE_INDEX: "sc-763_01_tree",
+  SEG_INDEX: "sc-763_01_segs"
 };
 
 export default config;

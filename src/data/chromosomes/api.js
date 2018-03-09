@@ -39,17 +39,6 @@ export const chromRangesQuery = () => ({
         }
       }
     }
-  },
-  query: {
-    bool: {
-      filter: [
-        {
-          terms: {
-            caller: ["single_cell_hmmcopy_seg"]
-          }
-        }
-      ]
-    }
   }
 });
 
