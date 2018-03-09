@@ -88,7 +88,8 @@ export const makeIsIndexRangeHighlighted = () =>
 
 export const getHighlightedTreeData = createSelector(
   [getTreeData, getHighlightedIndex, getCellsIndexToID],
-  (treeData, index, indexToID) => (index ? treeData[indexToID[index]] : null)
+  (treeData, index, indexToID) =>
+    index !== null ? treeData[indexToID[index]] : null
 );
 
 /**
