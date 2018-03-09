@@ -1,0 +1,15 @@
+analysis_id:  "SC-763_01"
+jira_id:      "SC-763"
+library_id:   "hTERT"
+description:  "Deep hTERT dataset"
+type: "tree"
+files:
+  tree: /Users/sleung/Desktop/tree_data/hTERT_8600/deep_hTERT_tree_rooted.gml
+  tree_order: /Users/sleung/Desktop/tree_data/hTERT_8600/deep_hTERT_order.tsv
+  segs:
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-747.csv
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-748.csv
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-749.csv
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-750.csv
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-751.csv
+    - /Users/sleung/Desktop/tree_data/hTERT_8600/HMM_SEG_SC-752.csv
