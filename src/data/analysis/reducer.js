@@ -9,3 +9,7 @@ const analysis = createReducer(initialAnalysis)({
     ...action.analysis
   ]
 });
+
+export const stateSelectors = {};
+
+export default analysis;

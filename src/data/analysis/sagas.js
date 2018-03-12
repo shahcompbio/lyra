@@ -15,3 +15,5 @@ function* fetchAllAnalysisSaga() {
   const analysis = yield call(fetchAllAnalysis);
   yield put(fetchAllAnalysisSuccess(analysis));
 }
+
+export default analysisSagas;
