@@ -14,9 +14,9 @@ export function fetchAllAnalysis() {
   );
 }
 
-const allAnalysisQuery = () => {
-  size: 50000;
-};
+const allAnalysisQuery = () => ({
+  size: 50000
+});
 
 const parseAnalysis = json =>
   json.hits.hits.map(record =>

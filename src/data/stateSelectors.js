@@ -9,5 +9,6 @@ export const {
   getCellsTree,
   getCellsIndexToID,
   getChromosomeData,
-  getChromosomeOrder
+  getChromosomeOrder,
+  getDataAnalysis
 } = stateSelectors;
