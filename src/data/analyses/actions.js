@@ -8,10 +8,3 @@ export const fetchAllAnalysisSuccess = analyses => ({
   type: types.fetchAllAnalysisSuccess,
   analyses
 });
-
-export const selectAnalysis = (analysisID, treeIndex, segsIndex) => ({
-  type: types.selectAnalysis,
-  analysisID,
-  treeIndex,
-  segsIndex
-});
