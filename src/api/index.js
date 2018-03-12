@@ -4,7 +4,10 @@ import config from "./config.js";
  * Fetches appropriate index according to data type
  */
 export function fetchForDataType(query, dataType) {
-  const index = dataType === "tree" ? config.TREE_INDEX : config.SEG_INDEX;
+  const index =
+    dataType === "analysis"
+      ? config.ANALYSIS_INDEX
+      : dataType === "tree" ? config.TREE_INDEX : config.SEG_INDEX;
 
   return fetchQuery(query, index);
 }

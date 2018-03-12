@@ -4,7 +4,7 @@ export const fetchAllAnalysis = () => ({
   type: types.fetchAllAnalysis
 });
 
-export const fetchAllAnalysisSuccess = analyses => ({
+export const fetchAllAnalysisSuccess = analysis => ({
   type: types.fetchAllAnalysisSuccess,
-  analyses
+  analysis
 });
