@@ -17,7 +17,6 @@ function* fetchSegsSaga(action) {
   yield call(delay, 1000);
 
   const ids = yield select(getSegsPending);
-
   yield call(fetchSegsByIDsSaga, ids);
 }
 

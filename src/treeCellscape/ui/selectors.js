@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { getTreeData, getTreeRootID } from "data/selectors.js";
+import { getTreeData, getTreeRootID } from "../selectors.js";
 import { getTreePath } from "./stateSelectors.js";
 
 /**

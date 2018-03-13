@@ -12,4 +12,4 @@ export {
   fetchAllTreeNodes,
   fetchTreeRoot,
   fetchIndexToIDMappings
-} from "data/actions.js";
+} from "../data/actions.js";

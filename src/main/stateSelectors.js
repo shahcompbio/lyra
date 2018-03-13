@@ -1,4 +1,7 @@
-export {
+import { stateSelectors } from "./reducer.js";
+
+export const {
+  getAnalysis,
   getSegsData,
   getSegsPending,
   getTreePath,
@@ -7,8 +10,7 @@ export {
   getCellsIndexToID,
   getChromosomeData,
   getChromosomeOrder,
-  getDataAnalysis,
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement
-} from "main/stateSelectors.js";
+} = stateSelectors;

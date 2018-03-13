@@ -1,6 +1,4 @@
-import { stateSelectors } from "treeCellscape/reducer.js";
-
-export const {
+export {
   getTreeRootID,
   getTreeData,
   getSegsData,
@@ -9,6 +7,5 @@ export const {
   getCellsTree,
   getCellsIndexToID,
   getChromosomeData,
-  getChromosomeOrder,
-  getDataAnalysis
-} = stateSelectors;
+  getChromosomeOrder
+} from "../stateSelectors.js";
