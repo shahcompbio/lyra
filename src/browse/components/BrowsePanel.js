@@ -21,7 +21,6 @@ class BrowsePanel extends Component {
   }
 
   render() {
-    console.log(this.props.analysis);
     const analysisItems = this.props.analysis.map(analysis => (
       <span key={analysis.title}>{analysis.title}</span>
     ));
@@ -34,8 +33,8 @@ class BrowsePanel extends Component {
 const styles = {
   bmBurgerButton: {
     position: "fixed",
-    width: "36px",
-    height: "30px",
+    width: "20px",
+    height: "20px",
     left: "36px",
     top: "36px"
   },
