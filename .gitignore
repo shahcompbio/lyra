@@ -2,6 +2,7 @@
 
 # loader
 /loader/*.pyc
+/loader/utils/*.pyc
 
 # dependencies
 /node_modules

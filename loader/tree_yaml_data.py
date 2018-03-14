@@ -64,6 +64,7 @@ class TreeYamlData(object):
 
     def get_analysis_entry(self):
         record = {
+            'analysis_id': self.yaml_data['analysis_id'],
             'title': self.yaml_data['jira_id'],
             'description': self.yaml_data['description'],
             'tree_index': self.get_index_name("tree"),
