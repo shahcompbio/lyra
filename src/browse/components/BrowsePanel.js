@@ -10,6 +10,12 @@ import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
 import { getAnalysisList } from "./selectors.js";
 
 class BrowsePanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: true
+    };
+  }
   componentDidMount() {
     this.props.fetchAllAnalysis();
   }
@@ -18,6 +24,7 @@ class BrowsePanel extends Component {
     const analysisItems = this.props.analysis.map(analysis => {
       const onClick = () => {
         this.props.selectAnalysis(analysis);
+        this.setState({ isOpen: false });
       };
 
       return (
@@ -30,7 +37,7 @@ class BrowsePanel extends Component {
       );
     });
     return this.props.analysis.length > 0 ? (
-      <Menu isOpen styles={styles}>
+      <Menu isOpen={this.state.isOpen} styles={styles}>
         {analysisItems}
       </Menu>
     ) : null;

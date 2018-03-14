@@ -1,10 +1,11 @@
 import { all, fork, takeEvery, call, put } from "redux-saga/effects";
+import selectedSagas from "./selected/sagas.js";
 import actions from "./types.js";
 import { fetchAllAnalysisSuccess } from "./actions.js";
 import { fetchAllAnalysis } from "./api.js";
 
 function* analysisSagas() {
-  yield all([fork(fetchAllAnalysisWatcher)]);
+  yield all([fork(fetchAllAnalysisWatcher), fork(selectedSagas)]);
 }
 
 function* fetchAllAnalysisWatcher() {
