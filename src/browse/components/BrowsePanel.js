@@ -4,28 +4,28 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { slide as Menu } from "react-burger-menu";
+import BrowsePanelItem from "./BrowsePanelItem.js";
 
 import { fetchAllAnalysis } from "../analysis/actions.js";
 import { getAnalysis } from "main/stateSelectors.js";
 
 class BrowsePanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isHidden: false
-    };
-  }
-
   componentDidMount() {
     this.props.fetchAllAnalysis();
   }
 
   render() {
     const analysisItems = this.props.analysis.map(analysis => (
-      <span key={analysis.title}>{analysis.title}</span>
+      <BrowsePanelItem
+        key={analysis.title}
+        title={analysis.title}
+        description={analysis.description}
+      />
     ));
     return this.props.analysis.length > 0 ? (
-      <Menu styles={styles}>{analysisItems}</Menu>
+      <Menu isOpen styles={styles}>
+        {analysisItems}
+      </Menu>
     ) : null;
   }
 }
@@ -55,10 +55,6 @@ const styles = {
   },
   bmMorphShape: {
     fill: "#373a47"
-  },
-  bmItemList: {
-    color: "#b8b7ad",
-    padding: "0.8em"
   },
   bmOverlay: {
     background: "rgba(0, 0, 0, 0.3)"
