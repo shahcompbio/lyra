@@ -1,14 +1,15 @@
 import React from "react";
+import { css } from "emotion";
 
 const BrowsePanelItem = ({ title, description }) => (
-  <div style={divStyle}>
-    <span style={titleStyle}>{title}</span>
+  <div className={divStyle}>
+    <span className={titleStyle}>{title}</span>
     <br />
-    <span style={descriptionStyle}>{description}</span>
+    <span className={descriptionStyle}>{description}</span>
   </div>
 );
 
-const divStyle = {
+const divStyle = css({
   width: "90%",
   height: "50px",
   background: "#dee3e1",
@@ -16,20 +17,20 @@ const divStyle = {
   marginTop: "10px",
   marginBottom: "10px",
   padding: "5px",
-  textAlign: "left"
-};
-
-const textStyle = {
-  color: "#184dc1"
-};
-
-const titleStyle = {
-  fontSize: "16px",
-  ...textStyle
-};
-const descriptionStyle = {
+  textAlign: "left",
+  color: "#000000",
   fontSize: "12px",
-  ...textStyle
-};
+  "&:hover": {
+    color: "#184dc1",
+    background: "#b0b4b2"
+  }
+});
+
+const titleStyle = css({
+  fontSize: "16px"
+});
+const descriptionStyle = css({
+  color: "#000000"
+});
 
 export default BrowsePanelItem;
