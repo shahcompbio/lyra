@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "d3": "^4.13.0",
+    "emotion": "^9.0.2",
     "fetch": "^1.1.0",
     "react": "^16.2.0",
     "react-burger-menu": "^2.3.0",
