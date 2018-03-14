@@ -1,8 +1,8 @@
 import React from "react";
 import { css } from "emotion";
 
-const BrowsePanelItem = ({ title, description }) => (
-  <div className={divStyle}>
+const BrowsePanelItem = ({ title, description, onClick }) => (
+  <div className={divStyle} onClick={onClick}>
     <span className={titleStyle}>{title}</span>
     <br />
     <span className={descriptionStyle}>{description}</span>

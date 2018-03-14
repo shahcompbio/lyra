@@ -2,6 +2,7 @@ import { fetchForDataType } from "api/index.js";
 import { processRecord } from "api/utils.js";
 
 const MAPPINGS = {
+  analysis_id: "id",
   segs_index: "segsIndex",
   tree_index: "treeIndex",
   description: "description",
