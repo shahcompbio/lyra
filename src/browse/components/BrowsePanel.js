@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import { slide as Menu } from "react-burger-menu";
 import BrowsePanelItem from "./BrowsePanelItem.js";
 
-import { fetchAllAnalysis } from "../analysis/actions.js";
-import { getAnalysis } from "main/stateSelectors.js";
+import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
+import { getAnalysisList } from "./selectors.js";
 
 class BrowsePanel extends Component {
   componentDidMount() {
@@ -15,13 +15,20 @@ class BrowsePanel extends Component {
   }
 
   render() {
-    const analysisItems = this.props.analysis.map(analysis => (
-      <BrowsePanelItem
-        key={analysis.title}
-        title={analysis.title}
-        description={analysis.description}
-      />
-    ));
+    const analysisItems = this.props.analysis.map(analysis => {
+      const onClick = () => {
+        this.props.selectAnalysis(analysis);
+      };
+
+      return (
+        <BrowsePanelItem
+          key={analysis.title}
+          title={analysis.title}
+          description={analysis.description}
+          onClick={onClick}
+        />
+      );
+    });
     return this.props.analysis.length > 0 ? (
       <Menu isOpen styles={styles}>
         {analysisItems}
@@ -62,9 +69,9 @@ const styles = {
 };
 
 const mapState = state => ({
-  analysis: getAnalysis(state)
+  analysis: getAnalysisList(state)
 });
 const mapDispatch = dispatch =>
-  bindActionCreators({ fetchAllAnalysis }, dispatch);
+  bindActionCreators({ fetchAllAnalysis, selectAnalysis }, dispatch);
 
 export default connect(mapState, mapDispatch)(BrowsePanel);

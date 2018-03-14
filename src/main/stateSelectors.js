@@ -1,7 +1,7 @@
 import { stateSelectors } from "./reducer.js";
 
 export const {
-  getAnalysis,
+  getAnalysisList,
   getSegsData,
   getSegsPending,
   getTreePath,

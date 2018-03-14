@@ -1,5 +1,7 @@
 import treeCellscape from "treeCellscape/reducer.js";
-import analysis from "browse/analysis/reducer.js";
+import analysis, {
+  stateSelectors as analysisStateSelectors
+} from "browse/analysis/reducer.js";
 import { combineReducers } from "redux";
 
 import shiftSelectors from "utils/shiftSelectors.js";
@@ -20,7 +22,8 @@ const getAnalysis = state => state.analysis;
 export const stateSelectors = {
   getTreeCellscape,
   ...shiftSelectors(getTreeCellscape, treeCellscapeStateSelectors),
-  getAnalysis
+  getAnalysis,
+  ...shiftSelectors(getAnalysis, analysisStateSelectors)
 };
 
 export default reducer;
