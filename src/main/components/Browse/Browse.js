@@ -4,12 +4,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { slide as Menu } from "react-burger-menu";
-import BrowsePanelItem from "./BrowsePanelItem.js";
+import BrowseItem from "./BrowseItem.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
 import { getAnalysisList } from "./selectors.js";
 
-class BrowsePanel extends Component {
+class Browse extends Component {
   static propTypes = {
     analysis: PropTypes.array.isRequired
   };
@@ -32,7 +32,7 @@ class BrowsePanel extends Component {
       };
 
       return (
-        <BrowsePanelItem
+        <BrowseItem
           key={analysis.title}
           title={analysis.title}
           description={analysis.description}
@@ -85,4 +85,4 @@ const mapState = state => ({
 const mapDispatch = dispatch =>
   bindActionCreators({ fetchAllAnalysis, selectAnalysis }, dispatch);
 
-export default connect(mapState, mapDispatch)(BrowsePanel);
+export default connect(mapState, mapDispatch)(Browse);

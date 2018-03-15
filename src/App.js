@@ -1,11 +1,11 @@
 import React from "react";
-import BrowsePanel from "./browse/components/BrowsePanel.js";
-import Content from "./main/components/Content.js";
+import Browse from "./main/components/Browse/Browse.js";
+import Content from "./main/components/Content/Content.js";
 import "./App.css";
 
 const App = () => (
   <div className="App">
-    <BrowsePanel />
+    <Browse />
     <Content />
   </div>
 );

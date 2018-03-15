@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "emotion";
 
-const BrowsePanelItem = ({ title, description, onClick }) => (
+const BrowseItem = ({ title, description, onClick }) => (
   <div className={divStyle} onClick={onClick}>
     <span className={titleStyle}>{title}</span>
     <br />
@@ -33,4 +33,4 @@ const descriptionStyle = css({
   color: "#000000"
 });
 
-export default BrowsePanelItem;
+export default BrowseItem;

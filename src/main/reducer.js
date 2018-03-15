@@ -1,7 +1,7 @@
 import treeCellscape from "treeCellscape/reducer.js";
 import analysis, {
   stateSelectors as analysisStateSelectors
-} from "browse/analysis/reducer.js";
+} from "./analysis/reducer.js";
 import { combineReducers } from "redux";
 import actions from "./types.js";
 

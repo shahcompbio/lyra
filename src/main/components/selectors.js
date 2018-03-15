@@ -1,1 +1,1 @@
-export { getSelectedAnalysis } from "../stateSelectors.js";
+export { getSelectedAnalysis, getAnalysisList } from "../stateSelectors.js";
