@@ -10,6 +10,10 @@ import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
 import { getAnalysisList } from "./selectors.js";
 
 class BrowsePanel extends Component {
+  static propTypes = {
+    analysis: PropTypes.array.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { getSelectedAnalysis } from "./selectors.js";
 import TreeCellscape from "treeCellscape/TreeCellscape.js";

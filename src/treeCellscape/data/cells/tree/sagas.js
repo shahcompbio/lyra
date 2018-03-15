@@ -1,12 +1,4 @@
-import {
-  all,
-  fork,
-  take,
-  call,
-  put,
-  takeEvery,
-  select
-} from "redux-saga/effects";
+import { all, fork, call, put, takeEvery, select } from "redux-saga/effects";
 import actions from "./types.js";
 import { fetchTreeRootSuccess, fetchAllTreeNodesSuccess } from "./actions.js";
 import { fetchTreeRoot, fetchAllTreeNodes } from "./api.js";

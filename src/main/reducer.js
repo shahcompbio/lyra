@@ -5,7 +5,6 @@ import analysis, {
 import { combineReducers } from "redux";
 import actions from "./types.js";
 
-import createReducer from "utils/createReducer.js";
 import shiftSelectors from "utils/shiftSelectors.js";
 import { stateSelectors as treeCellscapeStateSelectors } from "treeCellscape/reducer.js";
 

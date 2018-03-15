@@ -15,10 +15,11 @@ import config from "./config.js";
  */
 class Tree extends Component {
   static propTypes = {
-    /** ID of tree root - "" if not fetched yet  */
     rootID: PropTypes.string,
+    treeNodes: PropTypes.object,
 
-    fetchTreeRoot: PropTypes.func.isRequired
+    fetchTreeRoot: PropTypes.func.isRequired,
+    fetchAllTreeNodes: PropTypes.func.isRequired
   };
 
   componentDidMount() {

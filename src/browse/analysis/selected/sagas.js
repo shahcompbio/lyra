@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, call, put } from "redux-saga/effects";
+import { all, fork, takeEvery, put } from "redux-saga/effects";
 import actions from "./types.js";
 import { resetDashboard } from "main/actions.js";
 
