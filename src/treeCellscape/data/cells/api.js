@@ -1,4 +1,4 @@
-import { fetchForDataType } from "api/index.js";
+import { fetchQuery } from "api/index.js";
 import { processRecord } from "api/utils.js";
 import { MAPPINGS } from "./tree/api.js";
 
@@ -7,8 +7,8 @@ import { MAPPINGS } from "./tree/api.js";
  * @param {array} indices
  * @public
  */
-export function fetchIDsByIndices(indices) {
-  return fetchForDataType(indexToIDQuery(indices), "tree").then(json =>
+export function fetchIDsByIndices(indices, index) {
+  return fetchQuery(indexToIDQuery(indices), index).then(json =>
     parseIndexToIDs(json)
   );
 }

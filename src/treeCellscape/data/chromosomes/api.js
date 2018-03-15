@@ -1,11 +1,11 @@
-import { fetchForDataType } from "api/index.js";
+import { fetchQuery } from "api/index.js";
 
 /**
  * Fetch chromosome ranges from Elasticsearch
  * @public
  */
-export function fetchChromRanges() {
-  return fetchForDataType(chromRangesQuery(), "segs").then(json =>
+export function fetchChromRanges(segsIndex) {
+  return fetchQuery(chromRangesQuery(), segsIndex).then(json =>
     parseChromRanges(json)
   );
 }

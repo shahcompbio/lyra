@@ -1,4 +1,4 @@
-import { fetchForDataType } from "api/index.js";
+import { fetchFromAnalysis } from "api/index.js";
 import { processRecord } from "api/utils.js";
 
 const MAPPINGS = {
@@ -10,7 +10,7 @@ const MAPPINGS = {
 };
 
 export function fetchAllAnalysis() {
-  return fetchForDataType(allAnalysisQuery(), "analysis").then(json =>
+  return fetchFromAnalysis(allAnalysisQuery()).then(json =>
     parseAnalysis(json)
   );
 }

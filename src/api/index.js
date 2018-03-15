@@ -1,15 +1,10 @@
 import config from "./config.js";
 
 /**
- * Fetches appropriate index according to data type
+ * Fetches from analysis index
  */
-export function fetchForDataType(query, dataType) {
-  const index =
-    dataType === "analysis"
-      ? config.ANALYSIS_INDEX
-      : dataType === "tree" ? config.TREE_INDEX : config.SEG_INDEX;
-
-  return fetchQuery(query, index);
+export function fetchFromAnalysis(query) {
+  return fetchQuery(query, config.ANALYSIS_INDEX);
 }
 
 export function fetchQuery(query, index) {

@@ -1,9 +1,10 @@
 import treeSagas from "./tree/sagas.js";
 import segsSagas from "./segs/sagas.js";
-import { all, fork, takeEvery, call, put } from "redux-saga/effects";
+import { all, fork, takeEvery, call, put, select } from "redux-saga/effects";
 import actions from "./types.js";
 import { fetchIDsByIndices } from "./api.js";
 import { fetchIndexToIDMappingsSuccess } from "./actions.js";
+import { getSelectedTreeIndex } from "./stateSelectors";
 
 function* cellsSagas() {
   yield all([
@@ -26,7 +27,8 @@ function* fetchIndexToIDMappingsSagaWatcher() {
  * @param {array} indices - heatmap indices to fetch
  */
 function* fetchIndexToIDMappingsSaga(action) {
-  const ids = yield call(fetchIDsByIndices, action.indices);
+  const treeIndex = yield select(getSelectedTreeIndex);
+  const ids = yield call(fetchIDsByIndices, action.indices, treeIndex);
   yield put(fetchIndexToIDMappingsSuccess(ids));
 }
 export default cellsSagas;

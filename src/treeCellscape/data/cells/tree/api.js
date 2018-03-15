@@ -1,4 +1,4 @@
-import { fetchForDataType } from "api/index.js";
+import { fetchQuery } from "api/index.js";
 import { processRecord } from "api/utils.js";
 
 export const MAPPINGS = {
@@ -16,10 +16,8 @@ export const MAPPINGS = {
  * @return {object} tree root record
  * @public
  */
-export function fetchTreeRoot() {
-  return fetchForDataType(treeRootQuery(), "tree").then(json =>
-    parseTreeRoot(json)
-  );
+export function fetchTreeRoot(index) {
+  return fetchQuery(treeRootQuery(), index).then(json => parseTreeRoot(json));
 }
 
 /**
@@ -46,8 +44,8 @@ const parseTreeRoot = json => {
   return { ...processRecord(json.hits.hits[0]["_source"], MAPPINGS, false) };
 };
 
-export function fetchAllTreeNodes() {
-  return fetchForDataType(allTreeNodesQuery(), "tree").then(json =>
+export function fetchAllTreeNodes(index) {
+  return fetchQuery(allTreeNodesQuery(), index).then(json =>
     parseAllTreeNodes(json)
   );
 }
@@ -69,8 +67,8 @@ const parseAllTreeNodes = json =>
  * @return {array} tree node records
  * @public
  */
-export function fetchTreeNodes(nodeIDs) {
-  return fetchForDataType(treeNodeQuery(nodeIDs), "tree").then(json =>
+export function fetchTreeNodes(nodeIDs, index) {
+  return fetchQuery(treeNodeQuery(nodeIDs), index).then(json =>
     parseTreeNode(json)
   );
 }

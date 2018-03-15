@@ -9,3 +9,8 @@ export {
   getChromosomeData,
   getChromosomeOrder
 } from "../stateSelectors.js";
+
+export {
+  getSelectedSegsIndex,
+  getSelectedTreeIndex
+} from "../stateSelectors.js";

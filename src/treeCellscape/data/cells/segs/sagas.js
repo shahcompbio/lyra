@@ -1,7 +1,7 @@
 import { delay } from "redux-saga";
 import { all, fork, takeLatest, call, select, put } from "redux-saga/effects";
 import actions from "./types.js";
-import { getSegsPending } from "./stateSelectors.js";
+import { getSegsPending, getSelectedSegsIndex } from "./stateSelectors.js";
 import { fetchSegsByIDs } from "./api.js";
 import { fetchSegsSuccess } from "./actions.js";
 
@@ -24,7 +24,8 @@ function* fetchSegsSaga(action) {
  * Saga to fetch segments for list of cellIDs
  */
 function* fetchSegsByIDsSaga(ids) {
-  const segs = yield call(fetchSegsByIDs, ids);
+  const segsIndex = yield select(getSelectedSegsIndex);
+  const segs = yield call(fetchSegsByIDs, ids, segsIndex);
   yield put(fetchSegsSuccess(segs, ids));
 }
 

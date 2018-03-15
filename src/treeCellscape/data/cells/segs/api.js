@@ -1,4 +1,4 @@
-import { fetchForDataType } from "api/index.js";
+import { fetchQuery } from "api/index.js";
 import { processRecord } from "api/utils.js";
 
 const MAPPINGS = {
@@ -15,8 +15,8 @@ const MAPPINGS = {
  * @param {array} ids
  * @public
  */
-export function fetchSegsByIDs(ids) {
-  return fetchForDataType(segsByIDsQuery(ids), "segs").then(json =>
+export function fetchSegsByIDs(ids, index) {
+  return fetchQuery(segsByIDsQuery(ids), index).then(json =>
     parseCellSegs(json)
   );
 }

@@ -1,7 +1,16 @@
-import { all, fork, take, call, put, takeEvery } from "redux-saga/effects";
+import {
+  all,
+  fork,
+  take,
+  call,
+  put,
+  takeEvery,
+  select
+} from "redux-saga/effects";
 import actions from "./types.js";
 import { fetchTreeRootSuccess, fetchAllTreeNodesSuccess } from "./actions.js";
 import { fetchTreeRoot, fetchAllTreeNodes } from "./api.js";
+import { getSelectedTreeIndex } from "./stateSelectors.js";
 
 function* treeSagas() {
   yield all([fork(fetchTreeRootWatcher), fork(fetchAllTreeNodesSagaWatcher)]);
@@ -13,7 +22,8 @@ function* fetchTreeRootWatcher() {
 }
 
 function* fetchTreeRootSaga() {
-  const treeRoot = yield call(fetchTreeRoot);
+  const treeIndex = yield select(getSelectedTreeIndex);
+  const treeRoot = yield call(fetchTreeRoot, treeIndex);
   yield put(fetchTreeRootSuccess(treeRoot));
 }
 
@@ -23,7 +33,8 @@ function* fetchAllTreeNodesSagaWatcher() {
 }
 
 function* fetchAllTreeNodesSaga() {
-  const nodeData = yield call(fetchAllTreeNodes);
+  const treeIndex = yield select(getSelectedTreeIndex);
+  const nodeData = yield call(fetchAllTreeNodes, treeIndex);
   yield put(fetchAllTreeNodesSuccess(nodeData));
 }
 
