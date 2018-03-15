@@ -26,6 +26,13 @@ class Tree extends Component {
     this.props.fetchAllTreeNodes();
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.rootID === "") {
+      this.props.fetchTreeRoot();
+      this.props.fetchAllTreeNodes();
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.rootID !== this.props.rootID ||

@@ -4,12 +4,15 @@ import { fetchTreeRootSuccess, fetchAllTreeNodesSuccess } from "./actions.js";
 import { fetchTreeRoot, fetchAllTreeNodes } from "./api.js";
 
 function* treeSagas() {
-  yield all([fork(fetchTreeRootSaga), fork(fetchAllTreeNodesSagaWatcher)]);
+  yield all([fork(fetchTreeRootWatcher), fork(fetchAllTreeNodesSagaWatcher)]);
 }
 
 // Fetching tree root
+function* fetchTreeRootWatcher() {
+  yield takeEvery(actions.fetchTreeRoot, fetchTreeRootSaga);
+}
+
 function* fetchTreeRootSaga() {
-  yield take(actions.fetchTreeRoot);
   const treeRoot = yield call(fetchTreeRoot);
   yield put(fetchTreeRootSuccess(treeRoot));
 }
