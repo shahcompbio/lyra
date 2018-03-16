@@ -7,7 +7,7 @@ import { slide as Menu } from "react-burger-menu";
 import BrowseItem from "./BrowseItem.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
-import { getAnalysisList } from "./selectors.js";
+import { getAnalysisList, getSelectedID } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
@@ -25,10 +25,14 @@ class Browse extends Component {
   }
 
   render() {
+    const { selectedAnalysisID } = this.props;
     const analysisItems = this.props.analysis.map(analysis => {
+      const isSelected = selectedAnalysisID === analysis.title;
       const onClick = () => {
-        this.props.selectAnalysis(analysis);
-        this.setState({ isOpen: false });
+        if (!isSelected) {
+          this.props.selectAnalysis(analysis);
+          this.setState({ isOpen: false });
+        }
       };
 
       return (
@@ -37,6 +41,7 @@ class Browse extends Component {
           title={analysis.title}
           description={analysis.description}
           onClick={onClick}
+          isSelected={isSelected}
         />
       );
     });
@@ -80,7 +85,8 @@ const styles = {
 };
 
 const mapState = state => ({
-  analysis: getAnalysisList(state)
+  analysis: getAnalysisList(state),
+  selectedAnalysisID: getSelectedID(state)
 });
 const mapDispatch = dispatch =>
   bindActionCreators({ fetchAllAnalysis, selectAnalysis }, dispatch);

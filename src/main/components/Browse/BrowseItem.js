@@ -1,36 +1,58 @@
 import React from "react";
-import { css } from "emotion";
+import styled, { css } from "react-emotion";
 
-const BrowseItem = ({ title, description, onClick }) => (
-  <div className={divStyle} onClick={onClick}>
-    <span className={titleStyle}>{title}</span>
-    <br />
-    <span className={descriptionStyle}>{description}</span>
+const BrowseItemBase = ({
+  className,
+  title,
+  description,
+  onClick,
+  isSelected
+}) => (
+  <div className={className} onClick={onClick}>
+    <Title>{title}</Title>
+    <p>
+      <Description>{description}</Description>
+    </p>
   </div>
 );
 
-const divStyle = css({
-  width: "90%",
-  height: "50px",
-  background: "#dee3e1",
-  borderRadius: "5px",
-  marginTop: "10px",
-  marginBottom: "10px",
-  padding: "5px",
-  textAlign: "left",
-  color: "#000000",
-  fontSize: "12px",
-  "&:hover": {
-    color: "#184dc1",
-    background: "#b0b4b2"
-  }
-});
+const types = {
+  normal: css`
+    background: #dee3e1;
+    color: #000000;
+    text-align: left;
+  `,
 
-const titleStyle = css({
-  fontSize: "16px"
-});
-const descriptionStyle = css({
-  color: "#000000"
-});
+  selected: css`
+    background: #184dc1;
+    color: #dee3e1;
+    text-align: right;
+  `
+};
+
+const Title = styled("span")`
+  font-size: 16px;
+`;
+
+const Description = styled("span")`
+  color: #000000;
+`;
+
+const BrowseItem = styled(BrowseItemBase)`
+  ${props => (props.isSelected ? types["selected"] : types["normal"])};
+
+  width: 90%;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 12px;
+
+  &:hover {
+    color: #184dc1;
+    background: #b0b4b2;
+  }
+`;
 
 export default BrowseItem;

@@ -1,1 +1,1 @@
-export { getAnalysisList } from "../selectors.js";
+export { getAnalysisList, getSelectedID } from "../selectors.js";

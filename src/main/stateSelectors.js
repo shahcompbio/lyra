@@ -3,6 +3,7 @@ import { stateSelectors } from "./reducer.js";
 export const {
   getAnalysisList,
   getSelectedAnalysis,
+  getSelectedID,
   getTreeCellscape,
   getSegsData,
   getSegsPending,
