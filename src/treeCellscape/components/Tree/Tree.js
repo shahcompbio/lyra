@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { getCurrTreeRootID, getTreeData } from "./selectors.js";
-import { fetchTreeRoot, fetchAllTreeNodes } from "./actions.js";
+import { getCurrTreeRootID } from "./selectors.js";
+import { fetchTreeRoot } from "./actions.js";
 
 import TreeNode from "./TreeNode";
 
@@ -16,37 +16,27 @@ import config from "./config.js";
 class Tree extends Component {
   static propTypes = {
     rootID: PropTypes.string,
-    treeNodes: PropTypes.object,
 
-    fetchTreeRoot: PropTypes.func.isRequired,
-    fetchAllTreeNodes: PropTypes.func.isRequired
+    fetchTreeRoot: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.props.fetchTreeRoot();
-    this.props.fetchAllTreeNodes();
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.rootID === "") {
       this.props.fetchTreeRoot();
-      this.props.fetchAllTreeNodes();
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextProps.rootID !== this.props.rootID ||
-      Object.keys(nextProps.treeNodes).length !==
-        Object.keys(this.props.treeNodes).length
-    );
+    return nextProps.rootID !== this.props.rootID;
   }
 
   render() {
-    const { rootID, treeNodes } = this.props;
-    return rootID === "" || Object.keys(treeNodes).length < 2 ? (
-      ""
-    ) : (
+    const { rootID } = this.props;
+    return rootID === "" ? null : (
       <svg width={config["width"]} height={config["height"]} x={config["x"]}>
         <TreeNode nodeID={rootID} />
       </svg>
@@ -55,11 +45,9 @@ class Tree extends Component {
 }
 
 const mapState = state => ({
-  rootID: getCurrTreeRootID(state),
-  treeNodes: getTreeData(state)
+  rootID: getCurrTreeRootID(state)
 });
 
-const mapDispatch = dispatch =>
-  bindActionCreators({ fetchTreeRoot, fetchAllTreeNodes }, dispatch);
+const mapDispatch = dispatch => bindActionCreators({ fetchTreeRoot }, dispatch);
 
 export default connect(mapState, mapDispatch)(Tree);

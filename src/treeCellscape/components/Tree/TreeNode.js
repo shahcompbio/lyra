@@ -7,50 +7,91 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { makeGetTreeNodeRecordByID, getYScale } from "./selectors.js";
+import { fetchTreeNode } from "./actions.js";
+
+import DataFetcher from "utils/DataFetcher";
 
 import TreeNodePoint from "./TreeNode/TreeNodePoint";
 import TreeChildren from "./TreeChildren";
 import TreeHorizontalBranch from "./TreeBranch/TreeHorizontalBranch";
 
-const TreeNode = ({
-  nodeID,
-  treeNode,
-  yScale,
-  depth,
-  siblingIndex,
-  offsetBy
-}) => {
-  const { heatmapIndex, children, parent, maxDescendantIndex } = treeNode;
-  const branch =
-    parent === "root" ? (
-      ""
-    ) : (
-      <TreeHorizontalBranch
-        heatmapIndex={heatmapIndex - offsetBy}
-        depth={depth}
-        yScale={yScale}
-      />
-    );
+/**
+ * Tree Node Data Fetcher
+ */
 
+const isDataMissing = props => {
+  const { treeNode } = props;
+  return treeNode === null;
+};
+
+const fetchData = props => {
+  const { nodeID } = props;
+  return fetchTreeNode(nodeID);
+};
+
+/**
+ * Factory function for mapstate to Tree Node
+ */
+const makeMapStateForTreeNode = () => {
+  const getTreeNodeRecordByID = makeGetTreeNodeRecordByID();
+  const mapState = (state, ownProps) => ({
+    treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
+    yScale: getYScale(state)
+  });
+  return mapState;
+};
+
+const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher);
+
+const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
+  /**
+   * render prop
+   * @param {object} nodeData
+   * @param {func} yScale
+   */
+
+  const render = props => {
+    const { treeNode, yScale } = props;
+    const { heatmapIndex, children, parent, maxDescendantIndex } = treeNode;
+    const branch =
+      parent === "root" ? (
+        ""
+      ) : (
+        <TreeHorizontalBranch
+          heatmapIndex={heatmapIndex - offsetBy}
+          depth={depth}
+          yScale={yScale}
+        />
+      );
+
+    return (
+      <g>
+        {branch}
+        <TreeNodePoint
+          nodeID={nodeID}
+          heatmapIndex={heatmapIndex}
+          maxDescendantIndex={maxDescendantIndex}
+          depth={depth}
+          yScale={yScale}
+          offsetBy={offsetBy}
+        />
+        <TreeChildren
+          children={children}
+          depth={depth + 1}
+          parentIndex={heatmapIndex - offsetBy}
+          auntIndex={siblingIndex}
+          offsetBy={offsetBy}
+        />
+      </g>
+    );
+  };
   return (
-    <g>
-      {branch}
-      <TreeNodePoint
-        nodeID={nodeID}
-        heatmapIndex={heatmapIndex}
-        maxDescendantIndex={maxDescendantIndex}
-        depth={depth}
-        yScale={yScale}
-        offsetBy={offsetBy}
-      />
-      <TreeChildren
-        children={children}
-        depth={depth + 1}
-        parentIndex={heatmapIndex - offsetBy}
-        auntIndex={siblingIndex}
-        offsetBy={offsetBy}
-      />
-    </g>
+    <TreeNodeFetcher
+      render={render}
+      nodeID={nodeID}
+      fetchData={fetchData}
+      isDataMissing={isDataMissing}
+    />
   );
 };
 TreeNode.defaultProps = {
@@ -75,16 +116,4 @@ TreeNode.propTypes = {
   offsetBy: PropTypes.number.isRequired
 };
 
-/**
- * Factory function for mapstate to Tree Node
- */
-const makeMapStateForTreeNode = () => {
-  const getTreeNodeRecordByID = makeGetTreeNodeRecordByID();
-  const mapState = (state, ownProps) => ({
-    treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
-    yScale: getYScale(state)
-  });
-  return mapState;
-};
-
-export default connect(makeMapStateForTreeNode())(TreeNode);
+export default TreeNode;

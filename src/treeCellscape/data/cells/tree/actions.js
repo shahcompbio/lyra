@@ -17,6 +17,26 @@ export const fetchTreeRootSuccess = treeRoot => ({
 });
 
 /**
+ * Fetch tree nodes for given cellIDs
+ * @param {string} nodeID
+ */
+export const fetchTreeNode = nodeID => ({
+  type: types.fetchTreeNode,
+  nodeID
+});
+
+/**
+ * Fetch tree nodes is successful
+ * @param {array} treeNodes - all tree node records
+ * @param {array} nodeIDs
+ */
+export const fetchTreeNodesSuccess = (treeNodes, nodeIDs) => ({
+  type: types.fetchTreeNodesSuccess,
+  treeNodes,
+  nodeIDs
+});
+
+/**
  * Fetch all tree nodes
  */
 export const fetchAllTreeNodes = () => ({

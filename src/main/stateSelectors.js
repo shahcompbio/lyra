@@ -9,6 +9,7 @@ export const {
   getSegsPending,
   getTreePath,
   getTreeData,
+  getTreePending,
   getTreeRootID,
   getCellsIndexToID,
   getChromosomeData,

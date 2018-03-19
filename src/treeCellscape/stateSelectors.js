@@ -3,6 +3,7 @@ export {
   getSegsPending,
   getTreePath,
   getTreeData,
+  getTreePending,
   getTreeRootID,
   getCellsIndexToID,
   getChromosomeData,
