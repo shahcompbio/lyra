@@ -23,7 +23,7 @@ export const config = {
 
 const TREE_CONSTANTS = {
   width: 800,
-  height: 1000,
+  height: 1000 - 20,
   x: 750,
 
   nodeRadius: 3,
@@ -56,7 +56,12 @@ export const treeConfig = {
 
 const HEATMAP_CONSTANTS = {
   rowHeight: 5,
-  indicatorWidth: 10
+  indicatorWidth: 10,
+
+  chromosome: {
+    height: 12,
+    color: ["#FFFFFF", "#dbdbdb"]
+  }
 };
 
 export const heatmapConfig = {
@@ -66,6 +71,7 @@ export const heatmapConfig = {
   contentWidth:
     config.width - treeConfig.width - HEATMAP_CONSTANTS.indicatorWidth,
   height: config.height,
+  contentHeight: config.height - HEATMAP_CONSTANTS.chromosome.height,
   x: 0,
   colorScale: scaleOrdinal()
     .domain([1, 2, 3, 4, 5, 6, 7]) // state

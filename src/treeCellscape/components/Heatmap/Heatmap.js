@@ -22,6 +22,7 @@ import {
   fetchIndexToIDMappings
 } from "./actions.js";
 import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
+import ChromAxis from "./ChromAxis/ChromAxis.js";
 
 import config from "./config.js";
 
@@ -113,6 +114,7 @@ const Heatmap = () => {
         {segs.map(rowData => (
           <HeatmapRow key={rowData["cellID"]} rowData={rowData} />
         ))}
+        <ChromAxis y={(segs.length + 1) * config["rowHeight"]} />
       </svg>
     );
   };

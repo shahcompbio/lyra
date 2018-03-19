@@ -18,6 +18,7 @@ export {
   getHighlightedRange,
   getHighlightedElement,
   getOrderedChromosomeData,
+  getChromosomeOrder,
   getTreeData,
   getSegsData,
   getMissingSegIDs,
