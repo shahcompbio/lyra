@@ -43,7 +43,7 @@ const makeMapStateForTreeNode = () => {
 
 const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher);
 
-const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
+const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy, isRoot }) => {
   /**
    * render prop
    * @param {object} nodeData
@@ -74,6 +74,7 @@ const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
           depth={depth}
           yScale={yScale}
           offsetBy={offsetBy}
+          isRoot={isRoot}
         />
         <TreeChildren
           children={children}
@@ -96,7 +97,8 @@ const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy }) => {
 };
 TreeNode.defaultProps = {
   depth: 0,
-  offsetBy: 0
+  offsetBy: 0,
+  isRoot: false
 };
 
 /**

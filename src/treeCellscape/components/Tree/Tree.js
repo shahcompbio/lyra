@@ -38,7 +38,7 @@ class Tree extends Component {
     const { rootID } = this.props;
     return rootID === "" ? null : (
       <svg width={config["width"]} height={config["height"]} x={config["x"]}>
-        <TreeNode nodeID={rootID} />
+        <TreeNode nodeID={rootID} isRoot />
       </svg>
     );
   }

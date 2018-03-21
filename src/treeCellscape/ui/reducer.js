@@ -21,7 +21,7 @@ const treePath = createReducer(initialTreeRootPath)({
   [actions.unsetTreeRoot]: (state, action) => {
     // eslint-disable-next-line
     const [firstRoot, ...restRoot] = state;
-    return restRoot;
+    return restRoot.length === 0 ? state : restRoot;
   }
 });
 

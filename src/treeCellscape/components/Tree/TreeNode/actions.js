@@ -1,5 +1,6 @@
 export {
   highlightElement,
   unhighlightElement,
-  setTreeRoot
+  setTreeRoot,
+  unsetTreeRoot
 } from "../actions.js";

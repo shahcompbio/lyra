@@ -14,7 +14,8 @@ import { makeIsIndexHighlighted } from "./selectors.js";
 import {
   highlightElement,
   unhighlightElement,
-  setTreeRoot
+  setTreeRoot,
+  unsetTreeRoot
 } from "./actions.js";
 
 class TreeNodePoint extends Component {
@@ -60,7 +61,8 @@ class TreeNodePoint extends Component {
       depth,
       yScale,
       isHighlighted,
-      offsetBy
+      offsetBy,
+      isRoot
     } = this.props;
 
     const onMouseEnter = () => {
@@ -76,7 +78,9 @@ class TreeNodePoint extends Component {
     };
 
     const onMouseClick = () => {
-      this.props.setTreeRoot(nodeID);
+      this.props.isRoot
+        ? this.props.unsetTreeRoot()
+        : this.props.setTreeRoot(nodeID);
     };
 
     return (
@@ -111,7 +115,8 @@ const mapDispatch = dispatch =>
     {
       highlightElement,
       unhighlightElement,
-      setTreeRoot
+      setTreeRoot,
+      unsetTreeRoot
     },
     dispatch
   );
