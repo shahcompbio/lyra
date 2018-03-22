@@ -81,8 +81,7 @@ export const makeIsIndexRangeHighlighted = () =>
         ? highlightedRange[0] <= indexRange[0] &&
           highlightedRange[1] >= indexRange[1]
         : isCluster(element)
-          ? highlightedRange[0] === indexRange[0] &&
-            highlightedRange[1] === indexRange[1]
+          ? false
           : indexRange[0] <= highlightedIndex &&
             highlightedIndex <= indexRange[1]
   );
