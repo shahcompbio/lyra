@@ -14,10 +14,16 @@ const Menu = ({ analysis, width }) => (
   </MenuDiv>
 );
 
+const colors = {
+  menu: "#e0dcdc",
+  text: "#4f4f4f",
+  disabledText: "#eeeeee"
+};
+
 const MenuDiv = styled("div")`
   width: ${props => props.width};
   height: 30px;
-  background: #e0dcdc;
+  background: ${colors.menu};
   margin-top: 5px;
   margin-bottom: 20px;
   padding: 3px;
@@ -30,7 +36,7 @@ const Title = styled("span")`
   margin-bottom: 2%;
   margin-right: 2%;
   margin-left: 3px;
-  color: #4f4f4f;
+  color: ${colors.text};
 `;
 
 const Button = styled("button")`
@@ -38,16 +44,16 @@ const Button = styled("button")`
   padding-bottom: 3px;
   border-radius: 4px;
   border: 0px;
-  background: #e0dcdc;
-  color: #4f4f4f;
+  background: ${colors.menu};
+  color: ${colors.text};
 
   &:disabled {
-    color: #ffffff;
-    background: #e0dcdc;
+    color: ${colors.disabledText};
+    background: ${colors.menu};
   }
 
   &:hover {
-    background: ${props => (props.disabled ? "#e0dcdc" : "#c1c1c1")};
+    background: ${props => (props.disabled ? colors.menu : "#c1c1c1")};
   }
 `;
 
