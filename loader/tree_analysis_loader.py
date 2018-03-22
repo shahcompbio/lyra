@@ -5,6 +5,7 @@ import argparse
 import os
 import sys
 from utils.es_utils import ElasticSearchTools
+from tree_yaml_data import TreeYamlData
 
 class TreeAnalysisIndexLoader(object):
     '''
