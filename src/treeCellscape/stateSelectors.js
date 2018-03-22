@@ -12,6 +12,7 @@ export {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
+  getSelectedAnalysis,
   getSelectedSegsIndex,
   getSelectedTreeIndex
 } from "main/stateSelectors.js";

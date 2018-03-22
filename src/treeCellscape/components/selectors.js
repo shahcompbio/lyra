@@ -25,7 +25,8 @@ export {
   makeGetTreeNodeRecordByID,
   makeGetTreeNodeRecordsByID,
   getCellsIndexToID,
-  getMissingIDMappings
+  getMissingIDMappings,
+  getSelectedAnalysis
 } from "../selectors.js";
 
 /**

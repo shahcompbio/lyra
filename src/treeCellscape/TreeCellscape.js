@@ -1,6 +1,6 @@
 import React from "react";
 
-import TreeZoomOutButton from "./components/TreeZoomOutButton/TreeZoomOutButton";
+import Menu from "./components/Menu/Menu.js";
 import Tree from "./components/Tree/Tree";
 import Heatmap from "./components/Heatmap/Heatmap";
 
@@ -11,7 +11,7 @@ const { width, height } = config;
 
 const TreeCellscape = () => (
   <div>
-    <TreeZoomOutButton />
+    <Menu width={width} />
     <div>
       <svg width={width} height={height}>
         <Tree />

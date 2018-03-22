@@ -8,17 +8,9 @@ import styled, { css } from "react-emotion";
 const Content = ({ selectedAnalysis }) =>
   selectedAnalysis.id === null ? null : (
     <ContentDiv>
-      <Title>{selectedAnalysis.title}</Title>
       <TreeCellscape />
     </ContentDiv>
   );
-
-const Title = styled("span")`
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  display: inline-block;
-`;
 
 const ContentDiv = styled("div")`
   width: 90%;
