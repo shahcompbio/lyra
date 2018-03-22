@@ -8,7 +8,7 @@ import styled, { css } from "react-emotion";
 const Content = ({ selectedAnalysis }) =>
   selectedAnalysis.id === null ? null : (
     <ContentDiv>
-      <Title>{selectedAnalysis.id}</Title>
+      <Title>{selectedAnalysis.title}</Title>
       <TreeCellscape />
     </ContentDiv>
   );

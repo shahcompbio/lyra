@@ -7,6 +7,11 @@ const id = createReducer(initialID)({
   [actions.selectAnalysis]: (state, action) => action.id
 });
 
+const initialTitle = null;
+const title = createReducer(initialTitle)({
+  [actions.selectAnalysis]: (state, action) => action.title
+});
+
 const initialTreeIndex = null;
 const treeIndex = createReducer(initialTreeIndex)({
   [actions.selectAnalysis]: (state, action) => action.treeIndex
@@ -19,6 +24,7 @@ const segsIndex = createReducer(initialSegsIndex)({
 
 const reducer = combineReducers({
   id,
+  title,
   treeIndex,
   segsIndex
 });
@@ -28,11 +34,13 @@ const reducer = combineReducers({
  */
 
 const getSelectedID = state => state.id;
+const getSelectedTitle = state => state.title;
 const getSelectedTreeIndex = state => state.treeIndex;
 const getSelectedSegsIndex = state => state.segsIndex;
 
 export const stateSelectors = {
   getSelectedID,
+  getSelectedTitle,
   getSelectedTreeIndex,
   getSelectedSegsIndex
 };
