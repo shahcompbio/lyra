@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { isCurrRootAtRoot } from "./selectors.js";
 import { unsetTreeRoot } from "./actions.js";
 
-import styled, { css } from "react-emotion";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faSearchMinus } from "@fortawesome/fontawesome-free-solid";
 

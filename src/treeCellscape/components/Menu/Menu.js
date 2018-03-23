@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getSelectedAnalysis } from "./selectors.js";
 
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
+import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
 
 import styled, { css } from "react-emotion";
 
@@ -11,6 +12,7 @@ const Menu = ({ analysis, width }) => (
   <MenuDiv width={width}>
     <Title>{analysis.title}</Title>
     <TreeZoomOutButton Button={Button} />
+    <DownloadCSVButton Button={Button} />
   </MenuDiv>
 );
 
@@ -43,6 +45,7 @@ const Button = styled("button")`
   padding-top: 3px;
   padding-bottom: 3px;
   border-radius: 4px;
+  margin-right: 0.5%;
   border: 0px;
   background: ${colors.menu};
   color: ${colors.text};

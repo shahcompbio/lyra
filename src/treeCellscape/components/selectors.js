@@ -13,6 +13,7 @@ import {
 export {
   getCurrTreeRootID,
   getCurrTreeRootRecord,
+  getCurrTreeIndices,
   isCurrRootAtRoot,
   getHighlightedIndex,
   getHighlightedRange,
@@ -25,6 +26,7 @@ export {
   makeGetTreeNodeRecordByID,
   makeGetTreeNodeRecordsByID,
   getCellsIndexToID,
+  getIDsByIndices,
   getMissingIDMappings,
   getSelectedAnalysis
 } from "../selectors.js";

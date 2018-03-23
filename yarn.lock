@@ -5536,6 +5536,10 @@ react-burger-menu@^2.3.0:
     prop-types "^15.5.8"
     snapsvg-cjs "0.0.6"
 
+react-csv@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.14.tgz#7c9e444fc4c3ca1e1cf73a81129b1ec032838a71"
+
 react-dev-utils@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-5.0.0.tgz#425ac7c9c40c2603bc4f7ab8836c1406e96bb473"

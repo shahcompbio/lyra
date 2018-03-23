@@ -25,3 +25,16 @@ export const isCurrRootAtRoot = createSelector(
   [getCurrTreeRootID, getTreeRootID],
   (currRootID, trueRootID) => currRootID === trueRootID
 );
+
+export const getCurrTreeIndices = createSelector(
+  [getCurrTreeRootRecord],
+  root => (root ? createIndicesListForRange(root) : [])
+);
+
+const createIndicesListForRange = node => {
+  const initArray = Array(
+    node["maxDescendantIndex"] - node["heatmapIndex"] + 1
+  );
+
+  return Array.from(initArray, (_, x) => x + node["heatmapIndex"]);
+};
