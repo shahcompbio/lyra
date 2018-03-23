@@ -6,7 +6,7 @@ import { getSelectedAnalysis } from "./selectors.js";
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
 
-import styled, { css } from "react-emotion";
+import styled from "react-emotion";
 
 const Menu = ({ analysis, width }) => (
   <MenuDiv width={width}>

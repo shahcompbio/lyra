@@ -28,7 +28,6 @@ class Browse extends Component {
     const { selectedAnalysisID } = this.props;
     const analysisItems = this.props.analysis.map(analysis => {
       const isSelected = selectedAnalysisID === analysis.id;
-      console.log(analysis);
       const onClick = () => {
         if (!isSelected) {
           this.props.selectAnalysis(analysis);

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getSelectedAnalysis } from "./selectors.js";
 import TreeCellscape from "treeCellscape/TreeCellscape.js";
 
-import styled, { css } from "react-emotion";
+import styled from "react-emotion";
 
 const Content = ({ selectedAnalysis }) =>
   selectedAnalysis.id === null ? null : (

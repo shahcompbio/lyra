@@ -78,9 +78,7 @@ class TreeNodePoint extends Component {
     };
 
     const onMouseClick = () => {
-      this.props.isRoot
-        ? this.props.unsetTreeRoot()
-        : this.props.setTreeRoot(nodeID);
+      isRoot ? this.props.unsetTreeRoot() : this.props.setTreeRoot(nodeID);
     };
 
     return (
