@@ -38,11 +38,14 @@ class DownloadCSVButton extends Component {
     const { Button, missingCellIDs, cellIDs } = this.props;
 
     const isDownloading = missingCellIDs.length === 0 && this.state.isClicked;
+    const callback = () => this.setState({ isClicked: false });
 
     return (
       <Button onClick={this.onClick} title="Download CSV of cell IDs">
         <FontAwesomeIcon icon={faDownload} size="2x" />
-        {isDownloading ? <DownloadCSV cellIDs={cellIDs} /> : null}
+        {isDownloading ? (
+          <DownloadCSV callback={callback} cellIDs={cellIDs} />
+        ) : null}
       </Button>
     );
   }
