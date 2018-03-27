@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
 
 const BrowseItemBase = ({
@@ -15,6 +16,13 @@ const BrowseItemBase = ({
     </p>
   </div>
 );
+
+BrowseItemBase.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired
+};
 
 const types = {
   normal: css`

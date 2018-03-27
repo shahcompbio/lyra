@@ -11,7 +11,13 @@ import { getAnalysisList, getSelectedID } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
-    analysis: PropTypes.array.isRequired
+    analysis: PropTypes.array.isRequired,
+
+    selectedAnalysisID: PropTypes.string,
+
+    fetchAllAnalysis: PropTypes.func.isRequired,
+
+    selectAnalysis: PropTypes.func.isRequired
   };
 
   constructor(props) {

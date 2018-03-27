@@ -1,9 +1,13 @@
 import { stateSelectors } from "./reducer.js";
 
 export const {
+  // Analysis
   getAnalysisList,
   getSelectedAnalysis,
   getSelectedID,
+  getSelectedSegsIndex,
+  getSelectedTreeIndex,
+  // Dashboard
   getTreeCellscape,
   getSegsData,
   getSegsPending,
@@ -16,7 +20,5 @@ export const {
   getChromosomeOrder,
   getHighlightedIndex,
   getHighlightedRange,
-  getHighlightedElement,
-  getSelectedSegsIndex,
-  getSelectedTreeIndex
+  getHighlightedElement
 } = stateSelectors;

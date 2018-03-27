@@ -1,1 +1,1 @@
-export { selectAnalysis, fetchAllAnalysis } from "../analysis/actions.js";
+export { selectAnalysis, fetchAllAnalysis } from "../actions.js";
