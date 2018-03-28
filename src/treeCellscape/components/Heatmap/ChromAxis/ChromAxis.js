@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { getChromPixelMapping, getChromosomeOrder } from "./selectors.js";
@@ -15,6 +16,14 @@ const ChromAxis = ({ chromosomeMap, chromosomeOrder, y }) => {
     />
   ));
   return <g className="chromAxis">{axisText}</g>;
+};
+
+ChromAxis.propTypes = {
+  chromosomeMap: PropTypes.object.isRequired,
+
+  chromosomeOrder: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+
+  y: PropTypes.number.isRequired
 };
 
 const mapState = state => ({

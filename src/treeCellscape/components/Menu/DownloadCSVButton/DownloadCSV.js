@@ -1,7 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { CSVDownload } from "react-csv";
 
 class DownloadCSV extends Component {
+  static propTypes = {
+    callback: PropTypes.func.isRequired,
+
+    cellIDs: PropTypes.arrayOf(PropTypes.string).isRequired
+  };
+
   componentDidMount() {
     this.props.callback();
   }

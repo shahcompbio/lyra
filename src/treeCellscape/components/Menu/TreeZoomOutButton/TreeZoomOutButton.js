@@ -15,11 +15,11 @@ const TreeZoomOutButton = ({ isDisabled, onClick, Button }) => (
 );
 
 TreeZoomOutButton.propTypes = {
-  /** isDisabled */
   isDisabled: PropTypes.bool.isRequired,
 
-  /** onClick */
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+
+  Button: PropTypes.func.isRequired
 };
 
 export default connect(

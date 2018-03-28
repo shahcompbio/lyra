@@ -10,11 +10,10 @@ import DataFetcher from "utils/DataFetcher";
 
 import {
   getHeatmapSegData,
-  getHeatmapIDs,
-  getMissingSegIDs,
+  getMissingHeatmapSegIDs,
   getOrderedChromosomeData,
-  getHeatmapIndices,
-  getMissingIDMappings
+  getMissingHeatmapIDs,
+  getHeatmapIDs
 } from "./selectors.js";
 import {
   fetchSegs,
@@ -25,59 +24,6 @@ import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
 import ChromAxis from "./ChromAxis/ChromAxis.js";
 
 import config from "./config.js";
-
-/**
- * Segment Data Fetcher
- */
-
-const segIsDataMissing = props => {
-  const { missingIndices } = props;
-  return missingIndices.length > 0;
-};
-
-const segFetchData = props => {
-  const { missingIndices } = props;
-  return fetchSegs(missingIndices);
-};
-
-const mapState = state => ({
-  segs: getHeatmapSegData(state),
-  missingIndices: getMissingSegIDs(state, getHeatmapIDs(state))
-});
-
-const HeatmapSegFetcher = connect(mapState)(DataFetcher);
-
-HeatmapSegFetcher.PropTypes = {
-  /** segs - all segment records */
-  segs: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-  /** missingIndices - all indices that are missing segment records*/
-  missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
-};
-
-/**
- * Index to ID Data Fetcher
- */
-const indexIsDataMissing = props => {
-  const { missingIndices } = props;
-  return missingIndices.length > 0;
-};
-
-const indexFetchData = props => {
-  const { missingIndices } = props;
-  return fetchIndexToIDMappings(missingIndices);
-};
-
-const indexMapState = state => ({
-  missingIndices: getMissingIDMappings(state, getHeatmapIndices(state))
-});
-
-const HeatmapIndexFetcher = connect(indexMapState)(DataFetcher);
-
-HeatmapIndexFetcher.PropTypes = {
-  /** missingIndices - all indices that are missing ID mappings */
-  missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
-};
 
 /**
  * Chromosome Range Data Fetcher
@@ -101,6 +47,60 @@ const HeatmapChromFetcher = connect(chromMapState)(DataFetcher);
 HeatmapChromFetcher.PropTypes = {
   /** chromRanges - chromosome ranges in order of number */
   chromRanges: PropTypes.arrayOf(PropTypes.object)
+};
+
+/**
+ * Index to ID Data Fetcher
+ */
+const indexIsDataMissing = props => {
+  const { missingIndices } = props;
+  return missingIndices.length > 0;
+};
+
+const indexFetchData = props => {
+  const { missingIndices } = props;
+  return fetchIndexToIDMappings(missingIndices);
+};
+
+const indexMapState = state => ({
+  missingIndices: getMissingHeatmapIDs(state),
+  heatmapIDs: getHeatmapIDs(state)
+});
+
+const HeatmapIndexFetcher = connect(indexMapState)(DataFetcher);
+
+HeatmapIndexFetcher.PropTypes = {
+  /** missingIndices - all indices that are missing ID mappings */
+  missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
+};
+
+/**
+ * Segment Data Fetcher
+ */
+
+const segIsDataMissing = props => {
+  const { missingIDs } = props;
+  return missingIDs.length > 0;
+};
+
+const segFetchData = props => {
+  const { missingIDs } = props;
+  return fetchSegs(missingIDs);
+};
+
+const mapState = state => ({
+  segs: getHeatmapSegData(state),
+  missingIDs: getMissingHeatmapSegIDs(state)
+});
+
+const HeatmapSegFetcher = connect(mapState)(DataFetcher);
+
+HeatmapSegFetcher.PropTypes = {
+  /** segs - all segment records */
+  segs: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+  /** missingIDs - all IDs that are missing segment records*/
+  missingIDs: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 /**

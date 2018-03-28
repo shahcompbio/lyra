@@ -6,6 +6,6 @@ export { isCurrRootAtRoot } from "../selectors.js";
 // DownloadCSVButton
 export {
   getCurrTreeIndices,
-  getIDsByIndices,
-  getMissingIDMappings
+  makeGetIDsByIndices,
+  makeGetMissingIDMappings
 } from "../selectors.js";

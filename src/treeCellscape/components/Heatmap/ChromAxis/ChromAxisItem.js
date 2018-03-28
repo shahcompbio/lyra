@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import config from "./config.js";
 
@@ -13,5 +14,13 @@ const ChromAxisItem = ({ chromosome, data, y }) => (
     {chromosome}
   </text>
 );
+
+ChromAxisItem.propTypes = {
+  chromosome: PropTypes.string.isRequired,
+
+  data: PropTypes.object.isRequired,
+
+  y: PropTypes.number.isRequired
+};
 
 export default ChromAxisItem;

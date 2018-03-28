@@ -22,7 +22,6 @@ const Tooltip = ({ text }) => (
  * PropTypes
  */
 Tooltip.propTypes = {
-  /** cellID */
   text: PropTypes.string
 };
 

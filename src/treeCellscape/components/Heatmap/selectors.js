@@ -5,18 +5,22 @@ import {
   getTotalIndexNum,
   getCurrTreeRootRecord,
   getSegsData,
-  getCellsIndexToID,
-  getOrderedChromosomeData
+  getOrderedChromosomeData,
+  makeGetMissingIDMappings,
+  makeGetIDsByIndices,
+  getMissingSegIDs
 } from "../selectors.js";
 
 import config from "./config.js";
-export {
-  getMissingSegIDs,
-  makeIsIndexHighlighted,
-  getMissingIDMappings,
-  getOrderedChromosomeData,
-  getChromosomeOrder
-} from "../selectors.js";
+
+// Heatmap
+export { getOrderedChromosomeData } from "../selectors.js";
+
+// HeatmapRow
+export { makeIsIndexHighlighted } from "../selectors.js";
+
+// ChromAxis
+export { getChromosomeOrder } from "../selectors.js";
 
 /**
  * Gets number of indices that can fit per heatmap row
@@ -27,10 +31,7 @@ export const getIndicesPerRow = createSelector(
   indPerPx => Math.ceil(indPerPx * config["rowHeight"])
 );
 
-/**
- * Gets list of indices to display on heatmap
- */
-export const getHeatmapIndices = createSelector(
+const getHeatmapIndices = createSelector(
   [getIndicesPerRow, getTotalIndexNum, getCurrTreeRootRecord],
   // (int, int) => array
   (indPerRow, totalIndices, treeRoot) => {
@@ -45,14 +46,18 @@ export const getHeatmapIndices = createSelector(
   }
 );
 
-export const getHeatmapIDs = createSelector(
-  [getHeatmapIndices, getCellsIndexToID],
-  (indices, indexToID) => indices.map(index => indexToID[index])
-);
+const getMissingIDMappings = makeGetMissingIDMappings();
 
-/**
- *
- */
+export const getMissingHeatmapIDs = state =>
+  getMissingIDMappings(state, getHeatmapIndices(state));
+
+const getIDsByIndices = makeGetIDsByIndices();
+export const getHeatmapIDs = state =>
+  getIDsByIndices(state, getHeatmapIndices(state));
+
+export const getMissingHeatmapSegIDs = state =>
+  getMissingSegIDs(state, getHeatmapIDs(state));
+
 export const getHeatmapSegData = createSelector(
   [getSegsData, getHeatmapIDs, getHeatmapIndices],
   (segs, ids, indices) =>

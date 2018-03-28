@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
@@ -17,6 +18,14 @@ import { faDownload } from "@fortawesome/fontawesome-free-solid";
 import DownloadCSV from "./DownloadCSV.js";
 
 class DownloadCSVButton extends Component {
+  static propTypes = {
+    missingCellIDs: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+
+    cellIDs: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+    Button: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {

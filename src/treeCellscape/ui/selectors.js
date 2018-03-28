@@ -1,7 +1,9 @@
 import { createSelector } from "reselect";
 
-import { getTreeData, getTreeRootID } from "../selectors.js";
+import { getTreeData, getTreeRootID } from "./stateSelectors.js";
 import { getTreePath } from "./stateSelectors.js";
+
+export * from "./highlighted/selectors.js";
 
 /**
  * Gets ID of current tree root

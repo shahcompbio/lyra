@@ -3,14 +3,19 @@ import { getCurrTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
 import { createSelector } from "reselect";
 import config from "./config.js";
 
-export {
-  makeIsIndexHighlighted,
-  makeIsIndexRangeHighlighted,
-  getCurrTreeRootID,
-  makeGetTreeNodeRecordByID,
-  getTreeData
-} from "../selectors.js";
+// TreeCluster
+export { makeIsIndexRangeHighlighted } from "../selectors.js";
 
+// TreeNode
+export { makeIsIndexHighlighted } from "../selectors.js";
+
+// Tree
+export { getCurrTreeRootID } from "../selectors.js";
+
+// TreeNode
+export { makeGetTreeNodeRecordByID } from "../selectors.js";
+
+// TreeChildren
 export { makeGetTreeElementsByChildren } from "./elementsSelector.js";
 
 /**

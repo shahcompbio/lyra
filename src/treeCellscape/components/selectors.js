@@ -3,32 +3,50 @@ import { treeConfig } from "../config.js";
 
 import {
   getCurrTreeRootRecord,
-  getHighlightedIndex,
-  getHighlightedRange,
-  getHighlightedElement,
   getCellsIndexToID,
+  getHighlightedIndex,
   getTreeData
 } from "../selectors.js";
 
+// Tooltip
 export {
-  getCurrTreeRootID,
-  getCurrTreeRootRecord,
-  getCurrTreeIndices,
-  isCurrRootAtRoot,
+  getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
-  getHighlightedElement,
+  getCellsIndexToID,
+  isClade,
+  isCluster,
+  isRow
+} from "../selectors.js";
+
+// Menu
+// makeGetIDsByIndices, makeGetMissingIDMappings -> Heatmap
+export {
+  getSelectedAnalysis,
+  isCurrRootAtRoot,
+  getCurrTreeIndices
+} from "../selectors.js";
+
+// Tree
+export {
+  makeIsIndexRangeHighlighted,
+  makeIsIndexHighlighted,
+  getCurrTreeRootID,
+  makeGetTreeNodeRecordByID,
+  getTreeData,
+  makeGetTreeNodeRecordsByID
+} from "../selectors.js";
+
+// Heatmap
+// makeIsIndexHighlighted, -> Tree
+export {
+  getCurrTreeRootRecord,
   getOrderedChromosomeData,
   getChromosomeOrder,
-  getTreeData,
   getSegsData,
   getMissingSegIDs,
-  makeGetTreeNodeRecordByID,
-  makeGetTreeNodeRecordsByID,
-  getCellsIndexToID,
-  getIDsByIndices,
-  getMissingIDMappings,
-  getSelectedAnalysis
+  makeGetMissingIDMappings,
+  makeGetIDsByIndices
 } from "../selectors.js";
 
 /**
@@ -49,55 +67,8 @@ export const getIndicesPerPixel = createSelector(
   numNodes => numNodes / treeConfig["height"]
 );
 
-/**
- *	Factory function - determines whether given index is currently highlighted
- */
-export const makeIsIndexHighlighted = () =>
-  createSelector(
-    [
-      getHighlightedElement,
-      getHighlightedIndex,
-      getHighlightedRange,
-      (state, index) => index
-    ],
-    (element, highlightedIndex, highlightedRange, index) =>
-      isClade(element)
-        ? highlightedRange[0] <= index && index <= highlightedRange[1]
-        : isCluster(element)
-          ? highlightedRange[0] <= index && index <= highlightedRange[1]
-          : highlightedIndex === index
-  );
-
-/**
- *	Factory function - determines whether given index range is currently highlighted
- */
-export const makeIsIndexRangeHighlighted = () =>
-  createSelector(
-    [
-      getHighlightedElement,
-      getHighlightedIndex,
-      getHighlightedRange,
-      (state, minIndex, maxIndex) => [minIndex, maxIndex]
-    ],
-    (element, highlightedIndex, highlightedRange, indexRange) =>
-      isClade(element)
-        ? highlightedRange[0] <= indexRange[0] &&
-          highlightedRange[1] >= indexRange[1]
-        : isCluster(element)
-          ? false
-          : indexRange[0] <= highlightedIndex &&
-            highlightedIndex <= indexRange[1]
-  );
-
 export const getHighlightedTreeData = createSelector(
   [getTreeData, getHighlightedIndex, getCellsIndexToID],
   (treeData, index, indexToID) =>
     index !== null ? treeData[indexToID[index]] : null
 );
-
-/**
- * Determines whether clade/cluster/row has been highlighted
- */
-export const isClade = element => element === "clade";
-export const isCluster = element => element === "cluster";
-export const isRow = element => element === "row";
