@@ -1,5 +1,5 @@
 // Content
-export { getSelectedAnalysis } from "../stateSelectors.js";
+export { getSelectedAnalysisID } from "../selectors.js";
 
 // Browse
-export { getAnalysisList, getSelectedID } from "../stateSelectors.js";
+export { getAllAnalysis } from "../selectors.js";

@@ -1,12 +1,15 @@
 import { stateSelectors } from "./reducer.js";
 
 export const {
-  // Analysis
-  getAnalysisList,
-  getSelectedAnalysis,
-  getSelectedID,
-  getSelectedSegsIndex,
-  getSelectedTreeIndex,
+  // Analyses
+  getSelectedAnalysisID,
+  getAnalysesData,
+  getAnalysesOrder,
+
+  //Dashboards
+  getDashboards,
+  getSelectedDashboard,
+
   // Dashboard
   getTreeCellscape,
   getSegsData,

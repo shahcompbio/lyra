@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getSelectedAnalysis } from "./selectors.js";
-import TreeCellscape from "treeCellscape/TreeCellscape.js";
+import { getSelectedAnalysisID } from "./selectors.js";
+import Dashboard from "Dashboard/Dashboard.js";
 
 import styled from "react-emotion";
 
-const Content = ({ selectedAnalysis }) =>
-  selectedAnalysis.id === null ? null : (
+const Content = ({ selectedAnalysisID }) =>
+  selectedAnalysisID === null ? null : (
     <ContentDiv>
-      <TreeCellscape />
+      <Dashboard />
     </ContentDiv>
   );
 
@@ -20,7 +20,7 @@ const ContentDiv = styled("div")`
 `;
 
 const mapState = state => ({
-  selectedAnalysis: getSelectedAnalysis(state)
+  selectedAnalysisID: getSelectedAnalysisID(state)
 });
 
 export default connect(mapState)(Content);

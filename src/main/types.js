@@ -1,8 +1,10 @@
-import analysisTypes from "./analysis/types.js";
+import analysisTypes from "./analyses/types.js";
+import dashboardTypes from "./dashboards/types.js";
 
 const types = {
   resetDashboard: "RESET_DASHBOARD",
-  ...analysisTypes
+  ...analysisTypes,
+  ...dashboardTypes
 };
 
 export default types;

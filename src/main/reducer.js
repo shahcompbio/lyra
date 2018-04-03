@@ -1,16 +1,22 @@
-import treeCellscape from "treeCellscape/reducer.js";
-import analysis, {
-  stateSelectors as analysisStateSelectors
-} from "./analysis/reducer.js";
+import treeCellscape, {
+  stateSelectors as treeCellscapeStateSelectors
+} from "Dashboard/reducer.js";
+import analyses, {
+  stateSelectors as analysesStateSelectors
+} from "./analyses/reducer.js";
+import dashboards, {
+  stateSelectors as dashboardsStateSelectors
+} from "./dashboards/reducer.js";
+
 import { combineReducers } from "redux";
 import actions from "./types.js";
 
 import shiftSelectors from "utils/shiftSelectors.js";
-import { stateSelectors as treeCellscapeStateSelectors } from "treeCellscape/reducer.js";
 
 const dashboardReducer = combineReducers({
   treeCellscape,
-  analysis
+  analyses,
+  dashboards
 });
 
 const reducer = (state, action) => {
@@ -25,13 +31,16 @@ const reducer = (state, action) => {
  */
 
 const getTreeCellscape = state => state.treeCellscape;
-const getAnalysis = state => state.analysis;
+const getAnalyses = state => state.analyses;
+const getDashboards = state => state.dashboards;
 
 export const stateSelectors = {
   getTreeCellscape,
   ...shiftSelectors(getTreeCellscape, treeCellscapeStateSelectors),
-  getAnalysis,
-  ...shiftSelectors(getAnalysis, analysisStateSelectors)
+  getAnalyses,
+  ...shiftSelectors(getAnalyses, analysesStateSelectors),
+  getDashboards,
+  ...shiftSelectors(getDashboards, dashboardsStateSelectors)
 };
 
 export default reducer;

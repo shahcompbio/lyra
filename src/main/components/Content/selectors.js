@@ -1,2 +1,2 @@
 // Content
-export { getSelectedAnalysis } from "../selectors.js";
+export { getSelectedAnalysisID } from "../selectors.js";
