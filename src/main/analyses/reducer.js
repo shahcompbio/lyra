@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
 import actions from "./types.js";
-import shiftSelectors from "utils/shiftSelectors.js";
 
 const initialOrder = [];
 const order = createReducer(initialOrder)({

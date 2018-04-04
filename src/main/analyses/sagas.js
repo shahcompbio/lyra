@@ -2,7 +2,6 @@ import { all, fork, takeEvery, call, put } from "redux-saga/effects";
 import actions from "./types.js";
 import { fetchAllAnalysisSuccess } from "./actions.js";
 import { fetchAllAnalysis } from "./api.js";
-import { resetDashboard } from "main/actions.js";
 
 function* analysisSagas() {
   yield all([fork(fetchAllAnalysisWatcher)]);

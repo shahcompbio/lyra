@@ -8,9 +8,9 @@ export const {
 
   //Dashboards
   getDashboards,
-  getSelectedDashboard,
 
   // Dashboard
+  getSelectedDashboard,
   getTreeCellscape,
   getSegsData,
   getSegsPending,
