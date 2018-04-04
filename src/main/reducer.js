@@ -11,18 +11,11 @@ import actions from "./types.js";
 
 import shiftSelectors from "utils/shiftSelectors.js";
 
-const dashboardReducer = combineReducers({
+const reducer = combineReducers({
   dashboard,
   analyses,
   dashboards
 });
-
-const reducer = (state, action) => {
-  if (action.type === actions.resetDashboard) {
-    state.dashboard = undefined;
-  }
-  return dashboardReducer(state, action);
-};
 
 /**
  * State Selectors

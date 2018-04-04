@@ -4,17 +4,50 @@ import treeCellscapeReducer, {
 import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
 import shiftSelectors from "utils/shiftSelectors.js";
+
 import actions from "main/types.js";
 
+/**
+ * Selected dashboard
+ */
 const initialSelected = "";
 const selected = createReducer(initialSelected)({
-  [actions.selectDashboard]: (state, action) => action.dashboard
+  [actions.selectDashboard]: (state, action) => action.dashboard,
+
+  [actions.selectAnalysis]: (state, action) => "TREE_CELLSCAPE"
 });
 
-const reducer = combineReducers({
+/**
+ * Dashboard reducers
+ */
+
+const dashboardReducer = combineReducers({
   selected,
   dashboard: treeCellscapeReducer
 });
+
+const defaultReducer = combineReducers({
+  selected
+});
+
+/**
+ * Main reducer / finite state machine
+ */
+
+const reducer = (state = { selected: initialSelected }, action) => {
+  if (action.type === actions.resetDashboard) {
+    state.dashboard = undefined;
+  }
+
+  switch (state.selected) {
+    case "TREE_CELLSCAPE": {
+      return dashboardReducer(state, action);
+    }
+    default: {
+      return defaultReducer(state, action);
+    }
+  }
+};
 
 const getSelectedDashboard = state => state.selected;
 
