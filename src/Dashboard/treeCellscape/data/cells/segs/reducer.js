@@ -70,19 +70,31 @@ const initialSegsData = {};
 const data = createReducer(initialSegsData)({
   [actions.fetchSegsSuccess]: (state, action) => ({
     ...state,
-    ...action.segs.reduce((map, segment) => {
-      const cellID = segment["cellID"];
-      const newSegments = map.hasOwnProperty(cellID)
-        ? [...map[cellID], segment]
-        : [segment];
-
-      return {
-        ...map,
-        [cellID]: newSegments
-      };
-    }, {})
+    ...createSegMap(action.segs, action.ids)
   })
 });
+
+const createSegMap = (segs, ids) => {
+  const segMap = ids.reduce(
+    (idMap, id) => ({
+      ...idMap,
+      [id]: []
+    }),
+    {}
+  );
+
+  const segMapPopulated = segs.reduce((map, segment) => {
+    const cellID = segment["cellID"];
+    const newSegments = [...map[cellID], segment];
+
+    return {
+      ...map,
+      [cellID]: newSegments
+    };
+  }, segMap);
+
+  return segMapPopulated;
+};
 
 /**
  * Segs reducer
