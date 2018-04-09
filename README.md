@@ -79,7 +79,7 @@ This will load an entry into the Analysis index, as well as the appropriate data
 
 This project was designed and built in Dr. Sohrab Shah's laboratory at BC Cancer under the leadership of Dr. Cydney Nielsen and in close collaboration with Dr. Samuel Aparicio's research team. The following dedicated students and software developers (ordered alphabetically) created the codebase:
 
-* **[Samantha Leung]**(https://github.com/redpanda-cat)
+* [**Samantha Leung**](https://github.com/redpanda-cat)
 
 ## Acknowledgments
 
