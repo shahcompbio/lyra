@@ -6,6 +6,5 @@ export {
   getAnalysesData,
   getAnalysesOrder,
   //Dashboards
-  getDashboards,
-  getSelectedDashboard
+  getDashboards
 } from "./stateSelectors.js";

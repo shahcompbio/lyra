@@ -7,7 +7,6 @@ import analyses, {
 import dashboards from "./dashboards/reducer.js";
 
 import { combineReducers } from "redux";
-import actions from "./types.js";
 
 import shiftSelectors from "utils/shiftSelectors.js";
 
