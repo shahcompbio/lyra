@@ -62,11 +62,12 @@ class TreeYamlData(object):
             return files['segs']
 
 
-    def get_analysis_entry(self):
+    def get_analysis_entry(self, dashboard):
         record = {
             'analysis_id': self.yaml_data['analysis_id'],
             'title': self.yaml_data['jira_id'],
             'description': self.yaml_data['description'],
+            'dashboard': dashboard,
             'tree_index': self.get_index_name("tree"),
             'segs_index': self.get_index_name("segs")
         }

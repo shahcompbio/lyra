@@ -39,7 +39,7 @@ def load_analysis_entry(args, yaml_data):
         host=args.host,
         port=args.port
     )
-    record = yaml_data.get_analysis_entry()
+    record = yaml_data.get_analysis_entry("TREE_CELLSCAPE")
     analysis_loader.import_file(record)
     logging.info("Tree analysis entry loaded")
 

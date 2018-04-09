@@ -65,7 +65,11 @@ class TreeAnalysisIndexLoader(object):
                             "type": "string",
                             "index": "not_analyzed"
                         },
-                        "index": {
+                        "dashboard": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "analysis_id": {
                             "type": "string",
                             "index": "not_analyzed"
                         }
@@ -140,7 +144,7 @@ def main():
 
 
         yaml_data = TreeYamlData(args.yaml_file)
-        record = yaml_data.get_analysis_entry()
+        record = yaml_data.get_analysis_entry("TREE_CELLSCAPE")
 
         loader.import_file(record)
     except Exception:
