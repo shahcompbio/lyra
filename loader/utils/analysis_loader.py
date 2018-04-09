@@ -550,8 +550,7 @@ class AnalysisLoader(object):
                                 "match": "*",
                                 "match_mapping_type": "string",
                                 "mapping": {
-                                    "type": "string",
-                                    "index": "not_analyzed"
+                                    "type": "keyword"
                                 }
                             }
                         }

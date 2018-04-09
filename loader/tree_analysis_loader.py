@@ -58,20 +58,16 @@ class TreeAnalysisIndexLoader(object):
                 self.index_name: {
                     "properties": {
                         "title": {
-                            "type": "string",
-                            "index": "not_analyzed"
+                            "type": "keyword"
                         },
                         "description": {
-                            "type": "string",
-                            "index": "not_analyzed"
+                            "type": "keyword"
                         },
                         "dashboard": {
-                            "type": "string",
-                            "index": "not_analyzed"
+                            "type": "keyword"
                         },
                         "analysis_id": {
-                            "type": "string",
-                            "index": "not_analyzed"
+                            "type": "keyword"
                         }
                     }
                 }
