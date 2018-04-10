@@ -31,7 +31,7 @@ const segsByIDsQuery = ids => addByIDsFilter(segsByIDsBaseQuery(), ids);
  */
 const segsByIDsBaseQuery = () => ({
   size: 50000,
-  fields: [
+  _source: [
     "cell_id",
     "start",
     "end",
@@ -64,6 +64,6 @@ const addByIDsFilter = (query, ids) => {
  */
 const parseCellSegs = json => {
   return json.hits.hits.map(record =>
-    processRecord(record["fields"], MAPPINGS, true)
+    processRecord(record["_source"], MAPPINGS)
   );
 };
