@@ -35,11 +35,20 @@ class TreeAnalysisIndexLoader(object):
                 http_auth=self.http_auth,
                 use_ssl=self.use_ssl)
 
+            # Create index if necessary
             if not self.es_tools.exists(self.index_name):
                 logging.info("Creating tree analysis index with name %s", self.index_name)
                 self.es_tools.create_index(self.get_mappings())
 
             self.es_tools.refresh_index()
+
+            # Delete analysis entry if it already exists
+            r = self.es_tools.search(self.analysis_record_query(record))
+            if r['hits']['total'] > 0:
+                logging.info('Duplicate analysis found - deleting old record')
+                self.es_tools.delete_record(r['hits']['hits'][0])
+                self.es_tools.refresh_index()
+
             self.es_tools.submit_to_es(record)
 
         except Exception:
@@ -75,6 +84,33 @@ class TreeAnalysisIndexLoader(object):
         }
 
         return mappings
+
+    def analysis_record_query(self, record):
+        '''
+        Returns query to get analysis record
+        '''
+        query = {
+            "bool": {
+                "must": [
+                    {
+                        "term": {
+                            "dashboard": {
+                                "value": "TREE_CELLSCAPE"
+                            }
+                        }
+                    },
+                    {
+                        "term": {
+                            "analysis_id": {
+                                "value": record['analysis_id']
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+
+        return query
 
 
 def get_args():
@@ -122,7 +158,41 @@ def get_args():
         '--password',
         dest='password',
         help='Password')
+    parser.add_argument(
+        '-v',
+        '--verbosity',
+        dest='verbosity',
+        action='store',
+        help='Default level of verbosity is INFO.',
+        choices=['info', 'debug', 'warn', 'error'],
+        type=str,
+        default="info")
     return parser.parse_args()
+
+
+def _set_logger_config(verbosity=None):
+    # Set logging to console, default verbosity to INFO.
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        stream=sys.stdout
+    )
+
+    if verbosity:
+        if verbosity.lower() == "debug":
+            logger.setLevel(logging.DEBUG)
+            es_logger.setLevel(logging.WARN)
+            request_logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "warn":
+            logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "error":
+            logger.setLevel(logging.ERROR)
+            es_logger.setLevel(logging.ERROR)
+            request_logger.setLevel(logging.ERROR)
 
 
 def main():
@@ -132,6 +202,8 @@ def main():
     if args.username and args.password:
         http_auth = (args.username, args.password)
     try:
+
+        _set_logger_config(args.verbosity)
         loader = TreeAnalysisIndexLoader(
         args.host,
         args.port,
