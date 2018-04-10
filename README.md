@@ -23,6 +23,12 @@ http.cors.enabled : true
 http.cors.allow-origin : "*"
 ```
 
+Also install the mapper-size plugin
+
+```
+./bin/elasticsearch-plugin install mapper-size
+```
+
 Then start the ElasticSearch instance
 
 ```
@@ -68,7 +74,7 @@ Load using the appropriate dashboard loader with the correct YAML file. For exam
 python tree_cellscape_loader.py -y directory/to/yaml/data_metadata.yaml
 ```
 
-This will load an entry into the Analysis index, as well as the appropriate data files.
+This will load an entry into the Analysis index, as well as the appropriate data files. You can view the README in /loader to see more information about the data types.
 
 ## Built With
 
