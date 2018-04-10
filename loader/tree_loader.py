@@ -13,6 +13,7 @@ import copy
 import logging
 import argparse
 import os
+import sys
 import math
 import __builtin__
 import networkx as nx
@@ -44,8 +45,11 @@ class TreeLoader(AnalysisLoader):
             timeout=timeout)
 
     def load_file(self, analysis_file=None, ordering_file=None):
-        if not self.es_tools.exists_index():
-            self.create_index()
+        if self.es_tools.exists_index():
+            logging.info('Tree data for analysis already exists - will delete old index')
+            self.es_tools.delete_index()
+
+        self.create_index()
 
         self.disable_index_refresh()
         tree = nx.read_gml(analysis_file)
@@ -214,12 +218,44 @@ def get_args():
         '--password',
         dest='password',
         help='Password')
+    parser.add_argument(
+        '-v',
+        '--verbosity',
+        dest='verbosity',
+        action='store',
+        help='Default level of verbosity is INFO.',
+        choices=['info', 'debug', 'warn', 'error'],
+        type=str,
+        default="info")
     return parser.parse_args()
 
+def _set_logger_config(verbosity=None):
+    # Set logging to console, default verbosity to INFO.
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
 
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        stream=sys.stdout
+    )
+
+    if verbosity:
+        if verbosity.lower() == "debug":
+            logger.setLevel(logging.DEBUG)
+            es_logger.setLevel(logging.WARN)
+            request_logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "warn":
+            logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "error":
+            logger.setLevel(logging.ERROR)
+            es_logger.setLevel(logging.ERROR)
+            request_logger.setLevel(logging.ERROR)
 
 def main():
     args = get_args()
+    _set_logger_config(args.verbosity)
     es_loader = TreeLoader(
         es_doc_type=args.index,
         es_index=args.index,

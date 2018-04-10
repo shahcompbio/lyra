@@ -75,6 +75,10 @@ def load_segs_data(args, yaml_data):
 
     seg_files = yaml_data.get_file_paths("segs")
 
+    if segs_loader.es_tools.exists_index():
+        logging.info('Seg data for analysis already exists - will delete old index')
+        segs_loader.es_tools.delete_index()
+
     for seg_file in seg_files:
         segs_loader.load_file(
             analysis_file=seg_file

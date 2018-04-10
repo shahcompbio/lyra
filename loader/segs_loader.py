@@ -240,12 +240,45 @@ def get_args():
         '--password',
         dest='password',
         help='Password')
+    parser.add_argument(
+        '-v',
+        '--verbosity',
+        dest='verbosity',
+        action='store',
+        help='Default level of verbosity is INFO.',
+        choices=['info', 'debug', 'warn', 'error'],
+        type=str,
+        default="info")
     return parser.parse_args()
 
 
+def _set_logger_config(verbosity=None):
+    # Set logging to console, default verbosity to INFO.
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        stream=sys.stdout
+    )
+
+    if verbosity:
+        if verbosity.lower() == "debug":
+            logger.setLevel(logging.DEBUG)
+            es_logger.setLevel(logging.WARN)
+            request_logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "warn":
+            logger.setLevel(logging.WARN)
+
+        elif verbosity.lower() == "error":
+            logger.setLevel(logging.ERROR)
+            es_logger.setLevel(logging.ERROR)
+            request_logger.setLevel(logging.ERROR)
 
 def main():
     args = get_args()
+    _set_logger_config(args.verbosity)
     es_loader = SegsLoader(
         es_doc_type=args.index,
         es_index=args.index,
