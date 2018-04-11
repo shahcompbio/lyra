@@ -265,16 +265,12 @@ def _set_logger_config(verbosity=None):
     if verbosity:
         if verbosity.lower() == "debug":
             logger.setLevel(logging.DEBUG)
-            es_logger.setLevel(logging.WARN)
-            request_logger.setLevel(logging.WARN)
 
         elif verbosity.lower() == "warn":
             logger.setLevel(logging.WARN)
 
         elif verbosity.lower() == "error":
             logger.setLevel(logging.ERROR)
-            es_logger.setLevel(logging.ERROR)
-            request_logger.setLevel(logging.ERROR)
 
 def main():
     args = get_args()
