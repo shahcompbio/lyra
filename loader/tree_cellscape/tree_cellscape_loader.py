@@ -2,7 +2,6 @@
 import logging
 import argparse
 import sys
-
 from tree_analysis_loader import TreeAnalysisIndexLoader
 from tree_yaml_data import TreeYamlData
 from tree_loader import TreeLoader

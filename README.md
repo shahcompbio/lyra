@@ -65,7 +65,7 @@ Create a Python virtualenv and install the required packages
 ```
 virtualenv ~/pythonenv
 source ~/pythonenv/bin/activate
-pip install -r <MONTAGE_REPO_DIR>/loader/install/pip-requires.txt
+pip install -r <MONTAGE_REPO_DIR>/loader/pip-requires.txt
 ```
 
 Load using the appropriate dashboard loader with the correct YAML file. For example:

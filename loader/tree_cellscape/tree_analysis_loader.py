@@ -4,6 +4,7 @@ import traceback
 import argparse
 import os
 import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from utils.es_utils import ElasticSearchTools
 from tree_yaml_data import TreeYamlData
 
