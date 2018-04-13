@@ -47,5 +47,5 @@ export const getTooltipText = createSelector(
   (index, range, element, indexToID, cladeText) =>
     isCluster(element)
       ? range[1] - range[0] + 1 + " descendents"
-      : isClade(element) ? cladeText : indexToID[index] //isRow
+      : isClade(element) ? cladeText : isRow(element) ? indexToID[index] : ""
 );
