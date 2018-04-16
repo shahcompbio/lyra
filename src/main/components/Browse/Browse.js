@@ -4,14 +4,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { slide as Menu } from "react-burger-menu";
-import BrowseItem from "./BrowseItem.js";
+import DashboardItem from "./DashboardItem.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
 import { getAllAnalysis, getSelectedAnalysisID } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
-    analysis: PropTypes.array.isRequired,
+    analyses: PropTypes.arrayOf(PropTypes.array).isRequired,
 
     selectedAnalysisID: PropTypes.string,
 
@@ -31,29 +31,25 @@ class Browse extends Component {
   }
 
   render() {
-    const { selectedAnalysisID } = this.props;
-    const analysisItems = this.props.analysis.map(analysis => {
-      const isSelected = selectedAnalysisID === analysis.id;
+    const { selectedAnalysisID, selectAnalysis } = this.props;
+    const dashboardItems = this.props.analyses.map(dashboard => {
       const onClick = () => {
-        if (!isSelected) {
-          this.props.selectAnalysis(analysis);
-          this.setState({ isOpen: false });
-        }
+        this.setState({ isOpen: false });
       };
-
       return (
-        <BrowseItem
-          key={analysis.title}
-          title={analysis.title}
-          description={analysis.description}
+        <DashboardItem
+          key={dashboard[0].dashboard}
+          title={dashboard[0].dashboard}
           onClick={onClick}
-          isSelected={isSelected}
+          analyses={dashboard}
+          selectedAnalysisID={selectedAnalysisID}
+          selectAnalysis={selectAnalysis}
         />
       );
     });
-    return this.props.analysis.length > 0 ? (
+    return this.props.analyses.length > 0 ? (
       <Menu isOpen={this.state.isOpen} styles={styles}>
-        {analysisItems}
+        {dashboardItems}
       </Menu>
     ) : null;
   }
@@ -91,7 +87,7 @@ const styles = {
 };
 
 const mapState = state => ({
-  analysis: getAllAnalysis(state),
+  analyses: getAllAnalysis(state),
   selectedAnalysisID: getSelectedAnalysisID(state)
 });
 const mapDispatch = dispatch =>

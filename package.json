@@ -10,6 +10,8 @@
     "emotion": "^9.0.2",
     "fetch": "^1.1.0",
     "react": "^16.2.0",
+    "react-accessible-accordion": "^2.3.0",
+    "react-bootstrap": "^0.32.1",
     "react-burger-menu": "^2.3.0",
     "react-csv": "^1.0.14",
     "react-dom": "^16.2.0",

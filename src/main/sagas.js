@@ -10,7 +10,8 @@ function* rootSaga() {
   yield all([
     fork(treeCellscapeSagas),
     fork(analysisSagas),
-    fork(resetAfterSelectAnalysisWatcher)
+    fork(resetAfterSelectAnalysisWatcher),
+    fork(loggerSaga)
   ]);
 }
 

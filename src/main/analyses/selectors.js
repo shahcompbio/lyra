@@ -2,12 +2,16 @@ import { createSelector } from "reselect";
 import {
   getSelectedAnalysisID,
   getAnalysesOrder,
-  getAnalysesData
+  getAnalysesData,
+  getDashboards
 } from "./localSelectors.js";
 
 export const getAllAnalysis = createSelector(
-  [getAnalysesOrder, getAnalysesData],
-  (order, data) => order.map(id => data[id])
+  [getAnalysesOrder, getAnalysesData, getDashboards],
+  (order, data, dashboards) =>
+    dashboards.map(dashboard =>
+      order.filter(id => data[id].dashboard === dashboard).map(id => data[id])
+    )
 );
 
 export const getSelectedSegsIndex = createSelector(

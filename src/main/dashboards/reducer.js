@@ -1,9 +1,16 @@
 import createReducer from "utils/createReducer.js";
-import actions from "./types.js";
+import actions from "../analyses/types.js";
 
 const initialDashboards = [];
 const dashboards = createReducer(initialDashboards)({
-  [actions.fetchAllDashboardSuccess]: (state, action) => action.dashboards
+  [actions.fetchAllAnalysisSuccess]: (state, action) =>
+    action.analyses.reduce(
+      (uniqueDashboards, analysis) =>
+        uniqueDashboards.indexOf(analysis.dashboard) === -1
+          ? [...uniqueDashboards, analysis.dashboard]
+          : uniqueDashboards,
+      [...state]
+    )
 });
 
 export default dashboards;
