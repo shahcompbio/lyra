@@ -35,9 +35,10 @@ const MenuDiv = styled("div")`
   background: ${colors.menu};
   margin-top: 5px;
   margin-bottom: 20px;
-  padding: 3px;
+  padding: 2px;
   border-radius: 5px;
   align-items: center;
+  font-size: 0px;
 `;
 
 const Title = styled("span")`
@@ -45,6 +46,7 @@ const Title = styled("span")`
   margin-bottom: 2%;
   margin-right: 2%;
   margin-left: 3px;
+  font-size: 15px;
   color: ${colors.text};
 `;
 
@@ -56,6 +58,7 @@ const Button = styled("button")`
   border: 0px;
   background: ${colors.menu};
   color: ${colors.text};
+  font-size: 10px;
 
   &:disabled {
     color: ${colors.disabledText};

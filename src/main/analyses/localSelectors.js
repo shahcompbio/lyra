@@ -1,4 +1,5 @@
 export {
+  getSelectedAnalysisDashboard,
   getSelectedAnalysisID,
   getAnalysesOrder,
   getAnalysesData,

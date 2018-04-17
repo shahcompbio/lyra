@@ -26,10 +26,18 @@ const data = createReducer(initialData)({
 
 const initialSelectedID = null;
 const selectedID = createReducer(initialSelectedID)({
-  [actions.selectAnalysis]: (state, action) => action.id
+  [actions.selectAnalysis]: (state, action) =>
+    action.id
+});
+
+const initialSelectedDashboard = null;
+const selectedDashboard = createReducer(initialSelectedDashboard)({
+  [actions.selectedAnalysis]: (state, action) =>
+      action.dashboard
 });
 
 const reducer = combineReducers({
+  selectedDashboard,
   selectedID,
   data,
   order
@@ -42,8 +50,10 @@ const reducer = combineReducers({
 const getSelectedAnalysisID = state => state.selectedID;
 const getAnalysesOrder = state => state.order;
 const getAnalysesData = state => state.data;
+const getSelectedAnalysisDashboard = state => state.selectedDashboard;
 
 export const stateSelectors = {
+  getSelectedAnalysisDashboard,
   getSelectedAnalysisID,
   getAnalysesOrder,
   getAnalysesData

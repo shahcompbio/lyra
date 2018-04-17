@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { slide as Menu } from "react-burger-menu";
-import DashboardItem from "./DashboardItem.js";
+import DashboardItem from "./Dashboard.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
 import { getAllAnalysis, getSelectedAnalysisID } from "./selectors.js";
@@ -14,6 +14,8 @@ class Browse extends Component {
     analyses: PropTypes.arrayOf(PropTypes.array).isRequired,
 
     selectedAnalysisID: PropTypes.string,
+
+    selectedAnalysisDashboard: PropTypes.string,
 
     fetchAllAnalysis: PropTypes.func.isRequired,
 
@@ -31,7 +33,7 @@ class Browse extends Component {
   }
 
   render() {
-    const { selectedAnalysisID, selectAnalysis } = this.props;
+    const { selectedAnalysisDashboard, selectedAnalysisID, selectAnalysis } = this.props;
     const dashboardItems = this.props.analyses.map(dashboard => {
       const onClick = () => {
         this.setState({ isOpen: false });
@@ -42,6 +44,7 @@ class Browse extends Component {
           title={dashboard[0].dashboard}
           onClick={onClick}
           analyses={dashboard}
+          selectedAnalysisDashboard={selectedAnalysisDashboard}
           selectedAnalysisID={selectedAnalysisID}
           selectAnalysis={selectAnalysis}
         />

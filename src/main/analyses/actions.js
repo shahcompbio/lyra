@@ -11,5 +11,6 @@ export const fetchAllAnalysisSuccess = analyses => ({
 
 export const selectAnalysis = analysis => ({
   type: types.selectAnalysis,
-  id: analysis.id
+  id: analysis.id,
+  dashboard: analysis.dashboard
 });

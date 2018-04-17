@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
-//import {Panel} from "react-bootstrap";
 import { Panel } from "react-bootstrap";
-import dashboardNames from "./dashboardNames.js";
-import BrowseItem from "./BrowseItem.js";
+import DASHBOARD_NAMES from "./dashboardNames.js";
+import BrowseItem from "./Analysis.js";
 
 class DashboardItemBase extends Component {
   static propTypes = {
@@ -12,6 +11,7 @@ class DashboardItemBase extends Component {
     onClick: PropTypes.func.isRequired,
     analyses: PropTypes.array.isRequired,
     selectedAnalysisID: PropTypes.string,
+    selectedAnalysisDashboard: PropTypes.string,
     selectAnalysis: PropTypes.func.isRequired
   };
   constructor(props) {
@@ -25,6 +25,7 @@ class DashboardItemBase extends Component {
       title,
       analyses,
       selectedAnalysisID,
+      selectedAnalysisDashboard,
       className,
       selectAnalysis,
       onClick
@@ -32,39 +33,39 @@ class DashboardItemBase extends Component {
     const dashboardClick = () => {
       this.setState({ isDashboardExpanded: !this.state.isDashboardExpanded });
     };
+    const analysisItems = analyses.map(analysis => {
+      const isSelected = selectedAnalysisID === analysis.id &&
+        selectedAnalysisDashboard === analysis.dashboard;
+      const onAnlysisClick = () => {
+        if (!isSelected) {
+          selectAnalysis(analysis);
+          onClick();
+        }
+      };
+      return (
+        <BrowseItem
+          key={analysis.title}
+          title={analysis.title}
+          description={analysis.description}
+          onClick={onAnlysisClick}
+          isSelected={isSelected}
+        />
+      );
+    });
     return (
       <div className={className}>
         <Panels expanded={this.state.isDashboardExpanded} onToggle>
           <Heading
             onClick={dashboardClick}
-            test={this.state.isDashboardExpanded}
+            isExpanded={this.state.isDashboardExpanded}
           >
             <Title>
-              {dashboardNames[title]}
+              {DASHBOARD_NAMES[title]}
               <Icon />
             </Title>
           </Heading>
           <Panel.Collapse>
-            <Body>
-              {analyses.map(analysis => {
-                const isSelected = selectedAnalysisID === analysis.id;
-                const onAnlysisClick = () => {
-                  if (!isSelected) {
-                    selectAnalysis(analysis);
-                    onClick();
-                  }
-                };
-                return (
-                  <BrowseItem
-                    key={analysis.title}
-                    title={analysis.title}
-                    description={analysis.description}
-                    onClick={onAnlysisClick}
-                    isSelected={isSelected}
-                  />
-                );
-              })}
-            </Body>
+            <Body>{analysisItems}</Body>
           </Panel.Collapse>
         </Panels>
       </div>
@@ -90,22 +91,17 @@ const Body = styled(Panel.Body)`
   padding: 0px;
 `;
 
-const dashBoardItemTypes = {
-  normal: css`
-    background: #f5f5f5;
-    color: #000000;
-    text-align: left;
-  `,
+const Heading = styled(({ isExpanded, ...restProps }) => (
+  <Panel.Heading {...restProps} />
+))`
+  ${props =>
+    props.isExpanded ? headingType["expanded"] : headingType["closed"]};
 
-  selected: css`
-    background: #184dc1;
-    color: #dee3e1;
-    text-align: right;
-    padding-right: 10px;
-  `
-};
+  background-color: #c1c1c1;
+  padding: 15px 15px 15px 5px;
+`;
 
-const dashboardType = {
+const headingType = {
   closed: css`
     border-radius: 9px;
     div div {
@@ -135,22 +131,10 @@ const Icon = styled("div")`
   margin-top: 4px;
 `;
 
-const Heading = styled(({ test, ...restProps }) => (
-  <Panel.Heading {...restProps} />
-))`
-  ${props =>
-    props.test ? dashboardType["expanded"] : dashboardType["closed"]};
-
-  background-color: #c1c1c1;
-  padding: 15px 15px 15px 5px;
-`;
-
 const DashboardItem = styled(DashboardItemBase)`
-  ${props =>
-    props.isSelected
-      ? dashBoardItemTypes["selected"]
-      : dashBoardItemTypes["normal"]};
-
+  background: #f5f5f5;
+  color: #000000;
+  text-align: left;
   width: 100%;
   border-radius: 8px;
   margin-top: 10px;
