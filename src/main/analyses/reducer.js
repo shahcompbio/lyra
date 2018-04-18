@@ -24,23 +24,37 @@ const data = createReducer(initialData)({
   })
 });
 
+const initialDashboard = null;
+const selectedDashboard = createReducer(initialDashboard)({
+  [actions.selectAnalysis]: (state, action) =>
+    action.dashboard
+});
+
 const initialSelectedID = null;
 const selectedID = createReducer(initialSelectedID)({
   [actions.selectAnalysis]: (state, action) =>
     action.id
 });
 
-const initialSelectedDashboard = null;
-const selectedDashboard = createReducer(initialSelectedDashboard)({
-  [actions.selectedAnalysis]: (state, action) =>
-      action.dashboard
+
+const initialDashboards = [];
+const dashboards = createReducer(initialDashboards)({
+  [actions.fetchAllAnalysisSuccess]: (state, action) =>
+    action.analyses.reduce(
+        (uniqueDashboards, analysis) =>
+          uniqueDashboards.indexOf(analysis.dashboard) === -1
+            ? [...uniqueDashboards, analysis.dashboard]
+            : uniqueDashboards,
+        [...state]
+      )
 });
 
 const reducer = combineReducers({
-  selectedDashboard,
   selectedID,
+  selectedDashboard,
   data,
-  order
+  order,
+  dashboards
 });
 
 /**
@@ -48,13 +62,15 @@ const reducer = combineReducers({
  */
 
 const getSelectedAnalysisID = state => state.selectedID;
+const getSelectedAnalysisDashboard = state => state.selectedDashboard;
 const getAnalysesOrder = state => state.order;
 const getAnalysesData = state => state.data;
-const getSelectedAnalysisDashboard = state => state.selectedDashboard;
+const getDashboards = state => state.dashboards;
 
 export const stateSelectors = {
-  getSelectedAnalysisDashboard,
+  getDashboards,
   getSelectedAnalysisID,
+  getSelectedAnalysisDashboard,
   getAnalysesOrder,
   getAnalysesData
 };

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
 
-const BrowseItemBase = ({ className, title, description, onClick }) => (
+const AnalysisBase = ({ className, title, description, onClick }) => (
   <div className={className} onClick={onClick}>
     <Title>{title}</Title>
     <p>
@@ -11,7 +11,7 @@ const BrowseItemBase = ({ className, title, description, onClick }) => (
   </div>
 );
 
-BrowseItemBase.propTypes = {
+AnalysisBase.propTypes = {
   onClick: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ const Description = styled("span")`
   color: #000000;
 `;
 
-const BrowseItem = styled(BrowseItemBase)`
+const Analysis = styled(AnalysisBase)`
   ${props => (props.isSelected ? types["selected"] : types["normal"])};
 
   cursor: pointer;
@@ -60,4 +60,4 @@ const BrowseItem = styled(BrowseItemBase)`
   }
 `;
 
-export default BrowseItem;
+export default Analysis;

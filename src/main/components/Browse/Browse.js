@@ -4,10 +4,10 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { slide as Menu } from "react-burger-menu";
-import DashboardItem from "./Dashboard.js";
+import Dashboard from "./Dashboard.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
-import { getAllAnalysis, getSelectedAnalysisID } from "./selectors.js";
+import { getAllAnalysis, getSelectedAnalysisID, getSelectedAnalysisDashboard } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
@@ -39,7 +39,7 @@ class Browse extends Component {
         this.setState({ isOpen: false });
       };
       return (
-        <DashboardItem
+        <Dashboard
           key={dashboard[0].dashboard}
           title={dashboard[0].dashboard}
           onClick={onClick}
@@ -91,7 +91,8 @@ const styles = {
 
 const mapState = state => ({
   analyses: getAllAnalysis(state),
-  selectedAnalysisID: getSelectedAnalysisID(state)
+  selectedAnalysisID: getSelectedAnalysisID(state),
+  selectedAnalysisDashboard: getSelectedAnalysisDashboard(state)
 });
 const mapDispatch = dispatch =>
   bindActionCreators({ fetchAllAnalysis, selectAnalysis }, dispatch);

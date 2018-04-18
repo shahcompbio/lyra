@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
 import { Panel } from "react-bootstrap";
 import DASHBOARD_NAMES from "./dashboardNames.js";
-import BrowseItem from "./Analysis.js";
+import AnalysisItem from "./Analysis.js";
 
-class DashboardItemBase extends Component {
+class DashboardBase extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -34,8 +34,11 @@ class DashboardItemBase extends Component {
       this.setState({ isDashboardExpanded: !this.state.isDashboardExpanded });
     };
     const analysisItems = analyses.map(analysis => {
-      const isSelected = selectedAnalysisID === analysis.id &&
+      const isSelected =
+        selectedAnalysisID === analysis.id &&
         selectedAnalysisDashboard === analysis.dashboard;
+        console.log(selectedAnalysisID)
+        console.log(selectedAnalysisDashboard)
       const onAnlysisClick = () => {
         if (!isSelected) {
           selectAnalysis(analysis);
@@ -43,7 +46,7 @@ class DashboardItemBase extends Component {
         }
       };
       return (
-        <BrowseItem
+        <AnalysisItem
           key={analysis.title}
           title={analysis.title}
           description={analysis.description}
@@ -131,7 +134,7 @@ const Icon = styled("div")`
   margin-top: 4px;
 `;
 
-const DashboardItem = styled(DashboardItemBase)`
+const Dashboard = styled(DashboardBase)`
   background: #f5f5f5;
   color: #000000;
   text-align: left;
@@ -148,4 +151,4 @@ const DashboardItem = styled(DashboardItemBase)`
   }
 `;
 
-export default DashboardItem;
+export default Dashboard;
