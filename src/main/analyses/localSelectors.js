@@ -1,5 +1,7 @@
 export {
+  getSelectedAnalysisDashboard,
   getSelectedAnalysisID,
   getAnalysesOrder,
-  getAnalysesData
+  getAnalysesData,
+  getDashboards
 } from "main/stateSelectors.js";

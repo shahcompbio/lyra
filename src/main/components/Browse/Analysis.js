@@ -2,13 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
 
-const BrowseItemBase = ({
-  className,
-  title,
-  description,
-  onClick,
-  isSelected
-}) => (
+const AnalysisBase = ({ className, title, description, onClick }) => (
   <div className={className} onClick={onClick}>
     <Title>{title}</Title>
     <p>
@@ -17,50 +11,53 @@ const BrowseItemBase = ({
   </div>
 );
 
-BrowseItemBase.propTypes = {
+AnalysisBase.propTypes = {
+  onClick: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired
 };
 
 const types = {
   normal: css`
-    background: #dee3e1;
-    color: #000000;
+    color: #382b56;
     text-align: left;
   `,
 
   selected: css`
-    background: #184dc1;
-    color: #dee3e1;
+    padding-right: 8px;
     text-align: right;
+    background: #d0d0da;
   `
 };
 
 const Title = styled("span")`
-  font-size: 16px;
+  font-size: 13px;
+  font-weight: bold;
 `;
 
 const Description = styled("span")`
   color: #000000;
 `;
 
-const BrowseItem = styled(BrowseItemBase)`
+const Analysis = styled(AnalysisBase)`
   ${props => (props.isSelected ? types["selected"] : types["normal"])};
 
-  width: 90%;
-  height: 50px;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc5c5b5;
+  width: 100%;
+  height: 100%;
+  padding: 10px 5px 0px 10px;
   font-size: 12px;
 
+  &:last-item {
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+  }
   &:hover {
     color: #184dc1;
-    background: #b0b4b2;
+    background: #c5c4c5;
   }
 `;
 
-export default BrowseItem;
+export default Analysis;

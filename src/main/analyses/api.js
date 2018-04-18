@@ -6,7 +6,8 @@ const MAPPINGS = {
   segs_index: "segsIndex",
   tree_index: "treeIndex",
   description: "description",
-  title: "title"
+  title: "title",
+  dashboard: "dashboard"
 };
 
 export function fetchAllAnalysis() {
