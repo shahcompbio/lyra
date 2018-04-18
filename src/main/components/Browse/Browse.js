@@ -7,7 +7,11 @@ import { slide as Menu } from "react-burger-menu";
 import Dashboard from "./Dashboard.js";
 
 import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
-import { getAllAnalysis, getSelectedAnalysisID, getSelectedAnalysisDashboard } from "./selectors.js";
+import {
+  getAllAnalysis,
+  getSelectedAnalysisID,
+  getSelectedAnalysisDashboard
+} from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
@@ -33,7 +37,11 @@ class Browse extends Component {
   }
 
   render() {
-    const { selectedAnalysisDashboard, selectedAnalysisID, selectAnalysis } = this.props;
+    const {
+      selectedAnalysisDashboard,
+      selectedAnalysisID,
+      selectAnalysis
+    } = this.props;
     const dashboardItems = this.props.analyses.map(dashboard => {
       const onClick = () => {
         this.setState({ isOpen: false });

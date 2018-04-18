@@ -1,2 +1,6 @@
 // Browse
-export { getAllAnalysis, getSelectedAnalysisID, getSelectedAnalysisDashboard } from "../selectors.js";
+export {
+  getAllAnalysis,
+  getSelectedAnalysisID,
+  getSelectedAnalysisDashboard
+} from "../selectors.js";

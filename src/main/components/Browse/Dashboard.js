@@ -37,8 +37,6 @@ class DashboardBase extends Component {
       const isSelected =
         selectedAnalysisID === analysis.id &&
         selectedAnalysisDashboard === analysis.dashboard;
-        console.log(selectedAnalysisID)
-        console.log(selectedAnalysisDashboard)
       const onAnlysisClick = () => {
         if (!isSelected) {
           selectAnalysis(analysis);

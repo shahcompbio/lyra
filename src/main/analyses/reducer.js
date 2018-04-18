@@ -26,27 +26,24 @@ const data = createReducer(initialData)({
 
 const initialDashboard = null;
 const selectedDashboard = createReducer(initialDashboard)({
-  [actions.selectAnalysis]: (state, action) =>
-    action.dashboard
+  [actions.selectAnalysis]: (state, action) => action.dashboard
 });
 
 const initialSelectedID = null;
 const selectedID = createReducer(initialSelectedID)({
-  [actions.selectAnalysis]: (state, action) =>
-    action.id
+  [actions.selectAnalysis]: (state, action) => action.id
 });
-
 
 const initialDashboards = [];
 const dashboards = createReducer(initialDashboards)({
   [actions.fetchAllAnalysisSuccess]: (state, action) =>
     action.analyses.reduce(
-        (uniqueDashboards, analysis) =>
-          uniqueDashboards.indexOf(analysis.dashboard) === -1
-            ? [...uniqueDashboards, analysis.dashboard]
-            : uniqueDashboards,
-        [...state]
-      )
+      (uniqueDashboards, analysis) =>
+        uniqueDashboards.indexOf(analysis.dashboard) === -1
+          ? [...uniqueDashboards, analysis.dashboard]
+          : uniqueDashboards,
+      [...state]
+    )
 });
 
 const reducer = combineReducers({
