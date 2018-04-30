@@ -86,7 +86,6 @@ const createSegMap = (segs, ids) => {
   const segMapPopulated = segs.reduce((map, segment) => {
     const cellID = segment["cellID"];
     const newSegments = [...map[cellID], segment];
-
     return {
       ...map,
       [cellID]: newSegments
