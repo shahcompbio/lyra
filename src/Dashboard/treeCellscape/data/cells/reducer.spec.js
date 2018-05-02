@@ -24,17 +24,12 @@ describe("tree cellscape: data/cells reducer", () => {
   });
 
   it("should handle TREECELLSCAPE_FETCH_INDEX_ID_MAPPINGS", () => {
-    expect(reducer(initialState, fetchIndexToIDMappings([0],data.testRecord))).toEqual({
-      tree: {
-        data: {},
-        pending: [],
-        rootID: ""
-      },
-      segs: {
-        data: {},
-        pending: []
-      },
-      indexToID: {}
+    expect(
+      reducer(initialState, fetchIndexToIDMappings([0], data.testTreeNode))
+    ).toEqual({
+      tree: initialState.tree,
+      segs: initialState.segs,
+      indexToID: initialState.indexToID
     });
   });
 
@@ -42,16 +37,9 @@ describe("tree cellscape: data/cells reducer", () => {
     expect(
       reducer(initialState, fetchIndexToIDMappingsSuccess([data.testSegs]))
     ).toEqual({
-      tree: {
-        data: {},
-        pending: [],
-        rootID: ""
-      },
-      segs: {
-        data: {},
-        pending: []
-      },
-      indexToID:{undefined: data.testNodeID }
+      tree: initialState.tree,
+      segs: initialState.segs,
+      indexToID: { undefined: data.testNodeID }
     });
   });
 

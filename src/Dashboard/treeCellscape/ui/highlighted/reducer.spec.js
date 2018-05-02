@@ -1,5 +1,6 @@
 import reducer from "./reducer.js";
 import { highlightElement, unhighlightElement } from "./actions.js";
+import data from "utils/testData.js";
 
 describe("tree cellscape: highlighted reducer", () => {
   const initialState = {
@@ -17,15 +18,15 @@ describe("tree cellscape: highlighted reducer", () => {
       reducer(
         initialState,
         highlightElement({
-          index: 10,
-          range: null,
-          element: "row"
+          index: data.rowElement["index"],
+          range: data.rowElement["range"],
+          element: data.rowElement["element"]
         })
       )
     ).toEqual({
-      index: 10,
-      range: null,
-      element: "row"
+      index: data.rowElement["index"],
+      range: data.rowElement["range"],
+      element: data.rowElement["element"]
     });
   });
 
@@ -34,15 +35,15 @@ describe("tree cellscape: highlighted reducer", () => {
       reducer(
         initialState,
         highlightElement({
-          index: null,
-          range: [5, 20],
-          element: "cluster"
+          index: data.clusterElement["index"],
+          range: data.clusterElement["range"],
+          element: data.clusterElement["element"]
         })
       )
     ).toEqual({
-      index: null,
-      range: [5, 20],
-      element: "cluster"
+      index: data.clusterElement["index"],
+      range: data.clusterElement["range"],
+      element: data.clusterElement["element"]
     });
   });
 
@@ -51,15 +52,15 @@ describe("tree cellscape: highlighted reducer", () => {
       reducer(
         initialState,
         highlightElement({
-          index: 10,
-          range: [5, 20],
-          element: "clade"
+          index: data.cladeElement["index"],
+          range: data.cladeElement["range"],
+          element: data.cladeElement["element"]
         })
       )
     ).toEqual({
-      index: 10,
-      range: [5, 20],
-      element: "clade"
+      index: data.cladeElement["index"],
+      range: data.cladeElement["range"],
+      element: data.cladeElement["element"]
     });
   });
 
@@ -67,9 +68,9 @@ describe("tree cellscape: highlighted reducer", () => {
     expect(
       reducer(
         {
-          index: 10,
-          range: [5, 20],
-          element: "clade"
+          index: data.cladeElement["index"],
+          range: data.cladeElement["range"],
+          element: data.cladeElement["element"]
         },
         unhighlightElement()
       )

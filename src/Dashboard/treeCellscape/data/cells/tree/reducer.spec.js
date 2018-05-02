@@ -5,7 +5,7 @@ import {
   fetchTreeNodesSuccess,
   fetchAllTreeNodesSuccess
 } from "./actions.js";
-import  data from "utils/testData.js";
+import data from "utils/testData.js";
 
 describe("tree cellscape: data/cells/tree reducer", () => {
   const initialState = {
@@ -19,35 +19,40 @@ describe("tree cellscape: data/cells/tree reducer", () => {
   });
 
   it("should handle TREECELLSCAPE_FETCH_TREE_ROOT_SUCCESS", () => {
-    expect(reducer(initialState, fetchTreeRootSuccess(data.testRecord))).toEqual({
-      data:{[data.testNodeID]: data.testRecord},
-      pending: [],
+    expect(
+      reducer(initialState, fetchTreeRootSuccess(data.testTreeNode))
+    ).toEqual({
+      data: { [data.testNodeID]: data.testTreeNode },
+      pending: initialState.pending,
       rootID: data.testNodeID
     });
   });
 
   it("should handle TREECELLSCAPE_FETCH_TREE_NODE", () => {
     expect(reducer(initialState, fetchTreeNode(data.testNodeID))).toEqual({
-      rootID: "",
-      data: {},
+      data: initialState.data,
+      rootID: initialState.rootID,
       pending: [data.testNodeID]
     });
   });
 
   it("should handle TREECELLSCAPE_FETCH_TREE_NODES_SUCCESS", () => {
     expect(
-      reducer(initialState, fetchTreeNodesSuccess([data.testRecord], [data.testNodeID]))
+      reducer(initialState, fetchTreeNodesSuccess([data.testTreeNode], []))
     ).toEqual({
-      data:{[data.testNodeID]: data.testRecord},
-      pending: [data.testNodeID]
+      data: { [data.testNodeID]: data.testTreeNode },
+      pending: initialState.pending,
+      rootID: initialState.rootID
     });
   });
 
   it("should handle TREECELLSCAPE_FETCH_ALL_TREE_NODES_SUCCESS", () => {
-    expect(reducer(data.initialState, fetchAllTreeNodesSuccess([data.testRecord]))).toEqual({
-      data:{[data.testNodeID]: data.testRecord},
-      pending: [],
-      rootID: ""
+    expect(
+      reducer(initialState, fetchAllTreeNodesSuccess([data.testTreeNode]))
+    ).toEqual({
+      data: { [data.testNodeID]: data.testTreeNode },
+      pending: initialState.pending,
+      rootID: initialState.rootID
     });
   });
 

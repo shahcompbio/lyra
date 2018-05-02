@@ -12,7 +12,7 @@ describe("tree cellscape: Dashboard reducer", () => {
 
   it("should handle RESET_DASHBOARD", () => {
     expect(reducer(initialState, resetDashboard())).toEqual({
-      selected: ""
+      selected: initialState.selected
     });
   });
 
