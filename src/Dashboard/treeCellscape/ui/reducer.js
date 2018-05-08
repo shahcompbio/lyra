@@ -12,7 +12,7 @@ import { stateSelectors as highlightedStateSelectors } from "./highlighted/reduc
  * 	list of tree roots we've zoomed into so far to get to current tree root
  */
 const initialTreeRootPath = [];
-const treePath = createReducer(initialTreeRootPath)({
+export const treePath = createReducer(initialTreeRootPath)({
   [treeDataActions.fetchTreeRootSuccess]: (state, action) => [
     action.root["cellID"],
     ...state

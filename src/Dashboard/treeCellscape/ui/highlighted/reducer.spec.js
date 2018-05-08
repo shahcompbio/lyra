@@ -1,83 +1,148 @@
-import reducer from "./reducer.js";
+import reducer, { index, range, element } from "./reducer.js";
 import { highlightElement, unhighlightElement } from "./actions.js";
-import data from "utils/testData.js";
 
-describe("tree cellscape: highlighted reducer", () => {
-  const initialState = {
-    index: null,
-    range: null,
-    element: null
-  };
+const ROW = {
+  index: 10,
+  element: "row"
+};
 
+const CLUSTER = {
+  range: [5, 20],
+  element: "cluster"
+};
+
+const CLADE = {
+  index: 10,
+  range: [5, 20],
+  element: "clade"
+};
+
+/**
+ * Index
+ */
+const initialIndex = null;
+describe("tree cellscape: ui/highlighted index reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+    expect(index(undefined, {})).toEqual(initialIndex);
   });
 
   it("should handle HIGHLIGHT_ELEMENT for row", () => {
-    expect(
-      reducer(
-        initialState,
-        highlightElement({
-          index: data.rowElement["index"],
-          range: data.rowElement["range"],
-          element: data.rowElement["element"]
-        })
-      )
-    ).toEqual({
-      index: data.rowElement["index"],
-      range: data.rowElement["range"],
-      element: data.rowElement["element"]
-    });
+    expect(index(initialIndex, highlightElement(ROW))).toEqual(ROW.index);
   });
 
   it("should handle HIGHLIGHT_ELEMENT for cluster", () => {
-    expect(
-      reducer(
-        initialState,
-        highlightElement({
-          index: data.clusterElement["index"],
-          range: data.clusterElement["range"],
-          element: data.clusterElement["element"]
-        })
-      )
-    ).toEqual({
-      index: data.clusterElement["index"],
-      range: data.clusterElement["range"],
-      element: data.clusterElement["element"]
-    });
+    expect(index(initialIndex, highlightElement(CLUSTER))).toEqual(null);
   });
 
   it("should handle HIGHLIGHT_ELEMENT for clade", () => {
-    expect(
-      reducer(
-        initialState,
-        highlightElement({
-          index: data.cladeElement["index"],
-          range: data.cladeElement["range"],
-          element: data.cladeElement["element"]
-        })
-      )
-    ).toEqual({
-      index: data.cladeElement["index"],
-      range: data.cladeElement["range"],
-      element: data.cladeElement["element"]
-    });
+    expect(index(initialIndex, highlightElement(CLADE))).toEqual(CLADE.index);
   });
 
   it("should handle UNHIGHLIGHT_ELEMENT", () => {
-    expect(
-      reducer(
-        {
-          index: data.cladeElement["index"],
-          range: data.cladeElement["range"],
-          element: data.cladeElement["element"]
-        },
-        unhighlightElement()
-      )
-    ).toEqual(initialState);
+    expect(index(20, unhighlightElement())).toEqual(initialIndex);
   });
 
   it("should handle unrelated actions", () => {
-    expect(reducer(initialState, { type: "UNKNOWN" })).toEqual(initialState);
+    expect(index(initialIndex, { type: "UNKNOWN" })).toEqual(initialIndex);
+  });
+});
+
+/**
+ * Range
+ */
+const initialRange = null;
+describe("tree cellscape: ui/highlighted range reducer", () => {
+  it("should return initial state", () => {
+    expect(range(undefined, {})).toEqual(initialRange);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for row", () => {
+    expect(range(initialRange, highlightElement(ROW))).toEqual(null);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for cluster", () => {
+    expect(range(initialRange, highlightElement(CLUSTER))).toEqual(
+      CLUSTER.range
+    );
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for clade", () => {
+    expect(range(initialRange, highlightElement(CLADE))).toEqual(CLADE.range);
+  });
+
+  it("should handle UNHIGHLIGHT_ELEMENT", () => {
+    expect(range([20, 25], unhighlightElement())).toEqual(initialRange);
+  });
+
+  it("should handle unrelated actions", () => {
+    expect(range(initialRange, { type: "UNKNOWN" })).toEqual(initialRange);
+  });
+});
+
+/**
+ * Element
+ */
+const initialElement = null;
+describe("tree cellscape: ui/highlighted element reducer", () => {
+  it("should return initial state", () => {
+    expect(element(undefined, {})).toEqual(initialElement);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for row", () => {
+    expect(element(initialElement, highlightElement(ROW))).toEqual(ROW.element);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for cluster", () => {
+    expect(element(initialElement, highlightElement(CLUSTER))).toEqual(
+      CLUSTER.element
+    );
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for clade", () => {
+    expect(element(initialElement, highlightElement(CLADE))).toEqual(
+      CLADE.element
+    );
+  });
+
+  it("should handle UNHIGHLIGHT_ELEMENT", () => {
+    expect(element("row", unhighlightElement())).toEqual(initialElement);
+  });
+
+  it("should handle unrelated actions", () => {
+    expect(element(initialElement, { type: "UNKNOWN" })).toEqual(
+      initialElement
+    );
+  });
+});
+
+/**
+ * Highlighted
+ */
+
+export const initialState = {
+  index: initialIndex,
+  range: initialRange,
+  element: initialElement
+};
+describe("tree cellscape: highlighted reducer", () => {
+  it("initial state has index field", () => {
+    expect(reducer(undefined, {}).hasOwnProperty("index")).toEqual(true);
+  });
+
+  it("initial state has range field", () => {
+    expect(reducer(undefined, {}).hasOwnProperty("range")).toEqual(true);
+  });
+
+  it("initial state has element field", () => {
+    expect(reducer(undefined, {}).hasOwnProperty("element")).toEqual(true);
+  });
+
+  it("passes actions to child reducers", () => {
+    const action = { type: "ACTION_TYPE" };
+    expect(reducer(initialState, action)).toEqual({
+      index: index(initialIndex, action),
+      range: range(initialRange, action),
+      element: element(initialElement, action)
+    });
   });
 });
