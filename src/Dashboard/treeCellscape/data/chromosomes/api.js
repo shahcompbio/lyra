@@ -23,7 +23,7 @@ export const chromRangesQuery = () => ({
         field: "chrom_number",
         size: 50000,
         order: {
-          _term: "asc"
+          _key: "asc"
         }
       },
       aggs: {
