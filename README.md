@@ -1,10 +1,12 @@
-# Montage
+# Lyra
 
-Montage is a web-based visualization platform, featuring several interactive dashboards of single cell genomics data. Key features include:
+Lyra is a web-based visualization platform, featuring several interactive dashboards of single cell genomics data.
+
+The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and features an [Elasticsearch](https://www.elastic.co/) backend. Python scripts are used to load data into Elasticsearch.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -35,7 +37,7 @@ Then start the ElasticSearch instance
 ./bin/elasticsearch
 ```
 
-Clone the Montage repository and install the necessary dependencies, then start development mode.
+Clone the repository and install the necessary dependencies, then start development mode.
 
 ```
 yarn install
@@ -45,17 +47,6 @@ OR
 
 npm install
 npm start
-```
-
-Go into /src/api/config.js and point the HOST to your local ElasticSearch instance
-
-```
-const config = {
-  HOST: "http://localhost:9200/",
-  SEARCH: "/_search",
-
-  ANALYSIS_INDEX: "tree_analysis"
-};
 ```
 
 ### Loading Data
@@ -76,15 +67,11 @@ python tree_cellscape_loader.py -y directory/to/yaml/data_metadata.yaml
 
 This will load an entry into the Analysis index, as well as the appropriate data files. You can view the README in /loader to see more information about the data types.
 
-## Built With
-
-* Create React App
-* Redux
-
 ## Authors
 
 This project was designed and built in Dr. Sohrab Shah's laboratory at BC Cancer under the leadership of Dr. Cydney Nielsen and in close collaboration with Dr. Samuel Aparicio's research team. The following dedicated students and software developers (ordered alphabetically) created the codebase:
 
+* [**Viktoria Bojilova**](https://github.com/vbojilova)
 * [**Samantha Leung**](https://github.com/redpanda-cat)
 
 ## Acknowledgments
