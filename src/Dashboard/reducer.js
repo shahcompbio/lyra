@@ -10,10 +10,8 @@ import actions from "main/types.js";
 /**
  * Selected dashboard
  */
-const initialSelected = "";
-const selected = createReducer(initialSelected)({
-  [actions.selectDashboard]: (state, action) => action.dashboard,
-
+export const initialSelected = "";
+export const selected = createReducer(initialSelected)({
   [actions.selectAnalysis]: (state, action) => "TREE_CELLSCAPE"
 });
 
@@ -55,4 +53,5 @@ export const stateSelectors = {
   getSelectedDashboard,
   ...shiftSelectors(state => state.dashboard, treeCellscapeStateSelectors)
 };
+
 export default reducer;

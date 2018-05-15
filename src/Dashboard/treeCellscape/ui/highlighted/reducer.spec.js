@@ -1,4 +1,11 @@
-import reducer, { index, range, element } from "./reducer.js";
+import reducer, {
+  initialIndex,
+  index,
+  initialRange,
+  range,
+  initialElement,
+  element
+} from "./reducer.js";
 import { highlightElement, unhighlightElement } from "./actions.js";
 
 const ROW = {
@@ -20,7 +27,6 @@ const CLADE = {
 /**
  * Index
  */
-const initialIndex = null;
 describe("tree cellscape: ui/highlighted index reducer", () => {
   it("should return initial state", () => {
     expect(index(undefined, {})).toEqual(initialIndex);
@@ -50,7 +56,6 @@ describe("tree cellscape: ui/highlighted index reducer", () => {
 /**
  * Range
  */
-const initialRange = null;
 describe("tree cellscape: ui/highlighted range reducer", () => {
   it("should return initial state", () => {
     expect(range(undefined, {})).toEqual(initialRange);
@@ -82,7 +87,6 @@ describe("tree cellscape: ui/highlighted range reducer", () => {
 /**
  * Element
  */
-const initialElement = null;
 describe("tree cellscape: ui/highlighted element reducer", () => {
   it("should return initial state", () => {
     expect(element(undefined, {})).toEqual(initialElement);
@@ -118,31 +122,26 @@ describe("tree cellscape: ui/highlighted element reducer", () => {
 /**
  * Highlighted
  */
-
-export const initialState = {
-  index: initialIndex,
-  range: initialRange,
-  element: initialElement
-};
 describe("tree cellscape: highlighted reducer", () => {
+  const initialState = reducer(undefined, {});
   it("initial state has index field", () => {
-    expect(reducer(undefined, {}).hasOwnProperty("index")).toEqual(true);
+    expect(initialState.hasOwnProperty("index")).toEqual(true);
   });
 
   it("initial state has range field", () => {
-    expect(reducer(undefined, {}).hasOwnProperty("range")).toEqual(true);
+    expect(initialState.hasOwnProperty("range")).toEqual(true);
   });
 
   it("initial state has element field", () => {
-    expect(reducer(undefined, {}).hasOwnProperty("element")).toEqual(true);
+    expect(initialState.hasOwnProperty("element")).toEqual(true);
   });
 
   it("passes actions to child reducers", () => {
     const action = { type: "ACTION_TYPE" };
     expect(reducer(initialState, action)).toEqual({
-      index: index(initialIndex, action),
-      range: range(initialRange, action),
-      element: element(initialElement, action)
+      index: index(initialState["index"], action),
+      range: range(initialState["range"], action),
+      element: element(initialState["element"], action)
     });
   });
 });

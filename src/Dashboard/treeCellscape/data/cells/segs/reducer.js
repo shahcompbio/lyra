@@ -11,8 +11,8 @@ import actions from "./types.js";
  *    all cell IDs that are currently being fetched
  */
 
-const initialPending = [];
-const pending = createReducer(initialPending)({
+export const initialPending = [];
+export const pending = createReducer(initialPending)({
   [actions.fetchSegs]: (state, action) => {
     const idsToAdd = action["ids"].filter(id => !state.includes(id));
 
@@ -66,8 +66,8 @@ const removeInOrder = (state, list) => {
  * 	data.value {array} - segments for that index
  */
 
-const initialSegsData = {};
-const data = createReducer(initialSegsData)({
+export const initialData = {};
+export const data = createReducer(initialData)({
   [actions.fetchSegsSuccess]: (state, action) => ({
     ...state,
     ...createSegMap(action.segs, action.ids)
@@ -85,8 +85,6 @@ const createSegMap = (segs, ids) => {
 
   const segMapPopulated = segs.reduce((map, segment) => {
     const cellID = segment["cellID"];
-    console.log(segment);
-    console.log(map);
     const newSegments = [...map[cellID], segment];
     return {
       ...map,

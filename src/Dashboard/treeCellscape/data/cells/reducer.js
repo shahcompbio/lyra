@@ -18,8 +18,8 @@ import { stateSelectors as segsStateSelectors } from "./segs/reducer.js";
  * 	- .value {string} - cellID
  */
 
-const initialIndexToID = {};
-const indexToID = createReducer(initialIndexToID)({
+export const initialIndexToID = {};
+export const indexToID = createReducer(initialIndexToID)({
   [actions.fetchAllTreeNodesSuccess]: (state, action) => ({
     ...state,
     ...createIndexToIDMappings(action.treeNodes)
