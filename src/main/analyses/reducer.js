@@ -2,16 +2,16 @@ import { combineReducers } from "redux";
 import createReducer from "utils/createReducer.js";
 import actions from "./types.js";
 
-const initialOrder = [];
-const order = createReducer(initialOrder)({
+export const initialOrder = [];
+export const order = createReducer(initialOrder)({
   [actions.fetchAllAnalysisSuccess]: (state, action) => [
     ...state,
     ...action.analyses.map(analysis => analysis.id)
   ]
 });
 
-const initialData = {};
-const data = createReducer(initialData)({
+export const initialData = {};
+export const data = createReducer(initialData)({
   [actions.fetchAllAnalysisSuccess]: (state, action) => ({
     ...state,
     ...action.analyses.reduce(
@@ -24,18 +24,18 @@ const data = createReducer(initialData)({
   })
 });
 
-const initialDashboard = null;
-const selectedDashboard = createReducer(initialDashboard)({
+export const initialSelectedDashboard = null;
+export const selectedDashboard = createReducer(initialSelectedDashboard)({
   [actions.selectAnalysis]: (state, action) => action.dashboard
 });
 
-const initialSelectedID = null;
-const selectedID = createReducer(initialSelectedID)({
+export const initialSelectedID = null;
+export const selectedID = createReducer(initialSelectedID)({
   [actions.selectAnalysis]: (state, action) => action.id
 });
 
-const initialDashboards = [];
-const dashboards = createReducer(initialDashboards)({
+export const initialDashboards = [];
+export const dashboards = createReducer(initialDashboards)({
   [actions.fetchAllAnalysisSuccess]: (state, action) =>
     action.analyses.reduce(
       (uniqueDashboards, analysis) =>

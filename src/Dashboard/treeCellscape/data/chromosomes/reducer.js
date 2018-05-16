@@ -11,8 +11,8 @@ import actions from "./types.js";
  * 	list of all chromosomes names in sorted order
  */
 
-const initialOrder = [];
-const order = createReducer(initialOrder)({
+export const initialOrder = [];
+export const order = createReducer(initialOrder)({
   [actions.fetchChromRangesSuccess]: (state, action) =>
     action.chromosomes.map(chrom => chrom["chrom"])
 });
@@ -23,8 +23,8 @@ const order = createReducer(initialOrder)({
  *	data.value {object} - associated data
  */
 
-const initialData = {};
-const data = createReducer(initialData)({
+export const initialData = {};
+export const data = createReducer(initialData)({
   [actions.fetchChromRangesSuccess]: (state, action) =>
     action.chromosomes.reduce(
       (map, chrom) => ({

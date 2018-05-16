@@ -7,8 +7,8 @@ import actions from "./types.js";
  * 	index of node or heatmap row that is being hovered on
  */
 
-const initialIndex = null;
-const index = createReducer(initialIndex)({
+export const initialIndex = null;
+export const index = createReducer(initialIndex)({
   [actions.highlightElement]: (state, action) =>
     action.index === undefined ? null : action.index,
   [actions.unhighlightElement]: (state, action) => null
@@ -19,8 +19,8 @@ const index = createReducer(initialIndex)({
  *	[min, max] range of indices that is being hovered on
  */
 
-const initalRange = null;
-const range = createReducer(initalRange)({
+export const initialRange = null;
+export const range = createReducer(initialRange)({
   [actions.highlightElement]: (state, action) =>
     action.range === undefined ? null : action.range,
   [actions.unhighlightElement]: (state, action) => null
@@ -31,8 +31,8 @@ const range = createReducer(initalRange)({
  *   type of element that is highlighted
  */
 
-const initialElement = null;
-const element = createReducer(initialElement)({
+export const initialElement = null;
+export const element = createReducer(initialElement)({
   [actions.highlightElement]: (state, action) => action.element,
   [actions.unhighlightElement]: (state, action) => null
 });

@@ -11,9 +11,9 @@ import actions from "./types.js";
  * 	cell ID of the root node
  */
 
-const initialTreeRootID = "";
+export const initialRootID = "";
 
-const rootID = createReducer(initialTreeRootID)({
+export const rootID = createReducer(initialRootID)({
   [actions.fetchTreeRootSuccess]: (state, action) => action.root["cellID"]
 });
 
@@ -23,9 +23,9 @@ const rootID = createReducer(initialTreeRootID)({
  * 	data.value {object} - record of node
  */
 
-const initialNodes = {};
+export const initialData = {};
 
-const data = createReducer(initialNodes)({
+export const data = createReducer(initialData)({
   [actions.fetchTreeRootSuccess]: (state, action) => {
     const { children, ...otherRootProps } = action.root;
 
@@ -64,8 +64,8 @@ const processTreeNodes = treeNodes =>
  * 	all cellIDs that are currently being fetched
  */
 
-const initialPending = [];
-const pending = createReducer(initialPending)({
+export const initialPending = [];
+export const pending = createReducer(initialPending)({
   [actions.fetchTreeNode]: (state, action) => [...state, action.nodeID],
 
   [actions.fetchTreeNodesSuccess]: (state, action) => [
