@@ -1,5 +1,4 @@
 import treeCellscapeSagas from "Dashboard/sagas.js";
-import analysisSagas from "./analyses/sagas.js";
 import loggerSaga from "./logger/sagas.js";
 import { all, fork, takeEvery, put } from "redux-saga/effects";
 
@@ -9,8 +8,8 @@ import actions from "./types";
 function* rootSaga() {
   yield all([
     fork(treeCellscapeSagas),
-    fork(analysisSagas),
-    fork(resetAfterSelectAnalysisWatcher)
+    fork(resetAfterSelectAnalysisWatcher),
+    fork(loggerSaga)
   ]);
 }
 

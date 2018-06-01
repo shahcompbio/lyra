@@ -1,1 +1,5 @@
-export { makeIsIndexHighlighted, getXPosition } from "../selectors.js";
+export {
+  makeIsIndexHighlighted,
+  getXPosition,
+  getYScale
+} from "../selectors.js";

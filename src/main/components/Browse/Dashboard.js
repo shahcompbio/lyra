@@ -10,8 +10,8 @@ class DashboardBase extends Component {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     analyses: PropTypes.array.isRequired,
-    selectedAnalysisID: PropTypes.string,
-    selectedAnalysisDashboard: PropTypes.string,
+    selectedAnalysis: PropTypes.string,
+    selectedDashboard: PropTypes.string,
     selectAnalysis: PropTypes.func.isRequired
   };
   constructor(props) {
@@ -24,8 +24,8 @@ class DashboardBase extends Component {
     const {
       title,
       analyses,
-      selectedAnalysisID,
-      selectedAnalysisDashboard,
+      selectedAnalysis,
+      selectedDashboard,
       className,
       selectAnalysis,
       onClick
@@ -35,11 +35,10 @@ class DashboardBase extends Component {
     };
     const analysisItems = analyses.map(analysis => {
       const isSelected =
-        selectedAnalysisID === analysis.id &&
-        selectedAnalysisDashboard === analysis.dashboard;
-      const onAnlysisClick = () => {
+        selectedAnalysis === analysis.id && selectedDashboard === title;
+      const onAnalysisClick = () => {
         if (!isSelected) {
-          selectAnalysis(analysis);
+          selectAnalysis(analysis.id, title);
           onClick();
         }
       };
@@ -48,7 +47,7 @@ class DashboardBase extends Component {
           key={analysis.title}
           title={analysis.title}
           description={analysis.description}
-          onClick={onAnlysisClick}
+          onClick={onAnalysisClick}
           isSelected={isSelected}
         />
       );

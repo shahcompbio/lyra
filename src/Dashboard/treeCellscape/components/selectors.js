@@ -1,19 +1,13 @@
 import { createSelector } from "reselect";
 import { treeConfig } from "../config.js";
 
-import {
-  getCurrTreeRootRecord,
-  getCellsIndexToID,
-  getHighlightedIndex,
-  getTreeData
-} from "../selectors.js";
+import { getCurrRootTotalNodes } from "../selectors.js";
 
 // Tooltip
 export {
   getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
-  getCellsIndexToID,
   isClade,
   isCluster,
   isRow
@@ -22,53 +16,30 @@ export {
 // Menu
 // makeGetIDsByIndices, makeGetMissingIDMappings -> Heatmap
 export {
-  getSelectedTitle,
-  isCurrRootAtRoot,
-  getCurrTreeIndices
+  getSelectedAnalysis,
+  getSelectedDashboard,
+  isCurrRootAtRoot
 } from "../selectors.js";
 
 // Tree
 export {
   makeIsIndexRangeHighlighted,
   makeIsIndexHighlighted,
-  getCurrTreeRootID,
-  makeGetTreeNodeRecordByID,
-  getTreeData,
-  makeGetTreeNodeRecordsByID
+  getCurrRootID,
+  getCurrRootRange
 } from "../selectors.js";
 
 // Heatmap
 // makeIsIndexHighlighted, -> Tree
-export {
-  getCurrTreeRootRecord,
-  getOrderedChromosomeData,
-  getChromosomeOrder,
-  getSegsData,
-  getMissingSegIDs,
-  makeGetMissingIDMappings,
-  makeGetIDsByIndices
-} from "../selectors.js";
+export { getCurrRootIndex } from "../selectors.js";
 
-/**
- * Gets number of nodes contained in tree from root
- */
-export const getTotalIndexNum = createSelector(
-  [getCurrTreeRootRecord],
-  // object => int
-  treeRoot => treeRoot["maxDescendantIndex"] - treeRoot["heatmapIndex"] + 1
-);
+export { getCurrRootTotalNodes } from "../selectors.js";
 
 /**
  * Gets ratio of heatmap indices per pixel
  */
 export const getIndicesPerPixel = createSelector(
-  [getTotalIndexNum],
+  [getCurrRootTotalNodes],
   // int => int
   numNodes => numNodes / treeConfig["height"]
-);
-
-export const getHighlightedTreeData = createSelector(
-  [getTreeData, getHighlightedIndex, getCellsIndexToID],
-  (treeData, index, indexToID) =>
-    index !== null ? treeData[indexToID[index]] : null
 );

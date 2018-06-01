@@ -1,7 +1,1 @@
-export {
-  highlightElement,
-  unhighlightElement,
-  fetchSegs,
-  fetchChromRanges,
-  fetchIndexToIDMappings
-} from "../actions.js";
+export { highlightElement, unhighlightElement } from "../actions.js";

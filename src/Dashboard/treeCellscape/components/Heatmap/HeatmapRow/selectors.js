@@ -1,4 +1,4 @@
-import { getHeatmapIDs, getChromPixelMapping } from "../selectors.js";
+import { getHeatmapIndices, getChromPixelMapping } from "../selectors.js";
 
 import config from "./config.js";
 import { createSelector } from "reselect";
@@ -14,12 +14,12 @@ export {
  * Gets the heatmap (index) to pixel y scale
  */
 export const getYScale = createSelector(
-  [getHeatmapIDs],
+  [getHeatmapIndices],
   // array => func
-  ids =>
+  indices =>
     scalePoint()
-      .domain(ids)
-      .range([0, ids.length * config["rowHeight"]])
+      .domain(indices)
+      .range([0, indices.length * config["rowHeight"]])
 );
 
 export const getIndicatorXPosition = createSelector(

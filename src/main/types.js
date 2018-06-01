@@ -1,8 +1,6 @@
-import analysisTypes from "./analyses/types.js";
-
 const types = {
-  resetDashboard: "RESET_DASHBOARD",
-  ...analysisTypes
+  selectAnalysis: "SELECT_ANALYSIS",
+  resetDashboard: "RESET_DASHBOARD"
 };
 
 export default types;

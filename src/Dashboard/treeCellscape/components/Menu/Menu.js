@@ -1,24 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
-import { getSelectedTitle } from "./selectors.js";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
 
 import styled from "react-emotion";
 
-const Menu = ({ analysisTitle, width }) => (
+const Menu = ({ analysis, width }) => (
   <MenuDiv width={width}>
-    <Title>{analysisTitle}</Title>
+    <MenuTitle analysis={analysis} dashboard={"TREE_CELLSCAPE"} />
     <TreeZoomOutButton Button={Button} />
-    <DownloadCSVButton Button={Button} />
+    <DownloadCSVButton Button={Button} analysis={analysis} />
   </MenuDiv>
 );
 
 Menu.propTypes = {
-  analysisTitle: PropTypes.string.isRequired,
+  analysis: PropTypes.string.isRequired,
 
   width: PropTypes.number.isRequired
 };
@@ -41,6 +41,30 @@ const MenuDiv = styled("div")`
   font-size: 0px;
 `;
 
+const TITLE_QUERY = gql`
+  query analysis($analysis: String!, $dashboard: String!) {
+    analysis(analysis: $analysis, dashboard: $dashboard) {
+      title
+    }
+  }
+`;
+
+const MenuTitle = ({ analysis, dashboard }) => (
+  <Query query={TITLE_QUERY} variables={{ analysis, dashboard }}>
+    {({ loading, error, data }) => {
+      if (loading) return null;
+      if (error) return null;
+
+      return <Title>{data.analysis.title}</Title>;
+    }}
+  </Query>
+);
+
+MenuTitle.propTypes = {
+  analysis: PropTypes.string.isRequired,
+
+  dashboard: PropTypes.string.isRequired
+};
 const Title = styled("span")`
   margin-top: 2%;
   margin-bottom: 2%;
@@ -70,8 +94,4 @@ const Button = styled("button")`
   }
 `;
 
-const mapState = state => ({
-  analysisTitle: getSelectedTitle(state)
-});
-
-export default connect(mapState)(Menu);
+export default Menu;

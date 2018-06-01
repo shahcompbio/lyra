@@ -10,10 +10,7 @@ import { bindActionCreators } from "redux";
 import ReactTooltip from "react-tooltip";
 import TreeCluster from "./TreeCluster";
 
-import {
-  makeIsIndexRangeHighlighted,
-  getClusterColorScale
-} from "./selectors.js";
+import { makeIsIndexRangeHighlighted } from "./selectors.js";
 import { highlightElement, unhighlightElement } from "./actions.js";
 
 class TreeChildrenCluster extends Component {
@@ -33,7 +30,6 @@ class TreeChildrenCluster extends Component {
 
     /** yScale, clusterColorScale */
     yScale: PropTypes.func.isRequired,
-    clusterColorScale: PropTypes.func.isRequired,
 
     /** offsetBy - number of indices to offset clusters by*/
     offsetBy: PropTypes.number.isRequired,
@@ -69,7 +65,6 @@ class TreeChildrenCluster extends Component {
       maxHeight,
       depth,
       yScale,
-      clusterColorScale,
       isHighlighted,
       offsetBy,
       parentIndex
@@ -95,7 +90,6 @@ class TreeChildrenCluster extends Component {
         depth={depth}
         yScale={yScale}
         maxHeight={maxHeight}
-        clusterColorScale={clusterColorScale}
         isHighlighted={isHighlighted}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -110,7 +104,6 @@ class TreeChildrenCluster extends Component {
 const makeMapState = () => {
   const isHighlighted = makeIsIndexRangeHighlighted();
   const mapState = (state, ownProps) => ({
-    clusterColorScale: getClusterColorScale(state),
     isHighlighted: isHighlighted(state, ownProps.minIndex, ownProps.maxIndex)
   });
   return mapState;
