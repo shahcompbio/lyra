@@ -74,7 +74,7 @@ export const heatmapConfig = {
   contentHeight: config.height - HEATMAP_CONSTANTS.chromosome.height,
   x: 0,
   colorScale: scaleOrdinal()
-    .domain([1, 2, 3, 4, 5, 6, 7]) // state
+    .domain([0, 1, 2, 3, 4, 5, 6]) // state
     .range([
       "#2e7aab",
       "#73a9d4",
