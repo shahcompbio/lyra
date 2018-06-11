@@ -1,8 +1,8 @@
 sudo: required
 language: node_js
 node_js: stable
-dist: trusty
 cache: yarn
+dist: trusty
 addons:
   ssh_known_hosts: "$DEPLOY_HOST"
 before_install:
