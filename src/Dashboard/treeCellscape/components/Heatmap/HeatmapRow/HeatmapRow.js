@@ -22,6 +22,9 @@ import { highlightElement, unhighlightElement } from "./actions.js";
 
 class HeatmapRow extends Component {
   static propTypes = {
+    /** chromosomes */
+    chromosomes: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+
     /** rowData */
     rowData: PropTypes.object.isRequired,
 
@@ -45,15 +48,15 @@ class HeatmapRow extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.isHighlighted !== nextProps.isHighlighted ||
-      this.props.rowData.heatmapIndex !== nextProps.rowData.heatmapIndex ||
+      this.props.rowData.index !== nextProps.rowData.index ||
       this.isYPositionsDifferent(this.props, nextProps)
     );
   }
 
   isYPositionsDifferent(currProps, nextProps) {
     return (
-      currProps.yScale(currProps.rowData.cellID) !==
-      nextProps.yScale(nextProps.rowData.cellID)
+      currProps.yScale(currProps.rowData.index) !==
+      nextProps.yScale(nextProps.rowData.index)
     );
   }
 
@@ -66,10 +69,10 @@ class HeatmapRow extends Component {
       isHighlighted,
       indicatorX
     } = this.props;
-    const { heatmapIndex, segs, cellID } = rowData;
-    const y = yScale(cellID);
+    const { index, segs, id } = rowData;
+    const y = yScale(index);
     const onMouseEnter = () => {
-      this.props.highlightElement({ index: heatmapIndex, element: "row" });
+      this.props.highlightElement({ index, element: "row" });
     };
 
     const onMouseLeave = () => {
@@ -78,20 +81,20 @@ class HeatmapRow extends Component {
 
     return (
       <g
-        className={heatmapIndex}
+        className={index}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         data-tip
       >
         <HeatmapRowContent
-          cellID={cellID}
+          cellID={id}
           segs={segs}
           y={y}
           chromMap={chromMap}
           bpRatio={bpRatio}
         />
         <HeatmapRowIndicators
-          cellID={cellID}
+          cellID={id}
           x={indicatorX}
           y={y}
           isHighlighted={isHighlighted}
@@ -107,11 +110,11 @@ class HeatmapRow extends Component {
 const makeMapState = () => {
   const isIndexHighlighted = makeIsIndexHighlighted();
   const mapState = (state, ownProps) => ({
-    isHighlighted: isIndexHighlighted(state, ownProps.rowData["heatmapIndex"]),
+    isHighlighted: isIndexHighlighted(state, ownProps.rowData["index"]),
     yScale: getYScale(state),
-    chromMap: getChromPixelMapping(state),
-    bpRatio: getBPRatio(state),
-    indicatorX: getIndicatorXPosition(state)
+    chromMap: getChromPixelMapping(state, ownProps.chromosomes),
+    bpRatio: getBPRatio(state, ownProps.chromosomes),
+    indicatorX: getIndicatorXPosition(state, ownProps.chromosomes)
   });
 
   return mapState;

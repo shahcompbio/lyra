@@ -4,97 +4,86 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
-import { makeGetTreeNodeRecordByID, getYScale } from "./selectors.js";
-import { fetchTreeNode } from "./actions.js";
-
-import DataFetcher from "utils/DataFetcher";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
 import TreeNodePoint from "./TreeNode/TreeNodePoint";
 import TreeChildren from "./TreeChildren";
 import TreeHorizontalBranch from "./TreeBranch/TreeHorizontalBranch";
 
+const TREE_NODE_QUERY = gql`
+  query treeNode($analysis: String!, $id: String!) {
+    treeNode(analysis: $analysis, id: $id) {
+      id
+      index
+      maxIndex
+      parent
+      children {
+        id
+        index
+        maxIndex
+        maxHeight
+      }
+    }
+  }
+`;
+
+const TreeNode = ({
+  yScale,
+  analysis,
+  nodeID,
+  depth,
+  siblingIndex,
+  offsetBy,
+  isRoot
+}) => (
+  <Query query={TREE_NODE_QUERY} variables={{ analysis, id: nodeID }}>
+    {({ loading, error, data }) => {
+      if (loading) return null;
+      if (error) return null;
+
+      const { index, children, parent, maxIndex } = data.treeNode;
+      const branch =
+        parent === "root" ? (
+          ""
+        ) : (
+          <TreeHorizontalBranch
+            heatmapIndex={index - offsetBy}
+            depth={depth}
+            yScale={yScale}
+          />
+        );
+      return (
+        <g>
+          {branch}
+          <TreeNodePoint
+            nodeID={nodeID}
+            heatmapIndex={index}
+            maxDescendantIndex={maxIndex}
+            depth={depth}
+            yScale={yScale}
+            offsetBy={offsetBy}
+            isRoot={isRoot}
+          />
+          <TreeChildren
+            analysis={analysis}
+            children={children}
+            depth={depth + 1}
+            parentIndex={index - offsetBy}
+            auntIndex={siblingIndex}
+            offsetBy={offsetBy}
+          />
+        </g>
+      );
+    }}
+  </Query>
+);
+
 /**
  * Tree Node Data Fetcher
  */
 
-const isDataMissing = props => {
-  const { treeNode } = props;
-  return treeNode === null;
-};
-
-const fetchData = props => {
-  const { nodeID } = props;
-  return fetchTreeNode(nodeID);
-};
-
-/**
- * Factory function for mapstate to Tree Node
- */
-const makeMapStateForTreeNode = () => {
-  const getTreeNodeRecordByID = makeGetTreeNodeRecordByID();
-  const mapState = (state, ownProps) => ({
-    treeNode: getTreeNodeRecordByID(state, ownProps.nodeID),
-    yScale: getYScale(state)
-  });
-  return mapState;
-};
-
-const TreeNodeFetcher = connect(makeMapStateForTreeNode())(DataFetcher);
-
-const TreeNode = ({ nodeID, depth, siblingIndex, offsetBy, isRoot }) => {
-  /**
-   * render prop
-   * @param {object} nodeData
-   * @param {func} yScale
-   */
-
-  const render = props => {
-    const { treeNode, yScale } = props;
-    const { heatmapIndex, children, parent, maxDescendantIndex } = treeNode;
-    const branch =
-      parent === "root" ? (
-        ""
-      ) : (
-        <TreeHorizontalBranch
-          heatmapIndex={heatmapIndex - offsetBy}
-          depth={depth}
-          yScale={yScale}
-        />
-      );
-
-    return (
-      <g>
-        {branch}
-        <TreeNodePoint
-          nodeID={nodeID}
-          heatmapIndex={heatmapIndex}
-          maxDescendantIndex={maxDescendantIndex}
-          depth={depth}
-          yScale={yScale}
-          offsetBy={offsetBy}
-          isRoot={isRoot}
-        />
-        <TreeChildren
-          children={children}
-          depth={depth + 1}
-          parentIndex={heatmapIndex - offsetBy}
-          auntIndex={siblingIndex}
-          offsetBy={offsetBy}
-        />
-      </g>
-    );
-  };
-  return (
-    <TreeNodeFetcher
-      render={render}
-      nodeID={nodeID}
-      fetchData={fetchData}
-      isDataMissing={isDataMissing}
-    />
-  );
-};
 TreeNode.defaultProps = {
   depth: 0,
   offsetBy: 0,

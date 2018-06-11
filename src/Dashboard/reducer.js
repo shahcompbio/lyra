@@ -10,7 +10,7 @@ import actions from "main/types.js";
 /**
  * Selected dashboard
  */
-export const initialSelected = "";
+export const initialSelected = null;
 export const selected = createReducer(initialSelected)({
   [actions.selectAnalysis]: (state, action) => "TREE_CELLSCAPE"
 });

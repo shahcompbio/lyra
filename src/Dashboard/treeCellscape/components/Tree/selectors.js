@@ -1,5 +1,5 @@
 import { scaleLinear } from "d3";
-import { getCurrTreeRootRecord, getIndicesPerPixel } from "../selectors.js";
+import { getCurrRootRange, getIndicesPerPixel } from "../selectors.js";
 import { createSelector } from "reselect";
 import config from "./config.js";
 
@@ -10,22 +10,10 @@ export { makeIsIndexRangeHighlighted } from "../selectors.js";
 export { makeIsIndexHighlighted } from "../selectors.js";
 
 // Tree
-export { getCurrTreeRootID } from "../selectors.js";
-
-// TreeNode
-export { makeGetTreeNodeRecordByID } from "../selectors.js";
+export { getCurrRootID } from "../selectors.js";
 
 // TreeChildren
 export { makeGetTreeElementsByChildren } from "./elementsSelector.js";
-
-/**
- * Get max height of tree
- */
-export const getMaxHeight = createSelector(
-  [getCurrTreeRootRecord],
-  // object => int
-  treeRoot => treeRoot["maxHeight"]
-);
 
 /**
  * Gets offset index distance - the number of indices to remove at the end for branch/cluster spacing
@@ -40,11 +28,11 @@ export const getOffsetIndex = createSelector(
  * Gets heatmap index to y-coordinate scale
  */
 export const getYScale = createSelector(
-  [getCurrTreeRootRecord],
+  [getCurrRootRange],
   // int => func
-  treeRoot => {
+  range => {
     return scaleLinear()
-      .domain([treeRoot["heatmapIndex"], treeRoot["maxDescendantIndex"]])
+      .domain(range)
       .range([config["nodeRadius"], config["height"]]);
   }
 );

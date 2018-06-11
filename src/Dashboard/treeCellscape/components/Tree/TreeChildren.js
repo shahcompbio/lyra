@@ -38,14 +38,18 @@ class TreeChildren extends Component {
   };
 
   render() {
-    const children = this.props.childrenElements.reverse();
+    const children = this.props.childrenElements.reduce(
+      (children, child) => [child, ...children],
+      []
+    );
     const {
       offsetIndex,
       depth,
       yScale,
       parentIndex,
       auntIndex,
-      offsetBy
+      offsetBy,
+      analysis
     } = this.props;
 
     let maxIndex = parentIndex;
@@ -61,7 +65,14 @@ class TreeChildren extends Component {
       );
 
       if (isChildNode(child)) {
-        childJSX = drawTreeNode(child, depth, nextSiblingIndex, newOffsetBy);
+        childJSX = drawTreeNode(
+          analysis,
+          child,
+          depth,
+          nextSiblingIndex,
+          newOffsetBy,
+          yScale
+        );
         maxIndex = Math.max(maxIndex, getChildIndex(child) - newOffsetBy);
       } else {
         const clusterHeight = getClusterIndexHeight(child, offsetIndex);
@@ -105,7 +116,7 @@ class TreeChildren extends Component {
  * @param {object} child
  * @return {bool}
  */
-const isChildNode = child => child.hasOwnProperty("cellID");
+const isChildNode = child => child.hasOwnProperty("id");
 
 /**
  * Returns the index (or start index, if cluster) of current child
@@ -113,7 +124,7 @@ const isChildNode = child => child.hasOwnProperty("cellID");
  * @return {int}
  */
 const getChildIndex = child =>
-  isChildNode(child) ? child["heatmapIndex"] : child["startIndex"];
+  isChildNode(child) ? child["index"] : child["startIndex"];
 
 /**
  * Returns offset for current child
@@ -133,7 +144,7 @@ const getOffsetByIndex = (
 ) => {
   const comparingIndex = auntIndex === undefined ? nextSiblingIndex : auntIndex;
   const childIndex =
-    (isChildNode(child) ? child["heatmapIndex"] : child["endIndex"]) - offsetBy;
+    (isChildNode(child) ? child["index"] : child["endIndex"]) - offsetBy;
 
   if (comparingIndex === undefined) {
     return offsetBy;
@@ -197,13 +208,22 @@ const drawTreeCluster = (
  * @param {int} depth
  * @return {JSX}
  */
-const drawTreeNode = (currNode, depth, siblingIndex, offsetBy) => (
+const drawTreeNode = (
+  analysis,
+  currNode,
+  depth,
+  siblingIndex,
+  offsetBy,
+  yScale
+) => (
   <TreeNode
-    key={currNode["heatmapIndex"]}
-    nodeID={currNode["cellID"]}
+    analysis={analysis}
+    key={currNode["index"]}
+    nodeID={currNode["id"]}
     depth={depth}
     siblingIndex={siblingIndex}
     offsetBy={offsetBy}
+    yScale={yScale}
   />
 );
 

@@ -6,146 +6,80 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import DataFetcher from "utils/DataFetcher";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
-import {
-  getHeatmapSegData,
-  getMissingHeatmapSegIDs,
-  getOrderedChromosomeData,
-  getMissingHeatmapIDs,
-  getHeatmapIDs
-} from "./selectors.js";
-import {
-  fetchSegs,
-  fetchChromRanges,
-  fetchIndexToIDMappings
-} from "./actions.js";
+import { getHeatmapIndices, getCurrRootID } from "./selectors.js";
+
 import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
 import ChromAxis from "./ChromAxis/ChromAxis.js";
 
 import config from "./config.js";
 
-/**
- * Chromosome Range Data Fetcher
- */
+const CHROMOSOME_SEGS_QUERY = gql`
+  query chromosomes_segs($analysis: String!, $indices: [Int!]!) {
+    chromosomes(analysis: $analysis) {
+      id
+      start
+      end
+    }
+    segs(analysis: $analysis, indices: $indices) {
+      id
+      index
+      segs {
+        chromosome
+        start
+        end
+        state
+        integerMedian
+      }
+    }
+  }
+`;
 
-const chromIsDataMissing = props => {
-  const { chromRanges } = props;
-  return chromRanges.length === 0;
-};
+const Heatmap = ({ analysis, indices, rootID }) =>
+  rootID === "" ? null : (
+    <Query query={CHROMOSOME_SEGS_QUERY} variables={{ analysis, indices }}>
+      {({ loading, error, data }) => {
+        if (loading) return null;
+        if (error) return null;
 
-const chromFetchData = props => {
-  return fetchChromRanges();
-};
+        const { chromosomes, segs } = data;
 
-const chromMapState = state => ({
-  chromRanges: getOrderedChromosomeData(state)
-});
-
-const HeatmapChromFetcher = connect(chromMapState)(DataFetcher);
-
-HeatmapChromFetcher.PropTypes = {
-  /** chromRanges - chromosome ranges in order of number */
-  chromRanges: PropTypes.arrayOf(PropTypes.object)
-};
-
-/**
- * Index to ID Data Fetcher
- */
-const indexIsDataMissing = props => {
-  const { missingIndices } = props;
-  return missingIndices.length > 0;
-};
-
-const indexFetchData = props => {
-  const { missingIndices } = props;
-  return fetchIndexToIDMappings(missingIndices);
-};
-
-const indexMapState = state => ({
-  missingIndices: getMissingHeatmapIDs(state),
-  heatmapIDs: getHeatmapIDs(state)
-});
-
-const HeatmapIndexFetcher = connect(indexMapState)(DataFetcher);
-
-HeatmapIndexFetcher.PropTypes = {
-  /** missingIndices - all indices that are missing ID mappings */
-  missingIndices: PropTypes.arrayOf(PropTypes.number).isRequired
-};
-
-/**
- * Segment Data Fetcher
- */
-
-const segIsDataMissing = props => {
-  const { missingIDs } = props;
-  return missingIDs.length > 0;
-};
-
-const segFetchData = props => {
-  const { missingIDs } = props;
-  return fetchSegs(missingIDs);
-};
+        return (
+          <svg
+            width={config["width"]}
+            height={config["height"]}
+            x={config["x"]}
+          >
+            {segs.map(segRow => (
+              <HeatmapRow
+                key={segRow["id"]}
+                rowData={segRow}
+                chromosomes={chromosomes}
+              />
+            ))}
+            <ChromAxis
+              y={(segs.length + 1) * config["rowHeight"]}
+              chromosomes={chromosomes}
+            />
+          </svg>
+        );
+      }}
+    </Query>
+  );
 
 const mapState = state => ({
-  segs: getHeatmapSegData(state),
-  missingIDs: getMissingHeatmapSegIDs(state)
+  rootID: getCurrRootID(state),
+  indices: getHeatmapIndices(state)
 });
 
-const HeatmapSegFetcher = connect(mapState)(DataFetcher);
+Heatmap.propTypes = {
+  analysis: PropTypes.string.isRequired,
 
-HeatmapSegFetcher.PropTypes = {
-  /** segs - all segment records */
-  segs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  indices: PropTypes.arrayOf(PropTypes.number.isRequired),
 
-  /** missingIDs - all IDs that are missing segment records*/
-  missingIDs: PropTypes.arrayOf(PropTypes.string).isRequired
+  rootID: PropTypes.string
 };
 
-/**
- * Heatmap function - passes render prop to HeatmapChromFetcher (and then to HeatmapSegFetcher)
- */
-const Heatmap = () => {
-  const segsRender = props => {
-    const { segs } = props;
-    return (
-      <svg width={config["width"]} height={config["height"]} x={config["x"]}>
-        {segs.map(rowData => (
-          <HeatmapRow key={rowData["cellID"]} rowData={rowData} />
-        ))}
-        <ChromAxis y={(segs.length + 1) * config["rowHeight"]} />
-      </svg>
-    );
-  };
-
-  const indexRender = props => {
-    return (
-      <HeatmapSegFetcher
-        render={segsRender}
-        isDataMissing={segIsDataMissing}
-        fetchData={segFetchData}
-      />
-    );
-  };
-
-  const chromRender = props => {
-    return (
-      <HeatmapIndexFetcher
-        render={indexRender}
-        isDataMissing={indexIsDataMissing}
-        fetchData={indexFetchData}
-      />
-    );
-  };
-
-  return (
-    <HeatmapChromFetcher
-      render={chromRender}
-      isDataMissing={chromIsDataMissing}
-      fetchData={chromFetchData}
-    />
-  );
-};
-
-export default Heatmap;
+export default connect(mapState)(Heatmap);

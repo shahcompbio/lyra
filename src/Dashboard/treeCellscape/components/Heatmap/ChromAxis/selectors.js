@@ -1,1 +1,1 @@
-export { getChromPixelMapping, getChromosomeOrder } from "../selectors.js";
+export { getChromPixelMapping } from "../selectors.js";

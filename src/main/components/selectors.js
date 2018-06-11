@@ -1,6 +1,2 @@
-// Content
-export { getSelectedAnalysisID, getSelectedAnalysisDashboard } from "../selectors.js";
-// Browse
-export { getAllAnalysis } from "../selectors.js";
-
-export { getDashboards } from "../selectors.js"
+// Content, Browse
+export { getSelectedAnalysis, getSelectedDashboard } from "../selectors.js";

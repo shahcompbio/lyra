@@ -1,27 +1,25 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 
 import { slide as Menu } from "react-burger-menu";
 import Dashboard from "./Dashboard.js";
 
-import { fetchAllAnalysis, selectAnalysis } from "./actions.js";
-import {
-  getAllAnalysis,
-  getSelectedAnalysisID,
-  getSelectedAnalysisDashboard
-} from "./selectors.js";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { selectAnalysis } from "./actions.js";
+import { getSelectedAnalysis, getSelectedDashboard } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
-    analyses: PropTypes.arrayOf(PropTypes.array).isRequired,
+    data: PropTypes.object.isRequired,
 
-    selectedAnalysisID: PropTypes.string,
+    selectedAnalysis: PropTypes.string,
 
-    selectedAnalysisDashboard: PropTypes.string,
-
-    fetchAllAnalysis: PropTypes.func.isRequired,
+    selectedDashboard: PropTypes.string,
 
     selectAnalysis: PropTypes.func.isRequired
   };
@@ -32,37 +30,39 @@ class Browse extends Component {
       isOpen: true
     };
   }
-  componentDidMount() {
-    this.props.fetchAllAnalysis();
-  }
 
   render() {
-    const {
-      selectedAnalysisDashboard,
-      selectedAnalysisID,
-      selectAnalysis
-    } = this.props;
-    const dashboardItems = this.props.analyses.map(dashboard => {
-      const onClick = () => {
-        this.setState({ isOpen: false });
-      };
-      return (
-        <Dashboard
-          key={dashboard[0].dashboard}
-          title={dashboard[0].dashboard}
-          onClick={onClick}
-          analyses={dashboard}
-          selectedAnalysisDashboard={selectedAnalysisDashboard}
-          selectedAnalysisID={selectedAnalysisID}
-          selectAnalysis={selectAnalysis}
-        />
-      );
-    });
-    return this.props.analyses.length > 0 ? (
+    if (this.props.data && this.props.data.loading) {
+      return null;
+    }
+
+    if (this.props.data && this.props.data.error) {
+      return null;
+    }
+
+    const onClick = () => {
+      this.setState({ isOpen: false });
+    };
+
+    const { selectedDashboard, selectedAnalysis, selectAnalysis } = this.props;
+    const dashboards = this.props.data.dashboards;
+
+    const dashboardItems = dashboards.map(dashboard => (
+      <Dashboard
+        key={dashboard.id}
+        title={dashboard.id}
+        analyses={dashboard.analyses}
+        selectedAnalysis={selectedAnalysis}
+        selectedDashboard={selectedDashboard}
+        onClick={onClick}
+        selectAnalysis={selectAnalysis}
+      />
+    ));
+    return (
       <Menu isOpen={this.state.isOpen} styles={styles}>
         {dashboardItems}
       </Menu>
-    ) : null;
+    );
   }
 }
 
@@ -97,12 +97,24 @@ const styles = {
   }
 };
 
+const DASHBOARD_QUERY = gql`
+  query {
+    dashboards {
+      id
+      analyses {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
 const mapState = state => ({
-  analyses: getAllAnalysis(state),
-  selectedAnalysisID: getSelectedAnalysisID(state),
-  selectedAnalysisDashboard: getSelectedAnalysisDashboard(state)
+  selectedAnalysis: getSelectedAnalysis(state),
+  selectedDashboard: getSelectedDashboard(state)
 });
 const mapDispatch = dispatch =>
-  bindActionCreators({ fetchAllAnalysis, selectAnalysis }, dispatch);
+  bindActionCreators({ selectAnalysis }, dispatch);
 
-export default connect(mapState, mapDispatch)(Browse);
+export default graphql(DASHBOARD_QUERY)(connect(mapState, mapDispatch)(Browse));

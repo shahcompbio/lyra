@@ -1,9 +1,6 @@
 import { createSelector } from "reselect";
 
-import {
-  makeGetTreeNodeRecordsByID,
-  getIndicesPerPixel
-} from "../selectors.js";
+import { getIndicesPerPixel } from "../selectors.js";
 
 import config from "./config.js";
 
@@ -28,9 +25,12 @@ const getThresholdIndex = createSelector(
  * 	Factory function - gets elements (nodes and clusters) of tree's (by cell ID) children
  */
 export const makeGetTreeElementsByChildren = () => {
-  const getTreeNodeRecordsByID = makeGetTreeNodeRecordsByID();
   return createSelector(
-    [getTreeNodeRecordsByID, getThresholdIndex, getTreeClusterMinDescendants],
+    [
+      (state, children) => children,
+      getThresholdIndex,
+      getTreeClusterMinDescendants
+    ],
     // (array, int) => array
     createTreeElementsForChildren
   );
@@ -47,67 +47,79 @@ const createTreeElementsForChildren = (
   thresholdIndex,
   minClusterDescendants
 ) => {
-  let clusterDimensions = initializeCluster();
-  let i = 0;
+  return createTreeElementsForChildrenFunc(
+    [],
+    initializeCluster(),
+    thresholdIndex,
+    minClusterDescendants,
+    children
+  );
+};
 
-  let elements = [];
-  while (i < children.length) {
-    const currNode = children[i];
-
-    if (isClusterCreating(clusterDimensions)) {
-      if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
-        elements = [...elements, { ...clusterDimensions }];
-        clusterDimensions = initializeCluster();
-        elements = [...elements, { ...currNode }];
-      } else if (isLastNode(i, children)) {
-        clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode);
-
-        elements = hasEnoughDescendants(
-          clusterDimensions,
-          minClusterDescendants
-        )
-          ? [...elements, { ...clusterDimensions }]
-          : elements;
-        clusterDimensions = initializeCluster();
-      } else {
-        clusterDimensions = mergeNodeToCluster(clusterDimensions, currNode);
-      }
-    } else {
-      if (isNodeDescendantsExceedThreshold(currNode, thresholdIndex)) {
-        elements = [...elements, { ...currNode }];
-      } else if (isLastNode(i, children)) {
-        elements = [...elements, { ...currNode }];
-      } else if (
-        isNodeDescendantsExceedThreshold(children[i + 1], thresholdIndex)
-      ) {
-      } else {
-        clusterDimensions = startClusterDrawing(currNode);
-      }
-    }
-
-    i++;
+const createTreeElementsForChildrenFunc = (
+  elements,
+  cluster,
+  threshold,
+  minDescendants,
+  children
+) => {
+  if (children.length === 0) return [];
+  if (children.length === 1) {
+    return isClusterCreating(cluster)
+      ? isNodeDescendantsExceedThreshold(children[0], threshold)
+        ? [...elements, cluster, children[0]]
+        : hasEnoughDescendants(
+            mergeNodeToCluster(cluster, children[0]),
+            minDescendants
+          )
+          ? [...elements, mergeNodeToCluster(cluster, children[0])]
+          : elements
+      : [...elements, children[0]];
+  } else {
+    const [child, ...restChildren] = children;
+    return isClusterCreating(cluster)
+      ? isNodeDescendantsExceedThreshold(child, threshold)
+        ? createTreeElementsForChildrenFunc(
+            [...elements, cluster, child],
+            initializeCluster(),
+            threshold,
+            minDescendants,
+            restChildren
+          )
+        : createTreeElementsForChildrenFunc(
+            elements,
+            mergeNodeToCluster(cluster, child),
+            threshold,
+            minDescendants,
+            restChildren
+          )
+      : isNodeDescendantsExceedThreshold(child, threshold)
+        ? createTreeElementsForChildrenFunc(
+            [...elements, child],
+            cluster,
+            threshold,
+            minDescendants,
+            restChildren
+          )
+        : createTreeElementsForChildrenFunc(
+            elements,
+            startClusterDrawing(child),
+            threshold,
+            minDescendants,
+            restChildren
+          );
   }
-
-  return elements;
 };
 
 /**
  * Determines whether number of descendants of node exceeds threshold index
  * @param {object} node
- * 	@param {int} node.maxDescendantIndex
+ * 	@param {int} node.maxIndex
  *   @param {int} node.minDescendantIndex
  * @param {int} threshold
  */
 const isNodeDescendantsExceedThreshold = (node, threshold) =>
-  node["maxDescendantIndex"] - node["minDescendantIndex"] + 1 > threshold;
-
-/**
- * Determines whether current index is at last node
- * @param {int} i - current index
- * @param {array} children
- * @return {bool}
- */
-const isLastNode = (i, children) => i + 1 >= children.length;
+  node["maxIndex"] - node["index"] + 1 > threshold;
 
 /**
  * Determines whether cluster has enough descendants to be drawn
@@ -133,13 +145,13 @@ const isClusterCreating = clusterDimensions => clusterDimensions.isCreating;
 
 const startClusterDrawing = currNode => ({
   isCreating: true,
-  startIndex: currNode["minDescendantIndex"],
-  endIndex: currNode["maxDescendantIndex"],
+  startIndex: currNode["index"],
+  endIndex: currNode["maxIndex"],
   maxHeight: currNode["maxHeight"]
 });
 
 const mergeNodeToCluster = (clusterDimensions, currNode) => ({
   ...clusterDimensions,
-  endIndex: currNode["maxDescendantIndex"],
+  endIndex: currNode["maxIndex"],
   maxHeight: Math.max(clusterDimensions["maxHeight"], currNode["maxHeight"])
 });

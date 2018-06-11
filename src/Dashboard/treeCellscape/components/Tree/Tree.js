@@ -1,53 +1,45 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
-import { getCurrTreeRootID } from "./selectors.js";
-import { fetchTreeRoot } from "./actions.js";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
-import TreeNode from "./TreeNode";
-
-import config from "./config.js";
+import TreeRoot from "./TreeRoot";
 
 /**
  * Tree - React Component
  */
-class Tree extends Component {
-  static propTypes = {
-    rootID: PropTypes.string,
 
-    fetchTreeRoot: PropTypes.func.isRequired
-  };
-
-  componentDidMount() {
-    this.props.fetchTreeRoot();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.rootID === "") {
-      this.props.fetchTreeRoot();
+const TREE_ROOT_QUERY = gql`
+  query treeRoot($analysis: String!) {
+    treeRoot(analysis: $analysis) {
+      id
+      index
+      maxIndex
     }
   }
+`;
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.rootID !== this.props.rootID;
-  }
+const Tree = ({ analysis }) => (
+  <Query query={TREE_ROOT_QUERY} variables={{ analysis }}>
+    {({ loading, error, data }) => {
+      if (loading) return null;
+      if (error) return null;
 
-  render() {
-    const { rootID } = this.props;
-    return rootID === "" ? null : (
-      <svg width={config["width"]} height={config["height"]} x={config["x"]}>
-        <TreeNode nodeID={rootID} isRoot />
-      </svg>
-    );
-  }
-}
+      return (
+        <TreeRoot
+          trueRootID={data.treeRoot.id}
+          trueIndex={data.treeRoot.index}
+          trueMaxIndex={data.treeRoot.maxIndex}
+          analysis={analysis}
+        />
+      );
+    }}
+  </Query>
+);
 
-const mapState = state => ({
-  rootID: getCurrTreeRootID(state)
-});
+Tree.propTypes = {
+  analysis: PropTypes.string.isRequired
+};
 
-const mapDispatch = dispatch => bindActionCreators({ fetchTreeRoot }, dispatch);
-
-export default connect(mapState, mapDispatch)(Tree);
+export default Tree;
