@@ -11,28 +11,7 @@ import {
   ANALYSIS_ID1,
   ANALYSIS2,
   ANALYSIS_ID2
-} from "../mock/analysis.js";
-
-/**
- * SelectedAnalysis
- */
-describe("main: selectedAnalysis reducer", () => {
-  it("should return initial state", () => {
-    expect(selectedAnalysis(undefined, {})).toEqual(initialSelectedID);
-  });
-
-  it("should handle SELECT_ANALYSIS", () => {
-    expect(
-      selectedAnalysis(initialSelectedID, selectAnalysis(ANALYSIS1))
-    ).toEqual(ANALYSIS_ID1);
-  });
-
-  it("should handle unrelated actions", () => {
-    expect(selectedAnalysis(initialSelectedID, { type: "UNKNOWN" })).toEqual(
-      initialSelectedID
-    );
-  });
-});
+} from "./mock/analysis.js";
 
 describe("main reducer", () => {
   const initialState = reducer(undefined, {});
