@@ -1,9 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# loader
-/loader/**/*.pyc
-
-
 # dependencies
 /node_modules
 
