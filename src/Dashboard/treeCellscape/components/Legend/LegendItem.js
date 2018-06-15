@@ -1,36 +1,33 @@
 import React from "react";
 
-import config from "./config.js";
-
 import styled from "react-emotion";
-
-const { stateScale, stateColors } = config;
 
 const legendBoxSize = 12;
 const legendSpacing = 2;
 
-const State = () => {
-  const stateElements = stateScale.map((state, i) => (
+const LegendItem = ({ title, labels, colors, y }) => {
+  const elements = labels.map((label, i) => (
     <LegendElement
-      label={state}
-      color={stateColors[i]}
+      key={`${title}-${label}`}
+      label={label}
+      color={colors[i]}
       x={20}
-      y={28 + i * (legendBoxSize + legendSpacing)}
+      y={20 + y + i * (legendBoxSize + legendSpacing)}
     />
   ));
 
   return (
     <g>
-      <Title x={16} y={8} fill={"#4f4f4f"}>
-        State
+      <Title x={16} y={y} fill={"#4f4f4f"}>
+        {title}
       </Title>
-      {stateElements}
+      {elements}
     </g>
   );
 };
 
 const Title = styled("text")`
-  font-size: 12px;
+  font-size: 13.5px;
   dominant-baseline: hanging;
 `;
 
@@ -55,4 +52,4 @@ const Label = styled("text")`
   dominant-baseline: hanging;
 `;
 
-export default State;
+export default LegendItem;
