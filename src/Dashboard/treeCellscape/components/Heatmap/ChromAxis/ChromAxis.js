@@ -7,12 +7,13 @@ import { getChromPixelMapping } from "./selectors.js";
 import ChromAxisItem from "./ChromAxisItem.js";
 
 const ChromAxis = ({ chromosomeMap, chromosomes, y }) => {
-  const axisText = chromosomes.map(chromosome => (
+  const axisText = chromosomes.map((chromosome, i) => (
     <ChromAxisItem
       key={chromosome.id}
       chromosome={chromosome.id}
       data={chromosomeMap[chromosome.id]}
       y={y}
+      index={i}
     />
   ));
   return <g className="chromAxis">{axisText}</g>;

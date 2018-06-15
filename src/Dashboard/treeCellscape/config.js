@@ -86,7 +86,7 @@ const HEATMAP_CONSTANTS = {
 
   chromosome: {
     height: 12,
-    color: ["#FFFFFF", "#dbdbdb"]
+    color: ["#faf9f9", "#e6e6e6"]
   }
 };
 
