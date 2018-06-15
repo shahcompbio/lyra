@@ -1,1 +1,5 @@
-export { highlightElement, unhighlightElement } from "../actions.js";
+export {
+  highlightElement,
+  unhighlightElement,
+  highlightChromosome
+} from "../actions.js";

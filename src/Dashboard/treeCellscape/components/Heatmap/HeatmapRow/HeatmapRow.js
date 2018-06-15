@@ -18,7 +18,11 @@ import {
   makeIsIndexHighlighted,
   getIndicatorXPosition
 } from "./selectors.js";
-import { highlightElement, unhighlightElement } from "./actions.js";
+import {
+  highlightElement,
+  unhighlightElement,
+  highlightChromosome
+} from "./actions.js";
 
 class HeatmapRow extends Component {
   static propTypes = {
@@ -75,6 +79,10 @@ class HeatmapRow extends Component {
       this.props.highlightElement({ index, element: "row" });
     };
 
+    const onMouseEnterChromosome = chrom => {
+      this.props.highlightChromosome(chrom);
+    };
+
     const onMouseLeave = () => {
       this.props.unhighlightElement();
     };
@@ -92,6 +100,7 @@ class HeatmapRow extends Component {
           y={y}
           chromMap={chromMap}
           bpRatio={bpRatio}
+          onMouseEnter={onMouseEnterChromosome}
         />
         <HeatmapRowIndicators
           cellID={id}
@@ -124,7 +133,8 @@ const mapDispatch = dispatch =>
   bindActionCreators(
     {
       highlightElement,
-      unhighlightElement
+      unhighlightElement,
+      highlightChromosome
     },
     dispatch
   );

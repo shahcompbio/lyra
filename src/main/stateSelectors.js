@@ -10,6 +10,7 @@ export const {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
+  getHighlightedChromosome,
   getRoot,
   getRootPath,
   getRootRanges

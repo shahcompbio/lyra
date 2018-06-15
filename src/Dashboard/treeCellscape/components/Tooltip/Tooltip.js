@@ -8,6 +8,7 @@ import {
   getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
+  getHighlightedChromosome,
   isClade,
   isCluster,
   isRow
@@ -34,13 +35,6 @@ Tooltip.propTypes = {
   text: PropTypes.string
 };
 
-const rowRenderProp = ({ loading, error, data }) => {
-  if (loading) return null;
-  if (error) return null;
-
-  return <Tooltip text={data.treeNode.id} />;
-};
-
 const clusterRenderProp = ({ loading, error, data }) => {
   if (loading) return null;
   if (error) return null;
@@ -54,7 +48,16 @@ const clusterRenderProp = ({ loading, error, data }) => {
   );
 };
 
-const TooltipText = ({ analysis, element, index, range }) => {
+const TooltipText = ({ analysis, element, index, range, chromosome }) => {
+  const rowRenderProp = ({ loading, error, data }) => {
+    if (loading) return null;
+    if (error) return null;
+
+    return (
+      <Tooltip text={`ID: ${data.treeNode.id} \n Chromosome: ${chromosome}`} />
+    );
+  };
+
   if (isCluster(element))
     return <Tooltip text={range[1] - range[0] + 1 + " descendents"} />;
 
@@ -102,7 +105,8 @@ const CLUSTER_QUERY = gql`
 const mapState = state => ({
   element: getHighlightedElement(state),
   index: getHighlightedIndex(state),
-  range: getHighlightedRange(state)
+  range: getHighlightedRange(state),
+  chromosome: getHighlightedChromosome(state)
 });
 
 export default connect(mapState)(TooltipText);

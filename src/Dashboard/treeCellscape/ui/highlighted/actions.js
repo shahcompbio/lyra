@@ -17,3 +17,8 @@ export const highlightElement = ({ index, range, element }) => ({
 export const unhighlightElement = () => ({
   type: types.unhighlightElement
 });
+
+export const highlightChromosome = chromosome => ({
+  type: types.highlightChromosome,
+  chromosome
+});

@@ -6,7 +6,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import config from "./config.js";
 
-const HeatmapRowContent = ({ cellID, segs, y, bpRatio, chromMap }) =>
+const HeatmapRowContent = ({
+  cellID,
+  segs,
+  y,
+  bpRatio,
+  chromMap,
+  onMouseEnter
+}) =>
   segs.map(seg => (
     <rect
       key={cellID + "-" + seg["chromosome"] + "-" + seg["start"]}
@@ -15,6 +22,7 @@ const HeatmapRowContent = ({ cellID, segs, y, bpRatio, chromMap }) =>
       x={getSegX(seg, chromMap, bpRatio)}
       y={y}
       fill={config["colorScale"](seg.state)}
+      onMouseEnter={() => onMouseEnter(seg["chromosome"])}
     />
   ));
 
