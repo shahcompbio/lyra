@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Menu from "./components/Menu/Menu.js";
+import Menu from "./components/Menu/Menu";
+import Legend from "./components/Legend/Legend";
 import Tree from "./components/Tree/Tree";
 import Heatmap from "./components/Heatmap/Heatmap";
 
@@ -17,6 +18,7 @@ const TreeCellscape = ({ analysis }) => (
     <Menu analysis={analysis} width={width} />
     <div>
       <svg width={width} height={height}>
+        <Legend analysis={analysis} />
         <Tree analysis={analysis} />
         <Heatmap analysis={analysis} />
       </svg>

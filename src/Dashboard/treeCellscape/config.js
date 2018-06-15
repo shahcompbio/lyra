@@ -10,7 +10,17 @@ import { scaleOrdinal } from "d3";
 
 const CONSTANTS = {
   width: 1500,
-  height: 1000
+  height: 1000,
+  stateScale: [0, 1, 2, 3, 4, 5, 6],
+  stateColors: [
+    "#2e7aab",
+    "#73a9d4",
+    "#D6D5D5",
+    "#fec28b",
+    "#fd8b3a",
+    "#ca632c",
+    "#954c25"
+  ]
 };
 
 export const config = {
@@ -18,13 +28,28 @@ export const config = {
 };
 
 /**
+ * Legend
+ */
+
+const LEGEND_CONSTANTS = {
+  width: 100,
+  x: 0
+};
+
+export const legendConfig = {
+  ...LEGEND_CONSTANTS,
+  height: config.height,
+  stateScale: CONSTANTS.stateScale,
+  stateColors: CONSTANTS.stateColors
+};
+
+/**
  * Tree-related config
  */
 
 const TREE_CONSTANTS = {
-  width: 800,
+  width: 700,
   height: 1000 - 20,
-  x: 750,
 
   nodeRadius: 3,
   nodeColor: "#b3b3b3",
@@ -47,7 +72,8 @@ const TREE_CONSTANTS = {
 
 export const treeConfig = {
   ...TREE_CONSTANTS,
-  clusterWidth: TREE_CONSTANTS.depthSpacing - TREE_CONSTANTS.nodeRadius
+  clusterWidth: TREE_CONSTANTS.depthSpacing - TREE_CONSTANTS.nodeRadius,
+  x: config.width - TREE_CONSTANTS.width
 };
 
 /**
@@ -64,24 +90,16 @@ const HEATMAP_CONSTANTS = {
   }
 };
 
+const heatmapWidth = config.width - treeConfig.width - LEGEND_CONSTANTS.width;
+
 export const heatmapConfig = {
   ...HEATMAP_CONSTANTS,
-
-  width: config.width - treeConfig.width,
-  contentWidth:
-    config.width - treeConfig.width - HEATMAP_CONSTANTS.indicatorWidth,
+  width: heatmapWidth,
+  contentWidth: heatmapWidth - HEATMAP_CONSTANTS.indicatorWidth,
   height: config.height,
   contentHeight: config.height - HEATMAP_CONSTANTS.chromosome.height,
-  x: 0,
+  x: LEGEND_CONSTANTS.x + LEGEND_CONSTANTS.width,
   colorScale: scaleOrdinal()
-    .domain([0, 1, 2, 3, 4, 5, 6]) // state
-    .range([
-      "#2e7aab",
-      "#73a9d4",
-      "#D6D5D5",
-      "#fec28b",
-      "#fd8b3a",
-      "#ca632c",
-      "#954c25"
-    ])
+    .domain(CONSTANTS.stateScale) // state
+    .range(CONSTANTS.stateColors)
 };
