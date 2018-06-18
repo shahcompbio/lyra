@@ -38,6 +38,18 @@ export const element = createReducer(initialElement)({
 });
 
 /**
+ * id { null || string }
+ *   id of index that is highlighted
+ */
+
+export const initialID = null;
+export const id = createReducer(initialID)({
+  [actions.highlightElement]: (state, action) =>
+    action.id === undefined ? null : action.id,
+  [actions.unhighlightElement]: (state, action) => null
+});
+
+/**
  * chromosome { null || string }
  *   name of chromosome that is highlighted
  */
@@ -52,7 +64,8 @@ const reducer = combineReducers({
   index,
   range,
   element,
-  chromosome
+  chromosome,
+  id
 });
 
 /**
@@ -63,12 +76,14 @@ const getHighlightedIndex = state => state.index;
 const getHighlightedRange = state => state.range;
 const getHighlightedElement = state => state.element;
 const getHighlightedChromosome = state => state.chromosome;
+const getHighlightedID = state => state.id;
 
 export const stateSelectors = {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
-  getHighlightedChromosome
+  getHighlightedChromosome,
+  getHighlightedID
 };
 
 export default reducer;

@@ -3,6 +3,7 @@ export {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedChromosome,
+  getHighlightedID,
   isClade,
   isCluster,
   isRow

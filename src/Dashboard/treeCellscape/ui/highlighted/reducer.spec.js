@@ -4,13 +4,22 @@ import reducer, {
   initialRange,
   range,
   initialElement,
-  element
+  element,
+  initialChromosome,
+  chromosome,
+  initialID,
+  id
 } from "./reducer.js";
-import { highlightElement, unhighlightElement } from "./actions.js";
+import {
+  highlightElement,
+  unhighlightElement,
+  highlightChromosome
+} from "./actions.js";
 
 const ROW = {
   index: 10,
-  element: "row"
+  element: "row",
+  id: "TEST_ID"
 };
 
 const CLUSTER = {
@@ -120,6 +129,60 @@ describe("tree cellscape: ui/highlighted element reducer", () => {
 });
 
 /**
+ * Chromosome
+ */
+describe("tree cellscape: ui/highlighted chromosome reducer", () => {
+  it("should return initial state", () => {
+    expect(chromosome(undefined, {})).toEqual(initialChromosome);
+  });
+
+  it("should handle HIGHLIGHT_CHROMOSOME", () => {
+    expect(chromosome(initialChromosome, highlightChromosome("02"))).toEqual(
+      "02"
+    );
+  });
+
+  it("should handle UNHIGHLIGHT_ELEMENT", () => {
+    expect(chromosome("02", unhighlightElement())).toEqual(initialChromosome);
+  });
+
+  it("should handle unrelated actions", () => {
+    expect(chromosome(initialChromosome, { type: "UNKNOWN" })).toEqual(
+      initialChromosome
+    );
+  });
+});
+
+/**
+ * ID
+ */
+describe("tree cellscape: ui/highlighted id reducer", () => {
+  it("should return initial state", () => {
+    expect(id(undefined, {})).toEqual(initialID);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for row", () => {
+    expect(id(initialID, highlightElement(ROW))).toEqual(ROW.id);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for cluster", () => {
+    expect(id(initialID, highlightElement(CLUSTER))).toEqual(initialID);
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT for clade", () => {
+    expect(id(initialID, highlightElement(CLADE))).toEqual(initialID);
+  });
+
+  it("should handle UNHIGHLIGHT_ELEMENT", () => {
+    expect(id("row", unhighlightElement())).toEqual(initialID);
+  });
+
+  it("should handle unrelated actions", () => {
+    expect(id(initialID, { type: "UNKNOWN" })).toEqual(initialID);
+  });
+});
+
+/**
  * Highlighted
  */
 describe("tree cellscape: highlighted reducer", () => {
@@ -136,12 +199,22 @@ describe("tree cellscape: highlighted reducer", () => {
     expect(initialState.hasOwnProperty("element")).toEqual(true);
   });
 
+  it("initial state has chromosome field", () => {
+    expect(initialState.hasOwnProperty("chromosome")).toEqual(true);
+  });
+
+  it("initial state has ID field", () => {
+    expect(initialState.hasOwnProperty("id")).toEqual(true);
+  });
+
   it("passes actions to child reducers", () => {
     const action = { type: "ACTION_TYPE" };
     expect(reducer(initialState, action)).toEqual({
       index: index(initialState["index"], action),
       range: range(initialState["range"], action),
-      element: element(initialState["element"], action)
+      element: element(initialState["element"], action),
+      chromosome: chromosome(initialState["chromosome"], action),
+      id: id(initialState["id"], action)
     });
   });
 });

@@ -9,6 +9,7 @@ import {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedChromosome,
+  getHighlightedID,
   isClade,
   isCluster,
   isRow
@@ -48,25 +49,12 @@ const clusterRenderProp = ({ loading, error, data }) => {
   );
 };
 
-const TooltipText = ({ analysis, element, index, range, chromosome }) => {
-  const rowRenderProp = ({ loading, error, data }) => {
-    if (loading) return null;
-    if (error) return null;
-
-    return (
-      <Tooltip text={`ID: ${data.treeNode.id} \n Chromosome: ${chromosome}`} />
-    );
-  };
-
+const TooltipText = ({ analysis, element, index, range, chromosome, id }) => {
   if (isCluster(element))
     return <Tooltip text={range[1] - range[0] + 1 + " descendents"} />;
 
   if (isRow(element))
-    return (
-      <Query query={ROW_QUERY} variables={{ analysis, index }}>
-        {rowRenderProp}
-      </Query>
-    );
+    return <Tooltip text={`ID: ${id} \n Chromosome: ${chromosome}`} />;
 
   if (isClade(element))
     return (
@@ -77,14 +65,6 @@ const TooltipText = ({ analysis, element, index, range, chromosome }) => {
 
   return null;
 };
-
-const ROW_QUERY = gql`
-  query treeNode($analysis: String!, $index: Int!) {
-    treeNode(analysis: $analysis, index: $index) {
-      id
-    }
-  }
-`;
 
 const CLUSTER_QUERY = gql`
   query treeNode($analysis: String!, $index: Int!) {
@@ -106,7 +86,8 @@ const mapState = state => ({
   element: getHighlightedElement(state),
   index: getHighlightedIndex(state),
   range: getHighlightedRange(state),
-  chromosome: getHighlightedChromosome(state)
+  chromosome: getHighlightedChromosome(state),
+  id: getHighlightedID(state)
 });
 
 export default connect(mapState)(TooltipText);

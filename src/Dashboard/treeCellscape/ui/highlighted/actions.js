@@ -4,11 +4,12 @@ import types from "./types.js";
  * Highlight given cell index/indices
  * @param {int || array} index
  */
-export const highlightElement = ({ index, range, element }) => ({
+export const highlightElement = ({ index, range, element, id }) => ({
   type: types.highlightElement,
   index,
   range,
-  element
+  element,
+  id
 });
 
 /**
