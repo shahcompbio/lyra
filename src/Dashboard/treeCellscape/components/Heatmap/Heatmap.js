@@ -31,7 +31,6 @@ const CHROMOSOME_SEGS_QUERY = gql`
         start
         end
         state
-        integerMedian
       }
     }
   }
