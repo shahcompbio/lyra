@@ -16,7 +16,6 @@ const NormalizePloidyButton = ({ analysis, isDisabled, Button }) => (
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return null;
-      console.log(switchNormalizePloidy);
       return (
         <ConnectPloidyButton isDisabled={!data.hasPloidy} Button={Button} />
       );
