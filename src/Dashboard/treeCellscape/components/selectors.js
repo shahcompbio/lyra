@@ -20,7 +20,8 @@ export {
 export {
   getSelectedAnalysis,
   getSelectedDashboard,
-  isCurrRootAtRoot
+  isCurrRootAtRoot,
+  getIsPloidyNormalized
 } from "../selectors.js";
 
 // Tree

@@ -14,5 +14,7 @@ export const {
   getHighlightedID,
   getRoot,
   getRootPath,
-  getRootRanges
+  getRootRanges,
+
+  getIsPloidyNormalized
 } = stateSelectors;

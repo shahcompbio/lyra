@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
+import NormalizePloidyButton from "./NormalizePloidyButton/NormalizePloidyButton";
 
 import styled from "react-emotion";
 
@@ -14,6 +15,7 @@ const Menu = ({ analysis, width }) => (
     <MenuTitle analysis={analysis} dashboard={"TREE_CELLSCAPE"} />
     <TreeZoomOutButton Button={Button} />
     <DownloadCSVButton Button={Button} analysis={analysis} />
+    <NormalizePloidyButton Button={Button} analysis={analysis} />
   </MenuDiv>
 );
 
@@ -80,7 +82,7 @@ const Button = styled("button")`
   border-radius: 4px;
   margin-right: 0.5%;
   border: 0px;
-  background: ${colors.menu};
+  background: ${props => (props.active ? "#c1c1c1" : colors.menu)};
   color: ${colors.text};
   font-size: 10px;
 

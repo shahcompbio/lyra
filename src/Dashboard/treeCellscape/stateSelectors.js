@@ -7,5 +7,6 @@ export {
   getSelectedAnalysis,
   getRoot,
   getRootPath,
-  getRootRanges
+  getRootRanges,
+  getIsPloidyNormalized
 } from "main/stateSelectors.js";

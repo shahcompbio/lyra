@@ -3,5 +3,6 @@ export {
   unhighlightElement,
   highlightChromosome,
   setTreeRoot,
-  unsetTreeRoot
+  unsetTreeRoot,
+  switchNormalizePloidy
 } from "../ui/actions.js";
