@@ -12,7 +12,7 @@ import config from "./config.js";
 export { getCurrRootID } from "../selectors.js";
 
 // HeatmapRow
-export { makeIsIndexHighlighted } from "../selectors.js";
+export { makeIsIndexHighlighted, getIsPloidyNormalized } from "../selectors.js";
 
 /**
  * Gets number of indices that can fit per heatmap row

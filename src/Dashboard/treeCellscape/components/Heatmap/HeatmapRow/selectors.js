@@ -7,7 +7,8 @@ import { scalePoint } from "d3";
 export {
   makeIsIndexHighlighted,
   getChromPixelMapping,
-  getBPRatio
+  getBPRatio,
+  getIsPloidyNormalized
 } from "../selectors.js";
 
 /**

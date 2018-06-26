@@ -9,6 +9,7 @@ const config = {
   indicatorWidth: heatmapConfig["indicatorWidth"],
   rowHeight: heatmapConfig["rowHeight"],
   colorScale: heatmapConfig["colorScale"],
+  ploidyColorScale: heatmapConfig["ploidyColorScale"],
   chromosome: heatmapConfig["chromosome"]
 };
 

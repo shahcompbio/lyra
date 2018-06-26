@@ -16,7 +16,8 @@ import {
   getChromPixelMapping,
   getBPRatio,
   makeIsIndexHighlighted,
-  getIndicatorXPosition
+  getIndicatorXPosition,
+  getIsPloidyNormalized
 } from "./selectors.js";
 import {
   highlightElement,
@@ -53,7 +54,8 @@ class HeatmapRow extends Component {
     return (
       this.props.isHighlighted !== nextProps.isHighlighted ||
       this.props.rowData.index !== nextProps.rowData.index ||
-      this.isYPositionsDifferent(this.props, nextProps)
+      this.isYPositionsDifferent(this.props, nextProps) ||
+      this.props.isPloidyNormalized !== nextProps.isPloidyNormalized
     );
   }
 
@@ -71,9 +73,10 @@ class HeatmapRow extends Component {
       chromMap,
       bpRatio,
       isHighlighted,
-      indicatorX
+      indicatorX,
+      isPloidyNormalized
     } = this.props;
-    const { index, segs, id } = rowData;
+    const { index, segs, id, ploidy } = rowData;
     const y = yScale(index);
     const onMouseEnter = () => {
       this.props.highlightElement({ index, id, element: "row" });
@@ -100,6 +103,8 @@ class HeatmapRow extends Component {
           y={y}
           chromMap={chromMap}
           bpRatio={bpRatio}
+          ploidy={ploidy}
+          isPloidyNormalized={isPloidyNormalized}
           onMouseEnter={onMouseEnterChromosome}
         />
         <HeatmapRowIndicators
@@ -123,7 +128,8 @@ const makeMapState = () => {
     yScale: getYScale(state),
     chromMap: getChromPixelMapping(state, ownProps.chromosomes),
     bpRatio: getBPRatio(state, ownProps.chromosomes),
-    indicatorX: getIndicatorXPosition(state, ownProps.chromosomes)
+    indicatorX: getIndicatorXPosition(state, ownProps.chromosomes),
+    isPloidyNormalized: getIsPloidyNormalized(state)
   });
 
   return mapState;

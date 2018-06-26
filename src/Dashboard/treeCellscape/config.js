@@ -1,4 +1,4 @@
-import { scaleOrdinal } from "d3";
+import { scaleOrdinal, scaleLinear } from "d3";
 
 /**
  * Configuration defaults for views
@@ -8,19 +8,23 @@ import { scaleOrdinal } from "d3";
  * Overall config
  */
 
+const COLORS = [
+  "#2e7aab",
+  "#73a9d4",
+  "#D6D5D5",
+  "#fec28b",
+  "#fd8b3a",
+  "#ca632c",
+  "#954c25"
+];
+
 const CONSTANTS = {
   width: 1500,
   height: 1000,
   stateScale: [0, 1, 2, 3, 4, 5, 6],
-  stateColors: [
-    "#2e7aab",
-    "#73a9d4",
-    "#D6D5D5",
-    "#fec28b",
-    "#fd8b3a",
-    "#ca632c",
-    "#954c25"
-  ]
+  stateColors: COLORS,
+  ploidyColors: ["#073757", ...COLORS, "#672b0b"],
+  ploidyScale: [-6, -2, -1, 0, 1, 2, 3, 4, 8]
 };
 
 export const config = {
@@ -101,5 +105,8 @@ export const heatmapConfig = {
   x: LEGEND_CONSTANTS.x + LEGEND_CONSTANTS.width,
   colorScale: scaleOrdinal()
     .domain(CONSTANTS.stateScale) // state
-    .range(CONSTANTS.stateColors)
+    .range(CONSTANTS.stateColors),
+  ploidyColorScale: scaleLinear()
+    .domain(CONSTANTS.ploidyScale) // state
+    .range(CONSTANTS.ploidyColors)
 };

@@ -12,16 +12,22 @@ const HeatmapRowContent = ({
   y,
   bpRatio,
   chromMap,
-  onMouseEnter
+  onMouseEnter,
+  ploidy,
+  isPloidyNormalized
 }) =>
   segs.map(seg => (
     <rect
-      key={cellID + "-" + seg["chromosome"] + "-" + seg["start"]}
+      key={`${cellID}-${seg["chromosome"]}-${seg["start"]}`}
       width={getSegWidth(seg, bpRatio)}
       height={config["rowHeight"]}
       x={getSegX(seg, chromMap, bpRatio)}
       y={y}
-      fill={config["colorScale"](seg.state)}
+      fill={
+        isPloidyNormalized
+          ? config["ploidyColorScale"](seg.state - ploidy)
+          : config["colorScale"](seg.state)
+      }
       onMouseEnter={() => onMouseEnter(seg["chromosome"])}
     />
   ));

@@ -26,6 +26,7 @@ const CHROMOSOME_SEGS_QUERY = gql`
     segs(analysis: $analysis, indices: $indices) {
       id
       index
+      ploidy
       segs {
         chromosome
         start
