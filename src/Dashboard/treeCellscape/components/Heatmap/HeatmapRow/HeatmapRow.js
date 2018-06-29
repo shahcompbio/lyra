@@ -82,7 +82,15 @@ class HeatmapRow extends Component {
     const { index, segs, id, ploidy } = rowData;
     const y = yScale(index);
     const onMouseEnter = () => {
-      this.props.highlightElement({ index, id, element: "row" });
+      this.props.highlightElement({
+        index,
+        id,
+        element: "row",
+        data: {
+          id,
+          ploidy
+        }
+      });
     };
 
     const onMouseEnterChromosome = chrom => {

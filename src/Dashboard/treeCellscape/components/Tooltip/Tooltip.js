@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import {
   getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedChromosome,
-  getHighlightedID,
+  getHighlightedData,
   isClade,
   isCluster,
   isRow
@@ -36,48 +34,38 @@ Tooltip.propTypes = {
   text: PropTypes.string
 };
 
-const clusterRenderProp = ({ loading, error, data }) => {
-  if (loading) return null;
-  if (error) return null;
-
-  return (
-    <Tooltip
-      text={`${data.treeNode.id} \n Children: ${
-        data.treeNode.children.length
-      } \n Descendants: ${data.treeNode.maxIndex - data.treeNode.index}`}
-    />
-  );
-};
-
-const TooltipText = ({ analysis, element, index, range, chromosome, id }) => {
+const TooltipText = ({ analysis, element, index, range, chromosome, data }) => {
   if (isCluster(element))
-    return <Tooltip text={range[1] - range[0] + 1 + " descendents"} />;
+    return <Tooltip text={`Descendents: ${getNumDescendents(range)}`} />;
 
   if (isRow(element))
-    return <Tooltip text={`ID: ${id} \n Chromosome: ${chromosome}`} />;
+    return (
+      <Tooltip text={`${dataToText(data)} \n Chromosome: ${chromosome}`} />
+    );
 
   if (isClade(element))
     return (
-      <Query query={CLUSTER_QUERY} variables={{ analysis, index }}>
-        {clusterRenderProp}
-      </Query>
+      <Tooltip
+        text={`${dataToText(data)} \n Descendents: ${getNumDescendents(range)}`}
+      />
     );
 
   return null;
 };
 
-const CLUSTER_QUERY = gql`
-  query treeNode($analysis: String!, $index: Int!) {
-    treeNode(analysis: $analysis, index: $index) {
-      id
-      index
-      maxIndex
-      children {
-        id
-      }
-    }
-  }
-`;
+const getNumDescendents = range => range[1] - range[0] + 1;
+
+const dataToText = data => {
+  const idText = `ID: ${data.id}`;
+
+  return Object.keys(data).reduce(
+    (str, key) =>
+      key === "id" ? str : `${str} \n ${capitalizeText(key)}: ${data[key]}`,
+    idText
+  );
+};
+
+const capitalizeText = text => text.charAt(0).toUpperCase() + text.substr(1);
 
 /**
  * MapState function
@@ -87,7 +75,7 @@ const mapState = state => ({
   index: getHighlightedIndex(state),
   range: getHighlightedRange(state),
   chromosome: getHighlightedChromosome(state),
-  id: getHighlightedID(state)
+  data: getHighlightedData(state)
 });
 
 export default connect(mapState)(TooltipText);

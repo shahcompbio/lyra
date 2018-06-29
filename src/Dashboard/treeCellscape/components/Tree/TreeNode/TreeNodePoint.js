@@ -29,6 +29,9 @@ class TreeNodePoint extends Component {
     /** maxDescendantIndex */
     maxDescendantIndex: PropTypes.number.isRequired,
 
+    /** numChildren */
+    numChildren: PropTypes.number.isRequired,
+
     /** depth */
     depth: PropTypes.number.isRequired,
 
@@ -58,6 +61,7 @@ class TreeNodePoint extends Component {
       nodeID,
       heatmapIndex,
       maxDescendantIndex,
+      numChildren,
       depth,
       yScale,
       isHighlighted,
@@ -69,7 +73,11 @@ class TreeNodePoint extends Component {
       this.props.highlightElement({
         index: heatmapIndex,
         range: [heatmapIndex, maxDescendantIndex],
-        element: "clade"
+        element: "clade",
+        data: {
+          id: nodeID,
+          children: numChildren
+        }
       });
     };
 

@@ -8,8 +8,8 @@ export {
   getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
+  getHighlightedData,
   getHighlightedChromosome,
-  getHighlightedID,
   isClade,
   isCluster,
   isRow

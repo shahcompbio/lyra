@@ -61,6 +61,7 @@ const TreeNode = ({
             nodeID={nodeID}
             heatmapIndex={index}
             maxDescendantIndex={maxIndex}
+            numChildren={children.length}
             depth={depth}
             yScale={yScale}
             offsetBy={offsetBy}
