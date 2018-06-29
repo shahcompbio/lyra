@@ -38,20 +38,23 @@ export const element = createReducer(initialElement)({
 });
 
 /**
- * chromosome { null || string }
- *   name of chromosome that is highlighted
+ * data { null || object }
+ *   data associated with highlighted element
  */
-
-export const initialChromosome = null;
-export const chromosome = createReducer(initialChromosome)({
-  [actions.highlightChromosome]: (state, action) => action.chromosome,
-  [actions.unhighlightElement]: (state, action) => null
-});
-
 export const initialData = {};
 export const data = createReducer(initialData)({
   [actions.highlightElement]: (state, action) =>
     action.data === undefined ? null : action.data,
+  [actions.unhighlightElement]: (state, action) => null
+});
+
+/**
+ * segment { null || object }
+ *   data associated with highlighted segment
+ */
+export const initialSegment = null;
+export const segment = createReducer(initialSegment)({
+  [actions.highlightSegment]: (state, action) => action.segment,
   [actions.unhighlightElement]: (state, action) => null
 });
 
@@ -62,8 +65,8 @@ const reducer = combineReducers({
   index,
   range,
   element,
-  chromosome,
-  data
+  data,
+  segment
 });
 
 /**
@@ -73,15 +76,15 @@ const reducer = combineReducers({
 const getHighlightedIndex = state => state.index;
 const getHighlightedRange = state => state.range;
 const getHighlightedElement = state => state.element;
-const getHighlightedChromosome = state => state.chromosome;
 const getHighlightedData = state => state.data;
+const getHighlightedSegment = state => state.segment;
 
 export const stateSelectors = {
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
-  getHighlightedChromosome,
-  getHighlightedData
+  getHighlightedData,
+  getHighlightedSegment
 };
 
 export default reducer;

@@ -6,8 +6,8 @@ import {
   getHighlightedElement,
   getHighlightedIndex,
   getHighlightedRange,
-  getHighlightedChromosome,
   getHighlightedData,
+  getHighlightedSegment,
   isClade,
   isCluster,
   isRow
@@ -27,21 +27,19 @@ const Tooltip = ({ text }) => (
   />
 );
 
-/**
- * PropTypes
- */
 Tooltip.propTypes = {
-  text: PropTypes.string
+  analysis: PropTypes.string
 };
 
-const TooltipText = ({ analysis, element, index, range, chromosome, data }) => {
+/**
+ * Tooltip with text
+ */
+const TooltipText = ({ element, index, range, data, segment }) => {
   if (isCluster(element))
     return <Tooltip text={`Descendents: ${getNumDescendents(range)}`} />;
 
   if (isRow(element))
-    return (
-      <Tooltip text={`${dataToText(data)} \n Chromosome: ${chromosome}`} />
-    );
+    return <Tooltip text={`${dataToText({ ...data, ...segment })}`} />;
 
   if (isClade(element))
     return (
@@ -53,6 +51,9 @@ const TooltipText = ({ analysis, element, index, range, chromosome, data }) => {
   return null;
 };
 
+/**
+ * Helpers
+ */
 const getNumDescendents = range => range[1] - range[0] + 1;
 
 const dataToText = data => {
@@ -74,8 +75,8 @@ const mapState = state => ({
   element: getHighlightedElement(state),
   index: getHighlightedIndex(state),
   range: getHighlightedRange(state),
-  chromosome: getHighlightedChromosome(state),
-  data: getHighlightedData(state)
+  data: getHighlightedData(state),
+  segment: getHighlightedSegment(state)
 });
 
 export default connect(mapState)(TooltipText);

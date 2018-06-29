@@ -5,15 +5,15 @@ import reducer, {
   range,
   initialElement,
   element,
-  initialChromosome,
-  chromosome,
-  initialID,
-  id
+  initialData,
+  data,
+  initialSegment,
+  segment
 } from "./reducer.js";
 import {
   highlightElement,
   unhighlightElement,
-  highlightChromosome
+  highlightSegment
 } from "./actions.js";
 
 const ROW = {
@@ -129,56 +129,52 @@ describe("tree cellscape: ui/highlighted element reducer", () => {
 });
 
 /**
- * Chromosome
+ * data
  */
-describe("tree cellscape: ui/highlighted chromosome reducer", () => {
+describe("tree cellscape: ui/highlighted data reducer", () => {
   it("should return initial state", () => {
-    expect(chromosome(undefined, {})).toEqual(initialChromosome);
+    expect(data(undefined, {})).toEqual(initialData);
   });
 
-  it("should handle HIGHLIGHT_CHROMOSOME", () => {
-    expect(chromosome(initialChromosome, highlightChromosome("02"))).toEqual(
-      "02"
+  it("should handle HIGHLIGHT_ELEMENT with data", () => {
+    expect(data(initialData, highlightElement({ ...ROW, data: {} }))).toEqual(
+      {}
     );
+  });
+
+  it("should handle HIGHLIGHT_ELEMENT without data", () => {
+    expect(data(initialData, highlightElement(CLUSTER))).toEqual(initialData);
   });
 
   it("should handle UNHIGHLIGHT_ELEMENT", () => {
-    expect(chromosome("02", unhighlightElement())).toEqual(initialChromosome);
+    expect(data({}, unhighlightElement())).toEqual(initialData);
   });
 
   it("should handle unrelated actions", () => {
-    expect(chromosome(initialChromosome, { type: "UNKNOWN" })).toEqual(
-      initialChromosome
-    );
+    expect(data(initialData, { type: "UNKNOWN" })).toEqual(initialData);
   });
 });
 
 /**
- * ID
+ * segment
  */
-describe("tree cellscape: ui/highlighted id reducer", () => {
+describe("tree cellscape: ui/highlighted segment reducer", () => {
   it("should return initial state", () => {
-    expect(id(undefined, {})).toEqual(initialID);
+    expect(segment(undefined, {})).toEqual(initialSegment);
   });
 
-  it("should handle HIGHLIGHT_ELEMENT for row", () => {
-    expect(id(initialID, highlightElement(ROW))).toEqual(ROW.id);
-  });
-
-  it("should handle HIGHLIGHT_ELEMENT for cluster", () => {
-    expect(id(initialID, highlightElement(CLUSTER))).toEqual(initialID);
-  });
-
-  it("should handle HIGHLIGHT_ELEMENT for clade", () => {
-    expect(id(initialID, highlightElement(CLADE))).toEqual(initialID);
+  it("should handle HIGHLIGHT_SEGMENT", () => {
+    expect(segment(initialSegment, highlightSegment({}))).toEqual({});
   });
 
   it("should handle UNHIGHLIGHT_ELEMENT", () => {
-    expect(id("row", unhighlightElement())).toEqual(initialID);
+    expect(segment({}, unhighlightElement())).toEqual(initialSegment);
   });
 
   it("should handle unrelated actions", () => {
-    expect(id(initialID, { type: "UNKNOWN" })).toEqual(initialID);
+    expect(segment(initialSegment, { type: "UNKNOWN" })).toEqual(
+      initialSegment
+    );
   });
 });
 
@@ -199,12 +195,12 @@ describe("tree cellscape: highlighted reducer", () => {
     expect(initialState.hasOwnProperty("element")).toEqual(true);
   });
 
-  it("initial state has chromosome field", () => {
-    expect(initialState.hasOwnProperty("chromosome")).toEqual(true);
+  it("initial state has data field", () => {
+    expect(initialState.hasOwnProperty("data")).toEqual(true);
   });
 
-  it("initial state has ID field", () => {
-    expect(initialState.hasOwnProperty("id")).toEqual(true);
+  it("initial state has segment field", () => {
+    expect(initialState.hasOwnProperty("segment")).toEqual(true);
   });
 
   it("passes actions to child reducers", () => {
@@ -213,8 +209,8 @@ describe("tree cellscape: highlighted reducer", () => {
       index: index(initialState["index"], action),
       range: range(initialState["range"], action),
       element: element(initialState["element"], action),
-      chromosome: chromosome(initialState["chromosome"], action),
-      id: id(initialState["id"], action)
+      data: data(initialState["data"], action),
+      segment: segment(initialState["segment"], action)
     });
   });
 });

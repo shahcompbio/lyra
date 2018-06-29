@@ -3,7 +3,7 @@ export {
   getHighlightedRange,
   getHighlightedElement,
   getHighlightedData,
-  getHighlightedChromosome,
+  getHighlightedSegment,
   getSelectedAnalysis,
   getRoot,
   getRootPath,

@@ -24,7 +24,7 @@ import {
 import {
   highlightElement,
   unhighlightElement,
-  highlightChromosome
+  highlightSegment
 } from "./actions.js";
 
 class HeatmapRow extends Component {
@@ -93,8 +93,8 @@ class HeatmapRow extends Component {
       });
     };
 
-    const onMouseEnterChromosome = chrom => {
-      this.props.highlightChromosome(chrom);
+    const onMouseEnterContent = segment => {
+      this.props.highlightSegment(segment);
     };
 
     const onMouseLeave = () => {
@@ -116,7 +116,7 @@ class HeatmapRow extends Component {
           bpRatio={bpRatio}
           ploidy={ploidy}
           isPloidyNormalized={isPloidyNormalized}
-          onMouseEnter={onMouseEnterChromosome}
+          onMouseEnter={onMouseEnterContent}
         />
         <HeatmapRowAnnotations
           cellID={id}
@@ -160,7 +160,7 @@ const mapDispatch = dispatch =>
     {
       highlightElement,
       unhighlightElement,
-      highlightChromosome
+      highlightSegment
     },
     dispatch
   );

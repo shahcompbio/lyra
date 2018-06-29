@@ -1,7 +1,7 @@
 export {
   highlightElement,
   unhighlightElement,
-  highlightChromosome,
+  highlightSegment,
   setTreeRoot,
   unsetTreeRoot,
   switchNormalizePloidy

@@ -20,7 +20,7 @@ export const unhighlightElement = () => ({
   type: types.unhighlightElement
 });
 
-export const highlightChromosome = chromosome => ({
-  type: types.highlightChromosome,
-  chromosome
+export const highlightSegment = segment => ({
+  type: types.highlightSegment,
+  segment
 });

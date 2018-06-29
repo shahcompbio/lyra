@@ -11,7 +11,7 @@ export const {
   getHighlightedRange,
   getHighlightedElement,
   getHighlightedData,
-  getHighlightedChromosome,
+  getHighlightedSegment,
   getRoot,
   getRootPath,
   getRootRanges,

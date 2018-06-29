@@ -28,7 +28,9 @@ const HeatmapRowContent = ({
           ? config["ploidyColorScale"](seg.state - ploidy)
           : config["colorScale"](seg.state)
       }
-      onMouseEnter={() => onMouseEnter(seg["chromosome"])}
+      onMouseEnter={() =>
+        onMouseEnter({ chromosome: seg["chromosome"], state: seg["state"] })
+      }
     />
   ));
 

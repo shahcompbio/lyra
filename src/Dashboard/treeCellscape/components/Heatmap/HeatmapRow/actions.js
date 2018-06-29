@@ -1,5 +1,5 @@
 export {
   highlightElement,
   unhighlightElement,
-  highlightChromosome
+  highlightSegment
 } from "../actions.js";
