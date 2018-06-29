@@ -52,7 +52,7 @@ export const legendConfig = {
  */
 
 const TREE_CONSTANTS = {
-  width: 700,
+  width: 680,
   height: 1000 - 20,
 
   nodeRadius: 3,
@@ -88,6 +88,7 @@ const HEATMAP_CONSTANTS = {
   rowHeight: 5,
   indicatorWidth: 10,
 
+  annotationSpacing: 2,
   chromosome: {
     height: 12,
     color: ["#faf9f9", "#e6e6e6"]
@@ -108,5 +109,6 @@ export const heatmapConfig = {
     .range(CONSTANTS.stateColors),
   ploidyColorScale: scaleLinear()
     .domain(CONSTANTS.ploidyScale) // state
-    .range(CONSTANTS.ploidyColors)
+    .range(CONSTANTS.ploidyColors),
+  annotationRadius: HEATMAP_CONSTANTS.rowHeight / 2
 };

@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import HeatmapRowIndicators from "./HeatmapRowIndicators";
+import HeatmapRowAnnotations from "./HeatmapRowAnnotations";
 import HeatmapRowContent from "./HeatmapRowContent";
 import ReactTooltip from "react-tooltip";
 
@@ -17,7 +18,8 @@ import {
   getBPRatio,
   makeIsIndexHighlighted,
   getIndicatorXPosition,
-  getIsPloidyNormalized
+  getIsPloidyNormalized,
+  getAnnotationsX
 } from "./selectors.js";
 import {
   highlightElement,
@@ -74,6 +76,7 @@ class HeatmapRow extends Component {
       bpRatio,
       isHighlighted,
       indicatorX,
+      annotationsX,
       isPloidyNormalized
     } = this.props;
     const { index, segs, id, ploidy } = rowData;
@@ -107,6 +110,14 @@ class HeatmapRow extends Component {
           isPloidyNormalized={isPloidyNormalized}
           onMouseEnter={onMouseEnterChromosome}
         />
+        <HeatmapRowAnnotations
+          cellID={id}
+          ploidy={ploidy}
+          isPloidyNormalized={isPloidyNormalized}
+          y={y}
+          x={annotationsX}
+        />
+
         <HeatmapRowIndicators
           cellID={id}
           x={indicatorX}
@@ -128,6 +139,7 @@ const makeMapState = () => {
     yScale: getYScale(state),
     chromMap: getChromPixelMapping(state, ownProps.chromosomes),
     bpRatio: getBPRatio(state, ownProps.chromosomes),
+    annotationsX: getAnnotationsX(state, ownProps.chromosomes),
     indicatorX: getIndicatorXPosition(state, ownProps.chromosomes),
     isPloidyNormalized: getIsPloidyNormalized(state)
   });

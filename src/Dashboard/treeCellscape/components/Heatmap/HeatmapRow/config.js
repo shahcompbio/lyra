@@ -5,7 +5,9 @@ const config = {
   indicatorWidth: prevConfig["indicatorWidth"],
   rowHeight: prevConfig["rowHeight"],
   colorScale: prevConfig["colorScale"],
-  ploidyColorScale: prevConfig["ploidyColorScale"]
+  ploidyColorScale: prevConfig["ploidyColorScale"],
+  spacing: prevConfig["spacing"],
+  annotationRadius: prevConfig["annotationRadius"]
 };
 
 export default config;

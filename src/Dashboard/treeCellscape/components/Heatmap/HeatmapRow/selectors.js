@@ -1,4 +1,8 @@
-import { getHeatmapIndices, getChromPixelMapping } from "../selectors.js";
+import {
+  getHeatmapIndices,
+  getChromPixelMapping,
+  getIsPloidyNormalized
+} from "../selectors.js";
 
 import config from "./config.js";
 import { createSelector } from "reselect";
@@ -23,8 +27,23 @@ export const getYScale = createSelector(
       .range([0, indices.length * config["rowHeight"]])
 );
 
-export const getIndicatorXPosition = createSelector(
+export const getHeatmapX = state => 0;
+
+export const getChromosomeEndX = createSelector(
   [getChromPixelMapping],
   chromPixelMapping =>
     chromPixelMapping["Y"]["width"] + chromPixelMapping["Y"]["x"]
+);
+
+export const getAnnotationsX = createSelector(
+  [getChromosomeEndX, getHeatmapX],
+  (chromosomeX, heatmapX) => chromosomeX + heatmapX + config["spacing"]
+);
+
+export const getIndicatorXPosition = createSelector(
+  [getAnnotationsX, getIsPloidyNormalized],
+  (annotationX, isPloidyNormalized) =>
+    isPloidyNormalized
+      ? annotationX + config["rowHeight"] + config["spacing"]
+      : annotationX
 );
