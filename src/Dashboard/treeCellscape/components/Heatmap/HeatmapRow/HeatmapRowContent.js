@@ -29,7 +29,10 @@ const HeatmapRowContent = ({
           : config["colorScale"](seg.state)
       }
       onMouseEnter={() =>
-        onMouseEnter({ chromosome: seg["chromosome"], state: seg["state"] })
+        onMouseEnter({
+          chromosome: seg["chromosome"],
+          "copy number": seg["state"]
+        })
       }
     />
   ));
