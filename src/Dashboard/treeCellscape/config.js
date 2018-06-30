@@ -44,7 +44,9 @@ export const legendConfig = {
   ...LEGEND_CONSTANTS,
   height: config.height,
   stateScale: CONSTANTS.stateScale,
-  stateColors: CONSTANTS.stateColors
+  stateColors: CONSTANTS.stateColors,
+  ploidyScale: CONSTANTS.ploidyScale,
+  ploidyColors: CONSTANTS.ploidyColors
 };
 
 /**

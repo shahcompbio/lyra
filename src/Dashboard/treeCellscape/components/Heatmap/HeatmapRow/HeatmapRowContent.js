@@ -31,7 +31,7 @@ const HeatmapRowContent = ({
       onMouseEnter={() =>
         onMouseEnter({
           chromosome: seg["chromosome"],
-          "copy number": seg["state"]
+          state: seg["state"]
         })
       }
     />

@@ -6,7 +6,9 @@ const config = {
   height: legendConfig["height"],
 
   stateScale: legendConfig["stateScale"],
-  stateColors: legendConfig["stateColors"]
+  stateColors: legendConfig["stateColors"],
+  ploidyScale: legendConfig["ploidyScale"],
+  ploidyColors: legendConfig["ploidyColors"]
 };
 
 export default config;
