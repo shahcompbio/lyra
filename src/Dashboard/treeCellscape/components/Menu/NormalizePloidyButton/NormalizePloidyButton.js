@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -22,6 +22,14 @@ const NormalizePloidyButton = ({ analysis, isDisabled, Button }) => (
     }}
   </Query>
 );
+
+NormalizePloidyButton.propTypes = {
+  isDisabled: PropTypes.bool.isRequired,
+
+  onClick: PropTypes.func.isRequired,
+
+  Button: PropTypes.func.isRequired
+};
 
 const HAS_PLOIDY_QUERY = gql`
   query hasPloidy($analysis: String!) {

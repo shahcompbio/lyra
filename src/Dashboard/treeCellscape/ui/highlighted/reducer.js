@@ -41,7 +41,7 @@ export const element = createReducer(initialElement)({
  * data { null || object }
  *   data associated with highlighted element
  */
-export const initialData = {};
+export const initialData = null;
 export const data = createReducer(initialData)({
   [actions.highlightElement]: (state, action) =>
     action.data === undefined ? null : action.data,

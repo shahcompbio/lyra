@@ -1,12 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import config from "./config.js";
-const HeatmapRowAnnotations = ({ cellID, ploidy, isPloidyNormalized, y, x }) =>
+const HeatmapRowAnnotations = ({ ploidy, isPloidyNormalized, y, x }) =>
   isPloidyNormalized && isDiffPloidy(ploidy) ? (
     <Annotation x={x} y={y} fill={"#000000"} />
   ) : null;
 
+HeatmapRowAnnotations.propTypes = {
+  ploidy: PropTypes.number.isRequired,
+  isPloidyNormalized: PropTypes.bool.isRequired,
+  y: PropTypes.number.isRequired,
+  x: PropTypes.number.isRequired
+};
 const isDiffPloidy = ploidy => ploidy !== 2;
 
 const Annotation = ({ x, y, color }) => (
