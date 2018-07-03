@@ -42,10 +42,12 @@ const Heatmap = ({ analysis, indices, rootID }) =>
     <Query query={CHROMOSOME_SEGS_QUERY} variables={{ analysis, indices }}>
       {({ loading, error, data }) => {
         if (loading) return null;
-        if (error) return null;
+        if (error) {
+          console.log(error);
+          return null;
+        }
 
         const { chromosomes, segs } = data;
-
         return (
           <svg
             width={config["width"]}

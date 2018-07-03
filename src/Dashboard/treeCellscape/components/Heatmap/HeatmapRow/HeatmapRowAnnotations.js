@@ -13,7 +13,7 @@ HeatmapRowAnnotations.propTypes = {
   y: PropTypes.number.isRequired,
   x: PropTypes.number.isRequired
 };
-const isDiffPloidy = ploidy => ploidy !== 2;
+const isDiffPloidy = ploidy => ploidy !== 2 && ploidy !== -1;
 
 const Annotation = ({ x, y, color }) => (
   <circle

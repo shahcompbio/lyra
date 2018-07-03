@@ -11,7 +11,7 @@ import gql from "graphql-tag";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faLevelDownAlt } from "@fortawesome/fontawesome-free-solid";
 
-const NormalizePloidyButton = ({ analysis, isDisabled, Button }) => (
+const NormalizePloidyButton = ({ analysis, Button }) => (
   <Query query={HAS_PLOIDY_QUERY} variables={{ analysis }}>
     {({ loading, error, data }) => {
       if (loading) return null;
@@ -24,9 +24,7 @@ const NormalizePloidyButton = ({ analysis, isDisabled, Button }) => (
 );
 
 NormalizePloidyButton.propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
-
-  onClick: PropTypes.func.isRequired,
+  analysis: PropTypes.string.isRequired,
 
   Button: PropTypes.func.isRequired
 };
