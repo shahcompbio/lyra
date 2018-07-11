@@ -17,13 +17,17 @@ import ChromAxis from "./ChromAxis/ChromAxis.js";
 import config from "./config.js";
 
 const CHROMOSOME_SEGS_QUERY = gql`
-  query chromosomes_segs($analysis: String!, $indices: [Int!]!) {
+  query chromosomes_segs(
+    $analysis: String!
+    $indices: [Int!]!
+    $isNorm: Boolean!
+  ) {
     chromosomes(analysis: $analysis) {
       id
       start
       end
     }
-    segs(analysis: $analysis, indices: $indices) {
+    segs(analysis: $analysis, indices: $indices, isNorm: $isNorm) {
       id
       index
       ploidy
@@ -39,7 +43,10 @@ const CHROMOSOME_SEGS_QUERY = gql`
 
 const Heatmap = ({ analysis, indices, rootID }) =>
   rootID === "" ? null : (
-    <Query query={CHROMOSOME_SEGS_QUERY} variables={{ analysis, indices }}>
+    <Query
+      query={CHROMOSOME_SEGS_QUERY}
+      variables={{ analysis, indices, isNorm: false }}
+    >
       {({ loading, error, data }) => {
         if (loading) return null;
         if (error) {
