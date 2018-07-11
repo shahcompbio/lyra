@@ -8,7 +8,7 @@ import { scaleOrdinal, scaleLinear } from "d3";
  * Overall config
  */
 
-const COLORS = [
+/*const COLORS = [
   "#2e7aab",
   "#73a9d4",
   "#D6D5D5",
@@ -16,15 +16,30 @@ const COLORS = [
   "#fd8b3a",
   "#ca632c",
   "#954c25"
+];*/
+
+const COLORS = [
+  "#2e7aab",
+  "#9ECAE1",
+  "#CCCCCC",
+  "#FDCC8A",
+  "#FC8D59",
+  "#E34A33",
+  "#B30000",
+  "#980043",
+  "#DD1C77",
+  "#DF65B0",
+  "#C994C7",
+  "#D4B9DA"
 ];
 
 const CONSTANTS = {
   width: 1500,
   height: 1000,
-  stateScale: [0, 1, 2, 3, 4, 5, 6],
+  stateScale: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   stateColors: COLORS,
-  ploidyColors: ["#073757", ...COLORS, "#672b0b"],
-  ploidyScale: [-6, -2, -1, 0, 1, 2, 3, 4, 8]
+  ploidyColors: ["#073757", ...COLORS, "#fae2ff"],
+  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12]
 };
 
 export const config = {
