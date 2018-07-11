@@ -4,5 +4,6 @@ export {
   highlightSegment,
   setTreeRoot,
   unsetTreeRoot,
-  switchNormalizePloidy
+  switchNormalizePloidy,
+  switchDiffsByMode
 } from "../ui/actions.js";

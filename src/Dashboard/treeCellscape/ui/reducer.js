@@ -3,14 +3,14 @@ import highlighted, {
   stateSelectors as highlightedStateSelectors
 } from "./highlighted/reducer.js";
 import root, { stateSelectors as rootStateSelectors } from "./root/reducer.js";
-import isPloidyNormalized from "./isPloidyNormalized/reducer.js";
+import menu, { stateSelectors as menuStateSelectors } from "./menu/reducer.js";
 
 import shiftSelectors from "utils/shiftSelectors.js";
 
 const reducer = combineReducers({
   root,
   highlighted,
-  isPloidyNormalized
+  menu
 });
 
 /**
@@ -19,14 +19,15 @@ const reducer = combineReducers({
 
 const getRoot = state => state.root;
 const getHighlighted = state => state.highlighted;
-const getIsPloidyNormalized = state => state.isPloidyNormalized;
+const getMenu = state => state.menu;
 
 export const stateSelectors = {
   getRoot,
   ...shiftSelectors(getRoot, rootStateSelectors),
   getHighlighted,
   ...shiftSelectors(getHighlighted, highlightedStateSelectors),
-  getIsPloidyNormalized
+  getMenu,
+  ...shiftSelectors(getMenu, menuStateSelectors)
 };
 
 export default reducer;

@@ -8,5 +8,6 @@ export {
   getRoot,
   getRootPath,
   getRootRanges,
-  getIsPloidyNormalized
+  getIsPloidyNormalized,
+  getIsDiffsModeOn
 } from "main/stateSelectors.js";

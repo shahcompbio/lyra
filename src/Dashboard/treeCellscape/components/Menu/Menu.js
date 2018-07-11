@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
 import NormalizePloidyButton from "./NormalizePloidyButton/NormalizePloidyButton";
+import DiffByModeButton from "./DiffByModeButton/DiffByModeButton";
 
 import styled from "react-emotion";
 
@@ -16,6 +17,7 @@ const Menu = ({ analysis, width }) => (
     <TreeZoomOutButton Button={Button} />
     <DownloadCSVButton Button={Button} analysis={analysis} />
     <NormalizePloidyButton Button={Button} analysis={analysis} />
+    <DiffByModeButton Button={Button} analysis={analysis} />
   </MenuDiv>
 );
 

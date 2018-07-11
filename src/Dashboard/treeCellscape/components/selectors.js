@@ -21,7 +21,8 @@ export {
   getSelectedAnalysis,
   getSelectedDashboard,
   isCurrRootAtRoot,
-  getIsPloidyNormalized
+  getIsPloidyNormalized,
+  getIsDiffsModeOn
 } from "../selectors.js";
 
 // Tree

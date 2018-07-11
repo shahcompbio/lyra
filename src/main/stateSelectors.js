@@ -16,5 +16,6 @@ export const {
   getRootPath,
   getRootRanges,
 
-  getIsPloidyNormalized
+  getIsPloidyNormalized,
+  getIsDiffsModeOn
 } = stateSelectors;
