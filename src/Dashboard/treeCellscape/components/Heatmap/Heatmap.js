@@ -33,6 +33,7 @@ const CHROMOSOME_SEGS_QUERY = gql`
     }
     segs(analysis: $analysis, indices: $indices, isNorm: $isNorm) {
       id
+      name
       index
       ploidy
       segs {
@@ -50,7 +51,6 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
     <Query
       query={CHROMOSOME_SEGS_QUERY}
       variables={{ analysis, indices, isNorm: isDiffOn }}
-      fetchPolicy={"network-only"}
     >
       {({ loading, error, data }) => {
         if (loading) {
@@ -72,7 +72,7 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
           >
             {segs.map(segRow => (
               <HeatmapRow
-                key={segRow["id"]}
+                key={segRow["name"]}
                 rowData={segRow}
                 chromosomes={chromosomes}
                 isDiffOn={isDiffOn}
