@@ -57,7 +57,8 @@ class HeatmapRow extends Component {
       this.props.isHighlighted !== nextProps.isHighlighted ||
       this.props.rowData.index !== nextProps.rowData.index ||
       this.isYPositionsDifferent(this.props, nextProps) ||
-      this.props.isPloidyNormalized !== nextProps.isPloidyNormalized
+      this.props.isPloidyNormalized !== nextProps.isPloidyNormalized ||
+      this.props.isDiffOn !== nextProps.isDiffOn
     );
   }
 
@@ -77,7 +78,8 @@ class HeatmapRow extends Component {
       isHighlighted,
       indicatorX,
       annotationsX,
-      isPloidyNormalized
+      isPloidyNormalized,
+      isDiffOn
     } = this.props;
     const { index, segs, id, ploidy } = rowData;
     const y = yScale(index);
@@ -100,7 +102,6 @@ class HeatmapRow extends Component {
     const onMouseLeave = () => {
       this.props.unhighlightElement();
     };
-
     return (
       <g
         className={index}
@@ -116,6 +117,7 @@ class HeatmapRow extends Component {
           bpRatio={bpRatio}
           ploidy={ploidy}
           isPloidyNormalized={isPloidyNormalized}
+          isDiffOn={isDiffOn}
           onMouseEnter={onMouseEnterContent}
         />
         <HeatmapRowAnnotations

@@ -9,7 +9,7 @@ import {
 import config from "./config.js";
 
 // Heatmap
-export { getCurrRootID } from "../selectors.js";
+export { getCurrRootID, getIsDiffsModeOn } from "../selectors.js";
 
 // HeatmapRow
 export { makeIsIndexHighlighted, getIsPloidyNormalized } from "../selectors.js";

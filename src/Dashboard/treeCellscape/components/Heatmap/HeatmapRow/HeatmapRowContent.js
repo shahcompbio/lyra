@@ -14,7 +14,8 @@ const HeatmapRowContent = ({
   chromMap,
   onMouseEnter,
   ploidy,
-  isPloidyNormalized
+  isPloidyNormalized,
+  isDiffOn
 }) =>
   segs.map(seg => (
     <rect
@@ -26,7 +27,9 @@ const HeatmapRowContent = ({
       fill={
         isPloidyNormalized
           ? config["ploidyColorScale"](seg.state - ploidy)
-          : config["colorScale"](seg.state)
+          : isDiffOn
+            ? config["ploidyColorScale"](seg.state)
+            : config["colorScale"](seg.state)
       }
       onMouseEnter={() =>
         onMouseEnter({

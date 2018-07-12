@@ -12,7 +12,8 @@ export {
   makeIsIndexHighlighted,
   getChromPixelMapping,
   getBPRatio,
-  getIsPloidyNormalized
+  getIsPloidyNormalized,
+  getIsDiffsModeOn
 } from "../selectors.js";
 
 /**
