@@ -81,8 +81,7 @@ class HeatmapRow extends Component {
       isPloidyNormalized,
       isDiffOn
     } = this.props;
-    const { index, segs, name, ploidy } = rowData;
-    const id = name;
+    const { index, segs, id, ploidy } = rowData;
     const y = yScale(index);
     const onMouseEnter = () => {
       this.props.highlightElement({

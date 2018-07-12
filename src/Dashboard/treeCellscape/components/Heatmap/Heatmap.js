@@ -53,16 +53,24 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
       variables={{ analysis, indices, isNorm: isDiffOn }}
     >
       {({ loading, error, data }) => {
-        if (loading) {
-          console.log("loading loading loading");
-          return null;
-        }
-        if (error) {
-          console.log(error);
-          return null;
-        }
-        console.log(isDiffOn);
+        if (loading) return null;
+        if (error) return null;
+
         const { chromosomes, segs } = data;
+
+        const segRows = segs.map(seg => {
+          const { id, name, ...segData } = seg;
+
+          const rowData = { ...segData, id: name };
+          return (
+            <HeatmapRow
+              key={rowData["id"]}
+              rowData={rowData}
+              chromosomes={chromosomes}
+              isDiffOn={isDiffOn}
+            />
+          );
+        });
 
         return (
           <svg
@@ -70,14 +78,7 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
             height={config["height"]}
             x={config["x"]}
           >
-            {segs.map(segRow => (
-              <HeatmapRow
-                key={segRow["name"]}
-                rowData={segRow}
-                chromosomes={chromosomes}
-                isDiffOn={isDiffOn}
-              />
-            ))}
+            {segRows}
             <ChromAxis
               y={(segs.length + 1) * config["rowHeight"]}
               chromosomes={chromosomes}
