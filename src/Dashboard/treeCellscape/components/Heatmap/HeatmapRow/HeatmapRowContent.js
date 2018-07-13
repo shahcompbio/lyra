@@ -17,28 +17,30 @@ const HeatmapRowContent = ({
   isPloidyNormalized,
   isDiffOn
 }) =>
-  segs.map(seg => (
-    <rect
-      key={`${cellID}-${seg["chromosome"]}-${seg["start"]}`}
-      width={getSegWidth(seg, bpRatio)}
-      height={config["rowHeight"]}
-      x={getSegX(seg, chromMap, bpRatio)}
-      y={y}
-      fill={
-        isPloidyNormalized
-          ? config["ploidyColorScale"](seg.state - ploidy)
-          : isDiffOn
-            ? config["ploidyColorScale"](seg.state)
-            : config["colorScale"](seg.state)
-      }
-      onMouseEnter={() =>
-        onMouseEnter({
-          chromosome: seg["chromosome"],
-          state: seg["state"]
-        })
-      }
-    />
-  ));
+  segs.map(seg => {
+    const state = isPloidyNormalized ? seg.state - ploidy + 2 : seg.state;
+
+    return (
+      <rect
+        key={`${cellID}-${seg["chromosome"]}-${seg["start"]}`}
+        width={getSegWidth(seg, bpRatio)}
+        height={config["rowHeight"]}
+        x={getSegX(seg, chromMap, bpRatio)}
+        y={y}
+        fill={
+          isDiffOn
+            ? config["ploidyColorScale"](state)
+            : config["colorScale"](state)
+        }
+        onMouseEnter={() =>
+          onMouseEnter({
+            chromosome: seg["chromosome"],
+            state: seg["state"]
+          })
+        }
+      />
+    );
+  });
 
 /**
  * PropTypes

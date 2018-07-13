@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getIsPloidyNormalized } from "./selectors.js";
+import { getIsPloidyNormalized, getIsDiffsModeOn } from "./selectors.js";
 
 import LegendItem from "./LegendItem.js";
 
@@ -15,19 +15,20 @@ const Legend = ({ analysis }) => (
 const { stateScale, stateColors, ploidyScale, ploidyColors } = config;
 
 const State = connect(state => ({
-  isPloidyNormalized: getIsPloidyNormalized(state)
+  isPloidyNormalized: getIsPloidyNormalized(state),
+  isDiffOn: getIsDiffsModeOn(state)
 }))(
-  ({ isPloidyNormalized }) =>
-    isPloidyNormalized ? (
+  ({ isPloidyNormalized, isDiffOn }) =>
+    isPloidyNormalized || isDiffOn ? (
       <LegendItem
-        title={"State - Ploidy"}
+        title={"Relative CN"}
         labels={ploidyScale}
         colors={ploidyColors}
         y={8}
       />
     ) : (
       <LegendItem
-        title={"State"}
+        title={"Copy Number"}
         labels={stateScale}
         colors={stateColors}
         y={8}

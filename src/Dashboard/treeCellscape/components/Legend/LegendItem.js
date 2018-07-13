@@ -27,7 +27,7 @@ const LegendItem = ({ title, labels, colors, y }) => {
 };
 
 const Title = styled("text")`
-  font-size: 13.5px;
+  font-size: 12px;
   dominant-baseline: hanging;
 `;
 

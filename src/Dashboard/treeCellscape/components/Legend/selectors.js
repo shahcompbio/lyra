@@ -1,1 +1,1 @@
-export { getIsPloidyNormalized } from "../selectors.js";
+export { getIsPloidyNormalized, getIsDiffsModeOn } from "../selectors.js";
