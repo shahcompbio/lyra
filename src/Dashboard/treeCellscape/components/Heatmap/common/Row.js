@@ -10,8 +10,7 @@ const Row = ({
   chromMap,
   onMouseEnter,
   colorScale,
-  stateOffset,
-  segOnMouseEnter
+  stateOffset
 }) =>
   segs.map(seg => (
     <rect

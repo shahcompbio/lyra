@@ -34,8 +34,6 @@ const COLORS = [
 ];
 
 const CONSTANTS = {
-  width: 1500,
-  height: 1000,
   stateScale: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   stateColors: COLORS,
   ploidyColors: ["#073757", ...COLORS, "#fae2ff"],

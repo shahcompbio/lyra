@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -26,7 +26,7 @@ const CELL_SEGS_QUERY = gql`
 `;
 
 const CellRow = ({ analysis, chromMap, bpRatio, index }) =>
-  index ? (
+  index && index !== -1 ? (
     <Query query={CELL_SEGS_QUERY} variables={{ analysis, index: index }}>
       {({ loading, error, data }) => {
         if (loading) return null;
@@ -51,6 +51,13 @@ const CellRow = ({ analysis, chromMap, bpRatio, index }) =>
       }}
     </Query>
   ) : null;
+
+CellRow.propTypes = {
+  analysis: PropTypes.string.isRequired,
+  chromMap: PropTypes.object.isRequired,
+  bpRatio: PropTypes.number.isRequired,
+  index: PropTypes.number
+};
 
 const mapState = state => ({
   index: getHighlightedIndex(state)

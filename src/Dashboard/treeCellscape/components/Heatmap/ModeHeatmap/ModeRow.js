@@ -10,12 +10,11 @@ import gql from "graphql-tag";
 
 import Row from "../common/Row.js";
 
-import { getChromPixelMapping, getBPRatio } from "./selectors.js";
 import {
   highlightElement,
   unhighlightElement,
   highlightSegment
-} from "../actions.js";
+} from "./actions.js";
 
 import config from "./config.js";
 
@@ -30,17 +29,25 @@ const MODE_SEGS_QUERY = gql`
   }
 `;
 
-const ModeHeatmap = ({ analysis, chromMap, bpRatio }) => (
+const ModeRow = ({ analysis, chromMap, bpRatio }) => (
   <Query query={MODE_SEGS_QUERY} variables={{ analysis }}>
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return null;
 
       const { modeSegs } = data;
-      return <ModeRow segs={modeSegs} chromMap={chromMap} bpRatio={bpRatio} />;
+      return (
+        <ConnectModeRow segs={modeSegs} chromMap={chromMap} bpRatio={bpRatio} />
+      );
     }}
   </Query>
 );
+
+ModeRow.propTypes = {
+  analysis: PropTypes.string.isRequired,
+  chromMap: PropTypes.object.isRequired,
+  bpRatio: PropTypes.number.isRequired
+};
 
 const mapDispatch = dispatch =>
   bindActionCreators(
@@ -103,6 +110,6 @@ class Mode extends Component {
     );
   }
 }
-const ModeRow = connect(() => ({}), mapDispatch)(Mode);
+const ConnectModeRow = connect(() => ({}), mapDispatch)(Mode);
 
-export default ModeHeatmap;
+export default ModeRow;

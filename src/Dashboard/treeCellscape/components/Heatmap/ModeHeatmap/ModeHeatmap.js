@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -15,6 +15,12 @@ const ModeHeatmap = ({ analysis, chromMap, bpRatio }) => (
     <CellRow analysis={analysis} chromMap={chromMap} bpRatio={bpRatio} />
   </svg>
 );
+
+ModeHeatmap.propTypes = {
+  analysis: PropTypes.string.isRequired,
+  chromMap: PropTypes.object.isRequired,
+  bpRatio: PropTypes.number.isRequired
+};
 
 const mapState = (state, ownProps) => ({
   chromMap: getChromPixelMapping(state, ownProps.chromosomes),
