@@ -9,8 +9,10 @@ import { bindActionCreators } from "redux";
 
 import HeatmapRowIndicators from "./HeatmapRowIndicators";
 import HeatmapRowAnnotations from "./HeatmapRowAnnotations";
-import HeatmapRowContent from "./HeatmapRowContent";
+import Row from "../common/Row.js";
 import ReactTooltip from "react-tooltip";
+
+import config from "./config.js";
 
 import {
   getYScale,
@@ -96,7 +98,10 @@ class HeatmapRow extends Component {
     };
 
     const onMouseEnterContent = segment => {
-      this.props.highlightSegment(segment);
+      this.props.highlightSegment({
+        chromosome: segment["chromosome"],
+        state: segment["state"]
+      });
     };
 
     const onMouseLeave = () => {
@@ -109,16 +114,18 @@ class HeatmapRow extends Component {
         onMouseLeave={onMouseLeave}
         data-tip
       >
-        <HeatmapRowContent
+        <Row
           cellID={id}
           segs={segs}
           y={y}
-          chromMap={chromMap}
           bpRatio={bpRatio}
-          ploidy={ploidy}
-          isPloidyNormalized={isPloidyNormalized}
-          isDiffOn={isDiffOn}
+          chromMap={chromMap}
+          height={config["rowHeight"]}
           onMouseEnter={onMouseEnterContent}
+          colorScale={
+            isDiffOn ? config["ploidyColorScale"] : config["colorScale"]
+          }
+          stateOffset={isPloidyNormalized ? ploidy - 2 : 0}
         />
         <HeatmapRowAnnotations
           cellID={id}

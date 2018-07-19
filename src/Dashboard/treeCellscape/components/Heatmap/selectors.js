@@ -14,6 +14,9 @@ export { getCurrRootID, getIsDiffsModeOn } from "../selectors.js";
 // HeatmapRow
 export { makeIsIndexHighlighted, getIsPloidyNormalized } from "../selectors.js";
 
+// ModeHeatmap
+export { getHighlightedIndex } from "../selectors.js";
+
 /**
  * Gets number of indices that can fit per heatmap row
  */

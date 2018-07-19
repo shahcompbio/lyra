@@ -17,8 +17,9 @@ import {
 
 import HeatmapRow from "./HeatmapRow/HeatmapRow.js";
 import ChromAxis from "./ChromAxis/ChromAxis.js";
+import ModeHeatmap from "./ModeHeatmap/ModeHeatmap.js";
 
-import config from "./config.js";
+import config, { modeHeatmapConfig } from "./config.js";
 
 const CHROMOSOME_SEGS_QUERY = gql`
   query chromosomes_segs(
@@ -75,7 +76,7 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
         return (
           <svg
             width={config["width"]}
-            height={config["height"]}
+            height={config["height"] + modeHeatmapConfig["height"]}
             x={config["x"]}
           >
             {segRows}
@@ -83,6 +84,9 @@ const Heatmap = ({ analysis, indices, rootID, isDiffOn }) =>
               y={(segs.length + 1) * config["rowHeight"]}
               chromosomes={chromosomes}
             />
+            {isDiffOn ? (
+              <ModeHeatmap analysis={analysis} chromosomes={chromosomes} />
+            ) : null}
           </svg>
         );
       }}

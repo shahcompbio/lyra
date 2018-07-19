@@ -1,51 +1,34 @@
-/**
- * HeatmapRowContent - Presentational Component
- */
-
 import React from "react";
 import PropTypes from "prop-types";
-import config from "./config.js";
 
-const HeatmapRowContent = ({
+const Row = ({
   cellID,
   segs,
   y,
   bpRatio,
+  height,
   chromMap,
   onMouseEnter,
-  ploidy,
-  isPloidyNormalized,
-  isDiffOn
+  colorScale,
+  stateOffset,
+  segOnMouseEnter
 }) =>
-  segs.map(seg => {
-    const state = isPloidyNormalized ? seg.state - ploidy + 2 : seg.state;
-
-    return (
-      <rect
-        key={`${cellID}-${seg["chromosome"]}-${seg["start"]}`}
-        width={getSegWidth(seg, bpRatio)}
-        height={config["rowHeight"]}
-        x={getSegX(seg, chromMap, bpRatio)}
-        y={y}
-        fill={
-          isDiffOn
-            ? config["ploidyColorScale"](state)
-            : config["colorScale"](state)
-        }
-        onMouseEnter={() =>
-          onMouseEnter({
-            chromosome: seg["chromosome"],
-            state: seg["state"]
-          })
-        }
-      />
-    );
-  });
+  segs.map(seg => (
+    <rect
+      key={`${cellID}-${seg["chromosome"]}-${seg["start"]}`}
+      width={getSegWidth(seg, bpRatio)}
+      height={height}
+      x={getSegX(seg, chromMap, bpRatio)}
+      y={y}
+      fill={colorScale(seg["state"] - stateOffset)}
+      onMouseEnter={() => (onMouseEnter ? onMouseEnter(seg) : null)}
+    />
+  ));
 
 /**
  * PropTypes
  */
-HeatmapRowContent.propTypes = {
+Row.propTypes = {
   /** cellID */
   cellID: PropTypes.string.isRequired,
 
@@ -59,9 +42,21 @@ HeatmapRowContent.propTypes = {
   bpRatio: PropTypes.number.isRequired,
 
   /** chromMap - chromosome to pixel mapping */
-  chromMap: PropTypes.object.isRequired
+  chromMap: PropTypes.object.isRequired,
+
+  /** height - pixel height of row */
+  height: PropTypes.number.isRequired,
+
+  onMouseEnter: PropTypes.func,
+
+  colorScale: PropTypes.func.isRequired,
+
+  stateOffset: PropTypes.number.isRequired
 };
 
+Row.defaultProps = {
+  stateOffset: 0
+};
 /**
  * Returns segment starting x position
  * @param {object} seg
@@ -80,4 +75,4 @@ const getSegX = (seg, chromMap, bpRatio) =>
 const getSegWidth = (seg, bpRatio) =>
   Math.floor((seg.end - seg.start + 1) / bpRatio);
 
-export default HeatmapRowContent;
+export default Row;

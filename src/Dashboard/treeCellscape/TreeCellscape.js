@@ -10,7 +10,7 @@ import Tooltip from "./components/Tooltip/Tooltip";
 
 import { getSelectedAnalysis } from "./selectors.js";
 
-import { config } from "./config.js";
+import { componentConfig as config } from "./config.js";
 const { width, height } = config;
 
 const TreeCellscape = ({ analysis }) => (

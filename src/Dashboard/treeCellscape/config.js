@@ -47,17 +47,57 @@ export const config = {
 };
 
 /**
+ * Component dimensions
+ */
+
+const COMPONENTS = {
+  width: 1500,
+  height: 1200,
+
+  legendWidth: 100,
+  legendX: 0,
+
+  treeWidth: 680,
+
+  heatmapChromHeight: 12,
+
+  modeHeatmapHeight: 200
+};
+
+export const componentConfig = {
+  ...COMPONENTS,
+  legendHeight: COMPONENTS.height,
+
+  treeHeight:
+    COMPONENTS.height -
+    COMPONENTS.modeHeatmapHeight -
+    COMPONENTS.heatmapChromHeight,
+  treeX: COMPONENTS.width - COMPONENTS.treeWidth,
+
+  heatmapWidth:
+    COMPONENTS.width - COMPONENTS.treeWidth - COMPONENTS.legendWidth,
+  heatmapHeight: COMPONENTS.height - COMPONENTS.modeHeatmapHeight,
+  heatmapX: COMPONENTS.legendX + COMPONENTS.legendWidth,
+
+  modeHeatmapY: COMPONENTS.height - COMPONENTS.modeHeatmapHeight
+};
+
+/**
+ * Colors
+ */
+
+/**
  * Legend
  */
 
 const LEGEND_CONSTANTS = {
-  width: 100,
-  x: 0
+  width: componentConfig.legendWidth,
+  x: componentConfig.legendX,
+  height: componentConfig.legendHeight
 };
 
 export const legendConfig = {
   ...LEGEND_CONSTANTS,
-  height: config.height,
   stateScale: CONSTANTS.stateScale,
   stateColors: CONSTANTS.stateColors,
   ploidyScale: CONSTANTS.ploidyScale,
@@ -69,8 +109,9 @@ export const legendConfig = {
  */
 
 const TREE_CONSTANTS = {
-  width: 680,
-  height: 1000 - 20,
+  width: componentConfig.treeWidth,
+  height: componentConfig.treeHeight,
+  x: componentConfig.treeX,
 
   nodeRadius: 3,
   nodeColor: "#b3b3b3",
@@ -93,8 +134,7 @@ const TREE_CONSTANTS = {
 
 export const treeConfig = {
   ...TREE_CONSTANTS,
-  clusterWidth: TREE_CONSTANTS.depthSpacing - TREE_CONSTANTS.nodeRadius,
-  x: config.width - TREE_CONSTANTS.width
+  clusterWidth: TREE_CONSTANTS.depthSpacing - TREE_CONSTANTS.nodeRadius
 };
 
 /**
@@ -102,25 +142,23 @@ export const treeConfig = {
  */
 
 const HEATMAP_CONSTANTS = {
+  width: componentConfig.heatmapWidth,
+  height: componentConfig.heatmapHeight,
+  x: componentConfig.heatmapX,
   rowHeight: 5,
   indicatorWidth: 10,
 
   annotationSpacing: 2,
   chromosome: {
-    height: 12,
+    height: componentConfig.heatmapChromHeight,
     color: ["#faf9f9", "#e6e6e6"]
   }
 };
 
-const heatmapWidth = config.width - treeConfig.width - LEGEND_CONSTANTS.width;
-
 export const heatmapConfig = {
   ...HEATMAP_CONSTANTS,
-  width: heatmapWidth,
-  contentWidth: heatmapWidth - HEATMAP_CONSTANTS.indicatorWidth,
-  height: config.height,
-  contentHeight: config.height - HEATMAP_CONSTANTS.chromosome.height,
-  x: LEGEND_CONSTANTS.x + LEGEND_CONSTANTS.width,
+  contentWidth: HEATMAP_CONSTANTS.width - HEATMAP_CONSTANTS.indicatorWidth,
+  contentHeight: HEATMAP_CONSTANTS.height - HEATMAP_CONSTANTS.chromosome.height,
   colorScale: scaleOrdinal()
     .domain(CONSTANTS.stateScale) // state
     .range(CONSTANTS.stateColors),
@@ -128,4 +166,20 @@ export const heatmapConfig = {
     .domain(CONSTANTS.ploidyScale) // state
     .range(CONSTANTS.ploidyColors),
   annotationRadius: HEATMAP_CONSTANTS.rowHeight / 2
+};
+
+/**
+ * Mode Heatmap
+ */
+
+const MODE_HM_CONSTANTS = {
+  width: componentConfig.heatmapWidth,
+  height: componentConfig.modeHeatmapHeight,
+  x: componentConfig.heatmapX,
+  y: componentConfig.modeHeatmapY + 10
+};
+
+export const modeHeatmapConfig = {
+  ...MODE_HM_CONSTANTS,
+  rowHeight: HEATMAP_CONSTANTS["rowHeight"] * 2
 };

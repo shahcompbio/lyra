@@ -1,5 +1,7 @@
 import { heatmapConfig } from "../../config.js";
 
+export { modeHeatmapConfig } from "../../config.js";
+
 const config = {
   width: heatmapConfig["width"],
   height: heatmapConfig["height"],
