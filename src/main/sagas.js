@@ -1,5 +1,5 @@
 import treeCellscapeSagas from "Dashboard/sagas.js";
-import loggerSaga from "./logger/sagas.js";
+//import loggerSaga from "./logger/sagas.js";
 import { all, fork, takeEvery, put } from "redux-saga/effects";
 
 import { resetDashboard } from "./actions.js";
