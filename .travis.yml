@@ -21,7 +21,7 @@ before_deploy:
 install:
 - npm install --save
 script:
-- npm run build
+- yarn build
 after_deploy:
 - ssh $DEPLOY_USER@deploy ./build/loadBuild.sh
 deploy:
