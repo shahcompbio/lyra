@@ -4,45 +4,37 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+import { ButtonGroup, Button } from "react-bootstrap";
+
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
-import NormalizePloidyButton from "./NormalizePloidyButton/NormalizePloidyButton";
-import DiffByModeButton from "./DiffByModeButton/DiffByModeButton";
+import DiffDropdown from "./DiffDropdown/DiffDropdown";
 
 import styled from "react-emotion";
 
 const Menu = ({ analysis, width }) => (
-  <MenuDiv width={width}>
+  <MenuDiv>
     <MenuTitle analysis={analysis} dashboard={"TREE_CELLSCAPE"} />
-    <TreeZoomOutButton Button={Button} />
-    <DownloadCSVButton Button={Button} analysis={analysis} />
-    <NormalizePloidyButton Button={Button} analysis={analysis} />
-    <DiffByModeButton Button={Button} analysis={analysis} />
+    <ButtonGroup>
+      <TreeZoomOutButton Button={Button} />
+      <DiffDropdown analysis={analysis} />
+      <DownloadCSVButton Button={Button} analysis={analysis} />
+    </ButtonGroup>
   </MenuDiv>
 );
 
-Menu.propTypes = {
-  analysis: PropTypes.string.isRequired,
-
-  width: PropTypes.number.isRequired
-};
-
-const colors = {
-  menu: "#e0dcdc",
-  text: "#4f4f4f",
-  disabledText: "#eeeeee"
-};
-
 const MenuDiv = styled("div")`
-  width: ${props => props.width};
-  height: 30px;
-  background: ${colors.menu};
-  margin-top: 5px;
-  margin-bottom: 20px;
-  padding: 2px;
-  border-radius: 5px;
+  border-radius: 4px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  height: 40px;
   align-items: center;
-  font-size: 0px;
+
+  & .btn,
+  .btn-group {
+    height: 100%;
+  }
 `;
 
 const TITLE_QUERY = gql`
@@ -58,7 +50,6 @@ const MenuTitle = ({ analysis, dashboard }) => (
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return null;
-
       return <Title>{data.analysis.title}</Title>;
     }}
   </Query>
@@ -70,32 +61,9 @@ MenuTitle.propTypes = {
   dashboard: PropTypes.string.isRequired
 };
 const Title = styled("span")`
-  margin-top: 2%;
-  margin-bottom: 2%;
-  margin-right: 2%;
-  margin-left: 3px;
-  font-size: 15px;
-  color: ${colors.text};
-`;
-
-const Button = styled("button")`
-  padding-top: 3px;
-  padding-bottom: 3px;
-  border-radius: 4px;
-  margin-right: 0.5%;
-  border: 0px;
-  background: ${props => (props.active ? "#c1c1c1" : colors.menu)};
-  color: ${colors.text};
-  font-size: 10px;
-
-  &:disabled {
-    color: ${colors.disabledText};
-    background: ${colors.menu};
-  }
-
-  &:hover {
-    background: ${props => (props.disabled ? colors.menu : "#c1c1c1")};
-  }
+  padding: 6px 10px;
+  font-size: 20px;
+  color: #4f4f4f;
 `;
 
 export default Menu;

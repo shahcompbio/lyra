@@ -8,25 +8,20 @@ import { switchNormalizePloidy } from "./actions.js";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faLevelDownAlt } from "@fortawesome/fontawesome-free-solid";
+import { MenuItem } from "react-bootstrap";
 
-const NormalizePloidyButton = ({ analysis, Button }) => (
+const Ploidy = ({ analysis }) => (
   <Query query={HAS_PLOIDY_QUERY} variables={{ analysis }}>
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return null;
-      return (
-        <ConnectPloidyButton isDisabled={!data.hasPloidy} Button={Button} />
-      );
+      return data.hasPloidy ? <ConnectPloidyButton /> : null;
     }}
   </Query>
 );
 
-NormalizePloidyButton.propTypes = {
-  analysis: PropTypes.string.isRequired,
-
-  Button: PropTypes.func.isRequired
+Ploidy.propTypes = {
+  analysis: PropTypes.string.isRequired
 };
 
 const HAS_PLOIDY_QUERY = gql`
@@ -44,16 +39,11 @@ const mapDispatch = dispatch => ({
 });
 
 const ConnectPloidyButton = connect(mapState, mapDispatch)(
-  ({ isActive, isDisabled, onClick, Button }) => (
-    <Button
-      disabled={isDisabled}
-      title="Normalize Ploidy"
-      onClick={onClick}
-      active={isActive}
-    >
-      <FontAwesomeIcon icon={faLevelDownAlt} size="2x" />
-    </Button>
+  ({ isActive, onClick }) => (
+    <MenuItem onClick={onClick} active={isActive}>
+      By Ploidy
+    </MenuItem>
   )
 );
 
-export default NormalizePloidyButton;
+export default Ploidy;

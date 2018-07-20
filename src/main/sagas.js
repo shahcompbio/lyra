@@ -8,8 +8,8 @@ import actions from "./types";
 function* rootSaga() {
   yield all([
     fork(treeCellscapeSagas),
-    fork(resetAfterSelectAnalysisWatcher),
-    fork(loggerSaga)
+    fork(resetAfterSelectAnalysisWatcher)
+    //fork(loggerSaga)
   ]);
 }
 
