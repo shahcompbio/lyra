@@ -49,13 +49,13 @@ export const config = {
  */
 
 const COMPONENTS = {
-  width: 1500,
+  width: 1600,
   height: 1200,
 
   legendWidth: 100,
   legendX: 0,
 
-  treeWidth: 680,
+  treeWidth: 780,
 
   heatmapChromHeight: 12,
 
@@ -122,7 +122,7 @@ const TREE_CONSTANTS = {
   horizontalBranchWidth: 1,
   verticalBranchWidth: 2,
 
-  depthSpacing: 20,
+  depthSpacing: 15,
 
   clusterVerticalOffset: 5,
 
