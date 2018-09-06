@@ -2,7 +2,7 @@
 
 Lyra is a web-based visualization platform, featuring several interactive dashboards of single cell genomics data.
 
-The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and features an [Elasticsearch](https://www.elastic.co/) backend. Python scripts are used to load data into Elasticsearch.
+The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and uses a [GraphQL backend](https://github.com/shahcompbio/lyra-graphql).
 
 ## Getting Started
 
@@ -69,15 +69,5 @@ This will load an entry into the Analysis index, as well as the appropriate data
 
 ## Authors
 
-This project was designed and built in Dr. Sohrab Shah's laboratory at BC Cancer under the leadership of Dr. Cydney Nielsen and in close collaboration with Dr. Samuel Aparicio's research team. The following dedicated students and software developers (ordered alphabetically) created the codebase:
-
 * [**Viktoria Bojilova**](https://github.com/vbojilova)
 * [**Samantha Leung**](https://github.com/redpanda-cat)
-
-## Acknowledgments
-
-We are grateful for the following funding:
-
-* The Canadian Cancer Society Research Institute - Innovation Grant
-* Genome Canada / Genome BC - Disruptive Innovation in Genomics Grant
-* CANARIE - Research Software Program
