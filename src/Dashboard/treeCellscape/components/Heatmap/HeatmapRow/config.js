@@ -6,6 +6,7 @@ const config = {
   rowHeight: prevConfig["rowHeight"],
   colorScale: prevConfig["colorScale"],
   ploidyColorScale: prevConfig["ploidyColorScale"],
+  ploidyColorScale2: prevConfig["ploidyColorScale2"],
   spacing: prevConfig["spacing"],
   annotationRadius: prevConfig["annotationRadius"]
 };

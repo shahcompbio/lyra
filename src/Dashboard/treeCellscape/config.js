@@ -80,7 +80,8 @@ const CONSTANTS = {
   stateScale: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   stateColors: COLORS,
   ploidyColors: DIVERGING_COLORS,
-  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12]
+  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12],
+  ploidyScale2: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 7]
 };
 
 export const config = {
@@ -206,6 +207,9 @@ export const heatmapConfig = {
   ploidyColorScale: scaleLinear()
     .domain(CONSTANTS.ploidyScale) // state
     .range(CONSTANTS.ploidyColors),
+  ploidyColorScale2: scaleLinear()
+    .domain(CONSTANTS.ploidyScale2)
+    .range(CONSTANTS.stateColors),
   annotationRadius: HEATMAP_CONSTANTS.rowHeight / 2
 };
 

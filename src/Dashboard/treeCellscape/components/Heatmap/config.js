@@ -12,6 +12,7 @@ const config = {
   rowHeight: heatmapConfig["rowHeight"],
   colorScale: heatmapConfig["colorScale"],
   ploidyColorScale: heatmapConfig["ploidyColorScale"],
+  ploidyColorScale2: heatmapConfig["ploidyColorScale2"],
   chromosome: heatmapConfig["chromosome"],
   spacing: heatmapConfig["annotationSpacing"],
   annotationRadius: heatmapConfig["annotationRadius"]

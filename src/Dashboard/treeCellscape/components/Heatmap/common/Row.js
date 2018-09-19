@@ -19,7 +19,7 @@ const Row = ({
       height={height}
       x={getSegX(seg, chromMap, bpRatio)}
       y={y}
-      fill={colorScale(seg["state"] - stateOffset)}
+      fill={colorScale(seg["state"] / stateOffset)}
       onMouseEnter={() => (onMouseEnter ? onMouseEnter(seg) : null)}
     />
   ));
