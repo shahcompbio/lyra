@@ -17,23 +17,12 @@ const { stateScale, stateColors, ploidyScale, ploidyColors } = config;
 const State = connect(state => ({
   isPloidyNormalized: getIsPloidyNormalized(state),
   isDiffOn: getIsDiffsModeOn(state)
-}))(
-  ({ isPloidyNormalized, isDiffOn }) =>
-    isPloidyNormalized || isDiffOn ? (
-      <LegendItem
-        title={"Relative CN"}
-        labels={ploidyScale}
-        colors={ploidyColors}
-        y={8}
-      />
-    ) : (
-      <LegendItem
-        title={"Copy Number"}
-        labels={stateScale}
-        colors={stateColors}
-        y={8}
-      />
-    )
-);
+}))(({ isPloidyNormalized, isDiffOn }) => {
+  const title = isDiffOn || isPloidyNormalized ? "Relative CN" : "Copy Number";
+  const labels = isDiffOn ? ploidyScale : stateScale;
+  const colors = isDiffOn ? ploidyColors : stateColors;
+
+  return <LegendItem title={title} labels={labels} colors={colors} y={8} />;
+});
 
 export default Legend;

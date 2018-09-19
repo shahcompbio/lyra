@@ -33,11 +33,54 @@ const COLORS = [
   "#D4B9DA"
 ];
 
+const DIVERGING_COLORS = [
+  "#00441b",
+  "#afdaa4",
+  "#d9f0d3",
+  "#dedede",
+  "#bfc2e2",
+  "#b2abd2",
+  "#8073ac",
+  "#624fa2",
+  "#542788",
+  "#390870",
+  "#2d004b"
+];
+
+/*[
+  "#40004b",
+  "#9970ab",
+  "#e7d4e8",
+  "#dedede",
+  "#d9f0d3",
+  "#a6dba0",
+  "#5aae61",
+  "#278e2f",
+  "#1b7837",
+  "#086524",
+  "#00441b"
+];
+
+[
+  "#00441b",
+  "#5aae61",
+  "#d9f0d3",
+  "#dedede",
+  "#d8daeb",
+  "#b2abd2",
+  "#8073ac",
+  "#624fa2",
+  "#542788",
+  "#390870",
+  "#2d004b"
+];
+*/
+
 const CONSTANTS = {
   stateScale: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   stateColors: COLORS,
-  ploidyColors: ["#073757", ...COLORS, "#fae2ff"],
-  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12]
+  ploidyColors: DIVERGING_COLORS,
+  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12]
 };
 
 export const config = {
