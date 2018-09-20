@@ -8,6 +8,7 @@ const config = {
   stateScale: legendConfig["stateScale"],
   stateColors: legendConfig["stateColors"],
   ploidyScale: legendConfig["ploidyScale"],
+  ploidyScale2: legendConfig["ploidyScale2"],
   ploidyColors: legendConfig["ploidyColors"]
 };
 

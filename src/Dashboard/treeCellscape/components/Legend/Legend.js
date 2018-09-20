@@ -12,14 +12,22 @@ const Legend = ({ analysis }) => (
   </svg>
 );
 
-const { stateScale, stateColors, ploidyScale, ploidyColors } = config;
+const {
+  stateScale,
+  stateColors,
+  ploidyScale,
+  ploidyColors,
+  ploidyScale2
+} = config;
 
 const State = connect(state => ({
   isPloidyNormalized: getIsPloidyNormalized(state),
   isDiffOn: getIsDiffsModeOn(state)
 }))(({ isPloidyNormalized, isDiffOn }) => {
   const title = isDiffOn || isPloidyNormalized ? "Relative CN" : "Copy Number";
-  const labels = isDiffOn ? ploidyScale : stateScale;
+  const labels = isDiffOn
+    ? ploidyScale
+    : isPloidyNormalized ? ploidyScale2 : stateScale;
   const colors = isDiffOn ? ploidyColors : stateColors;
 
   return <LegendItem title={title} labels={labels} colors={colors} y={8} />;

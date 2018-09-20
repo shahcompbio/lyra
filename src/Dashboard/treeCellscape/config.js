@@ -143,6 +143,7 @@ export const legendConfig = {
   stateScale: CONSTANTS.stateScale,
   stateColors: CONSTANTS.stateColors,
   ploidyScale: CONSTANTS.ploidyScale,
+  ploidyScale2: CONSTANTS.ploidyScale2.map(number => number * 100 + "%"),
   ploidyColors: CONSTANTS.ploidyColors
 };
 
