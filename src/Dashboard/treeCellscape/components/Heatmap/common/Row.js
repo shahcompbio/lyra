@@ -54,7 +54,7 @@ Row.propTypes = {
 };
 
 Row.defaultProps = {
-  stateOffset: 0
+  stateOffset: 1
 };
 /**
  * Returns segment starting x position
