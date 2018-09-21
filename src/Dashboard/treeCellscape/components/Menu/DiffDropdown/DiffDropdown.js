@@ -6,7 +6,7 @@ import Ploidy from "./Ploidy/Ploidy";
 import Mode from "./Mode/Mode";
 
 const DiffDropdown = ({ analysis }) => (
-  <DropdownButton title={"Center"} id={`dropdown-basic-diff`}>
+  <DropdownButton title={"Diff Heatmap"} id={`dropdown-basic-diff`}>
     <Ploidy analysis={analysis} />
     <Mode analysis={analysis} />
   </DropdownButton>
