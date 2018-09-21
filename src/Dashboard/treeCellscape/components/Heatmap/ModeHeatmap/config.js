@@ -2,7 +2,7 @@ import prevConfig from "../config.js";
 import { modeHeatmapConfig } from "../../../config.js";
 
 const config = {
-  colorScale: prevConfig["colorScale"],
+  colorScale: prevConfig["copyNumberColorScale"],
   ...modeHeatmapConfig
 };
 

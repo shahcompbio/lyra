@@ -77,11 +77,11 @@ const DIVERGING_COLORS = [
 */
 
 const CONSTANTS = {
-  stateScale: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-  stateColors: COLORS,
-  ploidyColors: DIVERGING_COLORS,
-  ploidyScale: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12],
-  ploidyScale2: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 7]
+  copyNumberLabels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  copyNumberColors: COLORS,
+  diffFromColors: DIVERGING_COLORS,
+  diffFromLabels: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12],
+  ploidyPercentLabels: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 7]
 };
 
 export const config = {
@@ -140,11 +140,13 @@ const LEGEND_CONSTANTS = {
 
 export const legendConfig = {
   ...LEGEND_CONSTANTS,
-  stateScale: CONSTANTS.stateScale,
-  stateColors: CONSTANTS.stateColors,
-  ploidyScale: CONSTANTS.ploidyScale,
-  ploidyScale2: CONSTANTS.ploidyScale2.map(number => number * 100 + "%"),
-  ploidyColors: CONSTANTS.ploidyColors
+  copyNumberLabels: CONSTANTS.copyNumberLabels,
+  copyNumberColors: CONSTANTS.copyNumberColors,
+  diffFromLabels: CONSTANTS.diffFromLabels,
+  ploidyPercentLabels: CONSTANTS.ploidyPercentLabels.map(
+    number => number * 100 + "%"
+  ),
+  diffFromColors: CONSTANTS.diffFromColors
 };
 
 /**
@@ -202,15 +204,15 @@ export const heatmapConfig = {
   ...HEATMAP_CONSTANTS,
   contentWidth: HEATMAP_CONSTANTS.width - HEATMAP_CONSTANTS.indicatorWidth,
   contentHeight: HEATMAP_CONSTANTS.height - HEATMAP_CONSTANTS.chromosome.height,
-  colorScale: scaleOrdinal()
-    .domain(CONSTANTS.stateScale) // state
-    .range(CONSTANTS.stateColors),
-  ploidyColorScale: scaleLinear()
-    .domain(CONSTANTS.ploidyScale) // state
-    .range(CONSTANTS.ploidyColors),
-  ploidyColorScale2: scaleLinear()
-    .domain(CONSTANTS.ploidyScale2)
-    .range(CONSTANTS.stateColors),
+  copyNumberColorScale: scaleOrdinal()
+    .domain(CONSTANTS.copyNumberLabels) // state
+    .range(CONSTANTS.copyNumberColors),
+  diffFromColorScale: scaleLinear()
+    .domain(CONSTANTS.diffFromLabels) // state
+    .range(CONSTANTS.diffFromColors),
+  ploidyPercentColorScale: scaleLinear()
+    .domain(CONSTANTS.ploidyPercentLabels)
+    .range(CONSTANTS.copyNumberColors),
   annotationRadius: HEATMAP_CONSTANTS.rowHeight / 2
 };
 

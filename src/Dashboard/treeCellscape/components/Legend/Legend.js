@@ -13,11 +13,11 @@ const Legend = ({ analysis }) => (
 );
 
 const {
-  stateScale,
-  stateColors,
-  ploidyScale,
-  ploidyColors,
-  ploidyScale2
+  copyNumberLabels,
+  copyNumberColors,
+  diffFromLabels,
+  ploidyPercentLabels,
+  diffFromColors
 } = config;
 
 const State = connect(state => ({
@@ -26,9 +26,9 @@ const State = connect(state => ({
 }))(({ isPloidyNormalized, isDiffOn }) => {
   const title = isDiffOn || isPloidyNormalized ? "Relative CN" : "Copy Number";
   const labels = isDiffOn
-    ? ploidyScale
-    : isPloidyNormalized ? ploidyScale2 : stateScale;
-  const colors = isDiffOn ? ploidyColors : stateColors;
+    ? diffFromLabels
+    : isPloidyNormalized ? ploidyPercentLabels : copyNumberLabels;
+  const colors = isDiffOn ? diffFromColors : copyNumberColors;
 
   return <LegendItem title={title} labels={labels} colors={colors} y={8} />;
 });

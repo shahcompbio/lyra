@@ -124,10 +124,10 @@ class HeatmapRow extends Component {
           onMouseEnter={onMouseEnterContent}
           colorScale={
             isDiffOn
-              ? config["ploidyColorScale"]
+              ? config["diffFromColorScale"]
               : isPloidyNormalized
-                ? config["ploidyColorScale2"]
-                : config["colorScale"]
+                ? config["ploidyPercentColorScale"]
+                : config["copyNumberColorScale"]
           }
           stateOffset={isPloidyNormalized ? ploidy : 1}
         />

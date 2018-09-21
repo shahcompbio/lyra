@@ -4,9 +4,9 @@ const config = {
   contentWidth: prevConfig["contentWidth"],
   indicatorWidth: prevConfig["indicatorWidth"],
   rowHeight: prevConfig["rowHeight"],
-  colorScale: prevConfig["colorScale"],
-  ploidyColorScale: prevConfig["ploidyColorScale"],
-  ploidyColorScale2: prevConfig["ploidyColorScale2"],
+  copyNumberColorScale: prevConfig["copyNumberColorScale"],
+  diffFromColorScale: prevConfig["diffFromColorScale"],
+  ploidyPercentColorScale: prevConfig["ploidyPercentColorScale"],
   spacing: prevConfig["spacing"],
   annotationRadius: prevConfig["annotationRadius"]
 };
