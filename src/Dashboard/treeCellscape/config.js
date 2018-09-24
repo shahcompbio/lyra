@@ -1,4 +1,4 @@
-import { scaleOrdinal, scaleLinear } from "d3";
+import { scaleOrdinal } from "d3";
 
 /**
  * Configuration defaults for views

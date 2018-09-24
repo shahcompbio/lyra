@@ -16,7 +16,6 @@ const {
   copyNumberLabels,
   copyNumberColors,
   diffFromLabels,
-  ploidyPercentLabels,
   diffFromColors
 } = config;
 

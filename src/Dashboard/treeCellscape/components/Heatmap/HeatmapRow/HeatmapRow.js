@@ -12,7 +12,7 @@ import HeatmapRowAnnotations from "./HeatmapRowAnnotations";
 import Row from "../common/Row.js";
 import ReactTooltip from "react-tooltip";
 
-import { scaleOrdinal, scaleLinear } from "d3";
+import { scaleLinear } from "d3";
 
 import config from "./config.js";
 
