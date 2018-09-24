@@ -10,9 +10,10 @@ const config = {
   contentHeight: heatmapConfig["contentHeight"],
   indicatorWidth: heatmapConfig["indicatorWidth"],
   rowHeight: heatmapConfig["rowHeight"],
-  copyNumberColorScale: heatmapConfig["copyNumberColorScale"],
-  diffFromColorScale: heatmapConfig["diffFromColorScale"],
-  ploidyPercentColorScale: heatmapConfig["ploidyPercentColorScale"],
+  copyNumberLabels: heatmapConfig["copyNumberLabels"],
+  copyNumberColors: heatmapConfig["copyNumberColors"],
+  diffFromColors: heatmapConfig["diffFromColors"],
+  diffFromLabels: heatmapConfig["diffFromLabels"],
   chromosome: heatmapConfig["chromosome"],
   spacing: heatmapConfig["annotationSpacing"],
   annotationRadius: heatmapConfig["annotationRadius"]

@@ -4,9 +4,10 @@ const config = {
   contentWidth: prevConfig["contentWidth"],
   indicatorWidth: prevConfig["indicatorWidth"],
   rowHeight: prevConfig["rowHeight"],
-  copyNumberColorScale: prevConfig["copyNumberColorScale"],
-  diffFromColorScale: prevConfig["diffFromColorScale"],
-  ploidyPercentColorScale: prevConfig["ploidyPercentColorScale"],
+  copyNumberLabels: prevConfig["copyNumberLabels"],
+  copyNumberColors: prevConfig["copyNumberColors"],
+  diffFromColors: prevConfig["diffFromColors"],
+  diffFromLabels: prevConfig["diffFromLabels"],
   spacing: prevConfig["spacing"],
   annotationRadius: prevConfig["annotationRadius"]
 };

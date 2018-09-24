@@ -12,6 +12,8 @@ import HeatmapRowAnnotations from "./HeatmapRowAnnotations";
 import Row from "../common/Row.js";
 import ReactTooltip from "react-tooltip";
 
+import { scaleOrdinal, scaleLinear } from "d3";
+
 import config from "./config.js";
 
 import {
@@ -107,6 +109,18 @@ class HeatmapRow extends Component {
     const onMouseLeave = () => {
       this.props.unhighlightElement();
     };
+
+    const labels = isDiffOn
+      ? config["diffFromLabels"]
+      : config["copyNumberLabels"];
+    const scale = isPloidyNormalized ? labels.map(label => label / 2) : labels;
+    const colors = isDiffOn
+      ? config["diffFromColors"]
+      : config["copyNumberColors"];
+    const colorScale = scaleLinear()
+      .domain(scale)
+      .range(colors);
+
     return (
       <g
         className={index}
@@ -122,13 +136,7 @@ class HeatmapRow extends Component {
           chromMap={chromMap}
           height={config["rowHeight"]}
           onMouseEnter={onMouseEnterContent}
-          colorScale={
-            isDiffOn
-              ? config["diffFromColorScale"]
-              : isPloidyNormalized
-                ? config["ploidyPercentColorScale"]
-                : config["copyNumberColorScale"]
-          }
+          colorScale={colorScale}
           stateOffset={isPloidyNormalized ? ploidy : 1}
         />
         <HeatmapRowAnnotations

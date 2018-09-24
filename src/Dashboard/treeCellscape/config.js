@@ -80,8 +80,7 @@ const CONSTANTS = {
   copyNumberLabels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   copyNumberColors: COLORS,
   diffFromColors: DIVERGING_COLORS,
-  diffFromLabels: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12],
-  ploidyPercentLabels: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 7]
+  diffFromLabels: [-12, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 12]
 };
 
 export const config = {
@@ -143,9 +142,6 @@ export const legendConfig = {
   copyNumberLabels: CONSTANTS.copyNumberLabels,
   copyNumberColors: CONSTANTS.copyNumberColors,
   diffFromLabels: CONSTANTS.diffFromLabels,
-  ploidyPercentLabels: CONSTANTS.ploidyPercentLabels.map(
-    number => number * 100 + "%"
-  ),
   diffFromColors: CONSTANTS.diffFromColors
 };
 
@@ -187,6 +183,7 @@ export const treeConfig = {
  */
 
 const HEATMAP_CONSTANTS = {
+  ...CONSTANTS,
   width: componentConfig.heatmapWidth,
   height: componentConfig.heatmapHeight,
   x: componentConfig.heatmapX,
@@ -204,15 +201,6 @@ export const heatmapConfig = {
   ...HEATMAP_CONSTANTS,
   contentWidth: HEATMAP_CONSTANTS.width - HEATMAP_CONSTANTS.indicatorWidth,
   contentHeight: HEATMAP_CONSTANTS.height - HEATMAP_CONSTANTS.chromosome.height,
-  copyNumberColorScale: scaleOrdinal()
-    .domain(CONSTANTS.copyNumberLabels) // state
-    .range(CONSTANTS.copyNumberColors),
-  diffFromColorScale: scaleLinear()
-    .domain(CONSTANTS.diffFromLabels) // state
-    .range(CONSTANTS.diffFromColors),
-  ploidyPercentColorScale: scaleLinear()
-    .domain(CONSTANTS.ploidyPercentLabels)
-    .range(CONSTANTS.copyNumberColors),
   annotationRadius: HEATMAP_CONSTANTS.rowHeight / 2
 };
 
@@ -224,7 +212,10 @@ const MODE_HM_CONSTANTS = {
   width: componentConfig.heatmapWidth,
   height: componentConfig.modeHeatmapHeight,
   x: componentConfig.heatmapX,
-  y: componentConfig.modeHeatmapY + 10
+  y: componentConfig.modeHeatmapY + 10,
+  colorScale: scaleOrdinal()
+    .domain(CONSTANTS.copyNumberLabels) // state
+    .range(CONSTANTS.copyNumberColors)
 };
 
 export const modeHeatmapConfig = {
