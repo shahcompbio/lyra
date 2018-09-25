@@ -2,8 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
 
-const AnalysisBase = ({ className, title, description, onClick }) => (
-  <div className={className} onClick={onClick}>
+import { withRouter } from "react-router-dom";
+
+const AnalysisBase = ({
+  history,
+  className,
+  id,
+  title,
+  description,
+  onClick
+}) => (
+  <div
+    className={className}
+    onClick={() => {
+      history.push("/" + id);
+      onClick();
+    }}
+  >
     <Title>{title}</Title>
     <p>
       <Description>{description}</Description>
@@ -60,4 +75,4 @@ const Analysis = styled(AnalysisBase)`
   }
 `;
 
-export default Analysis;
+export default withRouter(Analysis);

@@ -44,6 +44,7 @@ class DashboardBase extends Component {
       };
       return (
         <AnalysisItem
+          id={analysis.id}
           key={analysis.title}
           title={analysis.title}
           description={analysis.description}
