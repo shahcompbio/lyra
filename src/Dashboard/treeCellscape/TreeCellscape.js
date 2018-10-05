@@ -31,4 +31,4 @@ const mapState = state => ({
   analysis: getSelectedAnalysis(state)
 });
 
-export default connect(mapState)(TreeCellscape);
+export default TreeCellscape;

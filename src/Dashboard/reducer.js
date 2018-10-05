@@ -37,14 +37,7 @@ const reducer = (state = { selected: initialSelected }, action) => {
     state.dashboard = undefined;
   }
 
-  switch (state.selected) {
-    case "TREE_CELLSCAPE": {
-      return dashboardReducer(state, action);
-    }
-    default: {
-      return defaultReducer(state, action);
-    }
-  }
+  return dashboardReducer(state, action);
 };
 
 const getSelectedDashboard = state => state.selected;

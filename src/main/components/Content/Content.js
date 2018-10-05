@@ -3,14 +3,24 @@ import { connect } from "react-redux";
 import { getSelectedAnalysis, getSelectedDashboard } from "./selectors.js";
 import Dashboard from "Dashboard/Dashboard.js";
 
+import { withRouter } from "react-router";
+
 import styled from "react-emotion";
 
-const Content = ({ selectedAnalysis, selectedDashboard }) =>
-  selectedAnalysis === null || selectedDashboard === null ? null : (
+const Content = ({
+  selectedAnalysis,
+  selectedDashboard,
+  match,
+  location,
+  history
+}) => {
+  const analysis = location.pathname.substr(1);
+  return analysis === "" ? null : (
     <ContentDiv>
-      <Dashboard />
+      <Dashboard analysis={analysis} />
     </ContentDiv>
   );
+};
 
 const ContentDiv = styled("div")`
   width: 90%;
@@ -24,4 +34,4 @@ const mapState = state => ({
   selectedDashboard: getSelectedDashboard(state)
 });
 
-export default connect(mapState)(Content);
+export default withRouter(connect(mapState)(Content));
