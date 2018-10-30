@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getSelectedAnalysis, getSelectedDashboard } from "./selectors.js";
+import { /* TODO: remove unused code: getSelectedAnalysis,*/ getSelectedDashboard } from "./selectors.js";
 import Dashboard from "Dashboard/Dashboard.js";
 
 import { withRouter } from "react-router";
@@ -30,7 +30,8 @@ const ContentDiv = styled("div")`
 `;
 
 const mapState = state => ({
-  selectedAnalysis: getSelectedAnalysis(state),
+  // TODO: remove unused code
+  // selectedAnalysis: getSelectedAnalysis(state),
   selectedDashboard: getSelectedDashboard(state)
 });
 

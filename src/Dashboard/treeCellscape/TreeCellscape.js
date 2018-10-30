@@ -1,5 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
+// TODO: remove unused code
+// import { connect } from "react-redux";
 
 import Menu from "./components/Menu/Menu";
 import Legend from "./components/Legend/Legend";
@@ -8,7 +9,8 @@ import Heatmap from "./components/Heatmap/Heatmap";
 
 import Tooltip from "./components/Tooltip/Tooltip";
 
-import { getSelectedAnalysis } from "./selectors.js";
+// TODO: remove unused code
+// import { getSelectedAnalysis } from "./selectors.js";
 
 import { componentConfig as config } from "./config.js";
 const { width, height } = config;
@@ -26,9 +28,9 @@ const TreeCellscape = ({ analysis }) => (
     </div>
   </div>
 );
-
-const mapState = state => ({
-  analysis: getSelectedAnalysis(state)
-});
+// TODO: remove unused code
+// const mapState = state => ({
+//   analysis: getSelectedAnalysis(state)
+// });
 
 export default TreeCellscape;

@@ -24,9 +24,10 @@ const dashboardReducer = combineReducers({
   dashboard: treeCellscapeReducer
 });
 
-const defaultReducer = combineReducers({
-  selected
-});
+// TODO: remove unused code
+// const defaultReducer = combineReducers({
+//   selected
+// });
 
 /**
  * Main reducer / finite state machine
