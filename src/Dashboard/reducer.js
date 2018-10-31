@@ -10,6 +10,7 @@ import actions from "main/types.js";
 /**
  * Selected dashboard
  */
+
 export const initialSelected = null;
 export const selected = createReducer(initialSelected)({
   [actions.selectAnalysis]: (state, action) => "TREE_CELLSCAPE"
@@ -23,11 +24,6 @@ const dashboardReducer = combineReducers({
   selected,
   dashboard: treeCellscapeReducer
 });
-
-// TODO: remove unused code
-// const defaultReducer = combineReducers({
-//   selected
-// });
 
 /**
  * Main reducer / finite state machine

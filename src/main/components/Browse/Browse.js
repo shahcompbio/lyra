@@ -11,13 +11,13 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import { selectAnalysis } from "./actions.js";
-import { getSelectedAnalysis, getSelectedDashboard } from "./selectors.js";
+import { getSelectedDashboard } from "./selectors.js";
 
 class Browse extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
 
-    selectedAnalysis: PropTypes.string,
+    analysis: PropTypes.string,
 
     selectedDashboard: PropTypes.string,
 
@@ -44,7 +44,7 @@ class Browse extends Component {
       this.setState({ isOpen: false });
     };
 
-    const { selectedDashboard, selectedAnalysis, selectAnalysis } = this.props;
+    const { selectedDashboard, analysis, selectAnalysis } = this.props;
     const dashboards = this.props.data.dashboards;
 
     const dashboardItems = dashboards.map(dashboard => (
@@ -52,7 +52,7 @@ class Browse extends Component {
         key={dashboard.id}
         title={dashboard.id}
         analyses={dashboard.analyses}
-        selectedAnalysis={selectedAnalysis}
+        selectedAnalysis={analysis}
         selectedDashboard={selectedDashboard}
         onClick={onClick}
         selectAnalysis={selectAnalysis}
@@ -111,7 +111,6 @@ const DASHBOARD_QUERY = gql`
 `;
 
 const mapState = state => ({
-  selectedAnalysis: getSelectedAnalysis(state),
   selectedDashboard: getSelectedDashboard(state)
 });
 const mapDispatch = dispatch =>
