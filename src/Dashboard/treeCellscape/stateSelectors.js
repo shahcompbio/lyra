@@ -1,4 +1,5 @@
 export {
+  getHighlighted,
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
