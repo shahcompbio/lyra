@@ -1,13 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 
-import { getSelectedDashboard } from "main/stateSelectors.js";
 import TreeCellscape from "./treeCellscape/TreeCellscape.js";
 
 const Dashboard = ({ analysis }) => <TreeCellscape analysis={analysis} />;
 
-const mapState = state => ({
-  dashboard: getSelectedDashboard(state)
-});
-
-export default connect(mapState)(Dashboard);
+export default Dashboard;
