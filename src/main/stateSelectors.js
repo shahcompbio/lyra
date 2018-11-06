@@ -7,6 +7,7 @@ export const {
   // Dashboard
   getSelectedDashboard,
   getTreeCellscape,
+  getHighlighted,
   getHighlightedIndex,
   getHighlightedRange,
   getHighlightedElement,
