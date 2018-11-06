@@ -24,5 +24,4 @@ const TreeCellscape = ({ analysis }) => (
   </div>
 );
 
-
 export default TreeCellscape;
