@@ -9,8 +9,8 @@ const BaseComponent = ({ match, location }) => {
   const analysis = location.pathname.substr(1);
   return (
     <div className="App">
-      <Browse match={match} analysis={analysis} />
-      <Content match={match} analysis={analysis} />
+      <Browse analysis={analysis} />
+      <Content analysis={analysis} />
     </div>
   );
 };

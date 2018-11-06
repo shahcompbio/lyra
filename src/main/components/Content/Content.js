@@ -4,9 +4,7 @@ import Dashboard from "Dashboard/Dashboard.js";
 import styled from "react-emotion";
 
 const Content = ({
-  match,
-  analysis,
-  history
+  analysis
 }) => {
   return analysis === "" ? null : (
     <ContentDiv>
