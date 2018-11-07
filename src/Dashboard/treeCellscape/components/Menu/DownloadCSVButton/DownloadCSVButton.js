@@ -7,7 +7,7 @@ import gql from "graphql-tag";
 
 import { getCurrRootRange } from "./selectors.js";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import DownloadCSV from "./DownloadCSV.js";
