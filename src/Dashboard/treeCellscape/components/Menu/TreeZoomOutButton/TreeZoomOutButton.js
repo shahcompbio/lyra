@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { isCurrRootAtRoot } from "./selectors.js";
 import { unsetTreeRoot } from "./actions.js";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faSearchMinus } from "@fortawesome/fontawesome-free-solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearchMinus } from "@fortawesome/free-solid-svg-icons";
 
 const TreeZoomOutButton = ({ isDisabled, onClick, Button }) => (
   <Button disabled={isDisabled} onClick={onClick} title="Zoom Out">
