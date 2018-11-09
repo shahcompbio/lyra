@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import { ButtonGroup, Button } from "react-bootstrap";
+import { ButtonGroup, Button } from "reactstrap";
 
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";

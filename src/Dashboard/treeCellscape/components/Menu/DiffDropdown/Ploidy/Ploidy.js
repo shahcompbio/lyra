@@ -8,7 +8,7 @@ import { switchNormalizePloidy } from "./actions.js";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import { MenuItem } from "react-bootstrap";
+import { DropdownItem } from "reactstrap";
 
 const Ploidy = ({ analysis }) => (
   <Query query={HAS_PLOIDY_QUERY} variables={{ analysis }}>
@@ -40,9 +40,9 @@ const mapDispatch = dispatch => ({
 
 const ConnectPloidyButton = connect(mapState, mapDispatch)(
   ({ isActive, onClick }) => (
-    <MenuItem onClick={onClick} active={isActive}>
+    <DropdownItem onClick={onClick} active={isActive}>
       By Ploidy
-    </MenuItem>
+    </DropdownItem>
   )
 );
 

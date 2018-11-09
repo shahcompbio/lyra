@@ -1,19 +1,44 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { DropdownButton } from "react-bootstrap";
+import { ButtonDropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 
 import Ploidy from "./Ploidy/Ploidy";
 import Mode from "./Mode/Mode";
 
-const DiffDropdown = ({ analysis }) => (
-  <DropdownButton title={"Diff Heatmap"} id={`dropdown-basic-diff`}>
-    <Ploidy analysis={analysis} />
-    <Mode analysis={analysis} />
-  </DropdownButton>
-);
+class DiffDropdown extends Component {
+  static propTypes = {
+    analysis: PropTypes.string.isRequired
+  };
 
-DiffDropdown.propTypes = {
-  analysis: PropTypes.string.isRequired
-};
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  render() {
+    const analysis = this.props.analysis;
+    return (
+      <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} id={`dropdown-basic-diff`}>
+        <DropdownToggle>
+          Diff Heatmap
+        </DropdownToggle>    
+        <DropdownMenu>
+          <Ploidy analysis={analysis} />
+          <Mode analysis={analysis} />
+        </DropdownMenu>
+      </ButtonDropdown>
+    );
+  }
+}
 
 export default DiffDropdown;

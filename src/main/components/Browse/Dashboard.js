@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "react-emotion";
-import { Panel } from "react-bootstrap";
+import { Card, CardHeader, Collapse, CardBody, CardTitle } from "reactstrap";
 import DASHBOARD_NAMES from "./dashboardNames.js";
 import AnalysisItem from "./Analysis.js";
 
@@ -14,12 +14,14 @@ class DashboardBase extends Component {
     selectedDashboard: PropTypes.string,
     selectAnalysis: PropTypes.func.isRequired
   };
+  
   constructor(props) {
     super(props);
     this.state = {
       isDashboardExpanded: true
     };
   }
+  
   render() {
     const {
       title,
@@ -53,28 +55,28 @@ class DashboardBase extends Component {
         />
       );
     });
+    
     return (
       <div className={className}>
-        <Panels expanded={this.state.isDashboardExpanded} onToggle>
+        <Cards>
           <Heading
             onClick={dashboardClick}
-            isExpanded={this.state.isDashboardExpanded}
           >
             <Title>
               {DASHBOARD_NAMES[title]}
               <Icon />
             </Title>
           </Heading>
-          <Panel.Collapse>
+          <Collapse isOpen={this.state.isDashboardExpanded}>
             <Body>{analysisItems}</Body>
-          </Panel.Collapse>
-        </Panels>
+          </Collapse>
+        </Cards>
       </div>
     );
   }
 }
 
-const Title = styled(Panel.Title)`
+const Title = styled(CardTitle)`
   font-size: 15px;
   width: 100%;
   a {
@@ -82,18 +84,18 @@ const Title = styled(Panel.Title)`
   }
 `;
 
-const Panels = styled(Panel)`
+const Cards = styled(Card)`
   cursor: pointer;
   margin-bottom: 0px;
   border: none;
 `;
 
-const Body = styled(Panel.Body)`
+const Body = styled(CardBody)`
   padding: 0px;
 `;
 
 const Heading = styled(({ isExpanded, ...restProps }) => (
-  <Panel.Heading {...restProps} />
+  <CardHeader {...restProps} />
 ))`
   ${props =>
     props.isExpanded ? headingType["expanded"] : headingType["closed"]};

@@ -8,7 +8,7 @@ import { switchDiffsByMode } from "./actions.js";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import { MenuItem } from "react-bootstrap";
+import { DropdownItem } from "reactstrap";
 
 const Mode = ({ analysis }) => (
   <Query query={HAS_DIFFS_QUERY} variables={{ analysis }}>
@@ -39,9 +39,9 @@ const mapDispatch = dispatch => ({
 });
 
 const ConnectMode = connect(mapState, mapDispatch)(({ isActive, onClick }) => (
-  <MenuItem onClick={onClick} active={isActive}>
+  <DropdownItem onClick={onClick} active={isActive}>
     By Mode CN Profile
-  </MenuItem>
+  </DropdownItem>
 ));
 
 export default Mode;
