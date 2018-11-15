@@ -61,6 +61,7 @@ class DashboardBase extends Component {
         <Cards>
           <Heading
             onClick={dashboardClick}
+            isExpanded={this.state.isDashboardExpanded}
           >
             <Title>
               {DASHBOARD_NAMES[title]}
@@ -107,7 +108,7 @@ const Heading = styled(({ isExpanded, ...restProps }) => (
 const headingType = {
   closed: css`
     border-radius: 9px;
-    div div {
+    h5 div {
       transform: rotate(135deg);
       -webkit-transform: rotate(135deg);
       transition: 100ms linear all;
@@ -117,7 +118,7 @@ const headingType = {
     border-radius: 0px;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
-    div div {
+    h5 div {
       transform: rotate(45deg) !important;
       -webkit-transform: rotate(45deg) !important;
       transition: 100ms linear all;
