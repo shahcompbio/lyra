@@ -83,6 +83,7 @@ const Title = styled(CardTitle)`
   a {
     text-decoration: none;
   }
+  margin-bottom: 0rem;
 `;
 
 const Cards = styled(Card)`
@@ -101,7 +102,6 @@ const Heading = styled(({ isExpanded, ...restProps }) => (
   ${props =>
     props.isExpanded ? headingType["expanded"] : headingType["closed"]};
 
-  background-color: #c1c1c1;
   padding: 15px 15px 15px 5px;
 `;
 

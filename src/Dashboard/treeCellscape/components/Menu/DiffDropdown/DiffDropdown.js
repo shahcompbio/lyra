@@ -29,7 +29,7 @@ class DiffDropdown extends Component {
     const analysis = this.props.analysis;
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} id={`dropdown-basic-diff`}>
-        <DropdownToggle>
+        <DropdownToggle caret outline>
           Diff Heatmap
         </DropdownToggle>    
         <DropdownMenu>
