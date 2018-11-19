@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchMinus } from "@fortawesome/free-solid-svg-icons";
 
 const TreeZoomOutButton = ({ isDisabled, onClick, Button }) => (
-  <Button disabled={isDisabled} onClick={onClick} title="Zoom Out">
+  <Button outline disabled={isDisabled} onClick={onClick} title="Zoom Out">
     <FontAwesomeIcon icon={faSearchMinus} size="2x" />
   </Button>
 );

@@ -37,7 +37,7 @@ class DownloadCSVButton extends Component {
     const callback = () => this.setState({ isClicked: false });
 
     return (
-      <Button onClick={this.onClick} title="Download CSV of cell IDs">
+      <Button outline onClick={this.onClick} title="Download CSV of cell IDs">
         <FontAwesomeIcon icon={faDownload} size="2x" />
         {isDownloading ? (
           <Query query={IDS_QUERY} variables={{ analysis, range }}>

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import { ButtonGroup, Button } from "react-bootstrap";
+import { ButtonGroup, Button } from "reactstrap";
 
 import TreeZoomOutButton from "./TreeZoomOutButton/TreeZoomOutButton";
 import DownloadCSVButton from "./DownloadCSVButton/DownloadCSVButton";
@@ -31,9 +31,21 @@ const MenuDiv = styled("div")`
   height: 40px;
   align-items: center;
 
-  & .btn,
-  .btn-group {
+  & .btn {
+    padding: 6px 12px;
+  }
+  &.btn-group {
     height: 100%;
+  }
+  .btn-outline-secondary{
+    color: #565656;
+    border-color: #cccccc;
+  }
+  .btn-outline-secondary:not(:disabled):hover{
+    background-color: #c1c1c1;
+  }
+  .disabled {
+    cursor: not-allowed;
   }
 `;
 
@@ -60,6 +72,7 @@ MenuTitle.propTypes = {
 
   dashboard: PropTypes.string.isRequired
 };
+
 const Title = styled("span")`
   padding: 6px 10px;
   font-size: 20px;
