@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* yarn or npm
+- yarn or npm
 
 ### Installing
 
@@ -25,5 +25,9 @@ yarn start
 
 ## Authors
 
-* [**Viktoria Bojilova**](https://github.com/vbojilova)
-* [**Samantha Leung**](https://github.com/redpanda-cat)
+- [**Viktoria Bojilova**](https://github.com/vbojilova)
+- [**Samantha Leung**](https://github.com/redpanda-cat)
+
+## Additional information
+
+Additional documentation can be seen [here](https://shahcompbio-lyra.netlify.com).
