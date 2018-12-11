@@ -1,5 +1,6 @@
 {
   "docs": {
-    "Overview": ["goals", "requirements"]
+    "Overview": ["goals", "requirements"],
+    "User Stories": ["us-analyses"]
   }
 }
