@@ -12,9 +12,9 @@ As a user, I need the heatmap rows to correspond to the tree nodes, as it will b
 
 As a user, I need to be able to view copy number (CN), SNV, breakpoints, and other heatmaps that can be expressed as a matrix.
 
-- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-106)] Create loader to load CN, SNV, bp, etc as matrix
-- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-107)] GraphQL layer to pull heatmap data from database
-- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-108)] Render heatmap
+- [[VIZ-106](https://shahcompbio.atlassian.net/browse/VIZ-106)] Create loader to load CN, SNV, bp, etc as matrix
+- [[VIZ-107](https://shahcompbio.atlassian.net/browse/VIZ-107)] GraphQL layer to pull heatmap data from database
+- [[VIZ-108](https://shahcompbio.atlassian.net/browse/VIZ-108)] Render heatmap
 
 ## Heatmap plot swap
 
