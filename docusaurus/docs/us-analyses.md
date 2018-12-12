@@ -9,13 +9,13 @@ sidebar_label: Analyses
 As a user, I want to see a summary (title, description, JIRA ticket, library, sample, project) of all the analyses in Lyra so I can see what is available and what they are.
 
 - Determine workflow to get metadata into database
-  - Determine what kind of info can be pulled from Colossus
-  - Write script to pull from Colossus, generate YAML file?
-  - Manually curated YAML file for any missing metadata
-  - Write script to load YAML file into database
+  - [[VIZ-92](https://shahcompbio.atlassian.net/browse/VIZ-92)] Determine what kind of info can be pulled from Colossus
+  - [[VIZ-93](https://shahcompbio.atlassian.net/browse/VIZ-93)] Write script to pull from Colossus, generate YAML file?
+  - [[VIZ-94](https://shahcompbio.atlassian.net/browse/VIZ-94)] Manually curated YAML file for any missing metadata
+  - [[VIZ-95](https://shahcompbio.atlassian.net/browse/VIZ-95)] Write script to load YAML file into database
 - Table to show all analyses with specific columns: title, description, project, sample, libraries
-  - GraphQL layer to pull relevant information from database
-  - UI layer to render given array of analyses
+  - [[VIZ-96](https://shahcompbio.atlassian.net/browse/VIZ-96)] GraphQL layer to pull relevant information from database
+  - [[VIZ-97](https://shahcompbio.atlassian.net/browse/VIZ-97)] UI layer to render given array of analyses
 
 ## Filter/Search
 
@@ -23,25 +23,25 @@ As a user, I want to be able to filter for a particular analysis based on metada
 
 - See the categories of metadata I can filter by
 - For each category, see all values that can be selected
-  - GraphQL layer to pull data for the above two things
+  - [[VIZ-98](https://shahcompbio.atlassian.net/browse/VIZ-98)] GraphQL layer to pull data for the above two things
 - For each category, can search for particular value
 - Addition and removal of filters update list
 - For each category, select a value
 - Clear all current filters
 - Clear particular filters
-  - Recycle bubble chart filters from Cellmine
+  - [[VIZ-99](https://shahcompbio.atlassian.net/browse/VIZ-99)] Recycle bubble chart filters from Cellmine
 
 ## Select analysis
 
 As a user, I want to be able to select an analysis to view that dashboard, so I can quickly see the relevant information
 
-- Hover over an analysis entry should highlight that entry
-- Clicking on analysis entry should select that entry
-- Clicking on another entry should clear current dashboard and reload with that entry
+- [[VIZ-100](https://shahcompbio.atlassian.net/browse/VIZ-100)] Hover over an analysis entry should highlight that entry
+- [[VIZ-101](https://shahcompbio.atlassian.net/browse/VIZ-101)] Clicking on analysis entry should select that entry
+- [[VIZ-102](https://shahcompbio.atlassian.net/browse/VIZ-102)] Clicking on another entry should clear current dashboard and reload with that entry
 
 ## Portability
 
 As a developer, I want to be able to reuse this component in other dashboards, to save development time
 
-- Determine whether it's better to publish as npm library or bit.io
-- Create API documentation (should render given all relevant data)
+- [[VIZ-103](https://shahcompbio.atlassian.net/browse/VIZ-103)] Determine whether it's better to publish as npm library or bit.io
+- [[VIZ-104](https://shahcompbio.atlassian.net/browse/VIZ-104)] Create API documentation (should render given all relevant data)

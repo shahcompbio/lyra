@@ -8,7 +8,7 @@ sidebar_label: Tree
 
 As a user, I want to initially see an overview of the tree grouped by branch length, to see overall patterns.
 
-- Tree loads collapse internal nodes if only has one child that is also an internal node (add branch lengths, IDs together)
+- [[VIZ-105](https://shahcompbio.atlassian.net/browse/VIZ-105)] Tree loads collapse internal nodes if only has one child that is also an internal node (add branch lengths, IDs together)
 - Clustering algorithm on front end to display only nodes that have enough subtree to display
 
 ## Zoom In / Out

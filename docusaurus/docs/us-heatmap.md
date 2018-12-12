@@ -12,17 +12,17 @@ As a user, I need the heatmap rows to correspond to the tree nodes, as it will b
 
 As a user, I need to be able to view copy number (CN), SNV, breakpoints, and other heatmaps that can be expressed as a matrix.
 
-- Create loader
-- GraphQL layer
-- Render
+- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-106)] Create loader to load CN, SNV, bp, etc as matrix
+- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-107)] GraphQL layer to pull heatmap data from database
+- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-108)] Render heatmap
 
 ## Heatmap plot swap
 
 As a user, I want to swap between heatmap plots if there are multiple kinds of plots loaded.
 
-- GraphQL layer to detect what types of data are available
-- UI to display the types of data
-- Interaction on UI to change between plots (state change?)
+- [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-109)] GraphQL layer to detect what types of data are available
+- [[VIZ-110](https://shahcompbio.atlassian.net/browse/VIZ-110)] UI to display the types of data
+- [[VIZ-111](https://shahcompbio.atlassian.net/browse/VIZ-111)] Interaction on UI to change between plots
 
 ## Additional information
 
