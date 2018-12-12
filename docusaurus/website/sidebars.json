@@ -1,6 +1,6 @@
 {
   "docs": {
     "Overview": ["goals", "requirements"],
-    "User Stories": ["us-analyses"]
+    "User Stories": ["us-analyses", "us-tree", "us-heatmap"]
   }
 }

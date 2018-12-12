@@ -11,10 +11,11 @@ sidebar_label: Requirements
 ## Functional
 
 - [[Stories](us-analyses.md)] Select analysis based on what is available
-- Tree representation for thousands of cells
-- Heatmap (CN, SNV, breakpoint, corrupt tree output) accompanies tree
+- [[Stories](us-tree.md)] Tree representation for thousands of cells
+- [[Stories](us-heatmap.md)] Heatmap (CN, SNV, breakpoint, corrupt tree output) accompanies tree
 
 ## Non-Functional
 
+- Responsive and real-time interactions
 - Views are able to be compartmentalized
 - Unit tests
