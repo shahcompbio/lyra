@@ -9,6 +9,8 @@ sidebar_label: Tree
 As a user, I want to initially see an overview of the tree grouped by branch length, to see overall patterns.
 
 - [[VIZ-105](https://shahcompbio.atlassian.net/browse/VIZ-105)] Tree loads collapse internal nodes if only has one child that is also an internal node (add branch lengths, IDs together)
+  - [[VIZ-144](https://shahcompbio.atlassian.net/browse/VIZ-144)] Update GraphQL layer to so that ID field for trees is array (instead of string)
+  - [[VIZ-145](https://shahcompbio.atlassian.net/browse/VIZ-145)] Update front end to accept array of strings instead of a single string for tree ID
 - Clustering algorithm on front end to display only nodes that have enough subtree to display
 
 ## Zoom In / Out
