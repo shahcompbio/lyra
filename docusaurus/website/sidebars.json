@@ -1,7 +1,13 @@
 {
   "docs": {
     "Overview": ["goals", "requirements"],
-    "User Stories": ["us-analyses", "us-tree", "us-heatmap", "us-backend"],
+    "User Stories": [
+      "us-analyses",
+      "us-tree",
+      "us-heatmap",
+      "us-backend",
+      "us-deploy"
+    ],
     "Loader": ["load-tree"]
   }
 }
