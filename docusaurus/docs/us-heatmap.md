@@ -8,12 +8,18 @@ sidebar_label: Heatmap
 
 As a user, I need the heatmap rows to correspond to the tree nodes, as it will be easier to spot patterns.
 
+- Update loader to only assign index numbers (for y-position) to leaf nodes (aka cells)
+  - Update tests for tree loader
+
 ## Heatmap inputs
 
 As a user, I need to be able to view copy number (CN), SNV, breakpoints, and other heatmaps that can be expressed as a matrix.
 
 - [[VIZ-106](https://shahcompbio.atlassian.net/browse/VIZ-106)] Create loader to load CN, SNV, bp, etc as matrix
+  - Write tests for matrix loader
 - [[VIZ-107](https://shahcompbio.atlassian.net/browse/VIZ-107)] GraphQL layer to pull heatmap data from database
+  - Update graphQL schema documentation
+  - Write tests for heatmap resolver
 - [[VIZ-108](https://shahcompbio.atlassian.net/browse/VIZ-108)] Render heatmap
 
 ## Heatmap plot swap
@@ -21,6 +27,8 @@ As a user, I need to be able to view copy number (CN), SNV, breakpoints, and oth
 As a user, I want to swap between heatmap plots if there are multiple kinds of plots loaded.
 
 - [[VIZ-109](https://shahcompbio.atlassian.net/browse/VIZ-109)] GraphQL layer to detect what types of data are available
+  - Update graphQL schema documentation
+  - Write tests for heatmap plot types resolver
 - [[VIZ-110](https://shahcompbio.atlassian.net/browse/VIZ-110)] UI to display the types of data
 - [[VIZ-111](https://shahcompbio.atlassian.net/browse/VIZ-111)] Interaction on UI to change between plots
 

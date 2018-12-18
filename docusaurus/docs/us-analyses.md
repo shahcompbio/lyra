@@ -11,10 +11,16 @@ As a user, I want to see a summary (title, description, JIRA ticket, library, sa
 - Determine workflow to get metadata into database
   - [[VIZ-92](https://shahcompbio.atlassian.net/browse/VIZ-92)] Determine what kind of info can be pulled from Colossus
   - [[VIZ-93](https://shahcompbio.atlassian.net/browse/VIZ-93)] Write script to pull from Colossus, generate YAML file?
+    - Write tests from pull to Colossus
   - [[VIZ-94](https://shahcompbio.atlassian.net/browse/VIZ-94)] Manually curated YAML file for any missing metadata
   - [[VIZ-95](https://shahcompbio.atlassian.net/browse/VIZ-95)] Write script to load YAML file into database
+    - Write tests for metadata data loader
+    - Write documentation on YAML file for metadata
+  - Reload all current CorruptTree datasets with metadata
 - Table to show all analyses with specific columns: title, description, project, sample, libraries
   - [[VIZ-96](https://shahcompbio.atlassian.net/browse/VIZ-96)] GraphQL layer to pull relevant information from database
+    - Update graphQL schema documentation
+    - Write tests for metadata resolvers
   - [[VIZ-97](https://shahcompbio.atlassian.net/browse/VIZ-97)] UI layer to render given array of analyses
 
 ## Filter/Search
@@ -24,6 +30,8 @@ As a user, I want to be able to filter for a particular analysis based on metada
 - See the categories of metadata I can filter by
 - For each category, see all values that can be selected
   - [[VIZ-98](https://shahcompbio.atlassian.net/browse/VIZ-98)] GraphQL layer to pull data for the above two things
+    - Update graphQL schema documentation
+    - Write tests for filter resolvers
 - For each category, can search for particular value
 - Addition and removal of filters update list
 - For each category, select a value
