@@ -8,6 +8,7 @@
       "us-backend",
       "us-deploy"
     ],
+    "Getting Started": ["getting-started"],
     "Loader": ["load-tree"]
   }
 }

@@ -1,12 +1,16 @@
 # Lyra
 
-Lyra is a web-based visualization platform, featuring several interactive dashboards of single cell genomics data.
+Lyra is a web-based visualization dashboard for single-cell phylogeny.
 
-The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and uses a [GraphQL backend](https://github.com/shahcompbio/lyra-graphql).
+The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and uses a [GraphQL](https://graphql.org/) and [ElasticSearch](https://www.elastic.co/) backend.
+
+## Documentation
+
+All documentation for Lyra can be found on [https://shahcompbio-lyra.netlify.com](https://shahcompbio-lyra.netlify.com).
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also read it [here](https://shahcompbio-lyra.netlify.com/docs/getting-started).
 
 ### Prerequisites
 
@@ -23,11 +27,4 @@ yarn install
 yarn start
 ```
 
-## Authors
-
-- [**Viktoria Bojilova**](https://github.com/vbojilova)
-- [**Samantha Leung**](https://github.com/redpanda-cat)
-
-## Additional information
-
-Additional documentation can be seen [here](https://shahcompbio-lyra.netlify.com).
+It should automatically open up a web browser at `http://localhost:3000`. If not, go to that webpage and you should see Lyra.
