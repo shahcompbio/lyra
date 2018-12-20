@@ -16,6 +16,7 @@
       "load-segments",
       "load-metrics",
       "load-bins"
-    ]
+    ],
+    "GraphQL": ["graphql-type", "graphql-query"]
   }
 }
