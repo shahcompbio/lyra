@@ -9,6 +9,13 @@
       "us-deploy"
     ],
     "Getting Started": ["getting-started"],
-    "Loader": ["load-tree"]
+    "Loader": [
+      "load-overview",
+      "load-analysis",
+      "load-tree",
+      "load-segments",
+      "load-metrics",
+      "load-bins"
+    ]
   }
 }
