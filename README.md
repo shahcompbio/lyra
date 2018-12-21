@@ -1,5 +1,7 @@
 # Lyra
 
+[![Build Status](https://travis-ci.org/shahcompbio/lyra.svg?branch=master)](https://travis-ci.org/shahcompbio/lyra)
+
 Lyra is a web-based visualization dashboard for single-cell phylogeny.
 
 The front-end is written using [React](https://reactjs.org/) and [Redux](https://redux.js.org/), and uses a [GraphQL](https://graphql.org/) and [ElasticSearch](https://www.elastic.co/) backend.
