@@ -21,7 +21,7 @@ import {
 class TreeNodePoint extends Component {
   static propTypes = {
     /** nodeID*/
-    nodeID: PropTypes.string.isRequired,
+    nodeID: PropTypes.array.isRequired,
 
     /** heatmapIndex */
     heatmapIndex: PropTypes.number.isRequired,

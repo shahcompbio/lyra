@@ -16,14 +16,14 @@ import config from "./config.js";
 
 class TreeRoot extends Component {
   static propTypes = {
-    trueRootID: PropTypes.string.isRequired,
+    trueRootID: PropTypes.array.isRequired,
     trueIndex: PropTypes.number.isRequired,
     trueMaxIndex: PropTypes.number.isRequired,
 
     analysis: PropTypes.string.isRequired,
     setTreeRoot: PropTypes.func.isRequired,
 
-    currRootID: PropTypes.string,
+    currRootID: PropTypes.array,
     yScale: PropTypes.func
   };
 

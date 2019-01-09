@@ -6,8 +6,8 @@ import { getRootPath, getRootRanges } from "./localSelectors.js";
  */
 export const getCurrRootID = createSelector(
   [getRootPath],
-  // (array) => string
-  path => (path.length === 0 ? "" : path[0])
+  // (array) => array
+  path => path.length === 0 ? [] : path[0]
 );
 
 /**

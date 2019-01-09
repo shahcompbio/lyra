@@ -13,7 +13,7 @@ import TreeChildren from "./TreeChildren";
 import TreeHorizontalBranch from "./TreeBranch/TreeHorizontalBranch";
 
 const TREE_NODE_QUERY = gql`
-  query treeNode($analysis: String!, $id: String!) {
+  query treeNode($analysis: String!, $id: [String!]!) {
     treeNode(analysis: $analysis, id: $id) {
       id
       index
@@ -96,7 +96,7 @@ TreeNode.defaultProps = {
  */
 TreeNode.propTypes = {
   /** nodeID*/
-  nodeID: PropTypes.string.isRequired,
+  nodeID: PropTypes.array.isRequired,
 
   /** depth - current depth of node from root */
   depth: PropTypes.number.isRequired,
