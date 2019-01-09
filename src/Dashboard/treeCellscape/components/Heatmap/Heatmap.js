@@ -104,7 +104,7 @@ Heatmap.propTypes = {
 
   indices: PropTypes.arrayOf(PropTypes.number.isRequired),
 
-  rootID: PropTypes.string,
+  rootID: PropTypes.array,
 
   isDiffOn: PropTypes.bool.isRequired
 };
