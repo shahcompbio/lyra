@@ -35,7 +35,7 @@ We assume that the tree is rooted. At least one of these must be present to load
 
 ### Compression of internal nodes
 
-We assume that internal nodes contain some non-cell information, and that cells are represented by the leaves of the tree. In some tree algorithms, there are long branches where each internal node only has one child, and that child is also an internal node. Our loader collapses these kinds of nodes together.
+We assume that internal nodes contain some non-cell information, and that cells are represented by the leaves of the tree. In some tree algorithms, there are long branches where each internal node only has one child, and that child is also an internal node. Our loader collapses these kinds of nodes together, keeping track of what the ID of the first node is.
 
 - IDs are merged together as one long string, separated by commas
 - Branch lengths are added together
