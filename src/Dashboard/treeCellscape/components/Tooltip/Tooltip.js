@@ -36,7 +36,7 @@ Tooltip.propTypes = {
  */
 const TooltipText = ({ element, index, range, data, segment }) => {
   if (isCluster(element))
-    return <Tooltip text={`Descendents: ${getNumDescendents(range)}`} />;
+    return <Tooltip text={`Cell count: ${getNumDescendents(range)}`} />;
 
   if (isRow(element))
     return <Tooltip text={`${dataToText({ ...data, ...segment })}`} />;
@@ -44,7 +44,7 @@ const TooltipText = ({ element, index, range, data, segment }) => {
   if (isClade(element))
     return (
       <Tooltip
-        text={`${dataToText(data)} \n Descendents: ${getNumDescendents(range)}`}
+        text={`${dataToText(data)} \n Cell count: ${getNumDescendents(range)}`}
       />
     );
 
@@ -56,8 +56,16 @@ const TooltipText = ({ element, index, range, data, segment }) => {
  */
 const getNumDescendents = range => range[1] - range[0] + 1;
 
+const getIdText = data => {
+  const idText = (data.id.length > 3) ?
+  `${data.id.length} merged loci` :
+  `IDs:\n${data.id.map(id => "- " + id).join("\n")}`;
+
+  return idText;
+}
+
 const dataToText = data => {
-  const idText = `ID: ${data.id}`;
+  const idText = getIdText(data);
 
   return Object.keys(data).reduce(
     (str, key) =>
