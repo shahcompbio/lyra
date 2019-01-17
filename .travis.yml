@@ -1,8 +1,15 @@
 sudo: required
+dist: trusty
+
+stages:
+  - name: deploy_prod
+    if: branch = master
+  - name: deploy_test
+    if: branch = staging
+
 language: node_js
 node_js: stable
 cache: yarn
-dist: trusty
 addons:
   ssh_known_hosts:
     - "$DEPLOY_HOST"
@@ -20,26 +27,34 @@ script:
   - yarn build
 after_deploy:
   - ssh $DEPLOY_USER@deploy ./build/loadBuild.sh
-deploy:
-  - provider: script
-    skip_cleanup: true
-    script:
-      - echo -e "Host deploy\n\tHostName $DEPLOY_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
-        $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-      - eval "$(ssh-agent -s)"
-      - chmod 600 /tmp/deploy_rsa
-      - ssh-add /tmp/deploy_rsa
-      - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script:
-      - echo -e "Host deploy\n\tHostName $DEPLOY_TEST_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
-        $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-      - eval "$(ssh-agent -s)"
-      - chmod 600 /tmp/deploy_rsa
-      - ssh-add /tmp/deploy_rsa
-      - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
-    on:
-      branch: staging
+
+jobs:
+  include:
+    - stage: deploy_prod
+      before_deploy:
+        - echo -e "Host deploy\n\tHostName $DEPLOY_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
+          $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - eval "$(ssh-agent -s)"
+        - chmod 600 /tmp/deploy_rsa
+        - ssh-add /tmp/deploy_rsa
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
+        on:
+          branch: master
+    - stage: deploy_test
+      before_deploy:
+        - echo -e "Host deploy\n\tHostName $DEPLOY_TEST_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
+          $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - eval "$(ssh-agent -s)"
+        - chmod 600 /tmp/deploy_rsa
+        - ssh-add /tmp/deploy_rsa
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
+        on:
+          branch: staging
