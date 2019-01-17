@@ -4,30 +4,42 @@ node_js: stable
 cache: yarn
 dist: trusty
 addons:
-  ssh_known_hosts: "$DEPLOY_HOST"
+  ssh_known_hosts:
+    - "$DEPLOY_HOST"
+    - "$DEPLOY_TEST_HOST"
 before_install:
   - openssl aes-256-cbc -K $encrypted_60b79163352e_key -iv $encrypted_60b79163352e_iv
     -in deploy_rsa.enc -out /tmp/deploy_rsa -d
   - pwd
   - ls -la
 after_install:
-- yarn test
-before_deploy:
-- echo -e "Host deploy\n\tHostName $DEPLOY_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
-  $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- eval "$(ssh-agent -s)"
-- chmod 600 /tmp/deploy_rsa
-- ssh-add /tmp/deploy_rsa
+  - yarn test
 install:
-- npm install --save
+  - npm install --save
 script:
-- yarn build
+  - yarn build
 after_deploy:
-- ssh $DEPLOY_USER@deploy ./build/loadBuild.sh
+  - ssh $DEPLOY_USER@deploy ./build/loadBuild.sh
 deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-  - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script:
+      - echo -e "Host deploy\n\tHostName $DEPLOY_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
+        $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+      - eval "$(ssh-agent -s)"
+      - chmod 600 /tmp/deploy_rsa
+      - ssh-add /tmp/deploy_rsa
+      - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script:
+      - echo -e "Host deploy\n\tHostName $DEPLOY_TEST_HOST\n\tIdentityFile /tmp/deploy_rsa\n\tUser
+        $DEPLOY_USER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+      - eval "$(ssh-agent -s)"
+      - chmod 600 /tmp/deploy_rsa
+      - ssh-add /tmp/deploy_rsa
+      - rsync -r $TRAVIS_BUILD_DIR/build/* $DEPLOY_USER@deploy:build/travis
+    on:
+      branch: staging
