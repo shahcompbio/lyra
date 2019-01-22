@@ -56,13 +56,11 @@ const TooltipText = ({ element, index, range, data, segment }) => {
  */
 const getNumDescendents = range => range[1] - range[0] + 1;
 
-const getIdText = data => {
-  const idText = (data.id.length > 3) ?
-  `${data.id.length} merged loci` :
-  `IDs:\n${data.id.map(id => "- " + id).join("\n")}`;
-
-  return idText;
-}
+const getIdText = data => (
+  typeof data.id === "string" ? `ID: ${data.id}` :
+  data.id.length > 3 ? `${data.id.length} merged loci` :
+  `IDs:\n${data.id.map(id => "- " + id).join("\n")}`
+)
 
 const dataToText = data => {
   const idText = getIdText(data);
