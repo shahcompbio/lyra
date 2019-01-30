@@ -70,7 +70,7 @@ Load using the appropriate dashboard loader with the correct YAML file. For exam
 python tree_cellscape_loader.py -y directory/to/yaml/data_metadata.yaml
 ```
 
-This will load an entry into the analysis index, as well as the appropriate data files. You can view the [Loading Section](load-overview.md) to see more information about the data types.
+This will load an entry into the analysis index, as well as the appropriate data files. You can view the [Loading Section](load-overview.md) for more information about loading.
 
 ### Setting up graphQL
 

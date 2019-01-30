@@ -13,6 +13,8 @@ As a user, I want to see what the structure of the input files are, so I can pul
 
 As a user, I want to load tree data as a newick file or gml file.
 
+- [[VIZ-189](https://shahcompbio.atlassian.net/browse/VIZ-189)] Process CorruptTree input prior to loading
+
 As a user, I want to load the outputs of the single cell pipeline (metrics, segments, bins).
 
 As a developer, I want to be able to test the scripts in its current state, to ensure backwards compatibility in the future.
@@ -23,6 +25,12 @@ As a developer, I want to be able to test the scripts in its current state, to e
 - [[VIZ-118](https://shahcompbio.atlassian.net/browse/VIZ-118)] Write tests for segments loader
 - [[VIZ-119](https://shahcompbio.atlassian.net/browse/VIZ-119)] Document how to run tests
 - [[VIZ-120](https://shahcompbio.atlassian.net/browse/VIZ-120)] Integrate into TravisCI
+- [[VIZ-172](https://shahcompbio.atlassian.net/browse/VIZ-172)] Create Docker image for Elasticsearch instance
+- [[VIZ-174](https://shahcompbio.atlassian.net/browse/VIZ-174)] Refactor loading scripts
+
+As a developer, I want to be able to modularize the loaders, so I can use them in other projects
+
+- [[VIZ-195](https://shahcompbio.atlassian.net/browse/VIZ-195)] Create package for Python loaders
 
 ## GraphQL layer
 

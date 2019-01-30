@@ -24,10 +24,10 @@ sidebar_label: Types
 
 ### Node
 
-- id: String!
-  - cell ID
-- parent: String!
-  - ID of parent node, "root" if node is root
+- id: [String!]!
+  - all cell IDs of node
+- parent: String
+  - ID of parent node, null if node is root
 - index: Int!
   - heatmap index of node
 - maxIndex: Int!
@@ -38,8 +38,8 @@ sidebar_label: Types
 
 ### NodeChild
 
-- id: String!
-  - cell ID
+- id: [String!]!
+  - all cell IDs of node
 - index: Int!
   - heatmap index of node
 - maxIndex: Int!

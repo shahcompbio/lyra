@@ -37,3 +37,16 @@ or
 source ~/pythonenv/bin/activate
 python -m pytest test -v -s
 ```
+
+## GraphQL
+
+The tests for the graphQL layer assumes that there is some example data in the ElasticSearch instance. Load them with the python loaders. Then run the tests.
+
+```
+source ~/pythonenv/bin/activate
+cd loader
+python tree_cellscape/tree_cellscape_loader.py -y ../example/analysis_yaml.yaml
+
+cd ..
+yarn test
+```

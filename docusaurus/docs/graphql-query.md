@@ -34,7 +34,7 @@ _treeRoot(analysis: String!): Node_
 
 ### treeNode
 
-_treeNode(analysis: String!, id: String, index: Int): Node_
+_treeNode(analysis: String!, id: [String!], index: Int): Node_
 
 - Input:
   - analysis: analysis ID

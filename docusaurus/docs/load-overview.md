@@ -14,3 +14,11 @@ You can optionally add:
 
 - [Metrics data](load-metrics.md)
 - [Bin data](load-bins.md)
+
+## Loading Command
+
+To load into Lyra, use the following command with your Python virtualenv
+
+```
+python tree_cellscape_loader.py -y directory/to/yaml/data_metadata.yaml
+```
