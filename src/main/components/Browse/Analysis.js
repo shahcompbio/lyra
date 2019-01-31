@@ -10,6 +10,10 @@ const AnalysisBase = ({
   id,
   title,
   description,
+  jiraId,
+  libraryIds,
+  sampleIds,
+  project,
   onClick
 }) => (
   <div
@@ -30,6 +34,10 @@ AnalysisBase.propTypes = {
   onClick: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  jiraId: PropTypes.string.isRequired,
+  libraryIds: PropTypes.array.isRequired,
+  sampleIds: PropTypes.array.isRequired,
+  project: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired
 };
 

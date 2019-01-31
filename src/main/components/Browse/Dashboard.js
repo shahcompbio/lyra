@@ -50,6 +50,10 @@ class DashboardBase extends Component {
           key={analysis.title}
           title={analysis.title}
           description={analysis.description}
+          jiraId={analysis.jiraId}
+          libraryIds={analysis.libraryIds}
+          sampleIds={analysis.sampleIds}
+          project={analysis.project}
           onClick={onAnalysisClick}
           isSelected={isSelected}
         />

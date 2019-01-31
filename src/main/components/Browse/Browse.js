@@ -105,6 +105,10 @@ const DASHBOARD_QUERY = gql`
         id
         title
         description
+        jiraId
+        libraryIds
+        sampleIds
+        project
       }
     }
   }
