@@ -14,14 +14,11 @@ class DashboardBase extends Component {
     selectedDashboard: PropTypes.string,
     selectAnalysis: PropTypes.func.isRequired
   };
-  
+
   constructor(props) {
     super(props);
-    this.state = {
-      isDashboardExpanded: true
-    };
   }
-  
+
   render() {
     const {
       title,
@@ -32,12 +29,8 @@ class DashboardBase extends Component {
       selectAnalysis,
       onClick
     } = this.props;
-    const dashboardClick = () => {
-      this.setState({ isDashboardExpanded: !this.state.isDashboardExpanded });
-    };
     const analysisItems = analyses.map(analysis => {
-      const isSelected =
-        selectedAnalysis === analysis.id && selectedDashboard === title;
+      const isSelected = selectedAnalysis === analysis.id;
       const onAnalysisClick = () => {
         if (!isSelected) {
           selectAnalysis(analysis.id, title);
@@ -55,23 +48,10 @@ class DashboardBase extends Component {
         />
       );
     });
-    
+
     return (
       <div className={className}>
-        <Cards>
-          <Heading
-            onClick={dashboardClick}
-            isExpanded={this.state.isDashboardExpanded}
-          >
-            <Title>
-              {DASHBOARD_NAMES[title]}
-              <Icon />
-            </Title>
-          </Heading>
-          <Collapse isOpen={this.state.isDashboardExpanded}>
-            <Body>{analysisItems}</Body>
-          </Collapse>
-        </Cards>
+        <Cards>{analysisItems}</Cards>
       </div>
     );
   }
@@ -90,49 +70,6 @@ const Cards = styled(Card)`
   cursor: pointer;
   margin-bottom: 0px;
   border: none;
-`;
-
-const Body = styled(CardBody)`
-  padding: 0px;
-`;
-
-const Heading = styled(({ isExpanded, ...restProps }) => (
-  <CardHeader {...restProps} />
-))`
-  ${props =>
-    props.isExpanded ? headingType["expanded"] : headingType["closed"]};
-
-  padding: 15px 15px 15px 5px;
-`;
-
-const headingType = {
-  closed: css`
-    border-radius: 9px;
-    h5 div {
-      transform: rotate(135deg);
-      -webkit-transform: rotate(135deg);
-      transition: 100ms linear all;
-    }
-  `,
-  expanded: css`
-    border-radius: 0px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    h5 div {
-      transform: rotate(45deg) !important;
-      -webkit-transform: rotate(45deg) !important;
-      transition: 100ms linear all;
-    }
-  `
-};
-
-const Icon = styled("div")`
-  border: solid black;
-  border-width: 0 1px 1px 0;
-  display: inline-block;
-  padding: 4px;
-  float: right;
-  margin-top: 4px;
 `;
 
 const Dashboard = styled(DashboardBase)`

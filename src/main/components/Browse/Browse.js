@@ -51,7 +51,7 @@ class Browse extends Component {
       <Dashboard
         key={dashboard.id}
         title={dashboard.id}
-        analyses={dashboard.analyses}
+        analyses={[...dashboard.analyses, ...dashboard.analyses]}
         selectedAnalysis={analysis}
         selectedDashboard={selectedDashboard}
         onClick={onClick}
@@ -116,4 +116,9 @@ const mapState = state => ({
 const mapDispatch = dispatch =>
   bindActionCreators({ selectAnalysis }, dispatch);
 
-export default graphql(DASHBOARD_QUERY)(connect(mapState, mapDispatch)(Browse));
+export default graphql(DASHBOARD_QUERY)(
+  connect(
+    mapState,
+    mapDispatch
+  )(Browse)
+);
