@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 import styled, { css } from "react-emotion";
 
 import { withRouter } from "react-router-dom";
@@ -16,18 +18,22 @@ const AnalysisBase = ({
   project,
   onClick
 }) => (
-  <div
-    className={className}
+  <TableRow
+    key={id}
     onClick={() => {
       history.push("/" + id);
       onClick();
     }}
   >
-    <Title>{title}</Title>
-    <p>
-      <Description>{description}</Description>
-    </p>
-  </div>
+    <TableCell component="th" scope="row">
+      {title}
+    </TableCell>
+    <TableCell align="right">{description}</TableCell>
+    <TableCell align="right">{jiraId}</TableCell>
+    <TableCell align="right">{libraryIds}</TableCell>
+    <TableCell align="right">{sampleIds}</TableCell>
+    <TableCell align="right">{project}</TableCell>
+  </TableRow>
 );
 
 AnalysisBase.propTypes = {
@@ -35,8 +41,8 @@ AnalysisBase.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   jiraId: PropTypes.string.isRequired,
-  libraryIds: PropTypes.array.isRequired,
-  sampleIds: PropTypes.array.isRequired,
+  libraryIds: PropTypes.string.isRequired,
+  sampleIds: PropTypes.string.isRequired,
   project: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired
 };
@@ -53,15 +59,6 @@ const types = {
     background: #d0d0da;
   `
 };
-
-const Title = styled("span")`
-  font-size: 13px;
-  font-weight: bold;
-`;
-
-const Description = styled("span")`
-  color: #000000;
-`;
 
 const Analysis = styled(AnalysisBase)`
   ${props => (props.isSelected ? types["selected"] : types["normal"])};
