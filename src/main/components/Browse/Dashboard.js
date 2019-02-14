@@ -27,6 +27,7 @@ class Dashboard extends Component {
       selectAnalysis,
       classes
     } = this.props;
+
     const analysisItems = analyses.map(analysis => {
       const isSelected = selectedAnalysis === analysis.id;
       const onAnalysisClick = () => {

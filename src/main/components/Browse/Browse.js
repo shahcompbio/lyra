@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Menu } from "@material-ui/icons";
 
 import Dashboard from "./Dashboard.js";
+import Filters from "./Filters.js";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -30,8 +31,13 @@ class Browse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: true
+      isOpen: true,
+      analyses: null
     };
+  }
+
+  handleAnalysesChange(analyses) {
+    this.setState({ analyses: analyses });
   }
 
   render() {
@@ -44,17 +50,13 @@ class Browse extends Component {
     }
 
     const { analysis, selectAnalysis, className } = this.props;
-    const dashboards = this.props.data.dashboards;
 
-    const dashboardItems = dashboards.map(dashboard => (
-      <Dashboard
-        key={dashboard.id}
-        title={dashboard.id}
-        analyses={dashboard.analyses}
-        selectedAnalysis={analysis}
-        selectAnalysis={selectAnalysis}
-      />
-    ));
+    const dashboard = this.props.data.dashboards[0];
+
+    /* so I don't lose this train of thought...
+    Push analyses into filters, change them and propogate them up
+    Input the new analyses into Dashboard
+    */
     return (
       <div className={className}>
         <IconButton
@@ -73,13 +75,23 @@ class Browse extends Component {
           open={this.state.isOpen}
           onClose={() => this.setState({ isOpen: false })}
         >
+          <Filters
+            analyses={dashboard.analyses}
+            onAnalysesChange={this.handleAnalysesChange}
+          />
           <div
             tabIndex={0}
             role="button"
             onClick={() => this.setState({ isOpen: false })}
             onKeyDown={() => this.setState({ isOpen: false })}
           >
-            {dashboardItems}
+            <Dashboard
+              key={dashboard.id}
+              title={dashboard.id}
+              analyses={dashboard.analyses}
+              selectedAnalysis={analysis}
+              selectAnalysis={selectAnalysis}
+            />
           </div>
         </Drawer>
       </div>
