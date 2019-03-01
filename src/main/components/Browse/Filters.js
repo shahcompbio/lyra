@@ -1,56 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import Select from "react-select";
+import makeAnimated from "react-select/lib/animated";
 import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import NoSsr from "@material-ui/core/NoSsr";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import MenuItem from "@material-ui/core/MenuItem";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { emphasize } from "@material-ui/core/styles/colorManipulator";
-
-const suggestions = [
-  { label: "Afghanistan" },
-  { label: "Aland Islands" },
-  { label: "Albania" },
-  { label: "Algeria" },
-  { label: "American Samoa" },
-  { label: "Andorra" },
-  { label: "Angola" },
-  { label: "Anguilla" },
-  { label: "Antarctica" },
-  { label: "Antigua and Barbuda" },
-  { label: "Argentina" },
-  { label: "Armenia" },
-  { label: "Aruba" },
-  { label: "Australia" },
-  { label: "Austria" },
-  { label: "Azerbaijan" },
-  { label: "Bahamas" },
-  { label: "Bahrain" },
-  { label: "Bangladesh" },
-  { label: "Barbados" },
-  { label: "Belarus" },
-  { label: "Belgium" },
-  { label: "Belize" },
-  { label: "Benin" },
-  { label: "Bermuda" },
-  { label: "Bhutan" },
-  { label: "Bolivia, Plurinational State of" },
-  { label: "Bonaire, Sint Eustatius and Saba" },
-  { label: "Bosnia and Herzegovina" },
-  { label: "Botswana" },
-  { label: "Bouvet Island" },
-  { label: "Brazil" },
-  { label: "British Indian Ocean Territory" },
-  { label: "Brunei Darussalam" }
-].map(suggestion => ({
-  value: suggestion.label,
-  label: suggestion.label
-}));
 
 const styles = theme => ({
   root: {
@@ -61,228 +13,158 @@ const styles = theme => ({
     display: "flex",
     padding: 0
   },
-  valueContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    flex: 1,
-    alignItems: "center",
-    overflow: "hidden"
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === "light"
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-      0.08
-    )
-  },
-  noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
-  },
-  singleValue: {
-    fontSize: 16
-  },
-  placeholder: {
-    position: "absolute",
-    left: 2,
-    fontSize: 16
-  },
-  paper: {
-    position: "absolute",
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0
-  },
   divider: {
     height: theme.spacing.unit * 2
   }
 });
-
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function inputComponent({ inputRef, ...props }) {
-  return <div ref={inputRef} {...props} />;
-}
-
-function Control(props) {
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputComponent,
-        inputProps: {
-          className: props.selectProps.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps
-        }
-      }}
-      {...props.selectProps.textFieldProps}
-    />
-  );
-}
-
-function Option(props) {
-  return (
-    <MenuItem
-      buttonRef={props.innerRef}
-      selected={props.isFocused}
-      component="div"
-      style={{
-        fontWeight: props.isSelected ? 500 : 400
-      }}
-      {...props.innerProps}
-    >
-      {props.children}
-    </MenuItem>
-  );
-}
-
-function Placeholder(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function SingleValue(props) {
-  return (
-    <Typography
-      className={props.selectProps.classes.singleValue}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function ValueContainer(props) {
-  return (
-    <div className={props.selectProps.classes.valueContainer}>
-      {props.children}
-    </div>
-  );
-}
-
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  );
-}
-
-function Menu(props) {
-  return (
-    <Paper
-      square
-      className={props.selectProps.classes.paper}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Paper>
-  );
-}
-
-const components = {
-  Control,
-  Menu,
-  MultiValue,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer
-};
 
 class Filters extends Component {
   constructor(props) {
     super(props);
     this.handleAnalysesChange = this.handleAnalysesChange.bind(this);
     this.state = {
-      single: null,
-      multi: null
+      chosenFilters: {
+        title: null,
+        description: null,
+        jiraId: null,
+        libraryIds: null,
+        sampleIds: null,
+        project: null
+      },
+      analyses: this.props.analyses
+    };
+    this.filters = {
+      title: { label: "Title" },
+      description: { label: "Description" },
+      jiraId: { label: "Jira ID" },
+      libraryIds: { label: "Library ID(s)" },
+      sampleIds: { label: "Sample ID(s)" },
+      project: { label: "Project" }
     };
   }
 
-  handleChange = name => value => {
-    this.setState({
-      [name]: value
+  handleOptions(analyses, filter) {
+    // get the options that pertain to the current filter type
+    let filterOptions = analyses.map(analysis => analysis[filter]);
+    // discard duplicates
+    const seenOptions = new Set();
+    filterOptions = filterOptions.filter(option => {
+      let stringOption = JSON.stringify(option);
+      return seenOptions.has(stringOption)
+        ? false
+        : seenOptions.add(stringOption);
     });
+    // return options in a react-select friendly format
+    return filterOptions.map(option => {
+      return { label: option, value: option };
+    });
+  }
+
+  isWithinFilter(analysis, filters) {
+    Object.values(filters).reduce(
+      (result, filter) =>
+        result && this.isFilterWithinAnalysis(analysis, filter),
+      false
+    );
+  }
+
+  isFilterWithinAnalysis(analysis, filter) {
+    return (
+      JSON.Stringify(analysis[Object.key(filter)]) === JSON.Stringify(filter)
+    );
+  }
+
+  handleFilterChange = name => value => {
+    this.setState({
+      chosenFilters: {
+        ...this.state.chosenFilters,
+        [name]: value
+      }
+    });
+
+    let analyses = this.state.analyses;
+    let filters = this.state.chosenFilters;
+    // console.log(analyses);
+    // console.log(this.state.chosenFilters);
+    analyses = analyses.filter(analysis =>
+      this.isWithinFilter(analysis, filters)
+    );
+    this.setState({ analyses: analyses });
+    this.handleAnalysesChange(this.state.analyses);
   };
 
-  handleAnalysesChange(e) {
-    this.props.onAnalysesChange(e.target.value);
+  handleAnalysesChange(analyses) {
+    this.props.onAnalysesChange(analyses);
+  }
+
+  clearFilters() {
+    this.setState({
+      chosenFilters: {
+        title: null,
+        description: null,
+        jiraId: null,
+        libraryIds: null,
+        sampleIds: null,
+        project: null
+      },
+      analyses: this.props.analyses
+    });
+    this.handleAnalysesChange(this.state.analyses);
   }
 
   render() {
-    const { classes, theme } = this.props;
-
-    const selectStyles = {
-      input: base => ({
-        ...base,
-        color: theme.palette.text.primary,
-        "& input": {
-          font: "inherit"
-        }
-      })
-    };
-
-    const analyses = this.props.analyses;
+    const classes = this.props;
 
     return (
       <div className={classes.root}>
-        <NoSsr>
+        <div>{this.renderFilters()}</div>
+        <div>{this.renderClearFiltersButton()}</div>
+      </div>
+    );
+  }
+
+  renderFilters() {
+    const { classes, analyses } = this.props;
+
+    // console.log(analyses);
+
+    const filters = this.filters;
+    // console.log(filters);
+    // console.log(this.state);
+
+    return Object.keys(filters).map(filter => {
+      return (
+        <div>
+          <span>{filters[filter].label}</span>
           <Select
             classes={classes}
-            styles={selectStyles}
-            textFieldProps={{
-              label: "Label",
-              InputLabelProps: {
-                shrink: true
-              }
-            }}
-            options={suggestions}
-            components={components}
-            value={this.state.multi}
-            onChange={this.handleChange("multi")}
-            placeholder="Select multiple countries"
-            isMulti
+            options={this.handleOptions(analyses, filter)}
+            components={makeAnimated}
+            value={this.state.chosenFilters[filter]}
+            onChange={this.handleFilterChange(String(filter))}
+            placeholder="Select..."
+            isClearable
           />
-        </NoSsr>
-      </div>
+        </div>
+      );
+    });
+  }
+
+  renderClearFiltersButton() {
+    return (
+      <button
+        type="button"
+        className="clearButton"
+        onClick={() => this.clearFilters()}
+      >
+        Clear
+      </button>
     );
   }
 }
 
 Filters.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(Filters);
+export default withStyles(styles)(Filters);

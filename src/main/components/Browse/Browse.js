@@ -30,6 +30,7 @@ class Browse extends Component {
 
   constructor(props) {
     super(props);
+    this.handleAnalysesChange = this.handleAnalysesChange.bind(this);
     this.state = {
       isOpen: true,
       analyses: null
@@ -53,10 +54,8 @@ class Browse extends Component {
 
     const dashboard = this.props.data.dashboards[0];
 
-    /* so I don't lose this train of thought...
-    Push analyses into filters, change them and propogate them up
-    Input the new analyses into Dashboard
-    */
+    const analyses = this.state.analyses;
+
     return (
       <div className={className}>
         <IconButton
@@ -88,7 +87,7 @@ class Browse extends Component {
             <Dashboard
               key={dashboard.id}
               title={dashboard.id}
-              analyses={dashboard.analyses}
+              analyses={analyses ? analyses : dashboard.analyses}
               selectedAnalysis={analysis}
               selectAnalysis={selectAnalysis}
             />
@@ -122,4 +121,9 @@ const mapState = state => ({
 const mapDispatch = dispatch =>
   bindActionCreators({ selectAnalysis }, dispatch);
 
-export default graphql(DASHBOARD_QUERY)(connect(mapState, mapDispatch)(Browse));
+export default graphql(DASHBOARD_QUERY)(
+  connect(
+    mapState,
+    mapDispatch
+  )(Browse)
+);
