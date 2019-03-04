@@ -7,7 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 250
+    height: 250,
+    minWidth: 700
   },
   input: {
     display: "flex",
@@ -62,13 +63,17 @@ class Filters extends Component {
 
   isWithinFilter(analysis, filters) {
     const result = Object.keys(filters).reduce((result, filter) => {
-      console.log(result);
       return result && this.isFilterWithinAnalysis(analysis, filter, filters);
     }, true);
     return result;
   }
 
   isFilterWithinAnalysis(analysis, filter, filters) {
+    /* 
+    is the filter null? (ie. not present in the current selection)
+    If so, then add a true to the chain of ands, having no effect on the overall expression
+    If not, then check if the filter in the selection matches the data in the analysis in question
+    */
     return filters[filter]
       ? JSON.stringify(analysis[filter]) ===
         JSON.stringify(filters[filter].label)
@@ -86,11 +91,10 @@ class Filters extends Component {
         }
       },
       () => {
-        let analyses = this.state.analyses;
+        let analyses = this.props.analyses;
         let filters = this.state.chosenFilters;
+
         analyses = analyses.filter(analysis => {
-          let analysisResults = this.isWithinFilter(analysis, filters);
-          console.log(analysisResults);
           return this.isWithinFilter(analysis, filters);
         });
         this.setState({ analyses: analyses }, () =>
