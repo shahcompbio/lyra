@@ -61,36 +61,43 @@ class Filters extends Component {
   }
 
   isWithinFilter(analysis, filters) {
-    Object.values(filters).reduce(
-      (result, filter) =>
-        result && this.isFilterWithinAnalysis(analysis, filter),
-      false
-    );
+    const result = Object.keys(filters).reduce((result, filter) => {
+      console.log(result);
+      return result && this.isFilterWithinAnalysis(analysis, filter, filters);
+    }, true);
+    return result;
   }
 
-  isFilterWithinAnalysis(analysis, filter) {
-    return (
-      JSON.Stringify(analysis[Object.key(filter)]) === JSON.Stringify(filter)
-    );
+  isFilterWithinAnalysis(analysis, filter, filters) {
+    return filters[filter]
+      ? JSON.stringify(analysis[filter]) ===
+        JSON.stringify(filters[filter].label)
+        ? true
+        : false
+      : true;
   }
 
   handleFilterChange = name => value => {
-    this.setState({
-      chosenFilters: {
-        ...this.state.chosenFilters,
-        [name]: value
+    this.setState(
+      {
+        chosenFilters: {
+          ...this.state.chosenFilters,
+          [name]: value
+        }
+      },
+      () => {
+        let analyses = this.state.analyses;
+        let filters = this.state.chosenFilters;
+        analyses = analyses.filter(analysis => {
+          let analysisResults = this.isWithinFilter(analysis, filters);
+          console.log(analysisResults);
+          return this.isWithinFilter(analysis, filters);
+        });
+        this.setState({ analyses: analyses }, () =>
+          this.handleAnalysesChange(this.state.analyses)
+        );
       }
-    });
-
-    let analyses = this.state.analyses;
-    let filters = this.state.chosenFilters;
-    // console.log(analyses);
-    // console.log(this.state.chosenFilters);
-    analyses = analyses.filter(analysis =>
-      this.isWithinFilter(analysis, filters)
     );
-    this.setState({ analyses: analyses });
-    this.handleAnalysesChange(this.state.analyses);
   };
 
   handleAnalysesChange(analyses) {
@@ -98,18 +105,20 @@ class Filters extends Component {
   }
 
   clearFilters() {
-    this.setState({
-      chosenFilters: {
-        title: null,
-        description: null,
-        jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
-        project: null
+    this.setState(
+      {
+        chosenFilters: {
+          title: null,
+          description: null,
+          jiraId: null,
+          libraryIds: null,
+          sampleIds: null,
+          project: null
+        },
+        analyses: this.props.analyses
       },
-      analyses: this.props.analyses
-    });
-    this.handleAnalysesChange(this.state.analyses);
+      () => this.handleAnalysesChange(this.state.analyses)
+    );
   }
 
   render() {
@@ -126,15 +135,11 @@ class Filters extends Component {
   renderFilters() {
     const { classes, analyses } = this.props;
 
-    // console.log(analyses);
-
     const filters = this.filters;
-    // console.log(filters);
-    // console.log(this.state);
 
     return Object.keys(filters).map(filter => {
       return (
-        <div>
+        <div key={filters[filter].label}>
           <span>{filters[filter].label}</span>
           <Select
             classes={classes}
