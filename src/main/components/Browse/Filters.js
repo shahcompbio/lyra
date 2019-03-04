@@ -28,8 +28,8 @@ class Filters extends Component {
         title: null,
         description: null,
         jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
+        libraryId: null,
+        sampleId: null,
         project: null
       },
       analyses: this.props.analyses
@@ -38,8 +38,8 @@ class Filters extends Component {
       title: { label: "Title" },
       description: { label: "Description" },
       jiraId: { label: "Jira ID" },
-      libraryIds: { label: "Library ID(s)" },
-      sampleIds: { label: "Sample ID(s)" },
+      libraryIds: { label: "Library ID" },
+      sampleIds: { label: "Sample ID" },
       project: { label: "Project" }
     };
   }
@@ -55,6 +55,9 @@ class Filters extends Component {
         ? false
         : seenOptions.add(stringOption);
     });
+    // if filter type is libraryId or sampleId, expand arrays into individual choices
+    if (Array.isArray(filterOptions[0]))
+      filterOptions = [].concat(...filterOptions);
     // return options in a react-select friendly format
     return filterOptions.map(option => {
       return { label: option, value: option };
@@ -75,8 +78,12 @@ class Filters extends Component {
     If not, then check if the filter in the selection matches the data in the analysis in question
     */
     filters[filter]
-      ? JSON.stringify(analysis[filter]) ===
-        JSON.stringify(filters[filter].label)
+      ? Array.isArray(analysis[filter])
+        ? [].concat(...analysis[filter]).includes(filters[filter].label)
+          ? true
+          : false
+        : JSON.stringify(analysis[filter]) ===
+          JSON.stringify(filters[filter].label)
         ? true
         : false
       : true;
@@ -112,8 +119,8 @@ class Filters extends Component {
           title: null,
           description: null,
           jiraId: null,
-          libraryIds: null,
-          sampleIds: null,
+          libraryId: null,
+          sampleId: null,
           project: null
         },
         analyses: this.props.analyses
