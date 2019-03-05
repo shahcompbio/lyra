@@ -28,8 +28,8 @@ class Filters extends Component {
         title: null,
         description: null,
         jiraId: null,
-        libraryId: null,
-        sampleId: null,
+        libraryIds: null,
+        sampleIds: null,
         project: null
       },
       analyses: this.props.analyses
@@ -148,8 +148,8 @@ class Filters extends Component {
           title: null,
           description: null,
           jiraId: null,
-          libraryId: null,
-          sampleId: null,
+          libraryIds: null,
+          sampleIds: null,
           project: null
         },
         analyses: this.props.analyses

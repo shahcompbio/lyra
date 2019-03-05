@@ -37,9 +37,7 @@ class Browse extends Component {
     };
   }
 
-  handleAnalysesChange(analyses) {
-    this.setState({ analyses: analyses });
-  }
+  handleAnalysesChange = analyses => this.setState({ analyses: analyses });
 
   render() {
     if (this.props.data && this.props.data.loading) {
