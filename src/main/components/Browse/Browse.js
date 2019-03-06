@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-import { slide as Menu } from "react-burger-menu";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import { Menu } from "@material-ui/icons";
+
 import Dashboard from "./Dashboard.js";
 
 import { bindActionCreators } from "redux";
@@ -40,11 +43,7 @@ class Browse extends Component {
       return null;
     }
 
-    const onClick = () => {
-      this.setState({ isOpen: false });
-    };
-
-    const { selectedDashboard, analysis, selectAnalysis } = this.props;
+    const { analysis, selectAnalysis, className } = this.props;
     const dashboards = this.props.data.dashboards;
 
     const dashboardItems = dashboards.map(dashboard => (
@@ -53,49 +52,40 @@ class Browse extends Component {
         title={dashboard.id}
         analyses={dashboard.analyses}
         selectedAnalysis={analysis}
-        selectedDashboard={selectedDashboard}
-        onClick={onClick}
         selectAnalysis={selectAnalysis}
       />
     ));
     return (
-      <Menu isOpen={this.state.isOpen} styles={styles}>
-        {dashboardItems}
-      </Menu>
+      <div className={className}>
+        <IconButton
+          onClick={() => this.setState({ isOpen: true })}
+          aria-label="open analysis list"
+          style={{
+            position: "absolute",
+            left: "16px",
+            top: "16px"
+          }}
+        >
+          <Menu style={{ fontSize: 36 }} />
+        </IconButton>
+        <Drawer
+          anchor="left"
+          open={this.state.isOpen}
+          onClose={() => this.setState({ isOpen: false })}
+        >
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={() => this.setState({ isOpen: false })}
+            onKeyDown={() => this.setState({ isOpen: false })}
+          >
+            {dashboardItems}
+          </div>
+        </Drawer>
+      </div>
     );
   }
 }
-
-const styles = {
-  bmBurgerButton: {
-    position: "fixed",
-    width: "20px",
-    height: "20px",
-    left: "36px",
-    top: "36px"
-  },
-  bmBurgerBars: {
-    background: "#373a47"
-  },
-  bmCrossButton: {
-    height: "24px",
-    width: "24px"
-  },
-  bmCross: {
-    background: "#bdc3c7"
-  },
-  bmMenu: {
-    background: "#373a47",
-    padding: "2.5em 1.5em 0",
-    fontSize: "1.15em"
-  },
-  bmMorphShape: {
-    fill: "#373a47"
-  },
-  bmOverlay: {
-    background: "rgba(0, 0, 0, 0.3)"
-  }
-};
 
 const DASHBOARD_QUERY = gql`
   query {
@@ -105,6 +95,10 @@ const DASHBOARD_QUERY = gql`
         id
         title
         description
+        jiraId
+        libraryIds
+        sampleIds
+        project
       }
     }
   }
