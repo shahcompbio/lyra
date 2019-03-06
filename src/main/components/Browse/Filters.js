@@ -5,17 +5,17 @@ import makeAnimated from "react-select/lib/animated";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: 250,
-    minWidth: 700
+  clearButton: {
+    padding: "5px 10px",
+    marginTop: "20px",
+    borderRadius: "3px"
   },
-  input: {
-    display: "flex",
-    padding: 0
+  filterContainer: {
+    marginLeft: "10px",
+    order: 1
   },
-  divider: {
-    height: theme.spacing.unit * 2
+  filterGroup: {
+    width: "200px"
   }
 });
 
@@ -157,10 +157,10 @@ class Filters extends Component {
       () => this.handleAnalysesChange(this.state.analyses)
     );
 
-  renderClearFiltersButton = () => (
+  renderClearFiltersButton = buttonStyle => (
     <button
       type="button"
-      className="clearButton"
+      className={buttonStyle}
       onClick={() => this.clearFilters()}
     >
       Clear
@@ -168,14 +168,16 @@ class Filters extends Component {
   );
 
   render() {
-    const classes = this.props;
+    const classes = this.props.classes;
     const filters = this.filters;
     const analyses = this.state.analyses;
 
     return (
-      <div className={classes.root}>
-        <div>{this.renderFilters(classes, filters, analyses)}</div>
-        <div>{this.renderClearFiltersButton()}</div>
+      <div className={classes.filterContainer}>
+        <div className={classes.filterGroup}>
+          {this.renderFilters(classes, filters, analyses)}
+        </div>
+        <div>{this.renderClearFiltersButton(classes.clearButton)}</div>
       </div>
     );
   }
