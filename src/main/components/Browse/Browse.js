@@ -31,6 +31,7 @@ class Browse extends Component {
   constructor(props) {
     super(props);
     this.handleAnalysesChange = this.handleAnalysesChange.bind(this);
+    this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
     this.state = {
       isOpen: true,
       analyses: null
@@ -38,6 +39,7 @@ class Browse extends Component {
   }
 
   handleAnalysesChange = analyses => this.setState({ analyses: analyses });
+  handleAnalysisClick = () => this.setState({ isOpen: false, analyses: null });
 
   render() {
     if (this.props.data && this.props.data.loading) {
@@ -66,29 +68,28 @@ class Browse extends Component {
           <Menu style={{ fontSize: 36 }} />
         </IconButton>
         <Drawer
+          tabIndex={0}
           anchor="left"
           open={this.state.isOpen}
-          onClose={() => this.setState({ isOpen: false })}
-          classes={{ paper: { width: "2000px" } }}
+          onClose={() => this.setState({ isOpen: false, analyses: null })}
+          onKeyDown={e => {
+            if (e.keyCode === 27)
+              this.setState({ isOpen: false, analyses: null });
+          }}
         >
           <div style={{ display: "flex" }}>
             <Filters
               analyses={dashboard.analyses}
               onAnalysesChange={this.handleAnalysesChange}
             />
-            <div
-              tabIndex={0}
-              role="button"
-              onClick={() => this.setState({ isOpen: false })}
-              onKeyDown={() => this.setState({ isOpen: false })}
-              style={{ width: "1050px", order: 1 }}
-            >
+            <div style={{ width: "1050px", order: 1 }}>
               <Dashboard
                 key={dashboard.id}
                 title={dashboard.id}
                 analyses={analyses ? analyses : dashboard.analyses}
                 selectedAnalysis={analysis}
                 selectAnalysis={selectAnalysis}
+                onAnalysisClick={this.handleAnalysisClick}
               />
             </div>
           </div>

@@ -18,6 +18,13 @@ class Dashboard extends Component {
     classes: PropTypes.object.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
+  }
+
+  handleAnalysisClick = () => this.props.onAnalysisClick();
+
   render() {
     const {
       title,
@@ -34,6 +41,7 @@ class Dashboard extends Component {
         if (!isSelected) {
           selectAnalysis(analysis.id, title);
         }
+        this.handleAnalysisClick();
       };
       const formatIdList = idList => idList.join(", ");
       return (
