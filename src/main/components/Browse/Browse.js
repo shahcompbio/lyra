@@ -50,12 +50,12 @@ class Browse extends Component {
       return null;
     }
 
-    const { analysis, selectAnalysis, className } = this.props;
+    const { analysis, selectAnalysis } = this.props;
     const dashboard = this.props.data.dashboards[0];
     const analyses = this.state.analyses;
 
     return (
-      <div className={className}>
+      <div>
         <IconButton
           onClick={() => this.setState({ isOpen: true })}
           aria-label="open analysis list"
@@ -82,7 +82,14 @@ class Browse extends Component {
               analyses={dashboard.analyses}
               onAnalysesChange={this.handleAnalysesChange}
             />
-            <div style={{ width: "1050px", order: 1 }}>
+            <div
+              style={{
+                width: "1010px",
+                order: 1,
+                marginLeft: "10px",
+                marginRight: "10px"
+              }}
+            >
               <Dashboard
                 key={dashboard.id}
                 title={dashboard.id}

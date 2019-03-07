@@ -30,7 +30,6 @@ class Dashboard extends Component {
       title,
       analyses,
       selectedAnalysis,
-      className,
       selectAnalysis,
       classes
     } = this.props;
@@ -61,23 +60,21 @@ class Dashboard extends Component {
     });
 
     return (
-      <div className={className}>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Jira ID</TableCell>
-                <TableCell align="right">Library ID(s)</TableCell>
-                <TableCell align="right">Sample ID(s)</TableCell>
-                <TableCell align="right">Project</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{analysisItems}</TableBody>
-          </Table>
-        </Paper>
-      </div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell align="right">Description</TableCell>
+              <TableCell align="right">Jira ID</TableCell>
+              <TableCell align="right">Library ID(s)</TableCell>
+              <TableCell align="right">Sample ID(s)</TableCell>
+              <TableCell align="right">Project</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{analysisItems}</TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
@@ -85,9 +82,7 @@ class Dashboard extends Component {
 const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: "10px",
-    marginRight: "10px"
+    marginTop: theme.spacing.unit * 3
   }
 });
 
