@@ -2,11 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import styled from "react-emotion";
 
 import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
-const AnalysisBase = ({
+const CustomTableCell = withStyles(theme => ({
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
+const Analysis = ({
   history,
   className,
   id,
@@ -17,7 +23,8 @@ const AnalysisBase = ({
   sampleIds,
   project,
   onClick,
-  isSelected
+  isSelected,
+  classes
 }) => (
   <TableRow
     key={id}
@@ -27,18 +34,18 @@ const AnalysisBase = ({
     }}
     selected={isSelected}
   >
-    <TableCell component="th" scope="row">
+    <CustomTableCell component="th" scope="row">
       {title}
-    </TableCell>
-    <TableCell align="right">{description}</TableCell>
-    <TableCell align="right">{jiraId}</TableCell>
-    <TableCell align="right">{libraryIds}</TableCell>
-    <TableCell align="right">{sampleIds}</TableCell>
-    <TableCell align="right">{project}</TableCell>
+    </CustomTableCell>
+    <CustomTableCell align="right">{description}</CustomTableCell>
+    <CustomTableCell align="right">{jiraId}</CustomTableCell>
+    <CustomTableCell align="right">{libraryIds}</CustomTableCell>
+    <CustomTableCell align="right">{sampleIds}</CustomTableCell>
+    <CustomTableCell align="right">{project}</CustomTableCell>
   </TableRow>
 );
 
-AnalysisBase.propTypes = {
+Analysis.propTypes = {
   onClick: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -48,23 +55,5 @@ AnalysisBase.propTypes = {
   project: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired
 };
-
-const Analysis = styled(AnalysisBase)`
-  cursor: pointer;
-  border-bottom: 1px solid #ccc5c5b5;
-  width: 100%;
-  height: 100%;
-  padding: 10px 5px 0px 10px;
-  font-size: 12px;
-
-  &:last-item {
-    border-bottom-right-radius: 7px;
-    border-bottom-left-radius: 7px;
-  }
-  &:hover {
-    color: #184dc1;
-    background: #c5c4c5;
-  }
-`;
 
 export default withRouter(Analysis);

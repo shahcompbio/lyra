@@ -8,11 +8,16 @@ const styles = theme => ({
   clearButton: {
     padding: "5px 10px",
     marginTop: "20px",
-    borderRadius: "3px"
+    borderRadius: "3px",
+    "&:focus": {
+      outline: "none"
+    }
   },
   filterContainer: {
     marginLeft: "10px",
-    order: 1
+    marginTop: theme.spacing.unit * 3,
+    order: 1,
+    fontSize: 14
   },
   filterGroup: {
     width: "200px"

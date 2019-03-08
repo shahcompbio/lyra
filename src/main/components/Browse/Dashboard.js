@@ -61,15 +61,15 @@ class Dashboard extends Component {
 
     return (
       <Paper className={classes.root}>
-        <Table className={classes.table}>
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell align="right">Description</TableCell>
-              <TableCell align="right">Jira ID</TableCell>
-              <TableCell align="right">Library ID(s)</TableCell>
-              <TableCell align="right">Sample ID(s)</TableCell>
-              <TableCell align="right">Project</TableCell>
+              <CustomTableCell>Title</CustomTableCell>
+              <CustomTableCell align="right">Description</CustomTableCell>
+              <CustomTableCell align="right">Jira ID</CustomTableCell>
+              <CustomTableCell align="right">Library ID(s)</CustomTableCell>
+              <CustomTableCell align="right">Sample ID(s)</CustomTableCell>
+              <CustomTableCell align="right">Project</CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>{analysisItems}</TableBody>
@@ -85,5 +85,11 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   }
 });
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    fontSize: 16
+  }
+}))(TableCell);
 
 export default withStyles(styles)(Dashboard);

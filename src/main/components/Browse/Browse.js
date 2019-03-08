@@ -62,7 +62,8 @@ class Browse extends Component {
           style={{
             position: "absolute",
             left: "16px",
-            top: "16px"
+            top: "16px",
+            outline: "none"
           }}
         >
           <Menu style={{ fontSize: 36 }} />
@@ -84,7 +85,7 @@ class Browse extends Component {
             />
             <div
               style={{
-                width: "1010px",
+                width: "1060px",
                 order: 1,
                 marginLeft: "10px",
                 marginRight: "10px"
