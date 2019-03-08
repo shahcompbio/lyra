@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import styled, { css } from "react-emotion";
+import styled from "react-emotion";
 
 import { withRouter } from "react-router-dom";
 
@@ -16,7 +16,8 @@ const AnalysisBase = ({
   libraryIds,
   sampleIds,
   project,
-  onClick
+  onClick,
+  isSelected
 }) => (
   <TableRow
     key={id}
@@ -24,6 +25,7 @@ const AnalysisBase = ({
       history.push("/" + id);
       onClick();
     }}
+    selected={isSelected}
   >
     <TableCell component="th" scope="row">
       {title}
@@ -47,22 +49,7 @@ AnalysisBase.propTypes = {
   isSelected: PropTypes.bool.isRequired
 };
 
-const types = {
-  normal: css`
-    color: #382b56;
-    text-align: left;
-  `,
-
-  selected: css`
-    padding-right: 8px;
-    text-align: right;
-    background: #d0d0da;
-  `
-};
-
 const Analysis = styled(AnalysisBase)`
-  ${props => (props.isSelected ? types["selected"] : types["normal"])};
-
   cursor: pointer;
   border-bottom: 1px solid #ccc5c5b5;
   width: 100%;
