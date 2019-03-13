@@ -42,7 +42,7 @@ class Dashboard extends Component {
         }
         this.handleAnalysisClick();
       };
-      const formatIdList = idList => idList.join(", ");
+      const formatIdList = idList => idList.join("\n");
       return (
         <AnalysisItem
           id={analysis.id}
@@ -61,7 +61,7 @@ class Dashboard extends Component {
 
     return (
       <Paper className={classes.root}>
-        <Table>
+        <Table padding="dense">
           <TableHead>
             <TableRow>
               <CustomTableCell>Title</CustomTableCell>
@@ -88,7 +88,7 @@ const styles = theme => ({
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    fontSize: 16
+    fontSize: 15
   }
 }))(TableCell);
 

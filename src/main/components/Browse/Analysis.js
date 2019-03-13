@@ -8,7 +8,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 const CustomTableCell = withStyles(theme => ({
   body: {
-    fontSize: 14
+    fontSize: 13,
+    whiteSpace: "pre-line"
   }
 }))(TableCell);
 
