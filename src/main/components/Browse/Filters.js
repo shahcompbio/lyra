@@ -17,7 +17,10 @@ const styles = theme => ({
     marginLeft: "10px",
     marginTop: theme.spacing.unit * 3,
     order: 1,
-    fontSize: 14
+    fontSize: 12
+  },
+  filterDiv: {
+    marginTop: "5px"
   },
   filterGroup: {
     width: "200px"
@@ -131,16 +134,55 @@ class Filters extends Component {
   renderFilters = (classes, filters, analyses) =>
     Object.keys(filters).map(filter => {
       return (
-        <div key={filters[filter].label}>
+        <div className={classes.filterDiv} key={filters[filter].label}>
           <span>{filters[filter].label}</span>
           <Select
             classes={classes}
-            options={this.handleOptions(analyses, filter)}
+            classNamePrefix="$penca$"
             components={makeAnimated}
-            value={this.state.chosenFilters[filter]}
-            onChange={this.handleFilterChange(String(filter))}
-            placeholder="Select..."
             isClearable
+            onChange={this.handleFilterChange(String(filter))}
+            options={this.handleOptions(analyses, filter)}
+            placeholder="Select..."
+            styles={{
+              clearIndicator: base => ({
+                ...base,
+                padding: "0 0 2px 0"
+              }),
+              control: base => ({
+                ...base,
+                height: "25px",
+                minHeight: "25px"
+              }),
+              dropdownIndicator: base => ({
+                ...base,
+                padding: "0 2px 3px 2px"
+              }),
+              indicatorSeparator: base => ({
+                ...base,
+                display: "none"
+              }),
+              input: base => ({
+                ...base,
+                padding: 0
+              }),
+              menuList: base => ({ ...base, minHeight: "fit-content" }),
+              placeholder: base => ({
+                ...base,
+                paddingBottom: 3.25
+              }),
+              singleValue: base => ({
+                ...base,
+                paddingBottom: 3.25
+              }),
+              valueContainer: base => ({
+                ...base,
+                height: "25px",
+                minHeight: "25px",
+                padding: "0 8px 4px 8px"
+              })
+            }}
+            value={this.state.chosenFilters[filter]}
           />
         </div>
       );
