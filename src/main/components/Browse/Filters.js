@@ -6,11 +6,15 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   clearButton: {
+    color: "#000000",
     padding: "5px 10px",
     marginTop: "20px",
     borderRadius: "3px",
     "&:focus": {
       outline: "none"
+    },
+    "&:hover": {
+      backgroundColor: "#FFA954"
     }
   },
   filterContainer: {
@@ -24,6 +28,9 @@ const styles = theme => ({
   },
   filterGroup: {
     width: "200px"
+  },
+  span: {
+    color: "#000000"
   }
 });
 
@@ -135,7 +142,7 @@ class Filters extends Component {
     Object.keys(filters).map(filter => {
       return (
         <div className={classes.filterDiv} key={filters[filter].label}>
-          <span>{filters[filter].label}</span>
+          <span className={classes.span}>{filters[filter].label}</span>
           <Select
             classes={classes}
             classNamePrefix="$penca$"
@@ -149,8 +156,12 @@ class Filters extends Component {
                 ...base,
                 padding: "0 0 2px 0"
               }),
-              control: base => ({
+              control: (base, state) => ({
                 ...base,
+                borderColor: state.menuIsOpen ? "#FFA954" : "#DDDDDD",
+                ":hover": {
+                  borderColor: "#FFA954"
+                },
                 boxShadow: "none",
                 height: "25px",
                 minHeight: "25px"
@@ -180,11 +191,12 @@ class Filters extends Component {
               }),
               placeholder: base => ({
                 ...base,
+                color: "#DDDDDD",
                 paddingBottom: 3.25
               }),
               singleValue: base => ({
                 ...base,
-                color: "#FFA954",
+                color: "#686868",
                 paddingBottom: 3.25
               }),
               valueContainer: base => ({
@@ -218,9 +230,9 @@ class Filters extends Component {
 
   renderClearFiltersButton = buttonStyle => (
     <button
-      type="button"
       className={buttonStyle}
       onClick={() => this.clearFilters()}
+      type="button"
     >
       Clear
     </button>
