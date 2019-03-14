@@ -9,6 +9,22 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import AnalysisItem from "./Analysis.js";
 
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing.unit * 3,
+    width: "100%",
+    overflowX: "auto"
+  }
+});
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: "#686868",
+    color: "#FFFFFF",
+    fontSize: 15
+  }
+}))(TableCell);
+
 class Dashboard extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
@@ -64,7 +80,7 @@ class Dashboard extends Component {
         <Table padding="dense">
           <TableHead>
             <TableRow>
-              <CustomTableCell>Title</CustomTableCell>
+              <CustomTableCell align="left">Title</CustomTableCell>
               <CustomTableCell align="right">Description</CustomTableCell>
               <CustomTableCell align="right">Jira ID</CustomTableCell>
               <CustomTableCell align="right">Library ID(s)</CustomTableCell>
@@ -78,18 +94,5 @@ class Dashboard extends Component {
     );
   }
 }
-
-const styles = theme => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3
-  }
-});
-
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    fontSize: 15
-  }
-}))(TableCell);
 
 export default withStyles(styles)(Dashboard);

@@ -151,6 +151,7 @@ class Filters extends Component {
               }),
               control: base => ({
                 ...base,
+                boxShadow: "none",
                 height: "25px",
                 minHeight: "25px"
               }),
@@ -167,12 +168,23 @@ class Filters extends Component {
                 padding: 0
               }),
               menuList: base => ({ ...base, minHeight: "fit-content" }),
+              option: (base, state) => ({
+                ...base,
+                backgroundColor: state.isSelected ? "#FFA954" : "#FFFFFF",
+                ":active": {
+                  backgroundColor: "#FFA954"
+                },
+                ":hover": {
+                  backgroundColor: "#FFA954"
+                }
+              }),
               placeholder: base => ({
                 ...base,
                 paddingBottom: 3.25
               }),
               singleValue: base => ({
                 ...base,
+                color: "#FFA954",
                 paddingBottom: 3.25
               }),
               valueContainer: base => ({

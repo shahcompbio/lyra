@@ -1,21 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
 import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
 
-const CustomTableCell = withStyles(theme => ({
-  body: {
-    fontSize: 13,
-    whiteSpace: "pre-line"
+const theme = createMuiTheme({
+  overrides: {
+    MuiTableRow: {
+      root: {
+        "&$selected": {
+          backgroundColor: "#FFA954"
+        }
+      }
+    },
+    MuiTableCell: {
+      body: {
+        color: "#000000",
+        fontSize: 13,
+        whiteSpace: "pre-line"
+      }
+    }
   }
-}))(TableCell);
+});
 
 const Analysis = ({
   history,
-  className,
   id,
   title,
   description,
@@ -24,26 +35,27 @@ const Analysis = ({
   sampleIds,
   project,
   onClick,
-  isSelected,
-  classes
+  isSelected
 }) => (
-  <TableRow
-    key={id}
-    onClick={() => {
-      history.push("/" + id);
-      onClick();
-    }}
-    selected={isSelected}
-  >
-    <CustomTableCell component="th" scope="row">
-      {title}
-    </CustomTableCell>
-    <CustomTableCell align="right">{description}</CustomTableCell>
-    <CustomTableCell align="right">{jiraId}</CustomTableCell>
-    <CustomTableCell align="right">{libraryIds}</CustomTableCell>
-    <CustomTableCell align="right">{sampleIds}</CustomTableCell>
-    <CustomTableCell align="right">{project}</CustomTableCell>
-  </TableRow>
+  <MuiThemeProvider theme={theme}>
+    <TableRow
+      key={id}
+      onClick={() => {
+        history.push("/" + id);
+        onClick();
+      }}
+      selected={isSelected}
+    >
+      <TableCell align="left" component="th" scope="row">
+        {title}
+      </TableCell>
+      <TableCell align="right">{description}</TableCell>
+      <TableCell align="right">{jiraId}</TableCell>
+      <TableCell align="right">{libraryIds}</TableCell>
+      <TableCell align="right">{sampleIds}</TableCell>
+      <TableCell align="right">{project}</TableCell>
+    </TableRow>
+  </MuiThemeProvider>
 );
 
 Analysis.propTypes = {
