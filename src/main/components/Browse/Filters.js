@@ -4,7 +4,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/lib/animated";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const elementStyles = theme => ({
   clearButton: {
     color: "#000000",
     padding: "5px 10px",
@@ -33,6 +33,63 @@ const styles = theme => ({
     color: "#000000"
   }
 });
+
+const filterStyles = {
+  clearIndicator: base => ({
+    ...base,
+    padding: "0 0 2px 0"
+  }),
+  control: (base, state) => ({
+    ...base,
+    borderColor: state.hasValue
+      ? "#FFBD7C"
+      : state.menuIsOpen
+      ? "#FFBD7C"
+      : "#DDDDDD",
+    boxShadow: "none",
+    height: "25px",
+    minHeight: "25px",
+    ":hover": {
+      borderColor: "#FFBD7C"
+    }
+  }),
+  dropdownIndicator: base => ({
+    ...base,
+    padding: "0 2px 3px 2px"
+  }),
+  indicatorSeparator: base => ({
+    ...base,
+    display: "none"
+  }),
+  input: base => ({
+    ...base,
+    padding: 0
+  }),
+  menuList: base => ({ ...base, minHeight: "fit-content" }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected ? "#FFBD7C" : "#FFFFFF",
+    ":hover": {
+      backgroundColor: "#DDDDDD"
+    }
+  }),
+  placeholder: base => ({
+    ...base,
+    color: "#DDDDDD",
+    paddingBottom: 3.25
+  }),
+  singleValue: base => ({
+    ...base,
+    color: "#686868",
+    paddingBottom: 3.25
+  }),
+  valueContainer: base => ({
+    ...base,
+    height: "25px",
+    minHeight: "25px",
+    padding: "0 8px 4px 8px"
+  })
+};
 
 class Filters extends Component {
   constructor(props) {
@@ -145,68 +202,12 @@ class Filters extends Component {
           <span className={classes.span}>{filters[filter].label}</span>
           <Select
             classes={classes}
-            classNamePrefix="$penca$"
             components={makeAnimated}
             isClearable
             onChange={this.handleFilterChange(String(filter))}
             options={this.handleOptions(analyses, filter)}
             placeholder="Select..."
-            styles={{
-              clearIndicator: base => ({
-                ...base,
-                padding: "0 0 2px 0"
-              }),
-              control: (base, state) => ({
-                ...base,
-                borderColor: state.hasValue
-                  ? "#FFBD7C"
-                  : state.menuIsOpen
-                  ? "#FFBD7C"
-                  : "#DDDDDD",
-                boxShadow: "none",
-                height: "25px",
-                minHeight: "25px",
-                ":hover": {
-                  borderColor: "#FFBD7C"
-                }
-              }),
-              dropdownIndicator: base => ({
-                ...base,
-                padding: "0 2px 3px 2px"
-              }),
-              indicatorSeparator: base => ({
-                ...base,
-                display: "none"
-              }),
-              input: base => ({
-                ...base,
-                padding: 0
-              }),
-              menuList: base => ({ ...base, minHeight: "fit-content" }),
-              option: (base, state) => ({
-                ...base,
-                backgroundColor: state.isSelected ? "#FFBD7C" : "#FFFFFF",
-                ":hover": {
-                  backgroundColor: "#DDDDDD"
-                }
-              }),
-              placeholder: base => ({
-                ...base,
-                color: "#DDDDDD",
-                paddingBottom: 3.25
-              }),
-              singleValue: base => ({
-                ...base,
-                color: "#686868",
-                paddingBottom: 3.25
-              }),
-              valueContainer: base => ({
-                ...base,
-                height: "25px",
-                minHeight: "25px",
-                padding: "0 8px 4px 8px"
-              })
-            }}
+            styles={filterStyles}
             value={this.state.chosenFilters[filter]}
           />
         </div>
@@ -259,4 +260,4 @@ Filters.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Filters);
+export default withStyles(elementStyles)(Filters);
