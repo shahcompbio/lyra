@@ -14,7 +14,7 @@ const styles = theme => ({
       outline: "none"
     },
     "&:hover": {
-      backgroundColor: "#FFA954"
+      backgroundColor: "#FFBD7C"
     }
   },
   filterContainer: {
@@ -158,13 +158,17 @@ class Filters extends Component {
               }),
               control: (base, state) => ({
                 ...base,
-                borderColor: state.menuIsOpen ? "#FFA954" : "#DDDDDD",
-                ":hover": {
-                  borderColor: "#FFA954"
-                },
+                borderColor: state.hasValue
+                  ? "#FFBD7C"
+                  : state.menuIsOpen
+                  ? "#FFBD7C"
+                  : "#DDDDDD",
                 boxShadow: "none",
                 height: "25px",
-                minHeight: "25px"
+                minHeight: "25px",
+                ":hover": {
+                  borderColor: "#FFBD7C"
+                }
               }),
               dropdownIndicator: base => ({
                 ...base,
@@ -181,12 +185,9 @@ class Filters extends Component {
               menuList: base => ({ ...base, minHeight: "fit-content" }),
               option: (base, state) => ({
                 ...base,
-                backgroundColor: state.isSelected ? "#FFA954" : "#FFFFFF",
-                ":active": {
-                  backgroundColor: "#FFA954"
-                },
+                backgroundColor: state.isSelected ? "#FFBD7C" : "#FFFFFF",
                 ":hover": {
-                  backgroundColor: "#FFA954"
+                  backgroundColor: "#DDDDDD"
                 }
               }),
               placeholder: base => ({

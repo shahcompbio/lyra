@@ -9,9 +9,14 @@ import { withRouter } from "react-router-dom";
 const theme = createMuiTheme({
   overrides: {
     MuiTableRow: {
+      hover: {
+        "&$hover:hover": {
+          backgroundColor: "#DDDDDD"
+        }
+      },
       root: {
         "&$selected": {
-          backgroundColor: "#FFA954"
+          backgroundColor: "#FFBD7C"
         }
       }
     },
@@ -39,6 +44,7 @@ const Analysis = ({
 }) => (
   <MuiThemeProvider theme={theme}>
     <TableRow
+      hover
       key={id}
       onClick={() => {
         history.push("/" + id);
