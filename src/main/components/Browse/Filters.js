@@ -207,15 +207,13 @@ class Filters extends Component {
 
   handleOptions = (analyses, filter) => {
     // get the options that pertain to the current filter type
-    let filterOptions = analyses.map(analysis => analysis[filter]);
-    // discard duplicates
-    const seenOptions = new Set();
-    filterOptions = filterOptions.filter(option => {
-      let stringOption = JSON.stringify(option);
-      return seenOptions.has(stringOption)
-        ? false
-        : seenOptions.add(stringOption);
-    });
+    let filterOptions = analyses
+      .map(analysis => analysis[filter])
+      .reduce(
+        (options, filter) =>
+          options.indexOf(filter) === -1 ? [filter, ...options] : options,
+        []
+      );
     // if filter type is libraryId or sampleId, expand arrays into individual choices
     if (Array.isArray(filterOptions[0]))
       filterOptions = [].concat(...filterOptions);
