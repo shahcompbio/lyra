@@ -97,29 +97,29 @@ const ClearButton = ({ clearFilters, style }) => (
   </button>
 );
 
-const FilterList = ({
+const Filter = ({
   analyses,
   chosenFilters,
   classes,
+  filter,
   filters,
   handleFilterChange,
   handleOptions
-}) =>
-  Object.keys(filters).map(filter => (
-    <div className={classes.filterDiv} key={filters[filter].label}>
-      <span className={classes.span}>{filters[filter].label}</span>
-      <Select
-        classes={classes}
-        components={makeAnimated}
-        isClearable
-        onChange={handleFilterChange(String(filter))}
-        options={handleOptions(analyses, filter)}
-        placeholder="Select..."
-        styles={filterStyles}
-        value={chosenFilters[filter]}
-      />
-    </div>
-  ));
+}) => (
+  <div className={classes.filterDiv} key={filters[filter].label}>
+    <span className={classes.span}>{filters[filter].label}</span>
+    <Select
+      classes={classes}
+      components={makeAnimated}
+      isClearable
+      onChange={handleFilterChange(String(filter))}
+      options={handleOptions(analyses, filter)}
+      placeholder="Select..."
+      styles={filterStyles}
+      value={chosenFilters[filter]}
+    />
+  </div>
+);
 
 class Filters extends Component {
   constructor(props) {
@@ -205,23 +205,28 @@ class Filters extends Component {
     );
   };
 
-  handleOptions = (analyses, filter) => {
+  handleOptions = (analyses, filter) =>
     // get the options that pertain to the current filter type
-    let filterOptions = analyses
+    analyses
       .map(analysis => analysis[filter])
+      // if filter type is libraryId or sampleId, expand arrays into individual choices
       .reduce(
         (options, filter) =>
-          options.indexOf(filter) === -1 ? [filter, ...options] : options,
+          Array.isArray(filter)
+            ? [...options, ...filter]
+            : [...options, filter],
         []
-      );
-    // if filter type is libraryId or sampleId, expand arrays into individual choices
-    if (Array.isArray(filterOptions[0]))
-      filterOptions = [].concat(...filterOptions);
-    // return options in a react-select friendly format
-    return filterOptions.map(option => {
-      return { label: option, value: option };
-    });
-  };
+      )
+      // filter out duplicates
+      .reduce(
+        (options, filter) =>
+          options.indexOf(filter) === -1 ? [...options, filter] : options,
+        []
+      )
+      // return options in a react-select friendly format
+      .map(option => {
+        return { label: option, value: option };
+      });
 
   clearFilters = () =>
     this.setState(
@@ -247,14 +252,17 @@ class Filters extends Component {
     return (
       <div className={classes.filterContainer}>
         <div className={classes.filterGroup}>
-          <FilterList
-            analyses={analyses}
-            chosenFilters={this.state.chosenFilters}
-            classes={classes}
-            filters={filters}
-            handleFilterChange={this.handleFilterChange}
-            handleOptions={this.handleOptions}
-          />
+          {Object.keys(filters).map(filter => (
+            <Filter
+              analyses={analyses}
+              chosenFilters={this.state.chosenFilters}
+              classes={classes}
+              filter={filter}
+              filters={filters}
+              handleFilterChange={this.handleFilterChange}
+              handleOptions={this.handleOptions}
+            />
+          ))}
         </div>
         <div>
           <ClearButton
