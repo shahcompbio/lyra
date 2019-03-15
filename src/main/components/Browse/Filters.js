@@ -91,6 +91,36 @@ const filterStyles = {
   })
 };
 
+const ClearButton = ({ clearFilters, style }) => (
+  <button className={style} onClick={() => clearFilters()} type="button">
+    Clear
+  </button>
+);
+
+const FilterList = ({
+  analyses,
+  chosenFilters,
+  classes,
+  filters,
+  handleFilterChange,
+  handleOptions
+}) =>
+  Object.keys(filters).map(filter => (
+    <div className={classes.filterDiv} key={filters[filter].label}>
+      <span className={classes.span}>{filters[filter].label}</span>
+      <Select
+        classes={classes}
+        components={makeAnimated}
+        isClearable
+        onChange={handleFilterChange(String(filter))}
+        options={handleOptions(analyses, filter)}
+        placeholder="Select..."
+        styles={filterStyles}
+        value={chosenFilters[filter]}
+      />
+    </div>
+  ));
+
 class Filters extends Component {
   constructor(props) {
     super(props);
@@ -195,25 +225,6 @@ class Filters extends Component {
     });
   };
 
-  renderFilters = (classes, filters, analyses) =>
-    Object.keys(filters).map(filter => {
-      return (
-        <div className={classes.filterDiv} key={filters[filter].label}>
-          <span className={classes.span}>{filters[filter].label}</span>
-          <Select
-            classes={classes}
-            components={makeAnimated}
-            isClearable
-            onChange={this.handleFilterChange(String(filter))}
-            options={this.handleOptions(analyses, filter)}
-            placeholder="Select..."
-            styles={filterStyles}
-            value={this.state.chosenFilters[filter]}
-          />
-        </div>
-      );
-    });
-
   clearFilters = () =>
     this.setState(
       {
@@ -230,16 +241,6 @@ class Filters extends Component {
       () => this.handleAnalysesChange(this.state.analyses)
     );
 
-  renderClearFiltersButton = buttonStyle => (
-    <button
-      className={buttonStyle}
-      onClick={() => this.clearFilters()}
-      type="button"
-    >
-      Clear
-    </button>
-  );
-
   render() {
     const classes = this.props.classes;
     const filters = this.filters;
@@ -248,9 +249,21 @@ class Filters extends Component {
     return (
       <div className={classes.filterContainer}>
         <div className={classes.filterGroup}>
-          {this.renderFilters(classes, filters, analyses)}
+          <FilterList
+            analyses={analyses}
+            chosenFilters={this.state.chosenFilters}
+            classes={classes}
+            filters={filters}
+            handleFilterChange={this.handleFilterChange}
+            handleOptions={this.handleOptions}
+          />
         </div>
-        <div>{this.renderClearFiltersButton(classes.clearButton)}</div>
+        <div>
+          <ClearButton
+            clearFilters={this.clearFilters}
+            style={classes.clearButton}
+          />
+        </div>
       </div>
     );
   }
