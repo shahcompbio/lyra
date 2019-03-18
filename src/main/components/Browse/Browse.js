@@ -81,6 +81,7 @@ class Browse extends Component {
           <div style={{ display: "flex" }}>
             <Filters
               analyses={dashboard.analyses}
+              filterNames={GRAPHQL_COLUMNS}
               onAnalysesChange={this.handleAnalysesChange}
             />
             <div
@@ -123,6 +124,15 @@ const DASHBOARD_QUERY = gql`
     }
   }
 `;
+
+const GRAPHQL_COLUMNS = [
+  { title: "Title" },
+  { description: "Description" },
+  { jiraId: "Jira ID" },
+  { libraryIds: "Library ID(s)" },
+  { sampleIds: "Sample ID(s)" },
+  { project: "Project" }
+];
 
 const mapState = state => ({
   selectedDashboard: getSelectedDashboard(state)

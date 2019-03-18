@@ -102,17 +102,17 @@ const Filter = ({
   chosenFilters,
   classes,
   filter,
-  filters,
   handleFilterChange,
-  handleOptions
+  handleOptions,
+  name
 }) => (
   <div className={classes.filterDiv}>
-    <span className={classes.span}>{filters[filter].label}</span>
+    <span className={classes.span}>{name}</span>
     <Select
       classes={classes}
       components={makeAnimated}
       isClearable
-      onChange={handleFilterChange(String(filter))}
+      onChange={handleFilterChange(filter)}
       options={handleOptions(analyses, filter)}
       placeholder="Select..."
       styles={filterStyles}
@@ -136,14 +136,7 @@ class Filters extends Component {
       },
       analyses: this.props.analyses
     };
-    this.filters = {
-      title: { label: "Title" },
-      description: { label: "Description" },
-      jiraId: { label: "Jira ID" },
-      libraryIds: { label: "Library ID" },
-      sampleIds: { label: "Sample ID" },
-      project: { label: "Project" }
-    };
+    this.filters = this.props.filterNames;
   }
 
   handleAnalysesChange = analyses => this.props.onAnalysesChange(analyses);
@@ -256,16 +249,16 @@ class Filters extends Component {
     return (
       <div className={classes.filterContainer}>
         <div className={classes.filterGroup}>
-          {Object.keys(filters).map(filter => (
+          {filters.map(filter => (
             <Filter
               analyses={analyses}
               chosenFilters={this.state.chosenFilters}
               classes={classes}
-              filter={filter}
-              filters={filters}
+              filter={Object.keys(filter)[0]}
               handleFilterChange={this.handleFilterChange}
               handleOptions={this.handleOptions}
-              key={filters[filter].label}
+              key={filter[Object.keys(filter)[0]]}
+              name={filter[Object.keys(filter)[0]]}
             />
           ))}
         </div>
