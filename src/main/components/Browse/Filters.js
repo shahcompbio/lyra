@@ -106,7 +106,7 @@ const Filter = ({
   handleFilterChange,
   handleOptions
 }) => (
-  <div className={classes.filterDiv} key={filters[filter].label}>
+  <div className={classes.filterDiv}>
     <span className={classes.span}>{filters[filter].label}</span>
     <Select
       classes={classes}
@@ -148,6 +148,16 @@ class Filters extends Component {
 
   handleAnalysesChange = analyses => this.props.onAnalysesChange(analyses);
 
+  isFilterNull = filter => !filter;
+
+  isFilterLibraryOrSample = filter => Array.isArray(filter);
+
+  isFilterInArray = (analysisFilter, chosenFilter) =>
+    analysisFilter.includes(chosenFilter.label);
+
+  doFiltersMatch = (analysisFilter, chosenFilter) =>
+    JSON.stringify(analysisFilter) === JSON.stringify(chosenFilter.label);
+
   /* 
   Is the filter null? (ie. not present in the current selection)   
     If so, then return true to the chain of ands, having no effect on the overall expression
@@ -160,16 +170,10 @@ class Filters extends Component {
         If not, return false
   */
   isFilterWithinAnalysis = (analysis, filter, filters) =>
-    filters[filter]
-      ? Array.isArray(analysis[filter])
-        ? [].concat(...analysis[filter]).includes(filters[filter].label)
-          ? true
-          : false
-        : JSON.stringify(analysis[filter]) ===
-          JSON.stringify(filters[filter].label)
-        ? true
-        : false
-      : true;
+    this.isFilterNull(filters[filter]) ||
+    (this.isFilterLibraryOrSample(analysis[filter])
+      ? this.isFilterInArray(analysis[filter], filters[filter])
+      : this.doFiltersMatch(analysis[filter], filters[filter]));
 
   isWithinFilter = (analysis, filters) =>
     /*
@@ -261,6 +265,7 @@ class Filters extends Component {
               filters={filters}
               handleFilterChange={this.handleFilterChange}
               handleOptions={this.handleOptions}
+              key={filters[filter].label}
             />
           ))}
         </div>
