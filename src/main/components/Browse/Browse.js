@@ -30,15 +30,120 @@ class Browse extends Component {
 
   constructor(props) {
     super(props);
-    this.handleAnalysesChange = this.handleAnalysesChange.bind(this);
+
+    this.clearFilters = this.clearFilters.bind(this);
     this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleOptions = this.handleOptions.bind(this);
     this.state = {
-      isOpen: true,
-      analyses: null
+      analyses: null,
+      chosenFilters: {
+        title: null,
+        description: null,
+        jiraId: null,
+        libraryIds: null,
+        sampleIds: null,
+        project: null
+      },
+      isOpen: true
     };
   }
 
-  handleAnalysesChange = analyses => this.setState({ analyses: analyses });
+  isFilterNull = filter => !filter;
+
+  isFilterLibraryOrSample = filter => Array.isArray(filter);
+
+  isFilterInArray = (analysisFilter, chosenFilter) =>
+    analysisFilter.includes(chosenFilter.label);
+
+  doFiltersMatch = (analysisFilter, chosenFilter) =>
+    JSON.stringify(analysisFilter) === JSON.stringify(chosenFilter.label);
+
+  /* 
+  Is the filter null? (ie. not present in the current selection)   
+    If so, then return true to the chain of ands, having no effect on the overall expression
+    If not, is the information being filtered an array in the analysis (ie. libraryIds or sampleIds)?
+      If so, does that array contain the chosen libraryId or sampleId?
+        If so, return true
+        If not, return false  
+      If not, then check if the filter in the selection matches the data in the analysis in question
+        If so, return true
+        If not, return false
+  */
+  isFilterWithinAnalysis = (analysis, filter, filters) =>
+    this.isFilterNull(filters[filter]) ||
+    (this.isFilterLibraryOrSample(analysis[filter])
+      ? this.isFilterInArray(analysis[filter], filters[filter])
+      : this.doFiltersMatch(analysis[filter], filters[filter]));
+
+  isWithinFilter = (analysis, filters) =>
+    /*
+    reduce() has an initialValue of true
+    if a false is added, the bool return will evaluate to false
+    otherwise, it will evaluate to true
+    */
+    Object.keys(filters).reduce(
+      (result, filter) =>
+        result && this.isFilterWithinAnalysis(analysis, filter, filters),
+      true
+    );
+
+  handleFilterChange = (dashboardAnalyses, name) => value => {
+    this.setState(
+      {
+        chosenFilters: {
+          ...this.state.chosenFilters,
+          [name]: value
+        }
+      },
+      () => {
+        const filters = this.state.chosenFilters;
+        let analyses = dashboardAnalyses;
+        analyses = analyses.filter(analysis =>
+          this.isWithinFilter(analysis, filters)
+        );
+        this.setState({ analyses: analyses });
+      }
+    );
+  };
+
+  handleOptions = (currentAnalyses, filter) =>
+    // get the options that pertain to the current filter type
+    currentAnalyses
+      .map(analysis => analysis[filter])
+      // if filter type is libraryId or sampleId, expand arrays into individual choices
+      .reduce(
+        (options, filter) =>
+          Array.isArray(filter)
+            ? [...options, ...filter]
+            : [...options, filter],
+        []
+      )
+      // filter out duplicates
+      .reduce(
+        (options, filter) =>
+          options.indexOf(filter) === -1 ? [...options, filter] : options,
+        []
+      )
+      // return options in a react-select friendly format
+      .map(option => {
+        return { label: option, value: option };
+      });
+
+  clearFilters = () => {
+    this.setState({
+      analyses: null,
+      chosenFilters: {
+        title: null,
+        description: null,
+        jiraId: null,
+        libraryIds: null,
+        sampleIds: null,
+        project: null
+      }
+    });
+  };
+
   handleAnalysisClick = () => this.setState({ isOpen: false, analyses: null });
 
   render() {
@@ -52,7 +157,7 @@ class Browse extends Component {
 
     const { analysis, selectAnalysis } = this.props;
     const dashboard = this.props.data.dashboards[0];
-    const analyses = this.state.analyses;
+    const { analyses, chosenFilters } = this.state;
 
     return (
       <div>
@@ -80,9 +185,13 @@ class Browse extends Component {
         >
           <div style={{ display: "flex" }}>
             <Filters
-              analyses={dashboard.analyses}
+              chosenFilters={chosenFilters}
+              clearFilters={this.clearFilters}
+              currentAnalyses={analyses ? analyses : dashboard.analyses}
+              dashboardAnalyses={dashboard.analyses}
               filterNames={GRAPHQL_COLUMNS}
-              onAnalysesChange={this.handleAnalysesChange}
+              handleFilterChange={this.handleFilterChange}
+              handleOptions={this.handleOptions}
             />
             <div
               style={{

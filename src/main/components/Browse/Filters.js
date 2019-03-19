@@ -98,9 +98,10 @@ const ClearButton = ({ clearFilters, style }) => (
 );
 
 const Filter = ({
-  analyses,
   chosenFilters,
   classes,
+  currentAnalyses,
+  dashboardAnalyses,
   filter,
   handleFilterChange,
   handleOptions,
@@ -112,8 +113,8 @@ const Filter = ({
       classes={classes}
       components={makeAnimated}
       isClearable
-      onChange={handleFilterChange(filter)}
-      options={handleOptions(analyses, filter)}
+      onChange={handleFilterChange(dashboardAnalyses, filter)}
+      options={handleOptions(currentAnalyses, filter)}
       placeholder="Select..."
       styles={filterStyles}
       value={chosenFilters[filter]}
@@ -122,141 +123,30 @@ const Filter = ({
 );
 
 class Filters extends Component {
-  constructor(props) {
-    super(props);
-    this.handleAnalysesChange = this.handleAnalysesChange.bind(this);
-    this.state = {
-      chosenFilters: {
-        title: null,
-        description: null,
-        jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
-        project: null
-      },
-      analyses: this.props.analyses
-    };
-    this.filters = this.props.filterNames;
-  }
-
-  handleAnalysesChange = analyses => this.props.onAnalysesChange(analyses);
-
-  isFilterNull = filter => !filter;
-
-  isFilterLibraryOrSample = filter => Array.isArray(filter);
-
-  isFilterInArray = (analysisFilter, chosenFilter) =>
-    analysisFilter.includes(chosenFilter.label);
-
-  doFiltersMatch = (analysisFilter, chosenFilter) =>
-    JSON.stringify(analysisFilter) === JSON.stringify(chosenFilter.label);
-
-  /* 
-  Is the filter null? (ie. not present in the current selection)   
-    If so, then return true to the chain of ands, having no effect on the overall expression
-    If not, is the information being filtered an array in the analysis (ie. libraryIds or sampleIds)?
-      If so, does that array contain the chosen libraryId or sampleId?
-        If so, return true
-        If not, return false  
-      If not, then check if the filter in the selection matches the data in the analysis in question
-        If so, return true
-        If not, return false
-  */
-  isFilterWithinAnalysis = (analysis, filter, filters) =>
-    this.isFilterNull(filters[filter]) ||
-    (this.isFilterLibraryOrSample(analysis[filter])
-      ? this.isFilterInArray(analysis[filter], filters[filter])
-      : this.doFiltersMatch(analysis[filter], filters[filter]));
-
-  isWithinFilter = (analysis, filters) =>
-    /*
-    reduce() has an initialValue of true
-    if a false is added, the bool return will evaluate to false
-    otherwise, it will evaluate to true
-    */
-    Object.keys(filters).reduce(
-      (result, filter) =>
-        result && this.isFilterWithinAnalysis(analysis, filter, filters),
-      true
-    );
-
-  handleFilterChange = name => value => {
-    this.setState(
-      {
-        chosenFilters: {
-          ...this.state.chosenFilters,
-          [name]: value
-        }
-      },
-      () => {
-        const filters = this.state.chosenFilters;
-        let analyses = this.props.analyses;
-
-        analyses = analyses.filter(analysis =>
-          this.isWithinFilter(analysis, filters)
-        );
-        this.setState({ analyses: analyses }, () =>
-          this.handleAnalysesChange(this.state.analyses)
-        );
-      }
-    );
-  };
-
-  handleOptions = (analyses, filter) =>
-    // get the options that pertain to the current filter type
-    analyses
-      .map(analysis => analysis[filter])
-      // if filter type is libraryId or sampleId, expand arrays into individual choices
-      .reduce(
-        (options, filter) =>
-          Array.isArray(filter)
-            ? [...options, ...filter]
-            : [...options, filter],
-        []
-      )
-      // filter out duplicates
-      .reduce(
-        (options, filter) =>
-          options.indexOf(filter) === -1 ? [...options, filter] : options,
-        []
-      )
-      // return options in a react-select friendly format
-      .map(option => {
-        return { label: option, value: option };
-      });
-
-  clearFilters = () =>
-    this.setState(
-      {
-        chosenFilters: {
-          title: null,
-          description: null,
-          jiraId: null,
-          libraryIds: null,
-          sampleIds: null,
-          project: null
-        },
-        analyses: this.props.analyses
-      },
-      () => this.handleAnalysesChange(this.state.analyses)
-    );
-
   render() {
-    const classes = this.props.classes;
-    const filters = this.filters;
-    const analyses = this.state.analyses;
+    const {
+      chosenFilters,
+      classes,
+      clearFilters,
+      currentAnalyses,
+      dashboardAnalyses,
+      filterNames,
+      handleFilterChange,
+      handleOptions
+    } = this.props;
 
     return (
       <div className={classes.filterContainer}>
         <div className={classes.filterGroup}>
-          {filters.map(filter => (
+          {filterNames.map(filter => (
             <Filter
-              analyses={analyses}
-              chosenFilters={this.state.chosenFilters}
+              chosenFilters={chosenFilters}
               classes={classes}
+              currentAnalyses={currentAnalyses}
+              dashboardAnalyses={dashboardAnalyses}
               filter={Object.keys(filter)[0]}
-              handleFilterChange={this.handleFilterChange}
-              handleOptions={this.handleOptions}
+              handleFilterChange={handleFilterChange}
+              handleOptions={handleOptions}
               key={filter[Object.keys(filter)[0]]}
               name={filter[Object.keys(filter)[0]]}
             />
@@ -264,7 +154,7 @@ class Filters extends Component {
         </div>
         <div>
           <ClearButton
-            clearFilters={this.clearFilters}
+            clearFilters={clearFilters}
             style={classes.clearButton}
           />
         </div>
