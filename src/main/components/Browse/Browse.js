@@ -93,12 +93,13 @@ class Browse extends Component {
               }}
             >
               <Dashboard
-                key={dashboard.id}
-                title={dashboard.id}
                 analyses={analyses ? analyses : dashboard.analyses}
-                selectedAnalysis={analysis}
-                selectAnalysis={selectAnalysis}
+                columnNames={GRAPHQL_COLUMNS}
+                key={dashboard.id}
                 onAnalysisClick={this.handleAnalysisClick}
+                selectAnalysis={selectAnalysis}
+                selectedAnalysis={analysis}
+                title={dashboard.id}
               />
             </div>
           </div>

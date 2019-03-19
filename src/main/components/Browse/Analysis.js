@@ -30,49 +30,37 @@ const theme = createMuiTheme({
   }
 });
 
-const Analysis = ({
-  history,
-  id,
-  title,
-  description,
-  jiraId,
-  libraryIds,
-  sampleIds,
-  project,
-  onClick,
-  isSelected
-}) => (
+const Analysis = ({ analysis, history, isSelected, onClick }) => (
   <MuiThemeProvider theme={theme}>
     <TableRow
       hover
-      key={id}
+      key={analysis.id}
       onClick={() => {
-        history.push("/" + id);
+        history.push("/" + analysis.id);
         onClick();
       }}
       selected={isSelected}
     >
       <TableCell align="left" component="th" scope="row">
-        {title}
+        {analysis.title}
       </TableCell>
-      <TableCell align="right">{description}</TableCell>
-      <TableCell align="right">{jiraId}</TableCell>
-      <TableCell align="right">{libraryIds}</TableCell>
-      <TableCell align="right">{sampleIds}</TableCell>
-      <TableCell align="right">{project}</TableCell>
+      {Object.keys(analysis)
+        .filter(
+          columnName => ["id", "title", "__typename"].indexOf(columnName) === -1
+        )
+        .map(columnName => (
+          <TableCell align="right" key={analysis[columnName]}>
+            {analysis[columnName]}
+          </TableCell>
+        ))}
     </TableRow>
   </MuiThemeProvider>
 );
 
 Analysis.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  jiraId: PropTypes.string.isRequired,
-  libraryIds: PropTypes.string.isRequired,
-  sampleIds: PropTypes.string.isRequired,
-  project: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired
+  analysis: PropTypes.object.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default withRouter(Analysis);

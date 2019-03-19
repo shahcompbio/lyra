@@ -43,11 +43,12 @@ class Dashboard extends Component {
 
   render() {
     const {
-      title,
       analyses,
-      selectedAnalysis,
+      classes,
+      columnNames,
       selectAnalysis,
-      classes
+      selectedAnalysis,
+      title
     } = this.props;
 
     const analysisItems = analyses.map(analysis => {
@@ -59,18 +60,17 @@ class Dashboard extends Component {
         this.handleAnalysisClick();
       };
       const formatIdList = idList => idList.join("\n");
+      analysis = {
+        ...analysis,
+        libraryIds: formatIdList(analysis.libraryIds),
+        sampleIds: formatIdList(analysis.sampleIds)
+      };
       return (
         <AnalysisItem
-          id={analysis.id}
-          key={analysis.title}
-          title={analysis.title}
-          description={analysis.description}
-          jiraId={analysis.jiraId}
-          libraryIds={formatIdList(analysis.libraryIds)}
-          sampleIds={formatIdList(analysis.sampleIds)}
-          project={analysis.project}
-          onClick={onAnalysisClick}
+          analysis={analysis}
           isSelected={isSelected}
+          key={analysis.title}
+          onClick={onAnalysisClick}
         />
       );
     });
@@ -80,12 +80,19 @@ class Dashboard extends Component {
         <Table padding="dense">
           <TableHead>
             <TableRow>
-              <CustomTableCell align="left">Title</CustomTableCell>
-              <CustomTableCell align="right">Description</CustomTableCell>
-              <CustomTableCell align="right">Jira ID</CustomTableCell>
-              <CustomTableCell align="right">Library ID(s)</CustomTableCell>
-              <CustomTableCell align="right">Sample ID(s)</CustomTableCell>
-              <CustomTableCell align="right">Project</CustomTableCell>
+              <CustomTableCell align="left">
+                {Object.values(columnNames[0])}
+              </CustomTableCell>
+              {columnNames
+                .filter(columnName => Object.keys(columnName)[0] !== "title")
+                .map(columnName => (
+                  <CustomTableCell
+                    align="right"
+                    key={Object.values(columnName)}
+                  >
+                    {Object.values(columnName)}
+                  </CustomTableCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>{analysisItems}</TableBody>
