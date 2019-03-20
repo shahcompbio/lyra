@@ -59,17 +59,6 @@ class Browse extends Component {
   doFiltersMatch = (analysisFilter, chosenFilter) =>
     JSON.stringify(analysisFilter) === JSON.stringify(chosenFilter.label);
 
-  /* 
-  Is the filter null? (ie. not present in the current selection)   
-    If so, then return true to the chain of ands, having no effect on the overall expression
-    If not, is the information being filtered an array in the analysis (ie. libraryIds or sampleIds)?
-      If so, does that array contain the chosen libraryId or sampleId?
-        If so, return true
-        If not, return false  
-      If not, then check if the filter in the selection matches the data in the analysis in question
-        If so, return true
-        If not, return false
-  */
   isFilterWithinAnalysis = (analysis, filter, filters) =>
     this.isFilterNull(filters[filter]) ||
     (this.isFilterLibraryOrSample(analysis[filter])
@@ -77,11 +66,6 @@ class Browse extends Component {
       : this.doFiltersMatch(analysis[filter], filters[filter]));
 
   isWithinFilter = (analysis, filters) =>
-    /*
-    reduce() has an initialValue of true
-    if a false is added, the bool return will evaluate to false
-    otherwise, it will evaluate to true
-    */
     Object.keys(filters).reduce(
       (result, filter) =>
         result && this.isFilterWithinAnalysis(analysis, filter, filters),
