@@ -162,7 +162,9 @@ class Browse extends Component {
     return (
       <div>
         <IconButton
-          onClick={() => this.setState({ isOpen: true })}
+          onClick={() =>
+            this.setState({ isOpen: true }, () => this.clearFilters())
+          }
           aria-label="open analysis list"
           style={{
             position: "absolute",
@@ -177,10 +179,9 @@ class Browse extends Component {
           tabIndex={0}
           anchor="left"
           open={this.state.isOpen}
-          onClose={() => this.setState({ isOpen: false, analyses: null })}
+          onClose={() => this.setState({ isOpen: false })}
           onKeyDown={e => {
-            if (e.keyCode === 27)
-              this.setState({ isOpen: false, analyses: null });
+            if (e.keyCode === 27) this.setState({ isOpen: false });
           }}
         >
           <div style={{ display: "flex" }}>
