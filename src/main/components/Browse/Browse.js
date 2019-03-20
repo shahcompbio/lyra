@@ -205,7 +205,6 @@ class Browse extends Component {
               <Dashboard
                 analyses={analyses ? analyses : dashboard.analyses}
                 columnNames={GRAPHQL_COLUMNS}
-                key={dashboard.id}
                 onAnalysisClick={this.handleAnalysisClick}
                 selectAnalysis={selectAnalysis}
                 selectedAnalysis={analysis}

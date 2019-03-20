@@ -27,11 +27,12 @@ const CustomTableCell = withStyles(theme => ({
 
 class Dashboard extends Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
     analyses: PropTypes.array.isRequired,
-    selectedAnalysis: PropTypes.string,
+    classes: PropTypes.object.isRequired,
+    columnNames: PropTypes.array.isRequired,
     selectAnalysis: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    selectedAnalysis: PropTypes.string,
+    title: PropTypes.string.isRequired
   };
 
   constructor(props) {

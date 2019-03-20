@@ -147,8 +147,8 @@ class Filters extends Component {
               filter={Object.keys(filter)[0]}
               handleFilterChange={handleFilterChange}
               handleOptions={handleOptions}
-              key={filter[Object.keys(filter)[0]]}
-              name={filter[Object.keys(filter)[0]]}
+              key={Object.values(filter)}
+              name={Object.values(filter)}
             />
           ))}
         </div>
@@ -164,7 +164,14 @@ class Filters extends Component {
 }
 
 Filters.propTypes = {
-  classes: PropTypes.object.isRequired
+  chosenFilters: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  clearFilters: PropTypes.func.isRequired,
+  currentAnalyses: PropTypes.array.isRequired,
+  dashboardAnalyses: PropTypes.array.isRequired,
+  filterNames: PropTypes.array.isRequired,
+  handleFilterChange: PropTypes.func.isRequired,
+  handleOptions: PropTypes.func.isRequired
 };
 
 export default withStyles(elementStyles)(Filters);
