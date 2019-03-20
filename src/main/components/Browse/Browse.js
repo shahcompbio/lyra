@@ -48,6 +48,8 @@ class Browse extends Component {
     };
   }
 
+  handleAnalysisClick = () => this.setState({ isOpen: false, analyses: null });
+
   isFilterNull = filter => !filter;
 
   isFilterLibraryOrSample = filter => Array.isArray(filter);
@@ -104,7 +106,20 @@ class Browse extends Component {
     });
   };
 
-  handleAnalysisClick = () => this.setState({ isOpen: false, analyses: null });
+  handleDrawerClose = () => {
+    this.setState({
+      analyses: null,
+      chosenFilters: {
+        title: null,
+        description: null,
+        jiraId: null,
+        libraryIds: null,
+        sampleIds: null,
+        project: null
+      },
+      isOpen: false
+    });
+  };
 
   render() {
     if (this.props.data && this.props.data.loading) {
@@ -122,9 +137,7 @@ class Browse extends Component {
     return (
       <div>
         <IconButton
-          onClick={() =>
-            this.setState({ isOpen: true }, () => this.clearFilters())
-          }
+          onClick={() => this.setState({ isOpen: true })}
           aria-label="open analysis list"
           style={{
             position: "absolute",
@@ -139,9 +152,9 @@ class Browse extends Component {
           tabIndex={0}
           anchor="left"
           open={this.state.isOpen}
-          onClose={() => this.setState({ isOpen: false })}
+          onClose={() => this.handleDrawerClose()}
           onKeyDown={e => {
-            if (e.keyCode === 27) this.setState({ isOpen: false });
+            if (e.keyCode === 27) this.handleDrawerClose();
           }}
         >
           <div style={{ display: "flex" }}>
