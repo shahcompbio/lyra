@@ -104,7 +104,7 @@ const Filter = ({
   dashboardAnalyses,
   filter,
   handleFilterChange,
-  handleOptions,
+  displayOptions,
   name
 }) => (
   <div className={classes.filterDiv}>
@@ -114,7 +114,7 @@ const Filter = ({
       components={makeAnimated}
       isClearable
       onChange={handleFilterChange(dashboardAnalyses, filter)}
-      options={handleOptions(currentAnalyses, filter)}
+      options={displayOptions(currentAnalyses, filter)}
       placeholder="Select..."
       styles={filterStyles}
       value={chosenFilters[filter]}
@@ -123,6 +123,29 @@ const Filter = ({
 );
 
 class Filters extends Component {
+  displayOptions = (currentAnalyses, filter) =>
+    // get the options that pertain to the current filter type
+    currentAnalyses
+      .map(analysis => analysis[filter])
+      // if filter type is libraryId or sampleId, expand arrays into individual choices
+      .reduce(
+        (options, filter) =>
+          Array.isArray(filter)
+            ? [...options, ...filter]
+            : [...options, filter],
+        []
+      )
+      // filter out duplicates
+      .reduce(
+        (options, filter) =>
+          options.indexOf(filter) === -1 ? [...options, filter] : options,
+        []
+      )
+      // return options in a react-select friendly format
+      .map(option => {
+        return { label: option, value: option };
+      });
+
   render() {
     const {
       chosenFilters,
@@ -131,8 +154,7 @@ class Filters extends Component {
       currentAnalyses,
       dashboardAnalyses,
       filterNames,
-      handleFilterChange,
-      handleOptions
+      handleFilterChange
     } = this.props;
 
     return (
@@ -146,7 +168,7 @@ class Filters extends Component {
               dashboardAnalyses={dashboardAnalyses}
               filter={Object.keys(filter)[0]}
               handleFilterChange={handleFilterChange}
-              handleOptions={handleOptions}
+              displayOptions={this.displayOptions}
               key={Object.values(filter)}
               name={Object.values(filter)}
             />
@@ -170,8 +192,7 @@ Filters.propTypes = {
   currentAnalyses: PropTypes.array.isRequired,
   dashboardAnalyses: PropTypes.array.isRequired,
   filterNames: PropTypes.array.isRequired,
-  handleFilterChange: PropTypes.func.isRequired,
-  handleOptions: PropTypes.func.isRequired
+  handleFilterChange: PropTypes.func.isRequired
 };
 
 export default withStyles(elementStyles)(Filters);

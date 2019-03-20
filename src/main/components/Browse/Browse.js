@@ -34,7 +34,6 @@ class Browse extends Component {
     this.clearFilters = this.clearFilters.bind(this);
     this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handleOptions = this.handleOptions.bind(this);
     this.state = {
       analyses: null,
       chosenFilters: {
@@ -90,29 +89,6 @@ class Browse extends Component {
       }
     );
   };
-
-  handleOptions = (currentAnalyses, filter) =>
-    // get the options that pertain to the current filter type
-    currentAnalyses
-      .map(analysis => analysis[filter])
-      // if filter type is libraryId or sampleId, expand arrays into individual choices
-      .reduce(
-        (options, filter) =>
-          Array.isArray(filter)
-            ? [...options, ...filter]
-            : [...options, filter],
-        []
-      )
-      // filter out duplicates
-      .reduce(
-        (options, filter) =>
-          options.indexOf(filter) === -1 ? [...options, filter] : options,
-        []
-      )
-      // return options in a react-select friendly format
-      .map(option => {
-        return { label: option, value: option };
-      });
 
   clearFilters = () => {
     this.setState({
@@ -176,7 +152,6 @@ class Browse extends Component {
               dashboardAnalyses={dashboard.analyses}
               filterNames={GRAPHQL_COLUMNS}
               handleFilterChange={this.handleFilterChange}
-              handleOptions={this.handleOptions}
             />
             <div
               style={{
