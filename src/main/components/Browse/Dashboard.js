@@ -64,13 +64,13 @@ const Dashboard = ({
         <TableHead>
           <TableRow>
             <CustomTableCell align="left">
-              {Object.values(columnNames[0])}
+              {columnNames[0]["name"]}
             </CustomTableCell>
             {columnNames
-              .filter(columnName => Object.keys(columnName)[0] !== "title")
+              .filter(columnName => columnName["id"] !== "title")
               .map(columnName => (
-                <CustomTableCell align="right" key={Object.values(columnName)}>
-                  {Object.values(columnName)}
+                <CustomTableCell align="right" key={columnName["id"]}>
+                  {columnName["name"]}
                 </CustomTableCell>
               ))}
           </TableRow>

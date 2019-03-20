@@ -195,12 +195,12 @@ const DASHBOARD_QUERY = gql`
 `;
 
 const GRAPHQL_COLUMNS = [
-  { title: "Title" },
-  { description: "Description" },
-  { jiraId: "Jira ID" },
-  { libraryIds: "Library ID(s)" },
-  { sampleIds: "Sample ID(s)" },
-  { project: "Project" }
+  { id: "title", name: "Title" },
+  { id: "description", name: "Description" },
+  { id: "jiraId", name: "Jira ID" },
+  { id: "libraryIds", name: "Library ID(s)" },
+  { id: "sampleIds", name: "Sample ID(s)" },
+  { id: "project", name: "Project" }
 ];
 
 const mapState = state => ({

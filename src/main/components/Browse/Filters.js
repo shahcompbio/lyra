@@ -166,11 +166,11 @@ class Filters extends Component {
               classes={classes}
               currentAnalyses={currentAnalyses}
               dashboardAnalyses={dashboardAnalyses}
-              filter={Object.keys(filter)[0]}
+              filter={filter["id"]}
               handleFilterChange={handleFilterChange}
               displayOptions={this.displayOptions}
-              key={Object.values(filter)}
-              name={Object.values(filter)}
+              key={filter["id"]}
+              name={filter["name"]}
             />
           ))}
         </div>
