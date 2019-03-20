@@ -189,7 +189,7 @@ class Browse extends Component {
               <Dashboard
                 analyses={analyses ? analyses : dashboard.analyses}
                 columnNames={GRAPHQL_COLUMNS}
-                onAnalysisClick={this.handleAnalysisClick}
+                handleAnalysisClick={this.handleAnalysisClick}
                 selectAnalysis={selectAnalysis}
                 selectedAnalysis={analysis}
                 title={dashboard.id}

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -25,82 +25,69 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-class Dashboard extends Component {
-  static propTypes = {
-    analyses: PropTypes.array.isRequired,
-    classes: PropTypes.object.isRequired,
-    columnNames: PropTypes.array.isRequired,
-    selectAnalysis: PropTypes.func.isRequired,
-    selectedAnalysis: PropTypes.string,
-    title: PropTypes.string.isRequired
-  };
-
-  constructor(props) {
-    super(props);
-    this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
-  }
-
-  handleAnalysisClick = () => this.props.onAnalysisClick();
-
-  render() {
-    const {
-      analyses,
-      classes,
-      columnNames,
-      selectAnalysis,
-      selectedAnalysis,
-      title
-    } = this.props;
-
-    const analysisItems = analyses.map(analysis => {
-      const isSelected = selectedAnalysis === analysis.id;
-      const onAnalysisClick = () => {
-        if (!isSelected) {
-          selectAnalysis(analysis.id, title);
-        }
-        this.handleAnalysisClick();
-      };
-      const formatIdList = idList => idList.join("\n");
-      analysis = {
-        ...analysis,
-        libraryIds: formatIdList(analysis.libraryIds),
-        sampleIds: formatIdList(analysis.sampleIds)
-      };
-      return (
-        <AnalysisItem
-          analysis={analysis}
-          isSelected={isSelected}
-          key={analysis.title}
-          onClick={onAnalysisClick}
-        />
-      );
-    });
-
+const Dashboard = ({
+  analyses,
+  classes,
+  columnNames,
+  handleAnalysisClick,
+  selectAnalysis,
+  selectedAnalysis,
+  title
+}) => {
+  const analysisItems = analyses.map(analysis => {
+    const isSelected = selectedAnalysis === analysis.id;
+    const onAnalysisClick = () => {
+      if (!isSelected) {
+        selectAnalysis(analysis.id, title);
+      }
+      handleAnalysisClick();
+    };
+    const formatIdList = idList => idList.join("\n");
+    analysis = {
+      ...analysis,
+      libraryIds: formatIdList(analysis.libraryIds),
+      sampleIds: formatIdList(analysis.sampleIds)
+    };
     return (
-      <Paper className={classes.root}>
-        <Table padding="dense">
-          <TableHead>
-            <TableRow>
-              <CustomTableCell align="left">
-                {Object.values(columnNames[0])}
-              </CustomTableCell>
-              {columnNames
-                .filter(columnName => Object.keys(columnName)[0] !== "title")
-                .map(columnName => (
-                  <CustomTableCell
-                    align="right"
-                    key={Object.values(columnName)}
-                  >
-                    {Object.values(columnName)}
-                  </CustomTableCell>
-                ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>{analysisItems}</TableBody>
-        </Table>
-      </Paper>
+      <AnalysisItem
+        analysis={analysis}
+        isSelected={isSelected}
+        key={analysis.title}
+        onClick={onAnalysisClick}
+      />
     );
-  }
-}
+  });
+
+  return (
+    <Paper className={classes.root}>
+      <Table padding="dense">
+        <TableHead>
+          <TableRow>
+            <CustomTableCell align="left">
+              {Object.values(columnNames[0])}
+            </CustomTableCell>
+            {columnNames
+              .filter(columnName => Object.keys(columnName)[0] !== "title")
+              .map(columnName => (
+                <CustomTableCell align="right" key={Object.values(columnName)}>
+                  {Object.values(columnName)}
+                </CustomTableCell>
+              ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>{analysisItems}</TableBody>
+      </Table>
+    </Paper>
+  );
+};
+
+Dashboard.propTypes = {
+  analyses: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
+  columnNames: PropTypes.array.isRequired,
+  selectAnalysis: PropTypes.func.isRequired,
+  selectedAnalysis: PropTypes.string,
+  title: PropTypes.string.isRequired
+};
 
 export default withStyles(styles)(Dashboard);
