@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -9,79 +9,89 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import AnalysisItem from "./Analysis.js";
 
-class Dashboard extends Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    analyses: PropTypes.array.isRequired,
-    selectedAnalysis: PropTypes.string,
-    selectAnalysis: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
-  };
-
-  render() {
-    const {
-      title,
-      analyses,
-      selectedAnalysis,
-      className,
-      selectAnalysis,
-      classes
-    } = this.props;
-    const analysisItems = analyses.map(analysis => {
-      const isSelected = selectedAnalysis === analysis.id;
-      const onAnalysisClick = () => {
-        if (!isSelected) {
-          selectAnalysis(analysis.id, title);
-        }
-      };
-      const formatIdList = idList => idList.join(", ");
-      return (
-        <AnalysisItem
-          id={analysis.id}
-          key={analysis.title}
-          title={analysis.title}
-          description={analysis.description}
-          jiraId={analysis.jiraId}
-          libraryIds={formatIdList(analysis.libraryIds)}
-          sampleIds={formatIdList(analysis.sampleIds)}
-          project={analysis.project}
-          onClick={onAnalysisClick}
-          isSelected={isSelected}
-        />
-      );
-    });
-
-    return (
-      <div className={className}>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Jira ID</TableCell>
-                <TableCell align="right">Library ID(s)</TableCell>
-                <TableCell align="right">Sample ID(s)</TableCell>
-                <TableCell align="right">Project</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{analysisItems}</TableBody>
-          </Table>
-        </Paper>
-      </div>
-    );
-  }
-}
-
 const styles = theme => ({
   root: {
-    width: "100%",
     marginTop: theme.spacing.unit * 3,
+    width: "100%",
     overflowX: "auto"
-  },
-  table: {
-    minWidth: 700
   }
 });
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: "#686868",
+    color: "#FFFFFF",
+    fontSize: 15
+  }
+}))(TableCell);
+
+const Dashboard = ({
+  analyses,
+  classes,
+  columnNames,
+  handleAnalysisClick,
+  selectAnalysis,
+  selectedAnalysis,
+  title
+}) => {
+  const analysisItems = analyses.map(analysis => {
+    const isSelected = selectedAnalysis === analysis.id;
+    const onAnalysisClick = () => {
+      if (!isSelected) {
+        selectAnalysis(analysis.id, title);
+      }
+      handleAnalysisClick();
+    };
+    const formatArray = array => array.join("\n");
+    const formattedAnalysis = Object.keys(analysis).reduce(
+      (properties, property) => ({
+        ...properties,
+        [property]: Array.isArray(analysis[property])
+          ? formatArray(analysis[property])
+          : analysis[property]
+      }),
+      {}
+    );
+    return (
+      <AnalysisItem
+        analysis={formattedAnalysis}
+        isSelected={isSelected}
+        key={analysis.title}
+        onClick={onAnalysisClick}
+      />
+    );
+  });
+
+  return (
+    <Paper className={classes.root}>
+      <Table padding="dense">
+        <TableHead>
+          <TableRow>
+            <CustomTableCell align="left">
+              {columnNames[0]["name"]}
+            </CustomTableCell>
+            {columnNames
+              .filter(columnName => columnName["id"] !== "title")
+              .map(columnName => (
+                <CustomTableCell align="right" key={columnName["id"]}>
+                  {columnName["name"]}
+                </CustomTableCell>
+              ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>{analysisItems}</TableBody>
+      </Table>
+    </Paper>
+  );
+};
+
+Dashboard.propTypes = {
+  analyses: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
+  columnNames: PropTypes.array.isRequired,
+  selectAnalysis: PropTypes.func.isRequired,
+  selectedAnalysis: PropTypes.string,
+  title: PropTypes.string.isRequired
+};
 
 export default withStyles(styles)(Dashboard);
