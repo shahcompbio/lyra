@@ -35,7 +35,6 @@ class Browse extends Component {
     this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
-      analyses: null,
       chosenFilters: {
         title: null,
         description: null,
@@ -71,20 +70,16 @@ class Browse extends Component {
       true
     );
 
-  handleFilterChange = (analyses, name) => value => {
+  handleFilterChange = name => value => {
     const filters = {
       ...this.state.chosenFilters,
       [name]: value
     };
-    const newAnalyses = analyses.filter(analysis =>
-      this.isWithinFilter(analysis, filters)
-    );
-    this.setState({ analyses: newAnalyses, chosenFilters: filters });
+    this.setState({ chosenFilters: filters });
   };
 
   resetFiltering = (closeDrawer = false) => {
     let newState = {
-      analyses: null,
       chosenFilters: {
         title: null,
         description: null,
@@ -116,7 +111,11 @@ class Browse extends Component {
 
     const { analysis, selectAnalysis } = this.props;
     const dashboard = this.props.data.dashboards[0];
-    const { analyses, chosenFilters } = this.state;
+    const chosenFilters = this.state.chosenFilters;
+
+    const analyses = dashboard.analyses.filter(analysis =>
+      this.isWithinFilter(analysis, chosenFilters)
+    );
 
     return (
       <div>
@@ -143,10 +142,9 @@ class Browse extends Component {
         >
           <div style={{ display: "flex" }}>
             <Filters
+              analyses={analyses}
               chosenFilters={chosenFilters}
               clearFilters={this.resetFiltering}
-              currentAnalyses={analyses ? analyses : dashboard.analyses}
-              dashboardAnalyses={dashboard.analyses}
               filterNames={GRAPHQL_COLUMNS}
               handleFilterChange={this.handleFilterChange}
             />
@@ -159,7 +157,7 @@ class Browse extends Component {
               }}
             >
               <Dashboard
-                analyses={analyses ? analyses : dashboard.analyses}
+                analyses={analyses}
                 columnNames={GRAPHQL_COLUMNS}
                 handleAnalysisClick={this.handleAnalysisClick}
                 selectAnalysis={selectAnalysis}

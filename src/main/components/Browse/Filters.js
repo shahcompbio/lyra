@@ -98,10 +98,9 @@ const ClearButton = ({ clearFilters, style }) => (
 );
 
 const Filter = ({
+  analyses,
   chosenFilters,
   classes,
-  currentAnalyses,
-  dashboardAnalyses,
   filter,
   handleFilterChange,
   displayOptions,
@@ -113,8 +112,8 @@ const Filter = ({
       classes={classes}
       components={makeAnimated}
       isClearable
-      onChange={handleFilterChange(dashboardAnalyses, filter)}
-      options={displayOptions(currentAnalyses, filter)}
+      onChange={handleFilterChange(filter)}
+      options={displayOptions(analyses, filter)}
       placeholder="Select..."
       styles={filterStyles}
       value={chosenFilters[filter]}
@@ -123,9 +122,9 @@ const Filter = ({
 );
 
 class Filters extends Component {
-  displayOptions = (currentAnalyses, filter) =>
+  displayOptions = (analyses, filter) =>
     // get the options that pertain to the current filter type
-    currentAnalyses
+    analyses
       .map(analysis => analysis[filter])
       // if filter type is libraryId or sampleId, expand arrays into individual choices
       .reduce(
@@ -148,11 +147,10 @@ class Filters extends Component {
 
   render() {
     const {
+      analyses,
       chosenFilters,
       classes,
       clearFilters,
-      currentAnalyses,
-      dashboardAnalyses,
       filterNames,
       handleFilterChange
     } = this.props;
@@ -162,10 +160,9 @@ class Filters extends Component {
         <div className={classes.filterGroup}>
           {filterNames.map(filter => (
             <Filter
+              analyses={analyses}
               chosenFilters={chosenFilters}
               classes={classes}
-              currentAnalyses={currentAnalyses}
-              dashboardAnalyses={dashboardAnalyses}
               filter={filter["id"]}
               handleFilterChange={handleFilterChange}
               displayOptions={this.displayOptions}
@@ -186,11 +183,10 @@ class Filters extends Component {
 }
 
 Filters.propTypes = {
+  analyses: PropTypes.array.isRequired,
   chosenFilters: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   clearFilters: PropTypes.func.isRequired,
-  currentAnalyses: PropTypes.array.isRequired,
-  dashboardAnalyses: PropTypes.array.isRequired,
   filterNames: PropTypes.array.isRequired,
   handleFilterChange: PropTypes.func.isRequired
 };
