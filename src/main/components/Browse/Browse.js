@@ -31,18 +31,11 @@ class Browse extends Component {
   constructor(props) {
     super(props);
 
-    this.resetFiltering = this.resetFiltering.bind(this);
+    this.getInitialFilterState = this.getInitialFilterState.bind(this);
     this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
-      chosenFilters: {
-        title: null,
-        description: null,
-        jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
-        project: null
-      },
+      ...this.getInitialFilterState(),
       isOpen: true
     };
   }
@@ -78,27 +71,19 @@ class Browse extends Component {
     this.setState({ chosenFilters: filters });
   };
 
-  resetFiltering = (closeDrawer = false) => {
-    let newState = {
-      chosenFilters: {
-        title: null,
-        description: null,
-        jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
-        project: null
-      }
-    };
-    if (closeDrawer) {
-      newState = {
-        ...newState,
-        isOpen: false
-      };
+  getInitialFilterState = () => ({
+    chosenFilters: {
+      title: null,
+      description: null,
+      jiraId: null,
+      libraryIds: null,
+      sampleIds: null,
+      project: null
     }
-    this.setState(newState);
-  };
+  });
 
-  handleAnalysisClick = () => this.resetFiltering(true);
+  handleAnalysisClick = () =>
+    this.setState({ ...this.getInitialFilterState(), isOpen: false });
 
   render() {
     if (this.props.data && this.props.data.loading) {
@@ -135,16 +120,21 @@ class Browse extends Component {
           tabIndex={0}
           anchor="left"
           open={this.state.isOpen}
-          onClose={() => this.resetFiltering(true)}
+          onClose={() =>
+            this.setState({ ...this.getInitialFilterState(), isOpen: false })
+          }
           onKeyDown={e => {
-            if (e.keyCode === 27) this.resetFiltering(true);
+            if (e.keyCode === 27)
+              this.setState({ ...this.getInitialFilterState(), isOpen: false });
           }}
         >
           <div style={{ display: "flex" }}>
             <Filters
               analyses={analyses}
               chosenFilters={chosenFilters}
-              clearFilters={this.resetFiltering}
+              clearFilters={() =>
+                this.setState({ ...this.getInitialFilterState() })
+              }
               filterNames={GRAPHQL_COLUMNS}
               handleFilterChange={this.handleFilterChange}
             />
