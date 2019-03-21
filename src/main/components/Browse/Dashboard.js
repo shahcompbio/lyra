@@ -42,15 +42,19 @@ const Dashboard = ({
       }
       handleAnalysisClick();
     };
-    const formatIdList = idList => idList.join("\n");
-    analysis = {
-      ...analysis,
-      libraryIds: formatIdList(analysis.libraryIds),
-      sampleIds: formatIdList(analysis.sampleIds)
-    };
+    const formatArray = array => array.join("\n");
+    const formattedAnalysis = Object.keys(analysis).reduce(
+      (properties, property) => ({
+        ...properties,
+        [property]: Array.isArray(analysis[property])
+          ? formatArray(analysis[property])
+          : analysis[property]
+      }),
+      {}
+    );
     return (
       <AnalysisItem
-        analysis={analysis}
+        analysis={formattedAnalysis}
         isSelected={isSelected}
         key={analysis.title}
         onClick={onAnalysisClick}
