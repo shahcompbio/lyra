@@ -31,7 +31,7 @@ class Browse extends Component {
   constructor(props) {
     super(props);
 
-    this.clearFilters = this.clearFilters.bind(this);
+    this.resetFiltering = this.resetFiltering.bind(this);
     this.handleAnalysisClick = this.handleAnalysisClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
@@ -47,8 +47,6 @@ class Browse extends Component {
       isOpen: true
     };
   }
-
-  handleAnalysisClick = () => this.setState({ isOpen: false, analyses: null });
 
   isFilterNull = filter => !filter;
 
@@ -73,27 +71,19 @@ class Browse extends Component {
       true
     );
 
-  handleFilterChange = (dashboardAnalyses, name) => value => {
-    this.setState(
-      {
-        chosenFilters: {
-          ...this.state.chosenFilters,
-          [name]: value
-        }
-      },
-      () => {
-        const filters = this.state.chosenFilters;
-        let analyses = dashboardAnalyses;
-        analyses = analyses.filter(analysis =>
-          this.isWithinFilter(analysis, filters)
-        );
-        this.setState({ analyses: analyses });
-      }
+  handleFilterChange = (analyses, name) => value => {
+    const filters = {
+      ...this.state.chosenFilters,
+      [name]: value
+    };
+    const newAnalyses = analyses.filter(analysis =>
+      this.isWithinFilter(analysis, filters)
     );
+    this.setState({ analyses: newAnalyses, chosenFilters: filters });
   };
 
-  clearFilters = () => {
-    this.setState({
+  resetFiltering = (closeDrawer = false) => {
+    let newState = {
       analyses: null,
       chosenFilters: {
         title: null,
@@ -103,23 +93,17 @@ class Browse extends Component {
         sampleIds: null,
         project: null
       }
-    });
+    };
+    if (closeDrawer) {
+      newState = {
+        ...newState,
+        isOpen: false
+      };
+    }
+    this.setState(newState);
   };
 
-  handleDrawerClose = () => {
-    this.setState({
-      analyses: null,
-      chosenFilters: {
-        title: null,
-        description: null,
-        jiraId: null,
-        libraryIds: null,
-        sampleIds: null,
-        project: null
-      },
-      isOpen: false
-    });
-  };
+  handleAnalysisClick = () => this.resetFiltering(true);
 
   render() {
     if (this.props.data && this.props.data.loading) {
@@ -152,15 +136,15 @@ class Browse extends Component {
           tabIndex={0}
           anchor="left"
           open={this.state.isOpen}
-          onClose={() => this.handleDrawerClose()}
+          onClose={() => this.resetFiltering(true)}
           onKeyDown={e => {
-            if (e.keyCode === 27) this.handleDrawerClose();
+            if (e.keyCode === 27) this.resetFiltering(true);
           }}
         >
           <div style={{ display: "flex" }}>
             <Filters
               chosenFilters={chosenFilters}
-              clearFilters={this.clearFilters}
+              clearFilters={this.resetFiltering}
               currentAnalyses={analyses ? analyses : dashboard.analyses}
               dashboardAnalyses={dashboard.analyses}
               filterNames={GRAPHQL_COLUMNS}
